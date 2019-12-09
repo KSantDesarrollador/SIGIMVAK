@@ -77,8 +77,8 @@
           $KsvmQuery->execute();
           return $KsvmQuery;
       }
-            /**
-      *Función que permite editar una Transaccion
+     /**
+      *Función que permite editar detalle de Transaccion
       */
       protected function __KsvmEditarDetalleTransaccionModelo($KsvmCodTransaccion)
       {
@@ -115,7 +115,7 @@
       protected function __KsvmActualizarTransaccionModelo($KsvmDataTransaccion)
       {
         $KsvmActTransaccion = "UPDATE ksvmtransaccion16 SET RqcId = :KsvmReqId, TsnTipoTran = :KsvmTipoTran, TsnDestinoTran = :KsvmDestinoTran, 
-                                      TsnFchRevTran = :KsvmFchRevTran, TsnPerRevTran = :KsvmPerRevTran, TsnObservTran = :KsvmObservTran 
+                                      TsnFchRevTran = :KsvmFchRevTran, TsnPerRevTran = :KsvmPerRevTran, TsnEstTran = :KsvmEstTran 
                                       WHERE TsnId = :KsvmCodTransaccion";
         $KsvmQuery = KsvmEstMaestra :: __KsvmConexion()->prepare($KsvmActTransaccion);
         $KsvmQuery->bindParam(":KsvmRqcId", $KsvmDataTransaccion['KsvmRqcId']);
@@ -123,6 +123,7 @@
         $KsvmQuery->bindParam(":KsvmDestinoTran", $KsvmDataTransaccion['KsvmDestinoTran']);
         $KsvmQuery->bindParam(":KsvmFchRevTran", $KsvmDataTransaccion['KsvmFchRevTran']);
         $KsvmQuery->bindParam(":KsvmPerRevTran", $KsvmDataTransaccion['KsvmPerRevTran']);
+        $KsvmQuery->bindParam(":KsvmEstTran", $KsvmDataTransaccion['KsvmEstTran']);
         $KsvmQuery->bindParam(":KsvmCodTransaccion", $KsvmDataTransaccion['KsvmCodTransaccion']);
         $KsvmQuery->execute();
         return $KsvmQuery;
@@ -132,11 +133,12 @@
       */
       protected function __KsvmActualizarDetalleTransaccionModelo($KsvmDataTransaccion)
       {
-        $KsvmActTransaccion = "UPDATE ksvmdetalletransaccion16 SET ExtId = :KsvmExtId, DtsCantTran = :KsvmCantTran, 
+        $KsvmActTransaccion = "UPDATE ksvmdetalletransaccion16 SET ExtId = :KsvmExtId, DtsCantTran = :KsvmCantTran, DtsTipoTran = :KsvmTipoTran,
                                       DtsObservTran = :KsvmObservTran WHERE DtsId = :KsvmCodTransaccion";
         $KsvmQuery = KsvmEstMaestra :: __KsvmConexion()->prepare($KsvmActTransaccion);
         $KsvmQuery->bindParam(":KsvmExtId", $KsvmDataTransaccion['KsvmExtId']);
         $KsvmQuery->bindParam(":KsvmCantTran", $KsvmDataTransaccion['KsvmCantTran']);
+        $KsvmQuery->bindParam(":KsvmTipoTran", $KsvmDataTransaccion['KsvmTipoTran']);
         $KsvmQuery->bindParam(":KsvmObservTran", $KsvmDataTransaccion['KsvmObservTran']);
          $KsvmQuery->bindParam(":KsvmCodTransaccion", $KsvmDataTransaccion['KsvmCodTransaccion']);
          $KsvmQuery->execute();

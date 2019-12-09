@@ -225,7 +225,7 @@
 			window.onload = function () {
 
 				$("#KsvmFormOcp").trigger("reset");
-				$(".modal-title").text("Detalles Transacción");
+				$(".modal-title").text("Detalles Ingreso");
 				$("#KsvmDetallesTransaccion").modal({
 					show: true
 				});

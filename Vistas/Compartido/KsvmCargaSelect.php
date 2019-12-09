@@ -282,17 +282,29 @@ $(document).ready(function(){
     $('#btnExitOcp').on('click', function () {
         window.location.href="<?php echo KsvmServUrl;?>KsvmCompras/1/";
     });
+    $('#btnExitOcpCrud').on('click', function () {
+        window.location.href="<?php echo KsvmServUrl;?>KsvmComprasCrud/1/";
+    });
     $('#btnExitInv').on('click', function () {
         window.location.href="<?php echo KsvmServUrl;?>KsvmInventarios/1/";
     });
+    $('#btnExitInvCrud').on('click', function () {
+        window.location.href="<?php echo KsvmServUrl;?>KsvmInventariosCrud/1/";
+    });
     $('#btnExitReq').on('click', function () {
         window.location.href="<?php echo KsvmServUrl;?>KsvmRequisiciones/1/";
+    });
+    $('#btnExitReqCrud').on('click', function () {
+        window.location.href="<?php echo KsvmServUrl;?>KsvmRequisicionesCrud/1/";
     });
     $('#btnExitIng').on('click', function () {
         window.location.href="<?php echo KsvmServUrl;?>KsvmIngresos/1/";
     });
     $('#btnExitEgr').on('click', function () {
         window.location.href="<?php echo KsvmServUrl;?>KsvmEgresos/1/";
+    });
+    $('#btnExitTran').on('click', function () {
+        window.location.href="<?php echo KsvmServUrl;?>KsvmTransaccionesCrud/1/";
     });
 
 });

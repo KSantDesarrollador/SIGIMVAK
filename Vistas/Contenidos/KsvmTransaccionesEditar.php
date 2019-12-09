@@ -56,26 +56,38 @@
                 echo '<a href="'.KsvmServUrl.'KsvmTransaccionesCrud/1/" id="btn-input"
                 class="btn btn-sm btn-dark mdl-shadow--8dp btn-salir">VOLVER &nbsp;<i
                 class="zmdi zmdi-arrow-left"></i>
-                </a>';
+				</a>
+				</div>
+				<br>
+				 <div class="full-width panel mdl-shadow--8dp">
+					 <div class="full-width  modal-header-edit text-center ">
+						 Editar Transacción
+					 </div>';
                } elseif ($KsvmPagina[2] == 1) {
 				echo '<a href="'.KsvmServUrl.'KsvmIngresos/1/" id="btn-input"
                 class="btn btn-sm btn-dark mdl-shadow--8dp btn-salir">VOLVER &nbsp;<i
                 class="zmdi zmdi-arrow-left"></i>
-                </a>';
+				</a>
+				</div>
+				<br>
+				 <div class="full-width panel mdl-shadow--8dp">
+					 <div class="full-width  modal-header-edit text-center ">
+						 Editar Ingreso
+					 </div>';
 			   } else {
                 echo '<a href="'.KsvmServUrl.'KsvmEgresos/1/" id="btn-input"
                 class="btn btn-sm btn-dark mdl-shadow--8dp btn-salir">VOLVER &nbsp;<i
                 class="zmdi zmdi-arrow-left"></i>
-                </a>';
+				</a>
+				</div>
+				<br>
+				 <div class="full-width panel mdl-shadow--8dp">
+					 <div class="full-width  modal-header-edit text-center ">
+						 Editar Egreso
+					 </div>';
                }
                
              ?>
-            </div>
-            <br>
-             <div class="full-width panel mdl-shadow--8dp">
-                 <div class="full-width  modal-header-edit text-center ">
-                     Editar Transacción
-                 </div>
                  <div class="full-width panel-content">
                  <form data-form="modificar" action="<?php echo KsvmServUrl; ?>Ajax/KsvmTransaccionAjax.php"
 							method="POST" class="FormularioAjax" autocomplete="off" enctype="multipart/form-data"

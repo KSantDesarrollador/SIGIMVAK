@@ -10,7 +10,7 @@
 <section class="full-width pageContent">
 	<section class="full-width header-well">
 		<div class="full-width header-well-icon">
-			<i class="zmdi zmdi-shopping-cart"></i>
+			<i class="zmdi zmdi-folder-star"></i>
 		</div>
 		<div class="full-width header-well-text">
 			<p class="text-condensedLight">
@@ -232,7 +232,7 @@
 			<div class="modal-dialog" role="document">
 				<div class="modal-content ">
 					<div class="modal-header">
-						<button class="close close-edit" type="button" id="btnExitOcp" data-dismiss="modal"
+						<button class="close close-edit" type="button" id="btnExitOcpCrud" data-dismiss="modal"
 							aria-hidden="true">&times;</button>
 						<h5 class="modal-title text-center"></h5>
 					</div>

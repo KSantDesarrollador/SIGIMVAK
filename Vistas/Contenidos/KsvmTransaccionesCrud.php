@@ -10,11 +10,11 @@
 <section class="full-width pageContent">
 	<section class="full-width header-well">
 		<div class="full-width header-well-icon">
-			<i class="zmdi zmdi-arrow-left"></i>
+			<i class="zmdi zmdi-folder-star"></i>
 		</div>
 		<div class="full-width header-well-text">
 			<p class="text-condensedLight">
-				CRUD-EGRESOS
+				CRUD-TRANSACCIONES
 			</p>
 		</div>
 	</section>
@@ -26,14 +26,14 @@
 				<div
 					class="mdl-cell mdl-cell--4-col-phone mdl-cell--8-col-tablet mdl-cell--13-col-desktop mdl-cell--0-offset-desktop">
 					<div class="" style="float:right;">
-							<a href="<?php echo KsvmServUrl;?>KsvmEgresosCrud/1/" id="btn-input"
+							<a href="<?php echo KsvmServUrl;?>KsvmTransaccionesCrud/1/" id="btn-input"
 								class="btn btn-sm btn-secondary mdl-shadow--8dp btn-salir">VOLVER &nbsp;<i
 									class="zmdi zmdi-arrow-left"></i></a>
 						</div>
 						<br>
 					<div class="full-width panel mdl-shadow--8dp">
 						<div class="full-width modal-header-input text-center">
-							Nuevo Egreso
+							Nueva Transacción
 						</div>
 						<div class="full-width panel-content">
 							<form action="<?php echo KsvmServUrl; ?>Ajax/KsvmTransaccionAjax.php" method="POST"
@@ -77,10 +77,13 @@
 									</div>
 									<div
 										class="mdl-cell mdl-cell--4-col-phone mdl-cell--8-col-tablet mdl-cell--6-col-desktop">
-										<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label" hidden>
-											<input class="mdl-textfield__input" type="text" name="KsvmTipoTran"
-												id="KsvmTipoTran" value="Egreso">
-											<label class="mdl-textfield__label" for="KsvmTipoTran">Tipo de transacción</label>
+										<div class="mdl-textfield mdl-js-textfield" hidden>
+											<select class="mdl-textfield__input" name="KsvmTipoTran" id="KsvmTipoTran"
+												required>
+												<option value="" disabled="" selected="">Tipo de Transacción</option>
+												<option value="Ingreso">Ingreso</option>
+												<option value="Egreso">Egreso</option>
+											</select>
 										</div>
 									</div>
 									<div class="mdl-cell mdl-cell--4-col-phone mdl-cell--8-col-tablet mdl-cell--6-col-desktop"
@@ -113,10 +116,13 @@
 								<div class="mdl-grid" id="GridRows">
 									<div
 										class="mdl-cell mdl-cell--4-col-phone mdl-cell--8-col-tablet mdl-cell--6-col-desktop">
-										<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label" hidden>
-											<input class="mdl-textfield__input" type="text" name="KsvmTipoTran"
-												id="KsvmTipoTran" value="Egreso">
-											<label class="mdl-textfield__label" for="KsvmTipoTran">Tipo de transacción</label>
+										<div class="mdl-textfield mdl-js-textfield">
+											<select class="mdl-textfield__input" name="KsvmTipoTran" id="KsvmTipoTran"
+												required>
+												<option value="" disabled="" selected="">Tipo de Transacción</option>
+												<option value="Ingreso">Ingreso</option>
+												<option value="Egreso">Egreso</option>
+											</select>
 										</div>
 										<div class="mdl-textfield mdl-js-textfield">
 											<select class="mdl-textfield__input" name="KsvmExtId" id="KsvmExtId"
@@ -211,12 +217,12 @@
 						$_SESSION['KsvmBuscarTran'] = $_POST['KsvmBuscarTran'];
                         $KsvmPagina = explode("/", $_GET['Vistas']);
 						echo $KsvmIniTran -> __KsvmPaginador($KsvmPagina[1], KsvmNumPag, $_SESSION['KsvmRolId-SIGIM'], 
-						2, $_SESSION['KsvmBuscarTran']);
+						0, $_SESSION['KsvmBuscarTran']);
 					}else{
 
 						$KsvmPagina = explode("/", $_GET['Vistas']);
 						echo $KsvmIniTran -> __KsvmPaginador($KsvmPagina[1], KsvmNumPag, $_SESSION['KsvmRolId-SIGIM'], 
-						2, "");
+						0, "");
 				       }
 				?>
 
@@ -252,7 +258,7 @@
 			<div class="modal-dialog" role="document">
 				<div class="modal-content ">
 					<div class="modal-header">
-						<button class="close close-edit" type="button" id="btnExitEgr" data-dismiss="modal"
+						<button class="close close-edit" type="button" id="btnExitTran" data-dismiss="modal"
 							aria-hidden="true">&times;</button>
 						<h5 class="modal-title text-center"></h5>
 					</div>

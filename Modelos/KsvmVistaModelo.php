@@ -17,7 +17,7 @@
            "KsvmExistencias", "KsvmExistenciasCrud", "KsvmExistenciasEditar", "KsvmInventariosCrud", "KsvmInventariosEditar", "KsvmMedicamentosCrud", 
            "KsvmMedicamentosEditar", "KsvmMenuCrud", "KsvmMenuEditar", "KsvmMenuXRolCrud", "KsvmMenuXRolEditar", "KsvmParametros", "KsvmParametrosCrud", 
            "KsvmProcedenciaCrud", "KsvmProcedenciasEditar", "KsvmProveedoresCrud", "KsvmProveedoresEditar", "KsvmRequisicionesCrud", "KsvmRequisicionesEditar", 
-           "KsvmRolesCrud", "KsvmRolesEditar", "KsvmIngresosCrud", "KsvmEgresosCrud", "KsvmTransaccionesEditar", "KsvmDetallesTransaccionEditar", "KsvmUnidadesMedicasCrud", 
+           "KsvmRolesCrud", "KsvmRolesEditar", "KsvmTransaccionesCrud", "KsvmTransaccionesEditar", "KsvmDetallesTransaccionEditar", "KsvmUnidadesMedicasCrud", 
            "KsvmUnidadesMedicasEditar", "KsvmUsuariosCrud", "KsvmUsuariosEditar"];
 
            if (in_array($KsvmVistas, $KsvmPermitidas)) {

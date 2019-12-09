@@ -214,7 +214,7 @@
 			  
 		  $KsvmPagina = explode("/", $_GET['Vistas']);
 		  if ($KsvmPagina[2] != "") {
-		  $KsvmDataEdit = $KsvmIniReq->__KsvmEditarRequisicionControlador($KsvmPagina[2]);
+		  $KsvmDataEdit = $KsvmIniReq->__KsvmEditarDetalleRequisicionControlador($KsvmPagina[2]);
 
 			  $KsvmQuery = $KsvmDataEdit->fetchAll();
 			
@@ -310,7 +310,7 @@
 								<div
 									class="mdl-cell mdl-cell--4-col-phone mdl-cell--8-col-tablet mdl-cell--1-col-desktop">
 									<a class="btn btn-sm btn-primary"
-										href="<?php echo KsvmServUrl;?>KsvmDetalleRequisicionEditar/<?php echo KsvmEstMaestra::__KsvmEncriptacion($KsvmLlenarForm['DrqId']);?>/1/"><i
+										href="<?php echo KsvmServUrl;?>KsvmDetallesRequisicionEditar/<?php echo KsvmEstMaestra::__KsvmEncriptacion($KsvmLlenarForm['DrqId']);?>/1/"><i
 											class="zmdi zmdi-edit"></i></a>
 								</div>
 								<?php }?>

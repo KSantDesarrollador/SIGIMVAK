@@ -427,6 +427,23 @@
          
         }
 
+                /**
+       * Función que permite seleccionar una Existemcia 
+       */
+      public function __KsvmSeleccionExistencia(){
+
+        $KsvmSelectExt = "SELECT * FROM ksvmseleccionaexistencia";
+
+        $KsvmConsulta = KsvmEstMaestra :: __KsvmConexion();
+        $KsvmQuery = $KsvmConsulta->query($KsvmSelectExt);
+        $KsvmQuery = $KsvmQuery->fetchAll();
+
+        foreach ($KsvmQuery as $row) {
+            $KsvmListar = '<option value="'.$row['ExtId'].'">'.$row['MdcDescMed'].' '.$row['MdcConcenMed'].' '.$row['ExtLoteEx'].'</option>';
+        }
+        return $KsvmListar;
+    }
+
         /**
        * Función que permite seleccionar una Existemcia 
        */

@@ -134,11 +134,12 @@
       protected function __KsvmActualizarDetalleCompraModelo($KsvmDataCompra)
       {
         $KsvmActCompra = "UPDATE ksvmdetallecompras14 SET MdcId = :KsvmMdcId, CmpCantOcp = :KsvmCantOcp, 
-                            CmpValorUntOcp = :KsvmValorUntOcp, CmpObservOcp = :KsvmObservOcp WHERE CmpId = :KsvmCodCompra";
+                            CmpValorUntOcp = :KsvmValorUntOcp, CmpValorTotOcp = :KsvmValorTotOcp, CmpObservOcp = :KsvmObservOcp WHERE CmpId = :KsvmCodCompra";
         $KsvmQuery = KsvmEstMaestra :: __KsvmConexion()->prepare($KsvmActCompra);
          $KsvmQuery->bindParam(":KsvmMdcId", $KsvmDataCompra['KsvmMdcId']);
          $KsvmQuery->bindParam(":KsvmCantOcp", $KsvmDataCompra['KsvmCantOcp']);
          $KsvmQuery->bindParam(":KsvmValorUntOcp", $KsvmDataCompra['KsvmValorUntOcp']);
+         $KsvmQuery->bindParam(":KsvmValorTotOcp", $KsvmDataCompra['KsvmValorTotOcp']);
          $KsvmQuery->bindParam(":KsvmObservOcp", $KsvmDataCompra['KsvmObservOcp']);
          $KsvmQuery->bindParam(":KsvmCodCompra", $KsvmDataCompra['KsvmCodCompra']);
          $KsvmQuery->execute();

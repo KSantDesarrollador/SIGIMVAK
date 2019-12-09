@@ -125,241 +125,445 @@
         
         $KsvmPagina = (isset($KsvmPagina) && $KsvmPagina > 0 ) ? (int)$KsvmPagina : 1;
         $KsvmDesde = ($KsvmPagina > 0) ? (($KsvmPagina*$KsvmNRegistros) - $KsvmNRegistros) : 0;
+        $KsvmDataTran = "";
 
-        if (isset($KsvmBuscar) && $KsvmBuscar != "") {
-            $KsvmDataTran = "SELECT SQL_CALC_FOUND_ROWS * FROM ksvmvistatransacciones WHERE ((TsnId != 'X') AND (TsnNumTran LIKE '%$KsvmBuscar%' 
-                          OR TsnTipoTran LIKE '%$KsvmBuscar%' OR TsnNomMedTran LIKE '%$KsvmBuscar%'OR RqcNumReq LIKE '%$KsvmBuscar%')) 
-                          LIMIT $KsvmDesde, $KsvmNRegistros";
-        } else {
-            $KsvmDataTran = "SELECT SQL_CALC_FOUND_ROWS * FROM ksvmvistatransacciones WHERE TsnId != 'X' LIMIT $KsvmDesde, $KsvmNRegistros" ;
-        }
-        
+        if ($KsvmCodigo == 0) {
+            if (isset($KsvmBuscar) && $KsvmBuscar != "") {
+                $KsvmDataTran = "SELECT SQL_CALC_FOUND_ROWS * FROM ksvmvistatransacciones WHERE ((TsnId != 'X') AND (TsnNumTran LIKE '%$KsvmBuscar%' 
+                OR TsnTipoTran LIKE '%$KsvmBuscar%' OR RqcNumReq LIKE '%$KsvmBuscar%')) 
+                LIMIT $KsvmDesde, $KsvmNRegistros";
+                } else {
+                    $KsvmDataTran = "SELECT SQL_CALC_FOUND_ROWS * FROM ksvmvistatransacciones WHERE TsnId != 'X' LIMIT $KsvmDesde, $KsvmNRegistros" ;
+                }
 
-        $KsvmConsulta = KsvmEstMaestra :: __KsvmConexion();
-    
-        $KsvmQuery = $KsvmConsulta->query($KsvmDataTran);
-        $KsvmQuery = $KsvmQuery->fetchAll();
-        
-        $KsvmDataTot = "SELECT FOUND_ROWS()";
-        $KsvmTotalReg = $KsvmConsulta->query($KsvmDataTot);
-        $KsvmTotalReg = (int) $KsvmTotalReg->fetchColumn();
-        $KsvmNPaginas = ceil($KsvmTotalReg/$KsvmNRegistros);
-
-        $KsvmTabla .= '<table class="mdl-data-table mdl-js-data-table mdl-shadow--6dp full-width table-responsive">
-                        <thead>
-                            <tr>
-                                <th class="mdl-data-table__cell--non-numeric">#</th>
-                                <th class="mdl-data-table__cell--non-numeric"># Transacción</th>
-                                <th class="mdl-data-table__cell--non-numeric">Fecha</th>
-                                <th class="mdl-data-table__cell--non-numeric">Tipo</th>
-                                <th class="mdl-data-table__cell--non-numeric">Destino</th>
-                                <th class="mdl-data-table__cell--non-numeric">Responsable</th>
-                                <th style="text-align:center; witdh:30px;">Acción</th>
-                            </tr>
-                        </thead>
-                        <tbody>';
-
-        if ($KsvmTotalReg >= 1 && $KsvmPagina <= $KsvmNPaginas) {
-            $KsvmContReg = $KsvmDesde +1;
-            foreach ($KsvmQuery as $rows) {
-                $KsvmBodega = $rows['TsnDestinoTran'];
-                $KsvmSelectBodega = "SELECT * FROM ksvmseleccionabodega WHERE BdgId = '$KsvmBodega'";
                 $KsvmConsulta = KsvmEstMaestra :: __KsvmConexion();
-                $KsvmQuery = $KsvmConsulta->query($KsvmSelectBodega);
-                $KsvmQuery = $KsvmQuery->fetch();
-                $KsvmBodDest = $KsvmQuery['BdgDescBod'];
-
-                $KsvmTabla .= '<tr>
-                                <td class="mdl-data-table__cell--non-numeric">'.$KsvmContReg.'</td>
-                                <td class="mdl-data-table__cell--non-numeric">'.$rows['TsnNumTran'].'</td>
-                                <td class="mdl-data-table__cell--non-numeric">'.$rows['TsnFchReaTran'].'</td>
-                                <td class="mdl-data-table__cell--non-numeric">'.$rows['TsnTipoTran'].'</td>
-                                <td class="mdl-data-table__cell--non-numeric">'.$KsvmBodDest.'</td>
-                                <td class="mdl-data-table__cell--non-numeric">'.$rows['TsnPerReaTran'].'</td>
-                                <td style="text-align:right; witdh:30px;">';
-                                if ($KsvmRol == 1) {
-                                    if ($KsvmCodigo == 0) {
-
-                                    $KsvmTabla .= '<form action="'.KsvmServUrl.'Ajax/KsvmTransaccionAjax.php" method="POST" class="FormularioAjax" data-form="eliminar" enctype="multipart/form-data"> 
-                                                    <a id="btn-detail" class="btn btn-sm btn-info" href="'.KsvmServUrl.'KsvmTransaccionesCrud/Detail/'.KsvmEstMaestra::__KsvmEncriptacion($rows['TsnId']).'"><i class="zmdi zmdi-card"></i></a>
-                                                    <div class="mdl-tooltip" for="btn-detail">Detalles</div>
-                                                    <a id="btn-edit" class="btn btn-sm btn-primary" href="'.KsvmServUrl.'KsvmTransaccionesEditar/'.KsvmEstMaestra::__KsvmEncriptacion($rows['TsnId']).'/0/"><i class="zmdi zmdi-edit"></i></a>
-                                                    <div class="mdl-tooltip" for="btn-edit">Editar</div>
-                                                    <input type="hidden" name="KsvmCodDelete" value="'.KsvmEstMaestra::__KsvmEncriptacion($rows['TsnId']).'">              
-                                                    <button id="btn-delete" type="submit" class="btn btn-sm btn-danger"><i class="zmdi zmdi-delete"></i></button>
-                                                    <div class="mdl-tooltip" for="btn-delete">Inhabilitar</div>
-                                                    <div class="RespuestaAjax"></div>
-                                                    </form>';
-                                    } elseif ($KsvmCodigo == 1) { 
-                                    $KsvmTabla .= '<form action="'.KsvmServUrl.'Ajax/KsvmTransaccionAjax.php" method="POST" class="FormularioAjax" data-form="eliminar" enctype="multipart/form-data"> 
-                                                    <a id="btn-detail" class="btn btn-sm btn-info" href="'.KsvmServUrl.'KsvmIngresos/Detail/'.KsvmEstMaestra::__KsvmEncriptacion($rows['TsnId']).'"><i class="zmdi zmdi-card"></i></a>
-                                                    <div class="mdl-tooltip" for="btn-detail">Detalles</div>
-                                                    <a id="btn-edit" class="btn btn-sm btn-primary" href="'.KsvmServUrl.'KsvmTransaccionesEditar/'.KsvmEstMaestra::__KsvmEncriptacion($rows['TsnId']).'/1/"><i class="zmdi zmdi-edit"></i></a>
-                                                    <div class="mdl-tooltip" for="btn-edit">Editar</div>
-                                                    <input type="hidden" name="KsvmCodDelete" value="'.KsvmEstMaestra::__KsvmEncriptacion($rows['TsnId']).'">              
-                                                    <button id="btn-delete" type="submit" class="btn btn-sm btn-danger"><i class="zmdi zmdi-delete"></i></button>
-                                                    <div class="mdl-tooltip" for="btn-delete">Inhabilitar</div>
-                                                    <div class="RespuestaAjax"></div>
-                                                    </form>';
-                                    } else {
-                                    $KsvmTabla .= '<form action="'.KsvmServUrl.'Ajax/KsvmTransaccionAjax.php" method="POST" class="FormularioAjax" data-form="eliminar" enctype="multipart/form-data"> 
-                                                    <a id="btn-detail" class="btn btn-sm btn-info" href="'.KsvmServUrl.'KsvmEgresos/Detail/'.KsvmEstMaestra::__KsvmEncriptacion($rows['TsnId']).'"><i class="zmdi zmdi-card"></i></a>
-                                                    <div class="mdl-tooltip" for="btn-detail">Detalles</div>
-                                                    <a id="btn-edit" class="btn btn-sm btn-primary" href="'.KsvmServUrl.'KsvmTransaccionesEditar/'.KsvmEstMaestra::__KsvmEncriptacion($rows['TsnId']).'/2/"><i class="zmdi zmdi-edit"></i></a>
-                                                    <div class="mdl-tooltip" for="btn-edit">Editar</div>
-                                                    <input type="hidden" name="KsvmCodDelete" value="'.KsvmEstMaestra::__KsvmEncriptacion($rows['TsnId']).'">              
-                                                    <button id="btn-delete" type="submit" class="btn btn-sm btn-danger"><i class="zmdi zmdi-delete"></i></button>
-                                                    <div class="mdl-tooltip" for="btn-delete">Inhabilitar</div>
-                                                    <div class="RespuestaAjax"></div>
-                                                    </form>';
-                                    }
-                                }elseif ($KsvmRol == 2 || $KsvmRol == 3){
-                                    if ($KsvmCodigo == 1) {
-                                        $KsvmTabla .= '<a id="btn-detail" class="btn btn-sm btn-info" href="'.KsvmServUrl.'KsvmIngresos/Detail/'.KsvmEstMaestra::__KsvmEncriptacion($rows['TsnId']).'/"><i class="zmdi zmdi-card"></i></a>
-                                                    <div class="mdl-tooltip" for="btn-detail">Detalles</div>
-                                                    <a id="btn-edit" class="btn btn-sm btn-primary" href="'.KsvmServUrl.'KsvmTransaccionesEditar/'.KsvmEstMaestra::__KsvmEncriptacion($rows['TsnId']).'/1/"><i class="zmdi zmdi-edit"></i></a>
-                                                    <div class="mdl-tooltip" for="btn-edit">Editar</div>';
-                                    } else {
-                                        $KsvmTabla .= '<a id="btn-detail" class="btn btn-sm btn-info" href="'.KsvmServUrl.'KsvmEgresos/Detail/'.KsvmEstMaestra::__KsvmEncriptacion($rows['TsnId']).'/"><i class="zmdi zmdi-card"></i></a>
-                                                    <div class="mdl-tooltip" for="btn-detail">Detalles</div>
-                                                    <a id="btn-edit" class="btn btn-sm btn-primary" href="'.KsvmServUrl.'KsvmTransaccionesEditar/'.KsvmEstMaestra::__KsvmEncriptacion($rows['TsnId']).'/2/"><i class="zmdi zmdi-edit"></i></a>
-                                                    <div class="mdl-tooltip" for="btn-edit">Editar</div>';
-                                    }
-                                    
-                                    
-                                }else{
-                                    if ($KsvmCodigo == 1) {
-                                        $KsvmTabla .= '<a id="btn-detail" class="btn btn-sm btn-info" href="'.KsvmServUrl.'KsvmIngresos/Detail/'.KsvmEstMaestra::__KsvmEncriptacion($rows['TsnId']).'/"><i class="zmdi zmdi-card"></i></a>
-                                                    <div class="mdl-tooltip" for="btn-detail">Detalles</div>';
-                                    } else {
-                                        $KsvmTabla .= '<a id="btn-detail" class="btn btn-sm btn-info" href="'.KsvmServUrl.'KsvmEgresos/Detail/'.KsvmEstMaestra::__KsvmEncriptacion($rows['TsnId']).'/"><i class="zmdi zmdi-card"></i></a>
-                                                    <div class="mdl-tooltip" for="btn-detail">Detalles</div>';
-                                    }
-                                    
-                                }
-
-                                    
-
-                $KsvmTabla .= '</td>
-                               </tr>
-                             </tbody>';
-                             $KsvmContReg ++;
-                             }
-
-                            
-                $KsvmTabla .= '</table>
-
-                           <br>
-				           <div class=" mdl-shadow--8dp full-width">
-                            <nav class="navbar-form navbar-left form-group">
-				            <span class="">
-				             <strong>Total de '.$KsvmTotalReg.' </strong> registros encontrados
-				            </span>
-				            <span>&nbsp;|&nbsp;</span>
-				            <span>
-							 Página<strong>'.$KsvmPagina.'</strong> de <strong>'.$KsvmNPaginas.'</strong>
-				            </span>
-                            <span>&nbsp;|&nbsp;</span>
-                            </nav>';
-                            
-        } else {
-            if ($KsvmTotalReg >= 1) {
-                echo '<script> window.location.href=" '.KsvmServUrl.'KsvmTransaccionesCrud/1/"</script>';
-            } else {
-                $KsvmTabla .= '<tr> 
-                            <td class="mdl-data-table__cell--non-numeric" colspan="7"><strong>No se encontraron registros...</strong></td>
-                           </tr>
-                          </tbody>
-                          </table>';
-
-            }
-        }
-            if ($KsvmTotalReg >= 1 && $KsvmPagina <= $KsvmNPaginas && $KsvmCodigo == 0) {
-
-                $KsvmTabla .= '<nav class="navbar-form navbar-right form-group">';
+    
+                $KsvmQuery = $KsvmConsulta->query($KsvmDataTran);
+                $KsvmQuery = $KsvmQuery->fetchAll();
                 
-                if ($KsvmPagina == 1) {
-                    $KsvmTabla .= '<button class = "btn btn-xs btn-success mdl-shadow--8dp disabled">Primero</button>
-                                   <span></span>
-                                   <button class = "btn btn-xs btn-default mdl-shadow--8dp disabled"><i class="zmdi zmdi-fast-rewind"></i></button>';
-                } else {
-                    $KsvmTabla .= '<a class = "btn btn-xs btn-success mdl-shadow--8dp " href="'.KsvmServUrl.'KsvmTransaccionesCrud/1/">Primero</a>
-                                   <span></span>
-                                   <a class = "btn btn-xs btn-default mdl-shadow--8dp " href="'.KsvmServUrl.'KsvmTransaccionesCrud/'.($KsvmPagina-1).'/"><i class="zmdi zmdi-fast-rewind"></i></a>';
-                }
-
-                if ($KsvmPagina == $KsvmNPaginas) {
-                    $KsvmTabla .= '<button class = "btn btn-xs btn-default mdl-shadow--8dp disabled"><i class="zmdi zmdi-fast-forward"></i></button>
-                                   <span></span>
-                                   <button class = "btn btn-xs btn-success mdl-shadow--8dp disabled">Último</button>';
-                } else {
-                    $KsvmTabla .= '<a class="btn btn-xs btn-default mdl-shadow--8dp" href="'.KsvmServUrl.'KsvmTransaccionesCrud/'.($KsvmPagina+1).'/"><i class="zmdi zmdi-fast-forward"></i></a>
-                                   <span></span>
-                                   <a class="btn btn-xs btn-success mdl-shadow--8dp" href="'.KsvmServUrl.'KsvmTransaccionesCrud/'.($KsvmNPaginas).'/">Último</a>';
-                                   
-                                   
-                }
-                
-                $KsvmTabla .= '</nav></div>';       
-
-            } elseif ($KsvmTotalReg >= 1 && $KsvmPagina <= $KsvmNPaginas && $KsvmCodigo == 1) {
-                $KsvmTabla .= '<nav class="navbar-form navbar-right form-group">';
-                
-                if ($KsvmPagina == 1) {
-                    $KsvmTabla .= '<button class = "btn btn-xs btn-success mdl-shadow--8dp disabled">Primero</button>
-                                   <span></span>
-                                   <button class = "btn btn-xs btn-default mdl-shadow--8dp disabled"><i class="zmdi zmdi-fast-rewind"></i></button>';
-                } else {
-                    $KsvmTabla .= '<a class = "btn btn-xs btn-success mdl-shadow--8dp " href="'.KsvmServUrl.'KsvmIngresos/1/">Primero</a>
-                                   <span></span>
-                                   <a class = "btn btn-xs btn-default mdl-shadow--8dp " href="'.KsvmServUrl.'KsvmIngresos/'.($KsvmPagina-1).'/"><i class="zmdi zmdi-fast-rewind"></i></a>';
-                }
-
-                if ($KsvmPagina == $KsvmNPaginas) {
-                    $KsvmTabla .= '<button class = "btn btn-xs btn-default mdl-shadow--8dp disabled"><i class="zmdi zmdi-fast-forward"></i></button>
-                                   <span></span>
-                                   <button class = "btn btn-xs btn-success mdl-shadow--8dp disabled">Último</button>';
-                } else {
-                    $KsvmTabla .= '<a class="btn btn-xs btn-default mdl-shadow--8dp" href="'.KsvmServUrl.'KsvmIngresos/'.($KsvmPagina+1).'/"><i class="zmdi zmdi-fast-forward"></i></a>
-                                   <span></span>
-                                   <a class="btn btn-xs btn-success mdl-shadow--8dp" href="'.KsvmServUrl.'KsvmIngresos/'.($KsvmNPaginas).'/">Último</a>';
-                                   
-                                   
-                }
-                
-                $KsvmTabla .= '</nav></div>'; 
-
-            } else {
-                $KsvmTabla .= '<nav class="navbar-form navbar-right form-group">';
-                
-                if ($KsvmPagina == 1) {
-                    $KsvmTabla .= '<button class = "btn btn-xs btn-success mdl-shadow--8dp disabled">Primero</button>
-                                   <span></span>
-                                   <button class = "btn btn-xs btn-default mdl-shadow--8dp disabled"><i class="zmdi zmdi-fast-rewind"></i></button>';
-                } else {
-                    $KsvmTabla .= '<a class = "btn btn-xs btn-success mdl-shadow--8dp " href="'.KsvmServUrl.'KsvmEgresos/1/">Primero</a>
-                                   <span></span>
-                                   <a class = "btn btn-xs btn-default mdl-shadow--8dp " href="'.KsvmServUrl.'KsvmEgresos/'.($KsvmPagina-1).'/"><i class="zmdi zmdi-fast-rewind"></i></a>';
-                }
-
-                if ($KsvmPagina == $KsvmNPaginas) {
-                    $KsvmTabla .= '<button class = "btn btn-xs btn-default mdl-shadow--8dp disabled"><i class="zmdi zmdi-fast-forward"></i></button>
-                                   <span></span>
-                                   <button class = "btn btn-xs btn-success mdl-shadow--8dp disabled">Último</button>';
-                } else {
-                    $KsvmTabla .= '<a class="btn btn-xs btn-default mdl-shadow--8dp" href="'.KsvmServUrl.'KsvmEgresos/'.($KsvmPagina+1).'/"><i class="zmdi zmdi-fast-forward"></i></a>
-                                   <span></span>
-                                   <a class="btn btn-xs btn-success mdl-shadow--8dp" href="'.KsvmServUrl.'KsvmEgresos/'.($KsvmNPaginas).'/">Último</a>';
-                                   
-                                   
-                }
-                
-                $KsvmTabla .= '</nav></div>'; 
-            }
-            
+                $KsvmDataTot = "SELECT FOUND_ROWS()";
+                $KsvmTotalReg = $KsvmConsulta->query($KsvmDataTot);
+                $KsvmTotalReg = (int) $KsvmTotalReg->fetchColumn();
+                $KsvmNPaginas = ceil($KsvmTotalReg/$KsvmNRegistros);
         
-                                   
-        return $KsvmTabla;
+                $KsvmTabla .= '<table class="mdl-data-table mdl-js-data-table mdl-shadow--6dp full-width table-responsive">
+                                <thead>
+                                    <tr>
+                                        <th class="mdl-data-table__cell--non-numeric">#</th>
+                                        <th class="mdl-data-table__cell--non-numeric"># Transacción</th>
+                                        <th class="mdl-data-table__cell--non-numeric">Fecha</th>
+                                        <th class="mdl-data-table__cell--non-numeric">Tipo</th>
+                                        <th class="mdl-data-table__cell--non-numeric">Destino</th>
+                                        <th class="mdl-data-table__cell--non-numeric">Responsable</th>
+                                        <th style="text-align:center; witdh:30px;">Acción</th>
+                                    </tr>
+                                </thead>
+                                <tbody>';
+        
+                if ($KsvmTotalReg >= 1 && $KsvmPagina <= $KsvmNPaginas) {
+                    $KsvmContReg = $KsvmDesde +1;
+                    foreach ($KsvmQuery as $rows) {
+                        $KsvmBodega = $rows['TsnDestinoTran'];
+                        $KsvmSelectBodega = "SELECT * FROM ksvmseleccionabodega WHERE BdgId = '$KsvmBodega'";
+                        $KsvmConsulta = KsvmEstMaestra :: __KsvmConexion();
+                        $KsvmQuery = $KsvmConsulta->query($KsvmSelectBodega);
+                        $KsvmQuery = $KsvmQuery->fetch();
+                        $KsvmBodDest = $KsvmQuery['BdgDescBod'];
+        
+                        $KsvmTabla .= '<tr>
+                                        <td class="mdl-data-table__cell--non-numeric">'.$KsvmContReg.'</td>
+                                        <td class="mdl-data-table__cell--non-numeric">'.$rows['TsnNumTran'].'</td>
+                                        <td class="mdl-data-table__cell--non-numeric">'.$rows['TsnFchReaTran'].'</td>
+                                        <td class="mdl-data-table__cell--non-numeric">'.$rows['TsnTipoTran'].'</td>
+                                        <td class="mdl-data-table__cell--non-numeric">'.$KsvmBodDest.'</td>
+                                        <td class="mdl-data-table__cell--non-numeric">'.$rows['TsnPerReaTran'].'</td>
+                                        <td style="text-align:right; witdh:30px;">';
+                                        if ($KsvmRol == 1) {
+        
+                                            $KsvmTabla .= '<form action="'.KsvmServUrl.'Ajax/KsvmTransaccionAjax.php" method="POST" class="FormularioAjax" data-form="eliminar" enctype="multipart/form-data"> 
+                                                            <a id="btn-detail" class="btn btn-sm btn-info" href="'.KsvmServUrl.'KsvmTransaccionesCrud/Detail/'.KsvmEstMaestra::__KsvmEncriptacion($rows['TsnId']).'"><i class="zmdi zmdi-card"></i></a>
+                                                            <div class="mdl-tooltip" for="btn-detail">Detalles</div>
+                                                            <a id="btn-edit" class="btn btn-sm btn-primary" href="'.KsvmServUrl.'KsvmTransaccionesEditar/'.KsvmEstMaestra::__KsvmEncriptacion($rows['TsnId']).'/0/"><i class="zmdi zmdi-edit"></i></a>
+                                                            <div class="mdl-tooltip" for="btn-edit">Editar</div>
+                                                            <input type="hidden" name="KsvmCodDelete" value="'.KsvmEstMaestra::__KsvmEncriptacion($rows['TsnId']).'">              
+                                                            <button id="btn-delete" type="submit" class="btn btn-sm btn-danger"><i class="zmdi zmdi-delete"></i></button>
+                                                            <div class="mdl-tooltip" for="btn-delete">Inhabilitar</div>
+                                                            <div class="RespuestaAjax"></div>';
+
+                                        }elseif ($KsvmRol == 2 || $KsvmRol == 3){
+                                                $KsvmTabla .= '<a id="btn-detail" class="btn btn-sm btn-info" href="'.KsvmServUrl.'KsvmIngresos/Detail/'.KsvmEstMaestra::__KsvmEncriptacion($rows['TsnId']).'/"><i class="zmdi zmdi-card"></i></a>
+                                                            <div class="mdl-tooltip" for="btn-detail">Detalles</div>
+                                                            <a id="btn-edit" class="btn btn-sm btn-primary" href="'.KsvmServUrl.'KsvmTransaccionesEditar/'.KsvmEstMaestra::__KsvmEncriptacion($rows['TsnId']).'/1/"><i class="zmdi zmdi-edit"></i></a>
+                                                            <div class="mdl-tooltip" for="btn-edit">Editar</div>';
+                                            } else {
+                                                $KsvmTabla .= '<a id="btn-detail" class="btn btn-sm btn-info" href="'.KsvmServUrl.'KsvmEgresos/Detail/'.KsvmEstMaestra::__KsvmEncriptacion($rows['TsnId']).'/"><i class="zmdi zmdi-card"></i></a>
+                                                            <div class="mdl-tooltip" for="btn-detail">Detalles</div>
+                                                            <a id="btn-edit" class="btn btn-sm btn-primary" href="'.KsvmServUrl.'KsvmTransaccionesEditar/'.KsvmEstMaestra::__KsvmEncriptacion($rows['TsnId']).'/2/"><i class="zmdi zmdi-edit"></i></a>
+                                                            <div class="mdl-tooltip" for="btn-edit">Editar</div>';
+                                            }
+                                            
+        
+                        $KsvmTabla .= '</td>
+                                       </tr>
+                                     </tbody>';
+                                     $KsvmContReg ++;
+                                     }
+        
+                                    
+                        $KsvmTabla .= '</table>
+        
+                                   <br>
+                                   <div class=" mdl-shadow--8dp full-width">
+                                    <nav class="navbar-form navbar-left form-group">
+                                    <span class="">
+                                     <strong>Total de '.$KsvmTotalReg.' </strong> registros encontrados
+                                    </span>
+                                    <span>&nbsp;|&nbsp;</span>
+                                    <span>
+                                     Página<strong>'.$KsvmPagina.'</strong> de <strong>'.$KsvmNPaginas.'</strong>
+                                    </span>
+                                    <span>&nbsp;|&nbsp;</span>
+                                    </nav>';
+                                    
+                } else {
+                    if ($KsvmTotalReg >= 1) {
+                        echo '<script> window.location.href=" '.KsvmServUrl.'KsvmTransaccionesCrud/1/"</script>';
+                    } else {
+                        $KsvmTabla .= '<tr> 
+                                    <td class="mdl-data-table__cell--non-numeric" colspan="7"><strong>No se encontraron registros...</strong></td>
+                                   </tr>
+                                  </tbody>
+                                  </table>';
+        
+                    }
+                }
+                    if ($KsvmTotalReg >= 1 && $KsvmPagina <= $KsvmNPaginas) {
+        
+                        $KsvmTabla .= '<nav class="navbar-form navbar-right form-group">';
+                        
+                        if ($KsvmPagina == 1) {
+                            $KsvmTabla .= '<button class = "btn btn-xs btn-success mdl-shadow--8dp disabled">Primero</button>
+                                           <span></span>
+                                           <button class = "btn btn-xs btn-default mdl-shadow--8dp disabled"><i class="zmdi zmdi-fast-rewind"></i></button>';
+                        } else {
+                            $KsvmTabla .= '<a class = "btn btn-xs btn-success mdl-shadow--8dp " href="'.KsvmServUrl.'KsvmTransaccionesCrud/1/">Primero</a>
+                                           <span></span>
+                                           <a class = "btn btn-xs btn-default mdl-shadow--8dp " href="'.KsvmServUrl.'KsvmTransaccionesCrud/'.($KsvmPagina-1).'/"><i class="zmdi zmdi-fast-rewind"></i></a>';
+                        }
+        
+                        if ($KsvmPagina == $KsvmNPaginas) {
+                            $KsvmTabla .= '<button class = "btn btn-xs btn-default mdl-shadow--8dp disabled"><i class="zmdi zmdi-fast-forward"></i></button>
+                                           <span></span>
+                                           <button class = "btn btn-xs btn-success mdl-shadow--8dp disabled">Último</button>';
+                        } else {
+                            $KsvmTabla .= '<a class="btn btn-xs btn-default mdl-shadow--8dp" href="'.KsvmServUrl.'KsvmTransaccionesCrud/'.($KsvmPagina+1).'/"><i class="zmdi zmdi-fast-forward"></i></a>
+                                           <span></span>
+                                           <a class="btn btn-xs btn-success mdl-shadow--8dp" href="'.KsvmServUrl.'KsvmTransaccionesCrud/'.($KsvmNPaginas).'/">Último</a>';
+                                           
+                                           
+                        }
+                        
+                        $KsvmTabla .= '</nav></div>';       
+        
+                    } 
+                    
+                                           
+                return $KsvmTabla;
+        
+        }elseif ($KsvmCodigo == 1) {
+            if (isset($KsvmBuscar) && $KsvmBuscar != "") {
+            $KsvmDataTran = "SELECT SQL_CALC_FOUND_ROWS * FROM ksvmvistatransacciones WHERE ((TsnId != 'X') AND (TsnTipoTran = 'Ingreso') AND (TsnNumTran LIKE '%$KsvmBuscar%' 
+            OR TsnTipoTran LIKE '%$KsvmBuscar%' OR RqcNumReq LIKE '%$KsvmBuscar%')) 
+            LIMIT $KsvmDesde, $KsvmNRegistros";
+            } else {
+                $KsvmDataTran = "SELECT SQL_CALC_FOUND_ROWS * FROM ksvmvistatransacciones WHERE TsnId != 'X' AND (TsnTipoTran = 'Ingreso') LIMIT $KsvmDesde, $KsvmNRegistros" ;
+            }
+
+            $KsvmConsulta = KsvmEstMaestra :: __KsvmConexion();
+    
+            $KsvmQuery = $KsvmConsulta->query($KsvmDataTran);
+            $KsvmQuery = $KsvmQuery->fetchAll();
+            
+            $KsvmDataTot = "SELECT FOUND_ROWS()";
+            $KsvmTotalReg = $KsvmConsulta->query($KsvmDataTot);
+            $KsvmTotalReg = (int) $KsvmTotalReg->fetchColumn();
+            $KsvmNPaginas = ceil($KsvmTotalReg/$KsvmNRegistros);
+    
+            $KsvmTabla .= '<table class="mdl-data-table mdl-js-data-table mdl-shadow--6dp full-width table-responsive">
+                            <thead>
+                                <tr>
+                                    <th class="mdl-data-table__cell--non-numeric">#</th>
+                                    <th class="mdl-data-table__cell--non-numeric"># Transacción</th>
+                                    <th class="mdl-data-table__cell--non-numeric">Fecha</th>
+                                    <th class="mdl-data-table__cell--non-numeric">Tipo</th>
+                                    <th class="mdl-data-table__cell--non-numeric">Destino</th>
+                                    <th class="mdl-data-table__cell--non-numeric">Responsable</th>
+                                    <th style="text-align:center; witdh:30px;">Acción</th>
+                                </tr>
+                            </thead>
+                            <tbody>';
+    
+            if ($KsvmTotalReg >= 1 && $KsvmPagina <= $KsvmNPaginas) {
+                $KsvmContReg = $KsvmDesde +1;
+                foreach ($KsvmQuery as $rows) {
+                    $KsvmBodega = $rows['TsnDestinoTran'];
+                    $KsvmSelectBodega = "SELECT * FROM ksvmseleccionabodega WHERE BdgId = '$KsvmBodega'";
+                    $KsvmConsulta = KsvmEstMaestra :: __KsvmConexion();
+                    $KsvmQuery = $KsvmConsulta->query($KsvmSelectBodega);
+                    $KsvmQuery = $KsvmQuery->fetch();
+                    $KsvmBodDest = $KsvmQuery['BdgDescBod'];
+    
+                    $KsvmTabla .= '<tr>
+                                    <td class="mdl-data-table__cell--non-numeric">'.$KsvmContReg.'</td>
+                                    <td class="mdl-data-table__cell--non-numeric">'.$rows['TsnNumTran'].'</td>
+                                    <td class="mdl-data-table__cell--non-numeric">'.$rows['TsnFchReaTran'].'</td>
+                                    <td class="mdl-data-table__cell--non-numeric">'.$rows['TsnTipoTran'].'</td>
+                                    <td class="mdl-data-table__cell--non-numeric">'.$KsvmBodDest.'</td>
+                                    <td class="mdl-data-table__cell--non-numeric">'.$rows['TsnPerReaTran'].'</td>
+                                    <td style="text-align:right; witdh:30px;">';
+                                    if ($KsvmRol == 1) {
+
+                                        $KsvmTabla .= '<form action="'.KsvmServUrl.'Ajax/KsvmTransaccionAjax.php" method="POST" class="FormularioAjax" data-form="eliminar" enctype="multipart/form-data"> 
+                                                        <a id="btn-detail" class="btn btn-sm btn-info" href="'.KsvmServUrl.'KsvmIngresos/Detail/'.KsvmEstMaestra::__KsvmEncriptacion($rows['TsnId']).'"><i class="zmdi zmdi-card"></i></a>
+                                                        <div class="mdl-tooltip" for="btn-detail">Detalles</div>
+                                                        <a id="btn-edit" class="btn btn-sm btn-primary" href="'.KsvmServUrl.'KsvmTransaccionesEditar/'.KsvmEstMaestra::__KsvmEncriptacion($rows['TsnId']).'/1/"><i class="zmdi zmdi-edit"></i></a>
+                                                        <div class="mdl-tooltip" for="btn-edit">Editar</div>
+                                                        <input type="hidden" name="KsvmCodDelete" value="'.KsvmEstMaestra::__KsvmEncriptacion($rows['TsnId']).'">              
+                                                        <button id="btn-delete" type="submit" class="btn btn-sm btn-danger"><i class="zmdi zmdi-delete"></i></button>
+                                                        <div class="mdl-tooltip" for="btn-delete">Inhabilitar</div>
+                                                        <div class="RespuestaAjax"></div>
+                                                        </form>';
+
+                                    }elseif ($KsvmRol == 2 || $KsvmRol == 3){
+
+                                            $KsvmTabla .= '<a id="btn-detail" class="btn btn-sm btn-info" href="'.KsvmServUrl.'KsvmIngresos/Detail/'.KsvmEstMaestra::__KsvmEncriptacion($rows['TsnId']).'/"><i class="zmdi zmdi-card"></i></a>
+                                                        <div class="mdl-tooltip" for="btn-detail">Detalles</div>
+                                                        <a id="btn-edit" class="btn btn-sm btn-primary" href="'.KsvmServUrl.'KsvmTransaccionesEditar/'.KsvmEstMaestra::__KsvmEncriptacion($rows['TsnId']).'/1/"><i class="zmdi zmdi-edit"></i></a>
+                                                        <div class="mdl-tooltip" for="btn-edit">Editar</div>';                                      
+                                        
+                                    }else{
+                                            $KsvmTabla .= '<a id="btn-detail" class="btn btn-sm btn-info" href="'.KsvmServUrl.'KsvmIngresos/Detail/'.KsvmEstMaestra::__KsvmEncriptacion($rows['TsnId']).'/"><i class="zmdi zmdi-card"></i></a>
+                                                        <div class="mdl-tooltip" for="btn-detail">Detalles</div>';
+                                        
+                                    }
+    
+                                        
+    
+                    $KsvmTabla .= '</td>
+                                   </tr>
+                                 </tbody>';
+                                 $KsvmContReg ++;
+                                 }
+    
+                                
+                    $KsvmTabla .= '</table>
+    
+                               <br>
+                               <div class=" mdl-shadow--8dp full-width">
+                                <nav class="navbar-form navbar-left form-group">
+                                <span class="">
+                                 <strong>Total de '.$KsvmTotalReg.' </strong> registros encontrados
+                                </span>
+                                <span>&nbsp;|&nbsp;</span>
+                                <span>
+                                 Página<strong>'.$KsvmPagina.'</strong> de <strong>'.$KsvmNPaginas.'</strong>
+                                </span>
+                                <span>&nbsp;|&nbsp;</span>
+                                </nav>';
+                                
+            } else {
+                if ($KsvmTotalReg >= 1) {
+                    echo '<script> window.location.href=" '.KsvmServUrl.'KsvmIngresos/1/"</script>';
+                } else {
+                    $KsvmTabla .= '<tr> 
+                                <td class="mdl-data-table__cell--non-numeric" colspan="7"><strong>No se encontraron registros...</strong></td>
+                               </tr>
+                              </tbody>
+                              </table>';
+    
+                }
+            }      
+    
+                if ($KsvmTotalReg >= 1 && $KsvmPagina <= $KsvmNPaginas) {
+                    $KsvmTabla .= '<nav class="navbar-form navbar-right form-group">';
+                    
+                    if ($KsvmPagina == 1) {
+                        $KsvmTabla .= '<button class = "btn btn-xs btn-success mdl-shadow--8dp disabled">Primero</button>
+                                       <span></span>
+                                       <button class = "btn btn-xs btn-default mdl-shadow--8dp disabled"><i class="zmdi zmdi-fast-rewind"></i></button>';
+                    } else {
+                        $KsvmTabla .= '<a class = "btn btn-xs btn-success mdl-shadow--8dp " href="'.KsvmServUrl.'KsvmIngresos/1/">Primero</a>
+                                       <span></span>
+                                       <a class = "btn btn-xs btn-default mdl-shadow--8dp " href="'.KsvmServUrl.'KsvmIngresos/'.($KsvmPagina-1).'/"><i class="zmdi zmdi-fast-rewind"></i></a>';
+                    }
+    
+                    if ($KsvmPagina == $KsvmNPaginas) {
+                        $KsvmTabla .= '<button class = "btn btn-xs btn-default mdl-shadow--8dp disabled"><i class="zmdi zmdi-fast-forward"></i></button>
+                                       <span></span>
+                                       <button class = "btn btn-xs btn-success mdl-shadow--8dp disabled">Último</button>';
+                    } else {
+                        $KsvmTabla .= '<a class="btn btn-xs btn-default mdl-shadow--8dp" href="'.KsvmServUrl.'KsvmIngresos/'.($KsvmPagina+1).'/"><i class="zmdi zmdi-fast-forward"></i></a>
+                                       <span></span>
+                                       <a class="btn btn-xs btn-success mdl-shadow--8dp" href="'.KsvmServUrl.'KsvmIngresos/'.($KsvmNPaginas).'/">Último</a>';
+                                       
+                                       
+                    }
+                    
+                    $KsvmTabla .= '</nav></div>'; 
+ 
+                }
+                
+                                       
+            return $KsvmTabla;
+
+        } else {
+            if (isset($KsvmBuscar) && $KsvmBuscar != "") {
+                $KsvmDataTran = "SELECT SQL_CALC_FOUND_ROWS * FROM ksvmvistatransacciones WHERE ((TsnId != 'X') AND (TsnTipoTran = 'Egreso') AND (TsnNumTran LIKE '%$KsvmBuscar%' 
+                OR TsnTipoTran LIKE '%$KsvmBuscar%' OR RqcNumReq LIKE '%$KsvmBuscar%')) 
+                LIMIT $KsvmDesde, $KsvmNRegistros";
+                } else {
+                    $KsvmDataTran = "SELECT SQL_CALC_FOUND_ROWS * FROM ksvmvistatransacciones WHERE TsnId != 'X' AND (TsnTipoTran = 'Egreso')  LIMIT $KsvmDesde, $KsvmNRegistros" ;
+                }
+
+                $KsvmConsulta = KsvmEstMaestra :: __KsvmConexion();
+    
+                $KsvmQuery = $KsvmConsulta->query($KsvmDataTran);
+                $KsvmQuery = $KsvmQuery->fetchAll();
+                
+                $KsvmDataTot = "SELECT FOUND_ROWS()";
+                $KsvmTotalReg = $KsvmConsulta->query($KsvmDataTot);
+                $KsvmTotalReg = (int) $KsvmTotalReg->fetchColumn();
+                $KsvmNPaginas = ceil($KsvmTotalReg/$KsvmNRegistros);
+        
+                $KsvmTabla .= '<table class="mdl-data-table mdl-js-data-table mdl-shadow--6dp full-width table-responsive">
+                                <thead>
+                                    <tr>
+                                        <th class="mdl-data-table__cell--non-numeric">#</th>
+                                        <th class="mdl-data-table__cell--non-numeric"># Transacción</th>
+                                        <th class="mdl-data-table__cell--non-numeric">Fecha</th>
+                                        <th class="mdl-data-table__cell--non-numeric">Tipo</th>
+                                        <th class="mdl-data-table__cell--non-numeric">Destino</th>
+                                        <th class="mdl-data-table__cell--non-numeric">Responsable</th>
+                                        <th style="text-align:center; witdh:30px;">Acción</th>
+                                    </tr>
+                                </thead>
+                                <tbody>';
+        
+                if ($KsvmTotalReg >= 1 && $KsvmPagina <= $KsvmNPaginas) {
+                    $KsvmContReg = $KsvmDesde +1;
+                    foreach ($KsvmQuery as $rows) {
+                        $KsvmBodega = $rows['TsnDestinoTran'];
+                        $KsvmSelectBodega = "SELECT * FROM ksvmseleccionabodega WHERE BdgId = '$KsvmBodega'";
+                        $KsvmConsulta = KsvmEstMaestra :: __KsvmConexion();
+                        $KsvmQuery = $KsvmConsulta->query($KsvmSelectBodega);
+                        $KsvmQuery = $KsvmQuery->fetch();
+                        $KsvmBodDest = $KsvmQuery['BdgDescBod'];
+        
+                        $KsvmTabla .= '<tr>
+                                        <td class="mdl-data-table__cell--non-numeric">'.$KsvmContReg.'</td>
+                                        <td class="mdl-data-table__cell--non-numeric">'.$rows['TsnNumTran'].'</td>
+                                        <td class="mdl-data-table__cell--non-numeric">'.$rows['TsnFchReaTran'].'</td>
+                                        <td class="mdl-data-table__cell--non-numeric">'.$rows['TsnTipoTran'].'</td>
+                                        <td class="mdl-data-table__cell--non-numeric">'.$KsvmBodDest.'</td>
+                                        <td class="mdl-data-table__cell--non-numeric">'.$rows['TsnPerReaTran'].'</td>
+                                        <td style="text-align:right; witdh:30px;">';
+                                        if ($KsvmRol == 1) {
+
+                                            $KsvmTabla .= '<form action="'.KsvmServUrl.'Ajax/KsvmTransaccionAjax.php" method="POST" class="FormularioAjax" data-form="eliminar" enctype="multipart/form-data"> 
+                                                            <a id="btn-detail" class="btn btn-sm btn-info" href="'.KsvmServUrl.'KsvmEgresos/Detail/'.KsvmEstMaestra::__KsvmEncriptacion($rows['TsnId']).'"><i class="zmdi zmdi-card"></i></a>
+                                                            <div class="mdl-tooltip" for="btn-detail">Detalles</div>
+                                                            <a id="btn-edit" class="btn btn-sm btn-primary" href="'.KsvmServUrl.'KsvmTransaccionesEditar/'.KsvmEstMaestra::__KsvmEncriptacion($rows['TsnId']).'/2/"><i class="zmdi zmdi-edit"></i></a>
+                                                            <div class="mdl-tooltip" for="btn-edit">Editar</div>
+                                                            <input type="hidden" name="KsvmCodDelete" value="'.KsvmEstMaestra::__KsvmEncriptacion($rows['TsnId']).'">              
+                                                            <button id="btn-delete" type="submit" class="btn btn-sm btn-danger"><i class="zmdi zmdi-delete"></i></button>
+                                                            <div class="mdl-tooltip" for="btn-delete">Inhabilitar</div>
+                                                            <div class="RespuestaAjax"></div>
+                                                            </form>';
+                                            
+                                        }elseif ($KsvmRol == 2 || $KsvmRol == 3){
+                                                $KsvmTabla .= '<a id="btn-detail" class="btn btn-sm btn-info" href="'.KsvmServUrl.'KsvmEgresos/Detail/'.KsvmEstMaestra::__KsvmEncriptacion($rows['TsnId']).'/"><i class="zmdi zmdi-card"></i></a>
+                                                            <div class="mdl-tooltip" for="btn-detail">Detalles</div>
+                                                            <a id="btn-edit" class="btn btn-sm btn-primary" href="'.KsvmServUrl.'KsvmTransaccionesEditar/'.KsvmEstMaestra::__KsvmEncriptacion($rows['TsnId']).'/2/"><i class="zmdi zmdi-edit"></i></a>
+                                                            <div class="mdl-tooltip" for="btn-edit">Editar</div>';
+                                            
+                                            
+                                        }else{
+                                                $KsvmTabla .= '<a id="btn-detail" class="btn btn-sm btn-info" href="'.KsvmServUrl.'KsvmEgresos/Detail/'.KsvmEstMaestra::__KsvmEncriptacion($rows['TsnId']).'/"><i class="zmdi zmdi-card"></i></a>
+                                                            <div class="mdl-tooltip" for="btn-detail">Detalles</div>';
+                                        
+                                            
+                                        }
+        
+                                            
+        
+                        $KsvmTabla .= '</td>
+                                       </tr>
+                                     </tbody>';
+                                     $KsvmContReg ++;
+                                     }
+        
+                                    
+                        $KsvmTabla .= '</table>
+        
+                                   <br>
+                                   <div class=" mdl-shadow--8dp full-width">
+                                    <nav class="navbar-form navbar-left form-group">
+                                    <span class="">
+                                     <strong>Total de '.$KsvmTotalReg.' </strong> registros encontrados
+                                    </span>
+                                    <span>&nbsp;|&nbsp;</span>
+                                    <span>
+                                     Página<strong>'.$KsvmPagina.'</strong> de <strong>'.$KsvmNPaginas.'</strong>
+                                    </span>
+                                    <span>&nbsp;|&nbsp;</span>
+                                    </nav>';
+                                    
+                } else {
+                    if ($KsvmTotalReg >= 1) {
+                        echo '<script> window.location.href=" '.KsvmServUrl.'KsvmEgresos/1/"</script>';
+                    } else {
+                        $KsvmTabla .= '<tr> 
+                                    <td class="mdl-data-table__cell--non-numeric" colspan="7"><strong>No se encontraron registros...</strong></td>
+                                   </tr>
+                                  </tbody>
+                                  </table>';
+        
+                    }
+                }
+        
+                    if ($KsvmTotalReg >= 1 && $KsvmPagina <= $KsvmNPaginas) {
+                        $KsvmTabla .= '<nav class="navbar-form navbar-right form-group">';
+                        
+                        if ($KsvmPagina == 1) {
+                            $KsvmTabla .= '<button class = "btn btn-xs btn-success mdl-shadow--8dp disabled">Primero</button>
+                                           <span></span>
+                                           <button class = "btn btn-xs btn-default mdl-shadow--8dp disabled"><i class="zmdi zmdi-fast-rewind"></i></button>';
+                        } else {
+                            $KsvmTabla .= '<a class = "btn btn-xs btn-success mdl-shadow--8dp " href="'.KsvmServUrl.'KsvmEgresos/1/">Primero</a>
+                                           <span></span>
+                                           <a class = "btn btn-xs btn-default mdl-shadow--8dp " href="'.KsvmServUrl.'KsvmEgresos/'.($KsvmPagina-1).'/"><i class="zmdi zmdi-fast-rewind"></i></a>';
+                        }
+        
+                        if ($KsvmPagina == $KsvmNPaginas) {
+                            $KsvmTabla .= '<button class = "btn btn-xs btn-default mdl-shadow--8dp disabled"><i class="zmdi zmdi-fast-forward"></i></button>
+                                           <span></span>
+                                           <button class = "btn btn-xs btn-success mdl-shadow--8dp disabled">Último</button>';
+                        } else {
+                            $KsvmTabla .= '<a class="btn btn-xs btn-default mdl-shadow--8dp" href="'.KsvmServUrl.'KsvmEgresos/'.($KsvmPagina+1).'/"><i class="zmdi zmdi-fast-forward"></i></a>
+                                           <span></span>
+                                           <a class="btn btn-xs btn-success mdl-shadow--8dp" href="'.KsvmServUrl.'KsvmEgresos/'.($KsvmNPaginas).'/">Último</a>';
+                                           
+                                           
+                        }
+                        
+                        $KsvmTabla .= '</nav></div>'; 
+                    }
+                    
+                
+                                           
+                return $KsvmTabla;
+        }
+        
       }
      
       /**
@@ -426,7 +630,7 @@
           return KsvmTransaccionModelo :: __KsvmEditarTransaccionModelo($KsvmCodigo);
       }
 
-            /**
+      /**
        * Función que permite editar una Detalle de Transaccion 
        */
       public function  __KsvmEditarDetalleTransaccionControlador($KsvmCodTransaccion)
@@ -446,7 +650,6 @@
           return KsvmTransaccionModelo :: __KsvmCargarDataModelo($KsvmCodigo);
       }
       
-      
       /**
        * Función que permite contar una Transaccion 
        */
@@ -462,25 +665,19 @@
       {
         $KsvmCodTransaccion = KsvmEstMaestra :: __KsvmDesencriptacion($_POST['KsvmCodEdit']);
         $KsvmRqcId = KsvmEstMaestra :: __KsvmFiltrarCadena($_POST['KsvmRqcId']);
-        $KsvmStockIniTran = KsvmEstMaestra :: __KsvmFiltrarCadena($_POST['KsvmStockIniTran']);
         $KsvmTipoTran = KsvmEstMaestra :: __KsvmFiltrarCadena($_POST['KsvmTipoTran']);
-        $KsvmCantTran = KsvmEstMaestra :: __KsvmFiltrarCadena($_POST['KsvmCantTran']);
-        $KsvmNomMedTran = KsvmEstMaestra :: __KsvmFiltrarCadena($_POST['KsvmNomMedTran']);
         $KsvmDestinoTran = KsvmEstMaestra :: __KsvmFiltrarCadena($_POST['KsvmDestinoTran']);
         $KsvmFchRevTran = KsvmEstMaestra :: __KsvmFiltrarCadena($_POST['KsvmFchRevTran']);
         $KsvmPerRevTran = KsvmEstMaestra :: __KsvmFiltrarCadena($_POST['KsvmPerRevTran']);
-        $KsvmObservTran = KsvmEstMaestra :: __KsvmFiltrarCadena($_POST['KsvmObservTran']);
+        $KsvmEstTran = KsvmEstMaestra :: __KsvmFiltrarCadena($_POST['KsvmEstTran']);
 
         $KsvmActualTran = [
             "KsvmRqcId" => $KsvmRqcId,
-            "KsvmNumTran" => $KsvmNumTran,
             "KsvmTipoTran" => $KsvmTipoTran,
-            "KsvmCantTran" => $KsvmCantTran,
-            "KsvmNomMedTran" => $KsvmNomMedTran,
             "KsvmDestinoTran" => $KsvmDestinoTran,
             "KsvmFchRevTran" => $KsvmFchRevTran,
             "KsvmPerRevTran" => $KsvmPerRevTran,
-            "KsvmObservTran" => $KsvmObservTran,
+            "KsvmEstTran" => $KsvmEstTran,
             "KsvmCodTransaccion" => $KsvmCodTransaccion
             ];
 
@@ -504,6 +701,48 @@
          
         }
 
+      /**
+       * Función que permite actualizar una Transaccion 
+       */
+      public function __KsvmActualizarDetalleTransaccionControlador()
+      {
+        $KsvmCodTransaccion = KsvmEstMaestra :: __KsvmDesencriptacion($_POST['KsvmCodEdit']);
+        $KsvmExtId = KsvmEstMaestra :: __KsvmFiltrarCadena($_POST['KsvmExtId']);
+        $KsvmTipoTran = KsvmEstMaestra :: __KsvmFiltrarCadena($_POST['KsvmTipoTran']);
+        $KsvmCantTran = KsvmEstMaestra :: __KsvmFiltrarCadena($_POST['KsvmCantTran']);
+        $KsvmObservTran = KsvmEstMaestra :: __KsvmFiltrarCadena($_POST['KsvmObservTran']);
+
+        $KsvmActualDetTran = [
+            "KsvmExtId" => $KsvmExtId,
+            "KsvmTipoTran" => $KsvmTipoTran,
+            "KsvmCantTran" => $KsvmCantTran,
+            "KsvmObservTran" => $KsvmObservTran,
+            "KsvmCodTransaccion" => $KsvmCodTransaccion
+            ];
+
+            $KsvmGuardarDetTran = KsvmTransaccionModelo :: __KsvmActualizarDetalleTransaccionModelo($KsvmActualDetTran);
+                if ($KsvmGuardarDetTran->rowCount() >= 1) {
+                    $KsvmAlerta = [
+                    "Alerta" => "Actualiza",
+                    "Titulo" => "Grandioso",
+                    "Cuerpo" => "El detalle de la Transacción se actualizó satisfactoriamente",
+                    "Tipo" => "success"
+                    ];
+                } else {
+                    $KsvmAlerta = [
+                    "Alerta" => "simple",
+                    "Titulo" => "Error inesperado",
+                    "Cuerpo" => "No se a podido actualizar la información de la Transacción",
+                    "Tipo" => "info"
+                    ];
+                }
+                return KsvmEstMaestra :: __KsvmMostrarAlertas($KsvmAlerta);
+         
+        }
+
+      /**
+       * Función que permite sleccionar una Bodega 
+       */
         public function __KsvmSeleccionBodega($KsvmBodega){
             $KsvmSelectBodega = "SELECT * FROM ksvmseleccionabodega WHERE BdgId = '$KsvmBodega'";
 

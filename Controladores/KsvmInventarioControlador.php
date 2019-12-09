@@ -368,6 +368,26 @@
 
           return KsvmInventarioModelo :: __KsvmEditarInventarioModelo($KsvmCodigo);
       }
+
+            /**
+       * Función que permite editar una Detalle de Inventario 
+       */
+      public function  __KsvmEditarDetalleInventarioControlador($KsvmCodInventario)
+      {
+          $KsvmCodigo = KsvmEstMaestra :: __KsvmDesencriptacion($KsvmCodInventario);
+
+          return KsvmInventarioModelo :: __KsvmEditarDetalleInventarioModelo($KsvmCodigo);
+      }
+
+      /**
+       * Función que permite editar una Detalle de Inventario 
+       */
+      public function  __KsvmEditarDataInventarioControlador($KsvmCodInventario)
+      {
+          $KsvmCodigo = KsvmEstMaestra :: __KsvmDesencriptacion($KsvmCodInventario);
+
+          return KsvmInventarioModelo :: __KsvmCargarDataModelo($KsvmCodigo);
+      }
       
       /**
        * Función que permite contar un Inventario 
@@ -383,16 +403,12 @@
       public function __KsvmActualizarInventarioControlador()
       {
         $KsvmCodInventario = KsvmEstMaestra :: __KsvmDesencriptacion($_POST['KsvmCodEdit']);
-        $KsvmExtId = KsvmEstMaestra :: __KsvmFiltrarCadena($_POST['KsvmExtId']);
-        $KsvmStockInv = KsvmEstMaestra :: __KsvmFiltrarCadena($_POST['KsvmStockInv']);
-        $KsvmContFisInv = KsvmEstMaestra :: __KsvmFiltrarCadena($_POST['KsvmContFisInv']);
+        $KsvmHoraInv = KsvmEstMaestra :: __KsvmFiltrarCadena($_POST['KsvmHoraInv']);
         $KsvmDuracionInv = KsvmEstMaestra :: __KsvmFiltrarCadena($_POST['KsvmDuracionInv']);
         $KsvmEstInv = KsvmEstMaestra :: __KsvmFiltrarCadena($_POST['KsvmEstInv']);
 
         $KsvmActualInv = [
-            "KsvmExtId" => $KsvmExtId,
-            "KsvmStockInv" => $KsvmStockInv,
-            "KsvmContFisInv" => $KsvmContFisInv,
+            "KsvmHoraInv" => $KsvmHoraInv,
             "KsvmDuracionInv" => $KsvmDuracionInv,
             "KsvmEstInv" => $KsvmEstInv,
             "KsvmCodInventario" => $KsvmCodInventario
@@ -404,6 +420,48 @@
                     "Alerta" => "Actualiza",
                     "Titulo" => "Grandioso",
                     "Cuerpo" => "El Inventario se actualizó satisfactoriamente",
+                    "Tipo" => "success"
+                    ];
+                } else {
+                    $KsvmAlerta = [
+                    "Alerta" => "simple",
+                    "Titulo" => "Error inesperado",
+                    "Cuerpo" => "No se a podido actualizar la información del Inventario",
+                    "Tipo" => "info"
+                    ];
+                }
+                return KsvmEstMaestra :: __KsvmMostrarAlertas($KsvmAlerta);
+         
+        }
+
+      /**
+       * Función que permite actualizar un detalle de Inventario 
+       */
+      public function __KsvmActualizarDetalleInventarioControlador()
+      {
+        $KsvmCodInventario = KsvmEstMaestra :: __KsvmDesencriptacion($_POST['KsvmCodEdit']);
+        $KsvmExtId = KsvmEstMaestra :: __KsvmFiltrarCadena($_POST['KsvmExtId']);
+        $KsvmStockInv = KsvmEstMaestra :: __KsvmFiltrarCadena($_POST['KsvmStockInv']);
+        $KsvmContFisInv = KsvmEstMaestra :: __KsvmFiltrarCadena($_POST['KsvmContFisInv']);
+        $KsvmObservInv = KsvmEstMaestra :: __KsvmFiltrarCadena($_POST['KsvmObservInv']);
+
+        $KsvmDifInv = $KsvmStockInv-$KsvmContFisInv;
+
+        $KsvmActualDetInv = [
+            "KsvmExtId" => $KsvmExtId,
+            "KsvmStockInv" => $KsvmStockInv,
+            "KsvmContFisInv" => $KsvmContFisInv,
+            "KsvmDifInv" => $KsvmDifInv,
+            "KsvmObservInv" => $KsvmObservInv,
+            "KsvmCodInventario" => $KsvmCodInventario
+            ];
+
+            $KsvmGuardarDetInv = KsvmInventarioModelo :: __KsvmActualizarDetalleInventarioModelo($KsvmActualDetInv);
+                if ($KsvmGuardarDetInv->rowCount() >= 1) {
+                    $KsvmAlerta = [
+                    "Alerta" => "Actualiza",
+                    "Titulo" => "Grandioso",
+                    "Cuerpo" => "El detalle del Inventario se actualizó satisfactoriamente",
                     "Tipo" => "success"
                     ];
                 } else {

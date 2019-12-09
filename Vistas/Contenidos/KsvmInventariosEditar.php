@@ -63,7 +63,7 @@
             <br>
              <div class="full-width panel mdl-shadow--8dp">
                  <div class="full-width  modal-header-edit text-center ">
-                     Editar Usuario
+                     Editar Inventario
                  </div>
                  <div class="full-width panel-content">
                  <form data-form="modificar" action="<?php echo KsvmServUrl; ?>Ajax/KsvmInventarioAjax.php"
@@ -83,25 +83,12 @@
                                                     ?>
                                      </select>
                                     </div>
-									<div class="mdl-textfield mdl-js-textfield">
-									<select class="mdl-textfield__input" name="KsvmExtId" id="KsvmExtId">
-                                         <option value="<?php echo $KsvmLlenarForm['ExtId'];?>" selected="">
-                                             <?php echo $KsvmLlenarForm['MdcDescMed'].' '.$KsvmLlenarForm['ExtLoteEx'];?></option>
-                                     </select>
-                                    </div>
-									<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label" id="KsvmStockInv">
-										<input class="mdl-textfield__input" type="text" name="KsvmStockInv"
-											value="<?php echo $KsvmLlenarForm['IvtStockInv'];?>"
-											pattern="-?[0-9]*(\.[0-9]+)?" id="KsvmStockInv">
-										<label class="mdl-textfield__label" for="KsvmStockInv">Stock</label>
-										<span class="mdl-textfield__error">Stock Inválido</span>
-									</div>
-									<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-										<input class="mdl-textfield__input" type="text" name="KsvmContFisInv"
-											value="<?php echo $KsvmLlenarForm['IvtContFisInv'];?>"
-											pattern="-?[0-9]*(\.[0-9]+)?" id="KsvmContFisInv">
-										<label class="mdl-textfield__label" for="KsvmContFisInv">Conteo Físico</label>
-										<span class="mdl-textfield__error">Conteo Inválido</span>
+									<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label" id="KsvmHoraInv">
+										<input class="mdl-textfield__input" type="text" name="KsvmHoraInv"
+											value="<?php echo $KsvmLlenarForm['IvtHoraInv'];?>"
+											 id="KsvmHoraInv">
+										<label class="mdl-textfield__label" for="KsvmHoraInv">Hora</label>
+										<span class="mdl-textfield__error">Hora Inválido</span>
 									</div>
                                     <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
 										<input class="mdl-textfield__input" type="time" name="KsvmDuracionInv"

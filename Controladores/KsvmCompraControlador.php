@@ -419,26 +419,28 @@
       public function __KsvmActualizarCompraControlador()
       {
         $KsvmCodCompra = KsvmEstMaestra :: __KsvmDesencriptacion($_POST['KsvmCodEdit']);
-        $KsvmUmdId = KsvmEstMaestra :: __KsvmFiltrarCadena($_POST['KsvmUmdId']);
-        $KsvmMdcId = KsvmEstMaestra :: __KsvmFiltrarCadena($_POST['KsvmMdcId']);
         $KsvmPvdId = KsvmEstMaestra :: __KsvmFiltrarCadena($_POST['KsvmPvdId']);
-        $KsvmCantOcp = KsvmEstMaestra :: __KsvmFiltrarCadena($_POST['KsvmCantOcp']);
-        $KsvmValorUntOcp = KsvmEstMaestra :: __KsvmFiltrarCadena($_POST['KsvmValorUntOcp']);
         $KsvmFchPagoOcp = KsvmEstMaestra :: __KsvmFiltrarCadena($_POST['KsvmFchPagoOcp']);
         $KsvmNumFactOcp = KsvmEstMaestra :: __KsvmFiltrarCadena($_POST['KsvmNumFactOcp']);
         $KsvmPerAprbOcp = KsvmEstMaestra :: __KsvmFiltrarCadena($_POST['KsvmPerAprbOcp']);
-        $KsvmObservOcp = KsvmEstMaestra :: __KsvmFiltrarCadena($_POST['KsvmObservOcp']);
+        $KsvmEstOcp = KsvmEstMaestra :: __KsvmFiltrarCadena($_POST['KsvmEstOcp']);
 
-        $KsvmActualCompra = [
+        session_start(['name' => 'SIGIM']);
+        $KsvmRol = $_SESSION['KsvmRolId-SIGIM'];
+        $KsvmSelectUdMedica = "SELECT * FROM ksvmseleccionaunidadmedica WHERE RrlId = '$KsvmRol'";
+
+        $KsvmConsulta = KsvmEstMaestra :: __KsvmConexion();
+        $KsvmQuery = $KsvmConsulta->query($KsvmSelectUdMedica);
+        $KsvmUniMed = $KsvmQuery->fetch();
+        $KsvmUmdId = $KsvmUniMed['UmdId'];
+
+        $KsvmActualCompra = [                       
             "KsvmUmdId" => $KsvmUmdId,
-            "KsvmMdcId" => $KsvmMdcId,
             "KsvmPvdId" => $KsvmPvdId,
-            "KsvmCantOcp" => $KsvmCantOcp,
-            "KsvmValorUntOcp" => $KsvmValorUntOcp,
             "KsvmFchPagoOcp" => $KsvmFchPagoOcp,
             "KsvmNumFactOcp" => $KsvmNumFactOcp,
             "KsvmPerAprbOcp" => $KsvmPerAprbOcp,
-            "KsvmObservOcp" => $KsvmObservOcp,
+            "KsvmEstOcp" => $KsvmEstOcp,
             "KsvmCodCompra" => $KsvmCodCompra
             ];
 
@@ -448,6 +450,48 @@
                     "Alerta" => "Actualiza",
                     "Titulo" => "Grandioso",
                     "Cuerpo" => "La Compra se actualizó satisfactoriamente",
+                    "Tipo" => "success"
+                    ];
+                } else {
+                    $KsvmAlerta = [
+                    "Alerta" => "simple",
+                    "Titulo" => "Error inesperado",
+                    "Cuerpo" => "No se a podido actualizar la información de la Compra",
+                    "Tipo" => "info"
+                    ];
+                }
+                return KsvmEstMaestra :: __KsvmMostrarAlertas($KsvmAlerta);
+         
+        }
+
+              /**
+       * Función que permite actualizar un detalle de Compra 
+       */
+      public function __KsvmActualizarDetalleCompraControlador()
+      {
+        $KsvmCodCompra = KsvmEstMaestra :: __KsvmDesencriptacion($_POST['KsvmCodEdit']);
+        $KsvmMdcId = KsvmEstMaestra :: __KsvmFiltrarCadena($_POST['KsvmMdcId']);
+        $KsvmCantOcp = KsvmEstMaestra :: __KsvmFiltrarCadena($_POST['KsvmCantOcp']);
+        $KsvmValorUntOcp = KsvmEstMaestra :: __KsvmFiltrarCadena($_POST['KsvmValorUntOcp']);
+        $KsvmObservOcp = KsvmEstMaestra :: __KsvmFiltrarCadena($_POST['KsvmObservOcp']);
+
+        $KsvmValorTotOcp = $KsvmCantOcp*$KsvmValorUntOcp;
+
+        $KsvmActualDetCompra = [                       
+            "KsvmMdcId" => $KsvmMdcId,
+            "KsvmCantOcp" => $KsvmCantOcp,
+            "KsvmValorUntOcp" => $KsvmValorUntOcp,
+            "KsvmValorTotOcp" => $KsvmValorTotOcp,
+            "KsvmObservOcp" => $KsvmObservOcp,
+            "KsvmCodCompra" => $KsvmCodCompra
+            ];
+
+            $KsvmGuardarDetCompra = KsvmCompraModelo :: __KsvmActualizarDetalleCompraModelo($KsvmActualDetCompra);
+                if ($KsvmGuardarDetCompra->rowCount() >= 1) {
+                    $KsvmAlerta = [
+                    "Alerta" => "Actualiza",
+                    "Titulo" => "Grandioso",
+                    "Cuerpo" => "El detalle de Compra se actualizó satisfactoriamente",
                     "Tipo" => "success"
                     ];
                 } else {

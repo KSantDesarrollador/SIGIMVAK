@@ -157,18 +157,24 @@
         if ($KsvmTotalReg >= 1 && $KsvmPagina <= $KsvmNPaginas) {
             $KsvmContReg = $KsvmDesde +1;
             foreach ($KsvmQuery as $rows) {
+                $KsvmBodega = $rows['RqcOrigenReq'];
+                $KsvmSelectBodega = "SELECT * FROM ksvmseleccionabodega WHERE BdgId = '$KsvmBodega'";
+                $KsvmConsulta = KsvmEstMaestra :: __KsvmConexion();
+                $KsvmQuery = $KsvmConsulta->query($KsvmSelectBodega);
+                $KsvmQuery = $KsvmQuery->fetch();
+                $KsvmBodDest = $KsvmQuery['BdgDescBod'];
                 $KsvmTabla .= '<tr>
                                 <td class="mdl-data-table__cell--non-numeric">'.$KsvmContReg.'</td>
                                 <td class="mdl-data-table__cell--non-numeric">'.$rows['RqcNumReq'].'</td>
                                 <td class="mdl-data-table__cell--non-numeric">'.$rows['RqcFchElabReq'].'</td>
                                 <td class="mdl-data-table__cell--non-numeric">'.$rows['RqcPerElabReq'].'</td>
-                                <td class="mdl-data-table__cell--non-numeric">'.$rows['RqcOrigenReq'].'</td>
+                                <td class="mdl-data-table__cell--non-numeric">'.$KsvmBodDest.'</td>
                                 <td style="text-align:right; witdh:30px;">';
                                 if ($KsvmRol == 1) {
                                     if ($KsvmCodigo == 0) {
 
                                     $KsvmTabla .= '<form action="'.KsvmServUrl.'Ajax/KsvmRequisicionAjax.php" method="POST" class="FormularioAjax" data-form="eliminar" enctype="multipart/form-data"> 
-                                                   <a id="btn-detail" class="btn btn-sm btn-info" href="'.KsvmServUrl.'KsvmRequisicionesCrud/Detail/'.KsvmEstMaestra::__KsvmEncriptacion($rows['RqcId']).'"><i class="zmdi zmdi-card"></i></a>
+                                                   <a id="btn-detail" class="btn btn-sm btn-info" href="'.KsvmServUrl.'KsvmRequisicionesCrud/Detail/'.KsvmEstMaestra::__KsvmEncriptacion($rows['RqcId']).'/"><i class="zmdi zmdi-card"></i></a>
                                                    <div class="mdl-tooltip" for="btn-detail">Detalles</div>
                                                    <a id="btn-edit" class="btn btn-sm btn-primary" href="'.KsvmServUrl.'KsvmRequisicionesEditar/'.KsvmEstMaestra::__KsvmEncriptacion($rows['RqcId']).'/0/"><i class="zmdi zmdi-edit"></i></a>
                                                    <div class="mdl-tooltip" for="btn-edit">Editar</div>
@@ -179,7 +185,7 @@
                                                    </form>';
                                     } else {
                                     $KsvmTabla .= '<form action="'.KsvmServUrl.'Ajax/KsvmRequisicionAjax.php" method="POST" class="FormularioAjax" data-form="eliminar" enctype="multipart/form-data"> 
-                                                    <a id="btn-detail" class="btn btn-sm btn-info" href="'.KsvmServUrl.'KsvmRequisiciones/Detail/'.KsvmEstMaestra::__KsvmEncriptacion($rows['RqcId']).'"><i class="zmdi zmdi-card"></i></a>
+                                                    <a id="btn-detail" class="btn btn-sm btn-info" href="'.KsvmServUrl.'KsvmRequisiciones/Detail/'.KsvmEstMaestra::__KsvmEncriptacion($rows['RqcId']).'/"><i class="zmdi zmdi-card"></i></a>
                                                     <div class="mdl-tooltip" for="btn-detail">Detalles</div>
                                                     <a id="btn-edit" class="btn btn-sm btn-primary" href="'.KsvmServUrl.'KsvmRequisicionesEditar/'.KsvmEstMaestra::__KsvmEncriptacion($rows['RqcId']).'/1/"><i class="zmdi zmdi-edit"></i></a>
                                                     <div class="mdl-tooltip" for="btn-edit">Editar</div>
@@ -191,12 +197,12 @@
                                     }
                                     
                                 }elseif ($KsvmRol == 2 || $KsvmRol == 3){
-                                    $KsvmTabla .= '<a id="btn-detail" class="btn btn-sm btn-info" href="'.KsvmServUrl.'KsvmRequisiciones/Detail/'.KsvmEstMaestra::__KsvmEncriptacion($rows['RqcId']).'"><i class="zmdi zmdi-card"></i></a>
+                                    $KsvmTabla .= '<a id="btn-detail" class="btn btn-sm btn-info" href="'.KsvmServUrl.'KsvmRequisiciones/Detail/'.KsvmEstMaestra::__KsvmEncriptacion($rows['RqcId']).'/"><i class="zmdi zmdi-card"></i></a>
                                                     <div class="mdl-tooltip" for="btn-detail">Detalles</div>
                                                     <a id="btn-edit" class="btn btn-sm btn-primary" href="'.KsvmServUrl.'KsvmRequisicionesEditar/'.KsvmEstMaestra::__KsvmEncriptacion($rows['RqcId']).'/1/"><i class="zmdi zmdi-edit"></i></a>
                                                     <div class="mdl-tooltip" for="btn-edit">Editar</div>';
                                 }else{
-                                    $KsvmTabla .= '<a id="btn-detail" class="btn btn-sm btn-info" href="'.KsvmServUrl.'KsvmRequisiciones/Detail/'.KsvmEstMaestra::__KsvmEncriptacion($rows['RqcId']).'"><i class="zmdi zmdi-card"></i></a>
+                                    $KsvmTabla .= '<a id="btn-detail" class="btn btn-sm btn-info" href="'.KsvmServUrl.'KsvmRequisiciones/Detail/'.KsvmEstMaestra::__KsvmEncriptacion($rows['RqcId']).'/"><i class="zmdi zmdi-card"></i></a>
                                                     <div class="mdl-tooltip" for="btn-detail">Detalles</div>';
                                 }
 
@@ -362,6 +368,26 @@
 
           return KsvmRequisicionModelo :: __KsvmEditarRequisicionModelo($KsvmCodigo);
       }
+
+            /**
+       * Función que permite editar una Detalle de Requisicion 
+       */
+      public function  __KsvmEditarDetalleRequisicionControlador($KsvmCodRequisicion)
+      {
+          $KsvmCodigo = KsvmEstMaestra :: __KsvmDesencriptacion($KsvmCodRequisicion);
+
+          return KsvmRequisicionModelo :: __KsvmEditarDetalleRequisicionModelo($KsvmCodigo);
+      }
+
+      /**
+       * Función que permite editar una Detalle de Requisicion 
+       */
+      public function  __KsvmEditarDataRequisicionControlador($KsvmCodRequisicion)
+      {
+          $KsvmCodigo = KsvmEstMaestra :: __KsvmDesencriptacion($KsvmCodRequisicion);
+
+          return KsvmRequisicionModelo :: __KsvmCargarDataModelo($KsvmCodigo);
+      }
       
       /**
        * Función que permite contar un Pedido 
@@ -377,29 +403,60 @@
       public function __KsvmActualizarRequisicionControlador()
       {
         $KsvmCodRequisicion = KsvmEstMaestra :: __KsvmDesencriptacion($_POST['KsvmCodEdit']);
-        $KsvmIvtId = KsvmEstMaestra :: __KsvmFiltrarCadena($_POST['KsvmIvtId']);
-        $KsvmCantReq = KsvmEstMaestra :: __KsvmFiltrarCadena($_POST['KsvmCantReq']);
-        $KsvmStockSegReq = KsvmEstMaestra :: __KsvmFiltrarCadena($_POST['KsvmStockSegReq']);
-        $KsvmNomMedReq = KsvmEstMaestra :: __KsvmFiltrarCadena($_POST['KsvmNomMedReq']);
         $KsvmOrigenReq = KsvmEstMaestra :: __KsvmFiltrarCadena($_POST['KsvmOrigenReq']);
         $KsvmFchRevReq = KsvmEstMaestra :: __KsvmFiltrarCadena($_POST['KsvmFchRevReq']);
         $KsvmPerAprbReq = KsvmEstMaestra :: __KsvmFiltrarCadena($_POST['KsvmPerAprbReq']);
-        $KsvmObservReq = KsvmEstMaestra :: __KsvmFiltrarCadena($_POST['KsvmObservReq']);
+        $KsvmEstReq = KsvmEstMaestra :: __KsvmFiltrarCadena($_POST['KsvmEstReq']);
 
         $KsvmActualReq = [
-            "KsvmIvtId" => $KsvmIvtId,
-            "KsvmCantReq" => $KsvmCantReq,
-            "KsvmStockSegReq" => $KsvmStockSegReq,
-            "KsvmNomMedReq" => $KsvmNomMedReq,
             "KsvmOrigenReq" => $KsvmOrigenReq,
             "KsvmFchRevReq" => $KsvmFchRevReq,
             "KsvmPerAprbReq" => $KsvmPerAprbReq,
-            "KsvmObservReq" => $KsvmObservReq,
+            "KsvmEstReq" => $KsvmEstReq,
             "KsvmCodRequisicion" => $KsvmCodRequisicion
             ];
 
             $KsvmGuardarReq = KsvmRequisicionModelo :: __KsvmActualizarRequisicionModelo($KsvmActualReq);
                 if ($KsvmGuardarReq->rowCount() >= 1) {
+                    $KsvmAlerta = [
+                    "Alerta" => "Actualiza",
+                    "Titulo" => "Grandioso",
+                    "Cuerpo" => "El Pedido se actualizó satisfactoriamente",
+                    "Tipo" => "success"
+                    ];
+                } else {
+                    $KsvmAlerta = [
+                    "Alerta" => "simple",
+                    "Titulo" => "Error inesperado",
+                    "Cuerpo" => "No se a podido actualizar la información del Pedido",
+                    "Tipo" => "info"
+                    ];
+                }
+                return KsvmEstMaestra :: __KsvmMostrarAlertas($KsvmAlerta);
+         
+        }
+
+      /**
+       * Función que permite actualizar un Pedido 
+       */
+      public function __KsvmActualizarDetalleRequisicionControlador()
+      {
+        $KsvmCodRequisicion = KsvmEstMaestra :: __KsvmDesencriptacion($_POST['KsvmCodEdit']);
+        $KsvmExtId = KsvmEstMaestra :: __KsvmFiltrarCadena($_POST['KsvmExtId']);
+        $KsvmCantReq = KsvmEstMaestra :: __KsvmFiltrarCadena($_POST['KsvmCantReq']);
+        $KsvmStockReq = KsvmEstMaestra :: __KsvmFiltrarCadena($_POST['KsvmStockReq']);
+        $KsvmObservReq = KsvmEstMaestra :: __KsvmFiltrarCadena($_POST['KsvmObservReq']);
+
+        $KsvmActualDetReq = [
+            "KsvmExtId" => $KsvmExtId,
+            "KsvmCantReq" => $KsvmCantReq,
+            "KsvmStockReq" => $KsvmStockReq,
+            "KsvmObservReq" => $KsvmObservReq,
+            "KsvmCodRequisicion" => $KsvmCodRequisicion
+            ];
+
+            $KsvmGuardarDetReq = KsvmRequisicionModelo :: __KsvmActualizarDetalleRequisicionModelo($KsvmActualDetReq);
+                if ($KsvmGuardarDetReq->rowCount() >= 1) {
                     $KsvmAlerta = [
                     "Alerta" => "Actualiza",
                     "Titulo" => "Grandioso",
@@ -475,6 +532,15 @@
             }
 
             return $KsvmListar;
+        }
+
+        public function __KsvmSeleccionBodega($KsvmBodega){
+            $KsvmSelectBodega = "SELECT * FROM ksvmseleccionabodega WHERE BdgId = '$KsvmBodega'";
+
+            $KsvmConsulta = KsvmEstMaestra :: __KsvmConexion();
+            $KsvmQuery = $KsvmConsulta->query($KsvmSelectBodega);
+            $KsvmQuery = $KsvmQuery->fetch();
+            return $KsvmQuery;
         }
     
 }
