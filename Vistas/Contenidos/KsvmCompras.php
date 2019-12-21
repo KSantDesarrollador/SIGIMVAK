@@ -29,11 +29,7 @@
 				<!-- Formulario para ingresar un nuevo Inventario -->
 				<div
 					class="mdl-cell mdl-cell--4-col-phone mdl-cell--8-col-tablet mdl-cell--13-col-desktop mdl-cell--0-offset-desktop">
-					<!-- <div class="" style="float:right;">
-							<a href="<?php echo KsvmServUrl;?>KsvmInventariosCrud/1/" id="btn-input"
-								class="btn btn-sm btn-dark mdl-shadow--8dp btn-salir">VER LISTA &nbsp;<i
-									class="zmdi zmdi-arrow-right"></i></a>
-						</div> -->
+					<br>
 					<div class="full-width panel mdl-shadow--8dp">
 						<div class="full-width modal-header-input text-center">
 							Nueva Compra
@@ -46,8 +42,7 @@
 									<div
 										class="mdl-cell mdl-cell--4-col-phone mdl-cell--8-col-tablet mdl-cell--6-col-desktop">
 										<div class="mdl-textfield mdl-js-textfield">
-											<select class="mdl-textfield__input" name="KsvmPvdId" id="KsvmPvdId"
-												required>
+											<select class="mdl-textfield__input" name="KsvmPvdId" id="KsvmPvdId" required>
 												<option value="" disabled="" selected="">Seleccione Proveedor</option>
 												<?php require_once "./Controladores/KsvmProveedorControlador.php";
 													$KsvmSelProv = new KsvmProveedorControlador();
@@ -92,30 +87,32 @@
 									<div
 										class="mdl-cell mdl-cell--4-col-phone mdl-cell--8-col-tablet mdl-cell--6-col-desktop">
 										<div class="mdl-textfield mdl-js-textfield">
-											<select class="mdl-textfield__input" name="KsvmMdcId" required>
-												<option value="" disabled="" selected="">Seleccione Medicamento</option>
+											<select class="mdl-textfield__input" name="KsvmMdcId" id="KsvmDato1">
+												<option value="" selected="">Seleccione Medicamento</option>
 												<?php require_once "./Controladores/KsvmMedicamentoControlador.php";
 													$KsvmSelMed = new KsvmMedicamentoControlador();
 													echo $KsvmSelMed->__KsvmSeleccionarMedicamento();
 													?>
 											</select>
+											<span id="KsvmError1" class="ValForm"><i class="zmdi zmdi-alert-triangle">&nbsp;Por favor llene este campo</i></span>
 										</div>
 										<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
 											<input class="mdl-textfield__input" type="text" name="KsvmValorUntOcp"
-												pattern="-?[0-9]*(\[0-9]+)?" id="KsvmDato1" required>
-											<label class="mdl-textfield__label" for="KsvmDato1">Valor
+												pattern="-?[0-9]*(\[0-9]+)?" id="KsvmDato2">
+											<label class="mdl-textfield__label" for="KsvmDato2">Valor
 												Unitario</label>
-											<!-- <span class="mdl-textfield__error">Valor Inválido</span> -->
+											<span class="mdl-textfield__error">Valor Inválido</span>
+											<span id="KsvmError2" class="ValForm"><i class="zmdi zmdi-alert-triangle">&nbsp;Por favor llene este campo</i></span>
 										</div>
 									</div>
 									<div
 										class="mdl-cell mdl-cell--4-col-phone mdl-cell--8-col-tablet mdl-cell--6-col-desktop">
 										<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
 											<input class="mdl-textfield__input" type="number" max="1000" min="1"
-												name="KsvmCantOcp" pattern="-?[0-9+()- ]*(\.[0-9]+)?" id="KsvmDato1"
-												required>
-											<label class="mdl-textfield__label" for="KsvmDato1">Cantidad</label>
-											<!-- <span class="mdl-textfield__error">Cantidad Inválido</span> -->
+												name="KsvmCantOcp" pattern="-?[0-9+()- ]*(\.[0-9]+)?" id="KsvmDato3">
+											<label class="mdl-textfield__label" for="KsvmDato3">Cantidad</label>
+											<span class="mdl-textfield__error">Cantidad Inválido</span>
+											<span id="KsvmError3" class="ValForm"><i class="zmdi zmdi-alert-triangle">&nbsp;Por favor llene este campo</i></span>
 										</div>
 										<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
 											<input class="mdl-textfield__input" type="text" name="KsvmObservOcp"
@@ -127,7 +124,7 @@
 										<p class="text-center">
 											<button type="submit" style="width:49%; float:left;"
 												class="mdl-button mdl-js-button mdl-js-ripple-effect btn-success mdl-shadow--4dp"
-												id="btnAgregar">
+												id="btnSave">
 												<i class="zmdi zmdi-plus" style="font-size:20px;"></i>&nbsp;Agregar
 											</button>
 
@@ -138,7 +135,7 @@
 												&nbsp;Guardar
 											</button>
 										</p>
-										<div class="mdl-tooltip" for="btnAgregar">Agregar</div>
+										<div class="mdl-tooltip" for="btnSave">Agregar</div>
 										<div class="mdl-tooltip" for="btnGuardar">Guardar</div>
 									</div>
 								</div>
@@ -174,7 +171,9 @@
 									<label class="mdl-textfield__label"></label>
 								</div>
 								<div class="mdl-textfield--expandable navBar-options-list">
-									<a class="btn btn-sm btn-success mdl-shadow--8dp mdl-tabs__tab">PDF</a>&nbsp;
+									<a class="btn btn-sm btn-success mdl-shadow--8dp"
+										href="<?php echo KsvmServUrl;?>Reportes/KsvmComprasPdf.php" target="_blank"><i
+											class="zmdi zmdi-file">&nbsp;PDF</i></a>
 								</div>
 							</div>
 							<div class="RespuestaAjax"></div>
@@ -191,12 +190,12 @@
 						$_SESSION['KsvmBuscarComp'] = $_POST['KsvmBuscarComp'];
                         $KsvmPagina = explode("/", $_GET['Vistas']);
 						echo $KsvmIniComp -> __KsvmPaginador($KsvmPagina[1], KsvmNumPag, $_SESSION['KsvmRolId-SIGIM'], 
-						1, $_SESSION['KsvmBuscarComp']);
+						1, $_SESSION['KsvmBuscarComp'], "");
 					}else{
 
 						$KsvmPagina = explode("/", $_GET['Vistas']);
 						echo $KsvmIniComp -> __KsvmPaginador($KsvmPagina[1], KsvmNumPag, $_SESSION['KsvmRolId-SIGIM'], 
-						1, "");
+						1, "", "");
 				       }
 				?>
 

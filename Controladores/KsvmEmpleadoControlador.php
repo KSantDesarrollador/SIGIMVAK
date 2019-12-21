@@ -39,7 +39,7 @@
          $KsvmEstCiv = KsvmEstMaestra :: __KsvmFiltrarCadena($_POST['KsvmEstCiv']);
          $KsvmSexo = KsvmEstMaestra :: __KsvmFiltrarCadena($_POST['KsvmSexo']);
          $KsvmGenero = KsvmEstMaestra :: __KsvmFiltrarCadena($_POST['KsvmGenero']);
-         $KsvmFotoEmp = addslashes(file_get_contents($_FILES['KsvmFotoEmp']['tmp_name']));
+         $KsvmFotoEmp = file_get_contents($_FILES['KsvmFotoEmp']['tmp_name']);
 
          $KsvmEmaEm = "";
 
@@ -126,10 +126,10 @@
 
         if (isset($KsvmBuscar) && $KsvmBuscar != "") {
             $KsvmDataEmp = "SELECT SQL_CALC_FOUND_ROWS * FROM ksvmvistaempleado WHERE ((RrlId != '$KsvmRol') AND (EpoPriApeEmp LIKE '%$KsvmBuscar%' 
-                          OR EpoPriNomEmp LIKE '%$KsvmBuscar%' OR EpoIdentEmp LIKE '%$KsvmBuscar%'OR CrgNomCar LIKE '%$KsvmBuscar%')) 
+                          OR EpoPriNomEmp LIKE '%$KsvmBuscar%' OR EpoIdentEmp LIKE '%$KsvmBuscar%'OR CrgNomCar LIKE '%$KsvmBuscar%')) AND RrlNomRol != 'Administrador'
                           LIMIT $KsvmDesde, $KsvmNRegistros";
         } else {
-            $KsvmDataEmp = "SELECT SQL_CALC_FOUND_ROWS * FROM ksvmvistaempleado WHERE RrlId != '$KsvmRol' LIMIT $KsvmDesde, $KsvmNRegistros" ;
+            $KsvmDataEmp = "SELECT SQL_CALC_FOUND_ROWS * FROM ksvmvistaempleado WHERE RrlId != '$KsvmRol' AND RrlNomRol != 'Administrador' LIMIT $KsvmDesde, $KsvmNRegistros" ;
         }
         
 
@@ -147,6 +147,7 @@
                         <thead>
                             <tr>
                                 <th class="mdl-data-table__cell--non-numeric">#</th>
+                                <th class="mdl-data-table__cell--non-numeric">Foto</th>
                                 <th class="mdl-data-table__cell--non-numeric">Dni</th>
                                 <th class="mdl-data-table__cell--non-numeric">Nombres</th>
                                 <th class="mdl-data-table__cell--non-numeric">Telf</th>
@@ -162,6 +163,7 @@
             foreach ($KsvmQuery as $rows) {
                 $KsvmTabla .= '<tr>
                                 <td class="mdl-data-table__cell--non-numeric">'.$KsvmContReg.'</td>
+                                <td class="mdl-data-table__cell--non-numeric"><img style="border-radius:30px;" height="35px" width="35px" src="data:image/jpg;base64,'. base64_encode($rows['EpoFotoEmp']).'"/></td>
                                 <td class="mdl-data-table__cell--non-numeric">'.$rows['EpoIdentEmp'].'</td>
                                 <td class="mdl-data-table__cell--non-numeric">'.$rows['EpoPriApeEmp']." ".$rows['EpoSegApeEmp']." ".$rows['EpoPriNomEmp']." ".$rows['EpoSegNomEmp'].'</td>
                                 <td class="mdl-data-table__cell--non-numeric">'.$rows['EpoTelfEmp'].'</td>
@@ -267,7 +269,7 @@
              
                 $KsvmTabla .= '</nav></div>';     
 
-            } else {
+            } elseif ($KsvmTotalReg >= 1 && $KsvmPagina <= $KsvmNPaginas && $KsvmCodigo == 1) {
                 $KsvmTabla .= '<nav class="navbar-form navbar-right form-group">';
                 
                 if ($KsvmPagina == 1) {
@@ -352,6 +354,14 @@
       }
 
       /**
+       * Función que permite imprimir un Empleado 
+       */
+      public function __KsvmImprimirEmpleadoControlador()
+      {
+        return KsvmEmpleadoModelo :: __KsvmImprimirEmpleadoModelo();
+      }
+
+      /**
        * Función que permite actualizar un empleado 
        */
       public function __KsvmActualizarEmpleadoControlador()
@@ -381,7 +391,7 @@
         $KsvmEstCiv = KsvmEstMaestra :: __KsvmFiltrarCadena($_POST['KsvmEstCiv']);
         $KsvmSexo = KsvmEstMaestra :: __KsvmFiltrarCadena($_POST['KsvmSexo']);
         $KsvmGenero = KsvmEstMaestra :: __KsvmFiltrarCadena($_POST['KsvmGenero']);
-        $KsvmFotoEmp = addslashes(file_get_contents($_FILES['KsvmFotoEmp']['tmp_name']));
+        $KsvmFotoEmp = file_get_contents($_FILES['KsvmFotoEmp']['tmp_name']);
 
         $KsvmConsulta = "SELECT * FROM ksvmvistaempleado WHERE EpoId = '$KsvmCode'";
         $KsvmQuery = KsvmEstMaestra :: __KsvmEjecutaConsulta($KsvmConsulta);

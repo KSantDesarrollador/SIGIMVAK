@@ -258,6 +258,14 @@
       }
 
       /**
+       * Función que permite imprimir una Rol 
+       */
+      public function __KsvmImprimirRolControlador()
+      {
+        return KsvmRolModelo :: __KsvmImprimirRolModelo();
+      }
+
+      /**
        * Función que permite actualizar un Rol 
        */
       public function __KsvmActualizarRolControlador()

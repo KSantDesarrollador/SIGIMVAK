@@ -70,7 +70,7 @@
                          <div class="mdl-grid">
                              <div class="mdl-cell mdl-cell--4-col-phone mdl-cell--8-col-tablet mdl-cell--12-col-desktop">
                                  <div class="mdl-textfield mdl-js-textfield">
-                                 <select class="mdl-textfield__input" name="KsvmUmdId">
+                                 <select class="mdl-textfield__input" name="KsvmUmdId" id="KsvmDato1">
                                          <option value="<?php echo $KsvmLlenarForm['UmdId'];?>" selected="">
                                              <?php echo $KsvmLlenarForm['UmdNomUdm'];?></option>
                                              <?php require_once "./Controladores/KsvmUnidadMedicaControlador.php";
@@ -78,13 +78,15 @@
 											   echo $KsvmSelUndMed->__KsvmSeleccionarUndMedica();
 										     ?>
                                      </select>
+                                     <span id="KsvmError1" class="ValForm"><i class="zmdi zmdi-alert-triangle">&nbsp;Por favor llene este campo</i></span>
                                  </div>
                                  <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
                                      <input class="mdl-textfield__input" type="text" name="KsvmNomCar"
                                          value="<?php echo $KsvmLlenarForm['CrgNomCar'];?>"
-                                         pattern="-?[A-Za-z0-9áéíóúÁÉÍÓÚ ]*(\.[0-9]+)?" id="KsvmNomCar">
-                                     <label class="mdl-textfield__label" for="KsvmNomCar">Nombre</label>
+                                         pattern="-?[A-Za-z0-9áéíóúÁÉÍÓÚ ]*(\.[0-9]+)?" id="KsvmDato2">
+                                     <label class="mdl-textfield__label" for="KsvmDato2">Nombre</label>
                                      <span class="mdl-textfield__error">Nombre Inválido</span>
+                                     <span id="KsvmError2" class="ValForm"><i class="zmdi zmdi-alert-triangle">&nbsp;Por favor llene este campo</i></span>
                                  </div>
                              </div>
                          </div>
@@ -92,11 +94,11 @@
                          <p class="text-center">
                              <button type="submit"
                                  class="mdl-button mdl-js-button mdl-js-ripple-effect btn-primary mdl-shadow--4dp"
-                                 id="btn-ActualizarCargo">
+                                 id="btnSave">
                                  <i class="zmdi zmdi-save">&nbsp;Guardar</i>
                              </button>
                          </p>
-                         <div class="mdl-tooltip" for="btn-ActualizarCargo">Actualizar Cargo</div>
+                         <div class="mdl-tooltip" for="btnSave">Actualizar Cargo</div>
                          <div class="RespuestaAjax"></div>
                      </form>
                  </div>

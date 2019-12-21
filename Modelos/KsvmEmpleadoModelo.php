@@ -74,6 +74,15 @@
           $KsvmQuery->execute();
           return $KsvmQuery;
       }
+     /**
+      *Función que permite imprimir una Empleado
+      */
+      protected function __KsvmImprimirEmpleadoModelo()
+      {
+          $KsvmImprimirEmpleado = "SELECT * FROM ksvmvistaempleado";
+          $KsvmQuery = KsvmEstMaestra :: __KsvmConexion()->query($KsvmImprimirEmpleado);
+          return $KsvmQuery;
+      }
        /**
       *Función que permite actualizar un empleado
       */

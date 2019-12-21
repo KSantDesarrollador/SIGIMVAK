@@ -286,6 +286,14 @@
       }
 
       /**
+       * Función que permite imprimir una UnidadMedica 
+       */
+      public function __KsvmImprimirUnidadMedicaControlador()
+      {
+        return KsvmUnidadMedicaModelo :: __KsvmImprimirUnidadMedicaModelo();
+      }
+
+      /**
        * Función que permite actualizar un UnidadMedica 
        */
       public function __KsvmActualizarUnidadMedicaControlador()

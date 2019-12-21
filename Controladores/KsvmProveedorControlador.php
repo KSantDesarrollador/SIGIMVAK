@@ -133,7 +133,7 @@
                                 <th class="mdl-data-table__cell--non-numeric">#</th>
                                 <th class="mdl-data-table__cell--non-numeric"># Identidad</th>
                                 <th class="mdl-data-table__cell--non-numeric">Razón Social</th>
-                                <th class="mdl-data-table__cell--non-numeric">Telf</th>
+                                <th class="mdl-data-table__cell--non-numeric hide-on-tablet">Telf</th>
                                 <th class="mdl-data-table__cell--non-numeric">Dirección</th>
                                 <th class="mdl-data-table__cell--non-numeric">Email</th>
                                 <th style="text-align:center; witdh:30px;">Acción</th>
@@ -148,7 +148,7 @@
                                 <td class="mdl-data-table__cell--non-numeric">'.$KsvmContReg.'</td>
                                 <td class="mdl-data-table__cell--non-numeric">'.$rows['PvdIdentProv'].'</td>
                                 <td class="mdl-data-table__cell--non-numeric">'.$rows['PvdRazSocProv'].'</td>
-                                <td class="mdl-data-table__cell--non-numeric">'.$rows['PvdTelfProv'].'</td>
+                                <td class="mdl-data-table__cell--non-numeric hide-on-tablet">'.$rows['PvdTelfProv'].'</td>
                                 <td class="mdl-data-table__cell--non-numeric">'.$rows['PvdDirProv'].'</td>
                                 <td class="mdl-data-table__cell--non-numeric">'.$rows['PvdEmailProv'].'</td>
                                 <td style="text-align:right; witdh:30px;">';
@@ -330,6 +330,14 @@
       public function __KsvmContarProveedorControlador()
       {
           return KsvmProveedorModelo :: __KsvmContarProveedorModelo(0);
+      }
+
+      /**
+       * Función que permite imprimir una Proveedor 
+       */
+      public function __KsvmImprimirProveedorControlador()
+      {
+        return KsvmProveedorModelo :: __KsvmImprimirProveedorModelo();
       }
 
       /**

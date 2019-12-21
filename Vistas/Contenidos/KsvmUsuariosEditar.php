@@ -92,7 +92,7 @@
                                      <span class="mdl-textfield__error">E-mail Inválido</span>
                                  </div>
                                  <div class="">
-                                     <label class="mdl-textfield"><img height="33px" width="45px" src="data:image/jpg;base64,<?php echo base64_encode($KsvmLlenarForm['UsrImgUsu']);?>"/>&nbsp;Cambiar Imagen</label>
+                                     <label class="mdl-textfield"><img height="45px" width="45px" src="data:image/jpg;base64,<?php echo base64_encode($KsvmLlenarForm['UsrImgUsu']);?>"/>&nbsp;Cambiar Imagen</label>
                                      <input class="mdl-textfield__input" type="file" name="KsvmImgUsu" id="KsvmImgUsu" value="<?php echo base64_encode($KsvmLlenarForm['UsrImgUsu']);?>">
                                    </div>
                              </div>

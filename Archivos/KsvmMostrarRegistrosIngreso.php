@@ -31,7 +31,7 @@ class KsvmMostrarRegistrosIngreso extends KsvmEstMaestra
                         </th>
                         <th class="mdl-data-table__cell--non-numeric">Medicamento
                         </th>
-                        <th class="mdl-data-table__cell--non-numeric">Fecha Caducidad
+                        <th class="mdl-data-table__cell--non-numeric">Fch.Cad
                         </th>
                         <th class="mdl-data-table__cell--non-numeric">Cantidad
                         </th>

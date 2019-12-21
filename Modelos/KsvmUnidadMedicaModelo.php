@@ -60,6 +60,15 @@
           $KsvmQuery->execute();
           return $KsvmQuery;
       }
+     /**
+      *Función que permite imprimir una unidad médica      
+      */
+      protected function __KsvmImprimirUnidadMedicaModelo()
+      {
+          $KsvmImprimirUnidadMedica = "SELECT * FROM ksvmvistaunidadesmedicas";
+          $KsvmQuery = KsvmEstMaestra :: __KsvmConexion()->query($KsvmImprimirUnidadMedica);
+          return $KsvmQuery;
+      }
        /**
       *Función que permite actualizar una unidad médica
       */

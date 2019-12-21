@@ -26,11 +26,11 @@
 				<div
 					class="mdl-cell mdl-cell--4-col-phone mdl-cell--8-col-tablet mdl-cell--13-col-desktop mdl-cell--0-offset-desktop">
 					<div class="" style="float:right;">
-							<a href="<?php echo KsvmServUrl;?>KsvmTransaccionesCrud/1/" id="btn-input"
-								class="btn btn-sm btn-secondary mdl-shadow--8dp btn-salir">VOLVER &nbsp;<i
-									class="zmdi zmdi-arrow-left"></i></a>
-						</div>
-						<br>
+						<a href="<?php echo KsvmServUrl;?>KsvmTransaccionesCrud/1/" id="btn-input"
+							class="btn btn-sm btn-secondary mdl-shadow--8dp btn-salir">VOLVER &nbsp;<i
+								class="zmdi zmdi-arrow-left"></i></a>
+					</div>
+					<br>
 					<div class="full-width panel mdl-shadow--8dp">
 						<div class="full-width modal-header-input text-center">
 							Nueva Transacción
@@ -40,7 +40,7 @@
 								class="FormularioAjax" autocomplete="off" enctype="multipart/form-data"
 								id="KsvmFormCompra" data-form="guardar">
 								<div class="mdl-grid">
-								    <div
+									<div
 										class="mdl-cell mdl-cell--4-col-phone mdl-cell--8-col-tablet mdl-cell--4-col-desktop">
 										<div class="mdl-textfield mdl-js-textfield">
 											<select class="mdl-textfield__input" id="KsvmBdgId" name="KsvmOrigenTran"
@@ -139,7 +139,8 @@
 									</div>
 									<div
 										class="mdl-cell mdl-cell--4-col-phone mdl-cell--8-col-tablet mdl-cell--6-col-desktop">
-										<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label" id="KsvmCantTran">
+										<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label"
+											id="KsvmCantTran">
 											<input class="mdl-textfield__input" type="number" max="1000" min="1"
 												name="KsvmCantTran" pattern="-?[0-9+()- ]*(\.[0-9]+)?">
 											<label class="mdl-textfield__label" for="KsvmCantTran">Cantidad</label>
@@ -197,8 +198,10 @@
 									<label class="mdl-textfield__label"></label>
 								</div>
 								<div class="mdl-textfield--expandable navBar-options-list">
-									<a class="btn btn-sm btn-success mdl-shadow--8dp mdl-tabs__tab">PDF</a>&nbsp;
-									<a href="#KsvmNuevoEgreso" id="btn-input" 
+									<a class="btn btn-sm btn-success mdl-shadow--8dp"
+										href="<?php echo KsvmServUrl;?>Reportes/KsvmTransaccionesPdf.php"
+										target="_blank"><i class="zmdi zmdi-file">&nbsp;PDF</i></a>
+									<a href="#KsvmNuevoEgreso" id="btn-input"
 										class="btn btn-sm btn-warning mdl-shadow--8dp mdl-tabs__tab">NUEVO &nbsp;<i
 											class="zmdi zmdi-plus-circle"></i></a>
 								</div>
@@ -217,12 +220,12 @@
 						$_SESSION['KsvmBuscarTran'] = $_POST['KsvmBuscarTran'];
                         $KsvmPagina = explode("/", $_GET['Vistas']);
 						echo $KsvmIniTran -> __KsvmPaginador($KsvmPagina[1], KsvmNumPag, $_SESSION['KsvmRolId-SIGIM'], 
-						0, $_SESSION['KsvmBuscarTran']);
+						0, $_SESSION['KsvmBuscarTran'], "", "");
 					}else{
 
 						$KsvmPagina = explode("/", $_GET['Vistas']);
 						echo $KsvmIniTran -> __KsvmPaginador($KsvmPagina[1], KsvmNumPag, $_SESSION['KsvmRolId-SIGIM'], 
-						0, "");
+						0, "", "", "");
 				       }
 				?>
 

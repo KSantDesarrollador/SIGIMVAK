@@ -65,6 +65,15 @@
           $KsvmQuery->execute();
           return $KsvmQuery;
       }
+     /**
+      *Función que permite imprimir un Medicamento
+      */
+      protected function __KsvmImprimirMedicamentoModelo()
+      {
+          $KsvmImprimirMedicamento = "SELECT * FROM ksvmvistamedicamentos";
+          $KsvmQuery = KsvmEstMaestra :: __KsvmConexion()->query($KsvmImprimirMedicamento);
+          return $KsvmQuery;
+      }
        /**
       *Función que permite actualizar un medicamento
       */
@@ -72,7 +81,7 @@
       {
         $KsvmActMedicamento = "UPDATE ksvmmedicamentos07 SET CtgId = :KsvmCtgId, MdcCodMed = :KsvmCodMed, MdcDescMed = :KsvmDescMed,
                             MdcPresenMed = :KsvmPresenMed, MdcConcenMed = :KsvmConcenMed, MdcNivPrescMed = :KsvmNivPrescMed,
-                            MdcNivAtencMed = :KsvmNivAtencMed, MdcViaAdmMed = :KsvmViaAdmMed, MdcFotoMed = :KsvmFotoMed,
+                            MdcNivAtencMed = :KsvmNivAtencMed, MdcViaAdmMed = :KsvmViaAdmMed, MdcFotoMed = :KsvmFotoMed
                             WHERE MdcId = :KsvmCodMedicamento";
         $KsvmQuery = KsvmEstMaestra :: __KsvmConexion()->prepare($KsvmActMedicamento);
         $KsvmQuery->bindParam(":KsvmCtgId", $KsvmDataMedicamento['KsvmCtgId']);

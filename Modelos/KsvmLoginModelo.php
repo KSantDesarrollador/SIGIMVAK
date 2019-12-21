@@ -18,7 +18,7 @@ class KsvmLoginModelo extends KsvmEstMaestra
    */
   protected function __KsvmIniciarSesionModelo($KsvmData)
   {
-      $KsvmLogin = "SELECT * FROM ksvmusuario01 WHERE UsrNomUsu = :KsvmUsuario AND UsrContraUsu = :KsvmContrasena AND UsrEstUsu = 'A' ";
+      $KsvmLogin = "SELECT * FROM ksvmvistausuario WHERE UsrNomUsu = :KsvmUsuario AND UsrContraUsu = :KsvmContrasena AND UsrEstUsu = 'A' ";
       $KsvmQuery = KsvmEstMaestra :: __KsvmConexion()->prepare($KsvmLogin);
 
       $KsvmQuery->bindParam(':KsvmUsuario', $KsvmData['KsvmUsuario']);

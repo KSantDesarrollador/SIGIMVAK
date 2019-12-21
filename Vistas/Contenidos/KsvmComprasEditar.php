@@ -76,38 +76,42 @@
 								<div
 									class="mdl-cell mdl-cell--4-col-phone mdl-cell--8-col-tablet mdl-cell--12-col-desktop">
 									<div class="mdl-textfield mdl-js-textfield">
-									<select class="mdl-textfield__input" name="KsvmPvdId">
+									<select class="mdl-textfield__input" name="KsvmPvdId" id="KsvmDato1">
                                          <option value="<?php echo $KsvmLlenarForm['PvdId'];?>" selected="">
                                              <?php echo $KsvmLlenarForm['PvdRazSocProv'];?></option>
                                              <?php require_once "./Controladores/KsvmProveedorControlador.php";
 											   $KsvmSelProv = new KsvmProveedorControlador();
 											   echo $KsvmSelProv->__KsvmSeleccionarProveedor();
 										     ?>
-                                     </select>
+									 </select>
+									 <span id="KsvmError1" class="ValForm"><i class="zmdi zmdi-alert-triangle">&nbsp;Por favor llene este campo</i></span>
 									</div>
 									<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-										<input class="mdl-textfield__input" type="number" name="KsvmNumFactOcp"
+										<input class="mdl-textfield__input" type="text" name="KsvmNumFactOcp"
 											value="<?php echo $KsvmLlenarForm['CmpNumFactOcp'];?>"
-											pattern="-?[0-9]*(\.[0-9]+)?" id="KsvmNumFactOcp">
-										<label class="mdl-textfield__label" for="KsvmNumFactOcp">Num. Factura</label>
+											pattern="-?[0-9]*[A-Za-záéíóúÁÉÍÓÚ ]?" id="KsvmDato2">
+										<label class="mdl-textfield__label" for="KsvmDato2">Num. Factura</label>
 										<span class="mdl-textfield__error">Num. Factura Inválida</span>
+										<span id="KsvmError2" class="ValForm"><i class="zmdi zmdi-alert-triangle">&nbsp;Por favor llene este campo</i></span>
 									</div>
 									<div class="mdl-textfield mdl-js-textfield">
-										<input type="date" class="mdl-textfield__input" id="KsvmFchPagoOcp"
+										<input type="text" class="mdl-textfield__input tcal" id="KsvmDato3"
 											value="<?php echo $KsvmLlenarForm['CmpFchPagoOcp'];?>" name="KsvmFchPagoOcp">
-										<label class="mdl-textfield__label" for="KsvmFchPagoOcp"
+										<label class="mdl-textfield__label" for="KsvmDato3"
 											style="text-align:right;">Fecha de
 											Pago</label>
+											<span id="KsvmError3" class="ValForm"><i class="zmdi zmdi-alert-triangle">&nbsp;Por favor llene este campo</i></span>
 									</div>
 									<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
 										<input class="mdl-textfield__input" type="text" name="KsvmPerAprbOcp"
 											value="<?php echo $KsvmLlenarForm['CmpPerAprbOcp'];?>"
-											pattern="-?[A-Za-záéíóúÁÉÍÓÚ ]*(\.[0-9]+)?" id="KsvmPerAprbOcp">
-										<label class="mdl-textfield__label" for="KsvmPerAprbOcp">Persona Aprueba</label>
+											pattern="-?[A-Za-záéíóúÁÉÍÓÚ ]*(\.[0-9]+)?" id="KsvmDato4">
+										<label class="mdl-textfield__label" for="KsvmDato4">Persona Aprueba</label>
 										<span class="mdl-textfield__error">Nombre Inválido</span>
+										<span id="KsvmError4" class="ValForm"><i class="zmdi zmdi-alert-triangle">&nbsp;Por favor llene este campo</i></span>
                                     </div>
                                     <div class="mdl-textfield mdl-js-textfield">
-										<select class="mdl-textfield__input" name="KsvmEstOcp">
+										<select class="mdl-textfield__input" name="KsvmEstOcp" id="KsvmDato5">
 											<option value="<?php echo $KsvmLlenarForm['CmpEstOcp'];?>"
 												selected=""><?php echo $KsvmEstado;?></option>
 											<option value="N">Nuevo</option>
@@ -115,17 +119,18 @@
 											<option value="A">Aprobado</option>
 											<option value="X">Negado</option>
 										</select>
+										<span id="KsvmError5" class="ValForm"><i class="zmdi zmdi-alert-triangle">&nbsp;Por favor llene este campo</i></span>
 									</div>
 								</div>
 							</div>
 							<p class="text-center">
 								<button type="submit"
 									class="mdl-button mdl-js-button mdl-js-ripple-effect btn-primary mdl-shadow--4dp"
-									id="btn-NuevoCompra">
+									id="btnSave">
 									<i class="zmdi zmdi-save">&nbsp;Guardar</i>
 								</button>
 							</p>
-							<div class="mdl-tooltip" for="btn-NuevoCompra">Editar Compra</div>
+							<div class="mdl-tooltip" for="btnSave">Editar Compra</div>
 							<div class="RespuestaAjax"></div>
 						</form>
 					</div>

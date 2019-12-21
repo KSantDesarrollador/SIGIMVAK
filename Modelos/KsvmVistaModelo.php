@@ -9,7 +9,7 @@
         */
        protected function __KsvmCargarContenidoModelo($KsvmVistas)
        {
-          $KsvmPermitidas = ["KsvmEscritorioAdmin", "KsvmEscritorioTec", "KsvmEscritorioUsu", "KsvmCatalogoMedicamentos", "KsvmCompras", "KsvmDetallesCompraEditar",
+          $KsvmPermitidas = ["KsvmEscritorioAdmin", "KsvmEscritorioSup", "KsvmEscritorioTec", "KsvmEscritorioUsu", "KsvmCatalogoMedicamentos", "KsvmCompras", "KsvmDetallesCompraEditar",
            "KsvmInventarios", "KsvmDetallesInventarioEditar", "KsvmProveedores", "KsvmEmpleados", "KsvmUsuarios", "KsvmBitacora" , "KsvmIngresos", "KsvmEgresos", 
            "KsvmRequisiciones", "KsvmDetallesRequisicionEditar", "KsvmReporteGeneral", "KsvmReporteEstadistico", "KsvmAuditoria", "KsvmAlertas", "KsvmAlertasCrud", 
            "KsvmAlertasEditar", "KsvmBodegas", "KsvmBodegasCrud", "KsvmBodegasEditar", "KsvmBodegaXUsuarioCrud", "KsvmBodegaXUsuarioEditar", "KsvmCargosCrud", 
@@ -18,7 +18,8 @@
            "KsvmMedicamentosEditar", "KsvmMenuCrud", "KsvmMenuEditar", "KsvmMenuXRolCrud", "KsvmMenuXRolEditar", "KsvmParametros", "KsvmParametrosCrud", 
            "KsvmProcedenciaCrud", "KsvmProcedenciasEditar", "KsvmProveedoresCrud", "KsvmProveedoresEditar", "KsvmRequisicionesCrud", "KsvmRequisicionesEditar", 
            "KsvmRolesCrud", "KsvmRolesEditar", "KsvmTransaccionesCrud", "KsvmTransaccionesEditar", "KsvmDetallesTransaccionEditar", "KsvmUnidadesMedicasCrud", 
-           "KsvmUnidadesMedicasEditar", "KsvmUsuariosCrud", "KsvmUsuariosEditar"];
+           "KsvmUnidadesMedicasEditar", "KsvmUsuariosCrud", "KsvmUsuariosEditar", "KsvmSuperCompras", "KsvmSuperInventarios", "KsvmSuperPedidos", "KsvmSuperPagos",
+           "KsvmCalendario", "KsvmPerfil", "KsvmReporteCompras", "KsvmReporteInventarios", "KsvmReportePedidos", "KsvmReporteTransacciones"];
 
            if (in_array($KsvmVistas, $KsvmPermitidas)) {
               if (is_file("./Vistas/Contenidos/" . $KsvmVistas . ".php")) {

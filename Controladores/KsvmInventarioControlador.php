@@ -23,7 +23,7 @@
          $KsvmQuery = KsvmEstMaestra :: __KsvmEjecutaConsulta($KsvmInventario);
          $KsvmNum = ($KsvmQuery->rowCount())+1;
 
-         $KsvmCodInv = KsvmEstMaestra :: __KsvmGeneraCodigoAleatorio("INV", 6, $KsvmNum);
+         $KsvmCodInv = KsvmEstMaestra :: __KsvmGeneraCodigoAleatorio("INV", 4, $KsvmNum);
         
          $KsvmFchElabInv = date("Y-m-d");
          $KsvmHoraInv = date("h:i:s a");
@@ -75,7 +75,7 @@
         }
 
      /**
-      *Función que permite ingresar una Detalle de Compra
+      *Función que permite ingresar una Detalle de Inventario
       */
     public function __KsvmAgregarDetalleInventarioControlador()
     {
@@ -115,24 +115,32 @@
     /**
      * Función que permite paginar 
      */
-      public function __KsvmPaginador($KsvmPagina, $KsvmNRegistros, $KsvmRol, $KsvmCodigo, $KsvmBuscar)
+      public function __KsvmPaginador($KsvmPagina, $KsvmNRegistros, $KsvmRol, $KsvmCodigo, $KsvmBuscarIni, $KsvmBuscarFin)
       {
         $KsvmPagina = KsvmEstMaestra :: __KsvmFiltrarCadena($KsvmPagina);
         $KsvmNRegistros = KsvmEstMaestra :: __KsvmFiltrarCadena($KsvmNRegistros);
         $KsvmRol = KsvmEstMaestra :: __KsvmFiltrarCadena($KsvmRol);
         $KsvmCodigo = KsvmEstMaestra :: __KsvmFiltrarCadena($KsvmCodigo);
-        $KsvmBuscar = KsvmEstMaestra :: __KsvmFiltrarCadena($KsvmBuscar);
+        $KsvmBuscarIni = KsvmEstMaestra :: __KsvmFiltrarCadena($KsvmBuscarIni);
         $KsvmTabla = "";
         
         $KsvmPagina = (isset($KsvmPagina) && $KsvmPagina > 0 ) ? (int)$KsvmPagina : 1;
         $KsvmDesde = ($KsvmPagina > 0) ? (($KsvmPagina*$KsvmNRegistros) - $KsvmNRegistros) : 0;
 
-        if (isset($KsvmBuscar) && $KsvmBuscar != "") {
-            $KsvmDataInv = "SELECT SQL_CALC_FOUND_ROWS * FROM ksvmvistainventarios WHERE (IvtCodInv LIKE '%$KsvmBuscar%' 
-                          OR IvtPerElabInv LIKE '%$KsvmBuscar%' OR BdgDescBod LIKE '%$KsvmBuscar%'OR IvtFchElabInv LIKE '%$KsvmBuscar%')
+        if (isset($KsvmBuscarIni) && $KsvmBuscarIni != "" && !isset($KsvmBuscarFin)) {
+            $KsvmDataInv = "SELECT SQL_CALC_FOUND_ROWS * FROM ksvmvistainventarios WHERE ((IvtEstInv != 'I') AND (IvtCodInv LIKE '%$KsvmBuscarIni%' 
+                          OR BdgDescBod LIKE '%$KsvmBuscarIni%' OR IvtPerElabInv LIKE '%$KsvmBuscarIni%' OR IvtFchElabInv LIKE '%$KsvmBuscarIni%')) 
                           LIMIT $KsvmDesde, $KsvmNRegistros";
+        } elseif (isset($KsvmBuscarIni) && isset($KsvmBuscarFin) && $KsvmBuscarFin != "") {
+            $KsvmDataInv = "SELECT SQL_CALC_FOUND_ROWS * FROM ksvmvistainventarios WHERE IvtFchElabInv BETWEEN '$KsvmBuscarIni' AND '$KsvmBuscarFin'
+            LIMIT $KsvmDesde, $KsvmNRegistros";
         } else {
-            $KsvmDataInv = "SELECT SQL_CALC_FOUND_ROWS * FROM ksvmvistainventarios LIMIT $KsvmDesde, $KsvmNRegistros" ;
+            if ($KsvmRol == 1 || $KsvmRol == 2) {
+                $KsvmDataInv = "SELECT SQL_CALC_FOUND_ROWS * FROM ksvmvistainventarios WHERE IvtEstInv != 'I' LIMIT $KsvmDesde, $KsvmNRegistros" ;
+            } else {
+                $KsvmDataInv = "SELECT SQL_CALC_FOUND_ROWS * FROM ksvmvistainventarios WHERE UsrId = '$KsvmUsuario' AND IvtEstInv != 'I' LIMIT $KsvmDesde, $KsvmNRegistros" ;
+            }
+            
         }
         
 
@@ -153,9 +161,9 @@
                                 <th class="mdl-data-table__cell--non-numeric">Cod.Inv</th>
                                 <th class="mdl-data-table__cell--non-numeric">Fecha</th>
                                 <th class="mdl-data-table__cell--non-numeric">Bodega</th>
-                                <th class="mdl-data-table__cell--non-numeric">Respomnsable</th>
+                                <th class="mdl-data-table__cell--non-numeric">Resp</th>
                                 <th class="mdl-data-table__cell--non-numeric">Hora</th>
-                                <th class="mdl-data-table__cell--non-numeric">Duración</th>
+                                <th class="mdl-data-table__cell--non-numeric hide-on-tablet">Dura</th>
                                 <th style="text-align:center; witdh:30px;">Acción</th>
                             </tr>
                         </thead>
@@ -171,9 +179,9 @@
                                 <td class="mdl-data-table__cell--non-numeric">'.$rows['BdgDescBod'].'</td>
                                 <td class="mdl-data-table__cell--non-numeric">'.$rows['IvtPerElabInv'].'</td>
                                 <td class="mdl-data-table__cell--non-numeric">'.$rows['IvtHoraInv'].'</td>
-                                <td class="mdl-data-table__cell--non-numeric">'.$rows['IvtDuracionInv'].'</td>
+                                <td class="mdl-data-table__cell--non-numeric hide-on-tablet">'.$rows['IvtDuracionInv'].'</td>
                                 <td style="text-align:right; witdh:30px;">';
-                                if ($KsvmRol == 1) {
+                                if ($KsvmRol == 1 || $KsvmRol == 2) {
                                     if ($KsvmCodigo == 0) {
 
                                     $KsvmTabla .=  '<form action="'.KsvmServUrl.'Ajax/KsvmInventarioAjax.php" method="POST" class="FormularioAjax" data-form="eliminar" enctype="multipart/form-data"> 
@@ -183,10 +191,9 @@
                                                     <div class="mdl-tooltip" for="btn-edit">Editar</div>
                                                     <input type="hidden" name="KsvmCodDelete" value="'.KsvmEstMaestra::__KsvmEncriptacion($rows['IvtId']).'">              
                                                     <button id="btn-delete" type="submit" class="btn btn-sm btn-danger"><i class="zmdi zmdi-delete"></i></button>
-                                                    <div class="mdl-tooltip" for="btn-delete">Inhabilitar</div>
                                                     <div class="RespuestaAjax"></div>
                                                     </form>';
-                                    } else {
+                                    } elseif ($KsvmCodigo == 1) {
                                     $KsvmTabla .= '<form action="'.KsvmServUrl.'Ajax/KsvmInventarioAjax.php" method="POST" class="FormularioAjax" data-form="eliminar" enctype="multipart/form-data"> 
                                                     <a id="btn-detail" class="btn btn-sm btn-info" href="'.KsvmServUrl.'KsvmInventarios/Detail/'.KsvmEstMaestra::__KsvmEncriptacion($rows['IvtId']).'"><i class="zmdi zmdi-card"></i></a>
                                                     <div class="mdl-tooltip" for="btn-detail">Detalles</div>
@@ -197,8 +204,13 @@
                                                     <div class="mdl-tooltip" for="btn-delete">Inhabilitar</div>
                                                     <div class="RespuestaAjax"></div>
                                                     </form>';
+                                    } else {
+                                    $KsvmTabla .= ' <a id="btn-detail" class="btn btn-sm btn-info" href="'.KsvmServUrl.'KsvmReporteInventarios/Detail/'.KsvmEstMaestra::__KsvmEncriptacion($rows['IvtId']).'"><i class="zmdi zmdi-card"></i></a>
+                                                    <div class="mdl-tooltip" for="btn-detail">Detalles</div>
+                                                    <a id="btn-print" class="btn btn-sm btn-success" href="'.KsvmServUrl.'Reportes/KsvmInventariosPdf.php?Cod='.KsvmEstMaestra::__KsvmEncriptacion($rows['IvtId']).'" target="_blank"><i class="zmdi zmdi-print"></i></a>
+                                                    <div class="mdl-tooltip" for="btn-print">Imprimir</div>';
                                     }
-                                }elseif ($KsvmRol == 2 || $KsvmRol == 3){
+                                }elseif ($KsvmRol == 3){
                                     $KsvmTabla .= '<a id="btn-detail" class="btn btn-sm btn-info" href="'.KsvmServUrl.'KsvmInventarios/Detail/'.KsvmEstMaestra::__KsvmEncriptacion($rows['IvtId']).'/"><i class="zmdi zmdi-card"></i></a>
                                                     <div class="mdl-tooltip" for="btn-detail">Detalles</div>
                                                     <a id="btn-edit" class="btn btn-sm btn-primary" href="'.KsvmServUrl.'KsvmInventariosEditar/'.KsvmEstMaestra::__KsvmEncriptacion($rows['IvtId']).'/1/"><i class="zmdi zmdi-edit"></i></a>
@@ -273,7 +285,7 @@
              
                 $KsvmTabla .= '</nav></div>';        
 
-            } else {
+            } elseif ($KsvmTotalReg >= 1 && $KsvmPagina <= $KsvmNPaginas && $KsvmCodigo == 1) {
                 $KsvmTabla .= '<nav class="navbar-form navbar-right form-group">';
                 
                 if ($KsvmPagina == 1) {
@@ -299,12 +311,51 @@
                 }
                 
                 $KsvmTabla .= '</nav></div>'; 
+            } elseif ($KsvmTotalReg >= 1 && $KsvmPagina <= $KsvmNPaginas && $KsvmCodigo == 3) {
+                $KsvmTabla .= '<nav class="navbar-form navbar-right form-group">';
+                
+                if ($KsvmPagina == 1) {
+                    $KsvmTabla .= '<button class = "btn btn-xs btn-success mdl-shadow--8dp disabled">Primero</button>
+                                   <span></span>
+                                   <button class = "btn btn-xs btn-default mdl-shadow--8dp disabled"><i class="zmdi zmdi-fast-rewind"></i></button>';
+                } else {
+                    $KsvmTabla .= '<a class = "btn btn-xs btn-success mdl-shadow--8dp " href="'.KsvmServUrl.'KsvmReporteInventarios/1/">Primero</a>
+                                   <span></span>
+                                   <a class = "btn btn-xs btn-default mdl-shadow--8dp " href="'.KsvmServUrl.'KsvmReporteInventarios/'.($KsvmPagina-1).'/"><i class="zmdi zmdi-fast-rewind"></i></a>';
+                }
+
+                if ($KsvmPagina == $KsvmNPaginas) {
+                    $KsvmTabla .= '<button class = "btn btn-xs btn-default mdl-shadow--8dp disabled"><i class="zmdi zmdi-fast-forward"></i></button>
+                                   <span></span>
+                                   <button class = "btn btn-xs btn-success mdl-shadow--8dp disabled">Último</button>';
+                } else {
+                    $KsvmTabla .= '<a class="btn btn-xs btn-default mdl-shadow--8dp" href="'.KsvmServUrl.'KsvmReporteInventarios/'.($KsvmPagina+1).'/"><i class="zmdi zmdi-fast-forward"></i></a>
+                                   <span></span>
+                                   <a class="btn btn-xs btn-success mdl-shadow--8dp" href="'.KsvmServUrl.'KsvmReporteInventarios/'.($KsvmNPaginas).'/">Último</a>';
+                                   
+                                   
+                }
+                
+                $KsvmTabla .= '</nav></div>'; 
             }
+
             
         
                                    
         return $KsvmTabla;
       }
+
+    /**
+     * Función que permite listar un Inventario 
+     */
+     public function __KsvmListarSuperInventarios()
+     {
+      $KsvmDataInv = "SELECT SQL_CALC_FOUND_ROWS * FROM ksvmvistainventarios WHERE IvtEstInv = 'P'" ;
+      $KsvmConsulta = KsvmEstMaestra :: __KsvmConexion();
+  
+      $KsvmQuery = $KsvmConsulta->query($KsvmDataInv);
+      return $KsvmQuery;
+     }
      
       /**
        * Función que permite inhabilitar un Inventario 
@@ -392,9 +443,68 @@
       /**
        * Función que permite contar un Inventario 
        */
-      public function __KsvmContarInventarioControlador()
+      public function __KsvmContarInventarioControlador($KsvmTokken)
       {
-          return KsvmInventarioModelo :: __KsvmContarInventarioModelo(0);
+          if ($KsvmTokken == 0) {
+            $KsvmContaInventario = KsvmInventarioModelo :: __KsvmContarInventarioSuperModelo();
+          } elseif($KsvmTokken == 1) {
+            $KsvmContaInventario = KsvmInventarioModelo :: __KsvmContarInventarioTecniModelo();
+          } else{
+            $KsvmContaInventario = KsvmInventarioModelo :: __KsvmContarInventarioModelo();
+          }
+          return $KsvmContaInventario; 
+      }
+
+      /**
+       * Función que permite imprimir una Inventario 
+       */
+      public function __KsvmImprimirInventarioControlador()
+      {
+        return KsvmInventarioModelo :: __KsvmImprimirInventarioModelo();
+      }
+
+      /**
+       * Función que permite imprimir un detalle de Inventario 
+       */
+      public function __KsvmImprimirDetalleInventarioControlador($KsvmCodInventario)
+      {
+        $KsvmCodigo = KsvmEstMaestra :: __KsvmDesencriptacion($KsvmCodInventario);
+        return KsvmInventarioModelo :: __KsvmEditarDetalleInventarioModelo($KsvmCodigo);
+      }
+
+      /**
+       * Función que permite revisar una Inventario 
+       */
+      public function __KsvmRevisarInventario()
+      {
+        $KsvmTokken = KsvmEstMaestra :: __KsvmDesencriptacion($_POST['KsvmTokken']);
+        $KsvmCodRevision = KsvmEstMaestra :: __KsvmDesencriptacion($_POST['KsvmCodRevision']);
+        if ($KsvmTokken == "APB") {
+            $KsvmRevInventario =[
+                "KsvmCodInventario" => $KsvmCodRevision
+            ];
+
+            $KsvmApbrInventario = KsvmInventarioModelo :: __KsvmApruebaInventarioModelo($KsvmRevInventario);
+            if ($KsvmApbrInventario->rowCount() >= 1) {
+                $KsvmAlerta = [
+                "Alerta" => "Actualiza",
+                "Titulo" => "Grandioso",
+                "Cuerpo" => "El Inventario a sido confirmado satisfactoriamente",
+                "Tipo" => "success"
+                ];
+            } else {
+                $KsvmAlerta = [
+                "Alerta" => "simple",
+                "Titulo" => "Error inesperado",
+                "Cuerpo" => "No se a podido actualizar la información de la Inventario",
+                "Tipo" => "info"
+                ];
+            }
+            return KsvmEstMaestra :: __KsvmMostrarAlertas($KsvmAlerta);
+
+        } 
+        
+
       }
 
       /**

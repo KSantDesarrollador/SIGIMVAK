@@ -54,20 +54,22 @@ $KsvmMenu = new KsvmMenuModelo();
     </div>
     <figure class="full-width" style="height: 80px;">
       <div class="navLateral-body-cl">
-        <img src="data:image/jpg;base64,<?php echo base64_encode($_SESSION['KsvmImg-SIGIM']); ?>" alt="Avatar"
+        <img style="border-radius:5px;" width="80%" src="data:image/jpg;base64,<?php echo base64_encode($_SESSION['KsvmImg-SIGIM']); ?>" alt="Avatar"
           class="img-responsive">
       </div>
       <figcaption class="navLateral-body-cr hide-on-tablet">
-        <span class="">
+        <span style="margin-left:20px;">
           <strong><?php echo $_SESSION['KsvmUsuNom-SIGIM']; ?>
             <br>
             <small><?php echo $_SESSION['KsvmRolNom-SIGIM']; ?></small>
           </strong>
-          &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<a href="<?php echo KsvmServUrl?>KsvmPerfil?KsvmCod='<?php echo KsvmEstMaestra :: __KsvmEncriptacion($_SESSION['KsvmUsuId-SIGIM']); ?>'" class="tittle" id="KsvmEditPerfil"><i class="zmdi zmdi-settings"></i></a>
+           <a style="margin-left:30px;"
+            href="<?php echo KsvmServUrl?>KsvmPerfil/<?php echo KsvmEstMaestra :: __KsvmEncriptacion($_SESSION['KsvmUsuId-SIGIM']); ?>"
+            class="tittle" id="KsvmEditPerfil"><i class="zmdi zmdi-settings"></i></a>
         </span>
         <div class="mdl-tooltip" for="KsvmEditPerfil">Editar Perfil</div>
       </figcaption>
-    </figure>
+      </figure>
     <div class="full-width hide-on-tablet navLateral-body-tittle-menu">
       <form name="clock">
         <strong style="margin-left:20px;">Tiempo</strong>
@@ -84,6 +86,8 @@ $KsvmMenu = new KsvmMenuModelo();
           <?php
               if ($_SESSION['KsvmRolNom-SIGIM'] == "Administrador") {
                       $KsvmRed = "KsvmEscritorioAdmin/";
+                    }elseif ($_SESSION['KsvmRolNom-SIGIM'] == "Supervisor") {
+                      $KsvmRed = "KsvmEscritorioSup/";
                     }elseif ($_SESSION['KsvmRolNom-SIGIM'] == "Tecnico") {
                          $KsvmRed = "KsvmEscritorioTec/";
                       }else {

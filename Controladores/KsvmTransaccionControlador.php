@@ -24,7 +24,7 @@
         $KsvmQuery = KsvmEstMaestra :: __KsvmEjecutaConsulta($KsvmTransaccion);
         $KsvmNum = ($KsvmQuery->rowCount())+1;
 
-        $KsvmNumTran = KsvmEstMaestra :: __KsvmGeneraCodigoAleatorio("00", 6, $KsvmNum);
+        $KsvmNumTran = KsvmEstMaestra :: __KsvmGeneraCodigoAleatorio("00", 4, $KsvmNum);
 
         session_start(['name' => 'SIGIM']);
         $KsvmUser = $_SESSION['KsvmUsuId-SIGIM'];
@@ -34,6 +34,7 @@
          if ($KsvmQuery->rowCount() == 1) {
             $KsvmPerElab = $KsvmQuery->fetch();
 
+            $KsvmFchReaTran= date("Y-m-d");
             $KsvmFchRevTran = "no registrado";
             $KsvmPerReaTran = $KsvmPerElab['PerElab'];
             $KsvmPerRevTran = "no registrado"; 
@@ -49,6 +50,7 @@
                 $KsvmNuevaTran = [
                 "KsvmRqcId" => $KsvmRqcId,
                 "KsvmNumTran," => $KsvmNumTran,
+                "KsvmFchReaTran" => $KsvmFchReaTran,
                 "KsvmTipoTran" => $KsvmTipoTran,
                 "KsvmDestinoTran" => $KsvmDestinoTran,
                 "KsvmPerReaTran" => $KsvmPerReaTran,
@@ -114,13 +116,15 @@
     /**
      * Función que permite paginar 
      */
-      public function __KsvmPaginador($KsvmPagina, $KsvmNRegistros, $KsvmRol, $KsvmCodigo, $KsvmBuscar)
+      public function __KsvmPaginador($KsvmPagina, $KsvmNRegistros, $KsvmRol, $KsvmCodigo, $KsvmBuscarIni, $KsvmBuscarFin, $KsvmFiltro)
       {
         $KsvmPagina = KsvmEstMaestra :: __KsvmFiltrarCadena($KsvmPagina);
         $KsvmNRegistros = KsvmEstMaestra :: __KsvmFiltrarCadena($KsvmNRegistros);
         $KsvmRol = KsvmEstMaestra :: __KsvmFiltrarCadena($KsvmRol);
         $KsvmCodigo = KsvmEstMaestra :: __KsvmFiltrarCadena($KsvmCodigo);
-        $KsvmBuscar = KsvmEstMaestra :: __KsvmFiltrarCadena($KsvmBuscar);
+        $KsvmBuscarIni = KsvmEstMaestra :: __KsvmFiltrarCadena($KsvmBuscarIni);
+        $KsvmBuscarFin = KsvmEstMaestra :: __KsvmFiltrarCadena($KsvmBuscarFin);
+        $KsvmFiltro = KsvmEstMaestra :: __KsvmFiltrarCadena($KsvmFiltro);
         $KsvmTabla = "";
         
         $KsvmPagina = (isset($KsvmPagina) && $KsvmPagina > 0 ) ? (int)$KsvmPagina : 1;
@@ -128,12 +132,18 @@
         $KsvmDataTran = "";
 
         if ($KsvmCodigo == 0) {
-            if (isset($KsvmBuscar) && $KsvmBuscar != "") {
-                $KsvmDataTran = "SELECT SQL_CALC_FOUND_ROWS * FROM ksvmvistatransacciones WHERE ((TsnId != 'X') AND (TsnNumTran LIKE '%$KsvmBuscar%' 
-                OR TsnTipoTran LIKE '%$KsvmBuscar%' OR RqcNumReq LIKE '%$KsvmBuscar%')) 
-                LIMIT $KsvmDesde, $KsvmNRegistros";
+
+                if (isset($KsvmBuscarIni) && $KsvmBuscarIni != "" && !isset($KsvmBuscarFin)) {
+                    $KsvmDataTran = "SELECT SQL_CALC_FOUND_ROWS * FROM ksvmvistatransacciones WHERE ((TsnEstTran != 'I') AND (TsnNumTran LIKE '%$KsvmBuscarIni%' 
+                                  OR TsnTipoTran LIKE '%$KsvmBuscarIni%' OR MdcDescMed LIKE '%$KsvmBuscarIni%' OR TsnFchReaTran LIKE '%$KsvmBuscarIni%')) 
+                                  LIMIT $KsvmDesde, $KsvmNRegistros";
                 } else {
-                    $KsvmDataTran = "SELECT SQL_CALC_FOUND_ROWS * FROM ksvmvistatransacciones WHERE TsnId != 'X' LIMIT $KsvmDesde, $KsvmNRegistros" ;
+                    if ($KsvmRol == 1 || $KsvmRol == 2) {
+                        $KsvmDataTran = "SELECT SQL_CALC_FOUND_ROWS * FROM ksvmvistatransacciones WHERE TsnEstTran != 'I' LIMIT $KsvmDesde, $KsvmNRegistros" ;
+                    } else {
+                        $KsvmDataTran = "SELECT SQL_CALC_FOUND_ROWS * FROM ksvmvistatransacciones WHERE UsrId = '$KsvmUsuario' AND TsnEstTran != 'I' LIMIT $KsvmDesde, $KsvmNRegistros" ;
+                    }
+                    
                 }
 
                 $KsvmConsulta = KsvmEstMaestra :: __KsvmConexion();
@@ -150,11 +160,11 @@
                                 <thead>
                                     <tr>
                                         <th class="mdl-data-table__cell--non-numeric">#</th>
-                                        <th class="mdl-data-table__cell--non-numeric"># Transacción</th>
+                                        <th class="mdl-data-table__cell--non-numeric">#Trans</th>
                                         <th class="mdl-data-table__cell--non-numeric">Fecha</th>
                                         <th class="mdl-data-table__cell--non-numeric">Tipo</th>
                                         <th class="mdl-data-table__cell--non-numeric">Destino</th>
-                                        <th class="mdl-data-table__cell--non-numeric">Responsable</th>
+                                        <th class="mdl-data-table__cell--non-numeric">Resp</th>
                                         <th style="text-align:center; witdh:30px;">Acción</th>
                                     </tr>
                                 </thead>
@@ -178,30 +188,17 @@
                                         <td class="mdl-data-table__cell--non-numeric">'.$KsvmBodDest.'</td>
                                         <td class="mdl-data-table__cell--non-numeric">'.$rows['TsnPerReaTran'].'</td>
                                         <td style="text-align:right; witdh:30px;">';
-                                        if ($KsvmRol == 1) {
         
-                                            $KsvmTabla .= '<form action="'.KsvmServUrl.'Ajax/KsvmTransaccionAjax.php" method="POST" class="FormularioAjax" data-form="eliminar" enctype="multipart/form-data"> 
-                                                            <a id="btn-detail" class="btn btn-sm btn-info" href="'.KsvmServUrl.'KsvmTransaccionesCrud/Detail/'.KsvmEstMaestra::__KsvmEncriptacion($rows['TsnId']).'"><i class="zmdi zmdi-card"></i></a>
-                                                            <div class="mdl-tooltip" for="btn-detail">Detalles</div>
-                                                            <a id="btn-edit" class="btn btn-sm btn-primary" href="'.KsvmServUrl.'KsvmTransaccionesEditar/'.KsvmEstMaestra::__KsvmEncriptacion($rows['TsnId']).'/0/"><i class="zmdi zmdi-edit"></i></a>
-                                                            <div class="mdl-tooltip" for="btn-edit">Editar</div>
-                                                            <input type="hidden" name="KsvmCodDelete" value="'.KsvmEstMaestra::__KsvmEncriptacion($rows['TsnId']).'">              
-                                                            <button id="btn-delete" type="submit" class="btn btn-sm btn-danger"><i class="zmdi zmdi-delete"></i></button>
-                                                            <div class="mdl-tooltip" for="btn-delete">Inhabilitar</div>
-                                                            <div class="RespuestaAjax"></div>';
-
-                                        }elseif ($KsvmRol == 2 || $KsvmRol == 3){
-                                                $KsvmTabla .= '<a id="btn-detail" class="btn btn-sm btn-info" href="'.KsvmServUrl.'KsvmIngresos/Detail/'.KsvmEstMaestra::__KsvmEncriptacion($rows['TsnId']).'/"><i class="zmdi zmdi-card"></i></a>
-                                                            <div class="mdl-tooltip" for="btn-detail">Detalles</div>
-                                                            <a id="btn-edit" class="btn btn-sm btn-primary" href="'.KsvmServUrl.'KsvmTransaccionesEditar/'.KsvmEstMaestra::__KsvmEncriptacion($rows['TsnId']).'/1/"><i class="zmdi zmdi-edit"></i></a>
-                                                            <div class="mdl-tooltip" for="btn-edit">Editar</div>';
-                                            } else {
-                                                $KsvmTabla .= '<a id="btn-detail" class="btn btn-sm btn-info" href="'.KsvmServUrl.'KsvmEgresos/Detail/'.KsvmEstMaestra::__KsvmEncriptacion($rows['TsnId']).'/"><i class="zmdi zmdi-card"></i></a>
-                                                            <div class="mdl-tooltip" for="btn-detail">Detalles</div>
-                                                            <a id="btn-edit" class="btn btn-sm btn-primary" href="'.KsvmServUrl.'KsvmTransaccionesEditar/'.KsvmEstMaestra::__KsvmEncriptacion($rows['TsnId']).'/2/"><i class="zmdi zmdi-edit"></i></a>
-                                                            <div class="mdl-tooltip" for="btn-edit">Editar</div>';
-                                            }
-                                            
+                        $KsvmTabla .=  '<form action="'.KsvmServUrl.'Ajax/KsvmTransaccionAjax.php" method="POST" class="FormularioAjax" data-form="eliminar" enctype="multipart/form-data"> 
+                                        <a id="btn-detail" class="btn btn-sm btn-info" href="'.KsvmServUrl.'KsvmTransaccionesCrud/Detail/'.KsvmEstMaestra::__KsvmEncriptacion($rows['TsnId']).'/"><i class="zmdi zmdi-card"></i></a>
+                                        <div class="mdl-tooltip" for="btn-detail">Detalles</div>
+                                        <a id="btn-edit" class="btn btn-sm btn-primary" href="'.KsvmServUrl.'KsvmTransaccionesEditar/'.KsvmEstMaestra::__KsvmEncriptacion($rows['TsnId']).'/0/"><i class="zmdi zmdi-edit"></i></a>
+                                        <div class="mdl-tooltip" for="btn-edit">Editar</div>
+                                        <input type="hidden" name="KsvmCodDelete" value="'.KsvmEstMaestra::__KsvmEncriptacion($rows['TsnId']).'">              
+                                        <button id="btn-delete" type="submit" class="btn btn-sm btn-danger"><i class="zmdi zmdi-delete"></i></button>
+                                        <div class="RespuestaAjax"></div>
+                                        </form>';
+        
         
                         $KsvmTabla .= '</td>
                                        </tr>
@@ -271,12 +268,20 @@
                 return $KsvmTabla;
         
         }elseif ($KsvmCodigo == 1) {
-            if (isset($KsvmBuscar) && $KsvmBuscar != "") {
-            $KsvmDataTran = "SELECT SQL_CALC_FOUND_ROWS * FROM ksvmvistatransacciones WHERE ((TsnId != 'X') AND (TsnTipoTran = 'Ingreso') AND (TsnNumTran LIKE '%$KsvmBuscar%' 
-            OR TsnTipoTran LIKE '%$KsvmBuscar%' OR RqcNumReq LIKE '%$KsvmBuscar%')) 
-            LIMIT $KsvmDesde, $KsvmNRegistros";
+
+            if (isset($KsvmBuscarIni) && $KsvmBuscarIni != "" && !isset($KsvmBuscarFin)) {
+                $KsvmDataTran = "SELECT SQL_CALC_FOUND_ROWS * FROM ksvmvistatransacciones WHERE ((TsnEstTran != 'I') AND (TsnTipoTran = 'Ingreso') AND (TsnNumTran LIKE '%$KsvmBuscarIni%' 
+                              OR TsnTipoTran LIKE '%$KsvmBuscarIni%' OR MdcDescMed LIKE '%$KsvmBuscarIni%' OR TsnFchReaTran LIKE '%$KsvmBuscarIni%')) 
+                              LIMIT $KsvmDesde, $KsvmNRegistros";
             } else {
-                $KsvmDataTran = "SELECT SQL_CALC_FOUND_ROWS * FROM ksvmvistatransacciones WHERE TsnId != 'X' AND (TsnTipoTran = 'Ingreso') LIMIT $KsvmDesde, $KsvmNRegistros" ;
+                if ($KsvmRol == 1 || $KsvmRol == 2) {
+                    $KsvmDataTran = "SELECT SQL_CALC_FOUND_ROWS * FROM ksvmvistatransacciones WHERE TsnEstTran != 'I' AND (TsnTipoTran = 'Ingreso')
+                     LIMIT $KsvmDesde, $KsvmNRegistros" ;
+                } else {
+                    $KsvmDataTran = "SELECT SQL_CALC_FOUND_ROWS * FROM ksvmvistatransacciones WHERE UsrId = '$KsvmUsuario' AND (TsnTipoTran = 'Ingreso') 
+                    AND TsnEstTran != 'I' LIMIT $KsvmDesde, $KsvmNRegistros" ;
+                }
+                
             }
 
             $KsvmConsulta = KsvmEstMaestra :: __KsvmConexion();
@@ -293,11 +298,11 @@
                             <thead>
                                 <tr>
                                     <th class="mdl-data-table__cell--non-numeric">#</th>
-                                    <th class="mdl-data-table__cell--non-numeric"># Transacción</th>
+                                    <th class="mdl-data-table__cell--non-numeric">#Ingreso</th>
                                     <th class="mdl-data-table__cell--non-numeric">Fecha</th>
                                     <th class="mdl-data-table__cell--non-numeric">Tipo</th>
                                     <th class="mdl-data-table__cell--non-numeric">Destino</th>
-                                    <th class="mdl-data-table__cell--non-numeric">Responsable</th>
+                                    <th class="mdl-data-table__cell--non-numeric">Resp</th>
                                     <th style="text-align:center; witdh:30px;">Acción</th>
                                 </tr>
                             </thead>
@@ -410,20 +415,24 @@
                     }
                     
                     $KsvmTabla .= '</nav></div>'; 
- 
+                }
+
+        } elseif ($KsvmCodigo == 2) {
+
+            if (isset($KsvmBuscarIni) && $KsvmBuscarIni != "" && !isset($KsvmBuscarFin)) {
+                $KsvmDataTran = "SELECT SQL_CALC_FOUND_ROWS * FROM ksvmvistatransacciones WHERE ((TsnEstTran != 'I') AND (TsnTipoTran = 'Egreso') AND (TsnNumTran LIKE '%$KsvmBuscarIni%' 
+                              OR TsnTipoTran LIKE '%$KsvmBuscarIni%' OR MdcDescMed LIKE '%$KsvmBuscarIni%' OR TsnFchReaTran LIKE '%$KsvmBuscarIni%')) 
+                              LIMIT $KsvmDesde, $KsvmNRegistros";
+            } else {
+                if ($KsvmRol == 1 || $KsvmRol == 2) {
+                    $KsvmDataTran = "SELECT SQL_CALC_FOUND_ROWS * FROM ksvmvistatransacciones WHERE TsnEstTran != 'I' AND (TsnTipoTran = 'Egreso')
+                     LIMIT $KsvmDesde, $KsvmNRegistros" ;
+                } else {
+                    $KsvmDataTran = "SELECT SQL_CALC_FOUND_ROWS * FROM ksvmvistatransacciones WHERE UsrId = '$KsvmUsuario' AND (TsnTipoTran = 'Egreso') 
+                    AND TsnEstTran != 'I' LIMIT $KsvmDesde, $KsvmNRegistros" ;
                 }
                 
-                                       
-            return $KsvmTabla;
-
-        } else {
-            if (isset($KsvmBuscar) && $KsvmBuscar != "") {
-                $KsvmDataTran = "SELECT SQL_CALC_FOUND_ROWS * FROM ksvmvistatransacciones WHERE ((TsnId != 'X') AND (TsnTipoTran = 'Egreso') AND (TsnNumTran LIKE '%$KsvmBuscar%' 
-                OR TsnTipoTran LIKE '%$KsvmBuscar%' OR RqcNumReq LIKE '%$KsvmBuscar%')) 
-                LIMIT $KsvmDesde, $KsvmNRegistros";
-                } else {
-                    $KsvmDataTran = "SELECT SQL_CALC_FOUND_ROWS * FROM ksvmvistatransacciones WHERE TsnId != 'X' AND (TsnTipoTran = 'Egreso')  LIMIT $KsvmDesde, $KsvmNRegistros" ;
-                }
+            }
 
                 $KsvmConsulta = KsvmEstMaestra :: __KsvmConexion();
     
@@ -439,11 +448,11 @@
                                 <thead>
                                     <tr>
                                         <th class="mdl-data-table__cell--non-numeric">#</th>
-                                        <th class="mdl-data-table__cell--non-numeric"># Transacción</th>
+                                        <th class="mdl-data-table__cell--non-numeric">#Egreso</th>
                                         <th class="mdl-data-table__cell--non-numeric">Fecha</th>
                                         <th class="mdl-data-table__cell--non-numeric">Tipo</th>
                                         <th class="mdl-data-table__cell--non-numeric">Destino</th>
-                                        <th class="mdl-data-table__cell--non-numeric">Responsable</th>
+                                        <th class="mdl-data-table__cell--non-numeric">Resp</th>
                                         <th style="text-align:center; witdh:30px;">Acción</th>
                                     </tr>
                                 </thead>
@@ -558,12 +567,141 @@
                         
                         $KsvmTabla .= '</nav></div>'; 
                     }
-                    
+                    } elseif ($KsvmCodigo == 3) {
+
+                        if (isset($KsvmBuscarIni) && $KsvmBuscarIni != "" && !isset($KsvmBuscarFin) && !isset($KsvmFiltro)) {
+                            $KsvmDataTran = "SELECT SQL_CALC_FOUND_ROWS * FROM ksvmvistatransacciones WHERE ((TsnEstTran != 'I') AND (TsnNumTran LIKE '%$KsvmBuscarIni%' 
+                                          OR TsnTipoTran LIKE '%$KsvmBuscarIni%' OR MdcDescMed LIKE '%$KsvmBuscarIni%' OR TsnFchReaTran LIKE '%$KsvmBuscarIni%')) 
+                                          LIMIT $KsvmDesde, $KsvmNRegistros";
+                        } elseif (isset($KsvmBuscarIni) && isset($KsvmBuscarFin) && $KsvmBuscarFin != "" && isset($KsvmFiltro)) {
+                            $KsvmDataTran = "SELECT SQL_CALC_FOUND_ROWS * FROM ksvmvistatransacciones WHERE TsnFchReaTran BETWEEN '$KsvmBuscarIni' AND '$KsvmBuscarFin'
+                            AND TsnTipoTran = '$KsvmFiltro' LIMIT $KsvmDesde, $KsvmNRegistros";
+                        } else {
+                            if ($KsvmRol == 1 || $KsvmRol == 2) {
+                                $KsvmDataTran = "SELECT SQL_CALC_FOUND_ROWS * FROM ksvmvistatransacciones WHERE TsnEstTran != 'I' LIMIT $KsvmDesde, $KsvmNRegistros" ;
+                            } else {
+                                $KsvmDataTran = "SELECT SQL_CALC_FOUND_ROWS * FROM ksvmvistatransacciones WHERE UsrId = '$KsvmUsuario' AND TsnEstTran != 'I' LIMIT $KsvmDesde, $KsvmNRegistros" ;
+                            }
+                            
+                        }
+            
+                            $KsvmConsulta = KsvmEstMaestra :: __KsvmConexion();
                 
+                            $KsvmQuery = $KsvmConsulta->query($KsvmDataTran);
+                            $KsvmQuery = $KsvmQuery->fetchAll();
+                            
+                            $KsvmDataTot = "SELECT FOUND_ROWS()";
+                            $KsvmTotalReg = $KsvmConsulta->query($KsvmDataTot);
+                            $KsvmTotalReg = (int) $KsvmTotalReg->fetchColumn();
+                            $KsvmNPaginas = ceil($KsvmTotalReg/$KsvmNRegistros);
+                    
+                            $KsvmTabla .= '<table class="mdl-data-table mdl-js-data-table mdl-shadow--6dp full-width table-responsive">
+                                            <thead>
+                                                <tr>
+                                                    <th class="mdl-data-table__cell--non-numeric">#</th>
+                                                    <th class="mdl-data-table__cell--non-numeric">#Trans</th>
+                                                    <th class="mdl-data-table__cell--non-numeric">Fecha</th>
+                                                    <th class="mdl-data-table__cell--non-numeric">Tipo</th>
+                                                    <th class="mdl-data-table__cell--non-numeric">Destino</th>
+                                                    <th class="mdl-data-table__cell--non-numeric">Resp</th>
+                                                    <th style="text-align:center; witdh:30px;">Acción</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>';
+                    
+                            if ($KsvmTotalReg >= 1 && $KsvmPagina <= $KsvmNPaginas) {
+                                $KsvmContReg = $KsvmDesde +1;
+                                foreach ($KsvmQuery as $rows) {
+                                    $KsvmBodega = $rows['TsnDestinoTran'];
+                                    $KsvmSelectBodega = "SELECT * FROM ksvmseleccionabodega WHERE BdgId = '$KsvmBodega'";
+                                    $KsvmConsulta = KsvmEstMaestra :: __KsvmConexion();
+                                    $KsvmQuery = $KsvmConsulta->query($KsvmSelectBodega);
+                                    $KsvmQuery = $KsvmQuery->fetch();
+                                    $KsvmBodDest = $KsvmQuery['BdgDescBod'];
+                    
+                                    $KsvmTabla .= '<tr>
+                                                    <td class="mdl-data-table__cell--non-numeric">'.$KsvmContReg.'</td>
+                                                    <td class="mdl-data-table__cell--non-numeric">'.$rows['TsnNumTran'].'</td>
+                                                    <td class="mdl-data-table__cell--non-numeric">'.$rows['TsnFchReaTran'].'</td>
+                                                    <td class="mdl-data-table__cell--non-numeric">'.$rows['TsnTipoTran'].'</td>
+                                                    <td class="mdl-data-table__cell--non-numeric">'.$KsvmBodDest.'</td>
+                                                    <td class="mdl-data-table__cell--non-numeric">'.$rows['TsnPerReaTran'].'</td>
+                                                    <td style="text-align:right; witdh:30px;">';
+
+                                    $KsvmTabla .= ' <a id="btn-detail" class="btn btn-sm btn-info" href="'.KsvmServUrl.'KsvmReporteTransacciones/Detail/'.KsvmEstMaestra::__KsvmEncriptacion($rows['TsnId']).'"><i class="zmdi zmdi-card"></i></a>
+                                                    <div class="mdl-tooltip" for="btn-detail">Detalles</div>
+                                                    <a id="btn-print" class="btn btn-sm btn-success" href="'.KsvmServUrl.'Reportes/KsvmTransaccionesPdf.php?Cod='.KsvmEstMaestra::__KsvmEncriptacion($rows['TsnId']).'" target="_blank"><i class="zmdi zmdi-print"></i></a>
+                                                    <div class="mdl-tooltip" for="btn-print">Imprimir</div>';
+                    
+                                                        
+                    
+                                    $KsvmTabla .= '</td>
+                                                   </tr>
+                                                 </tbody>';
+                                                 $KsvmContReg ++;
+                                                 }
+                    
+                                                
+                                    $KsvmTabla .= '</table>
+                    
+                                               <br>
+                                               <div class=" mdl-shadow--8dp full-width">
+                                                <nav class="navbar-form navbar-left form-group">
+                                                <span class="">
+                                                 <strong>Total de '.$KsvmTotalReg.' </strong> registros encontrados
+                                                </span>
+                                                <span>&nbsp;|&nbsp;</span>
+                                                <span>
+                                                 Página<strong>'.$KsvmPagina.'</strong> de <strong>'.$KsvmNPaginas.'</strong>
+                                                </span>
+                                                <span>&nbsp;|&nbsp;</span>
+                                                </nav>';
+                                                
+                            } else {
+                                if ($KsvmTotalReg >= 1) {
+                                    echo '<script> window.location.href=" '.KsvmServUrl.'KsvmReportePedidos/1/"</script>';
+                                } else {
+                                    $KsvmTabla .= '<tr> 
+                                                <td class="mdl-data-table__cell--non-numeric" colspan="7"><strong>No se encontraron registros...</strong></td>
+                                               </tr>
+                                              </tbody>
+                                              </table>';
+                    
+                                }
+                            }
+                    
+                                if ($KsvmTotalReg >= 1 && $KsvmPagina <= $KsvmNPaginas) {
+                                    $KsvmTabla .= '<nav class="navbar-form navbar-right form-group">';
+                                    
+                                    if ($KsvmPagina == 1) {
+                                        $KsvmTabla .= '<button class = "btn btn-xs btn-success mdl-shadow--8dp disabled">Primero</button>
+                                                       <span></span>
+                                                       <button class = "btn btn-xs btn-default mdl-shadow--8dp disabled"><i class="zmdi zmdi-fast-rewind"></i></button>';
+                                    } else {
+                                        $KsvmTabla .= '<a class = "btn btn-xs btn-success mdl-shadow--8dp " href="'.KsvmServUrl.'KsvmReportePedidos/1/">Primero</a>
+                                                       <span></span>
+                                                       <a class = "btn btn-xs btn-default mdl-shadow--8dp " href="'.KsvmServUrl.'KsvmReportePedidos/'.($KsvmPagina-1).'/"><i class="zmdi zmdi-fast-rewind"></i></a>';
+                                    }
+                    
+                                    if ($KsvmPagina == $KsvmNPaginas) {
+                                        $KsvmTabla .= '<button class = "btn btn-xs btn-default mdl-shadow--8dp disabled"><i class="zmdi zmdi-fast-forward"></i></button>
+                                                       <span></span>
+                                                       <button class = "btn btn-xs btn-success mdl-shadow--8dp disabled">Último</button>';
+                                    } else {
+                                        $KsvmTabla .= '<a class="btn btn-xs btn-default mdl-shadow--8dp" href="'.KsvmServUrl.'KsvmReportePedidos/'.($KsvmPagina+1).'/"><i class="zmdi zmdi-fast-forward"></i></a>
+                                                       <span></span>
+                                                       <a class="btn btn-xs btn-success mdl-shadow--8dp" href="'.KsvmServUrl.'KsvmReportePedidos/'.($KsvmNPaginas).'/">Último</a>';
+                                                       
+                                                       
+                                    }
+                                    
+                                    $KsvmTabla .= '</nav></div>'; 
+                                }
+                            }
+                            
                                            
                 return $KsvmTabla;
-        }
-        
+                        
       }
      
       /**
@@ -650,12 +788,59 @@
           return KsvmTransaccionModelo :: __KsvmCargarDataModelo($KsvmCodigo);
       }
       
-      /**
-       * Función que permite contar una Transaccion 
+     /**
+       * Función que permite contar una Transacción 
        */
-      public function __KsvmContarTransaccionControlador()
+      public function __KsvmContarIngresosControlador($KsvmTokken)
       {
-          return KsvmTransaccionModelo :: __KsvmContarTransaccionModelo(0);
+          if ($KsvmTokken == 0) {
+            $KsvmContaTransaccion = KsvmTransaccionModelo :: __KsvmContarIngresosSuperModelo();
+          } elseif($KsvmTokken == 1) {
+            $KsvmContaTransaccion = KsvmTransaccionModelo :: __KsvmContarIngresosTecniModelo();
+          } else{
+            $KsvmContaTransaccion = KsvmTransaccionModelo :: __KsvmContarIngresosModelo();
+          }
+          return $KsvmContaTransaccion;
+      }
+
+           /**
+       * Función que permite contar una Transacción 
+       */
+      public function __KsvmContarEgresosControlador($KsvmTokken)
+      {
+          if ($KsvmTokken == 0) {
+            $KsvmContaTransaccion = KsvmTransaccionModelo :: __KsvmContarEgresosSuperModelo();
+          } elseif($KsvmTokken == 1) {
+            $KsvmContaTransaccion = KsvmTransaccionModelo :: __KsvmContarEgresosTecniModelo();
+          } else{
+            $KsvmContaTransaccion = KsvmTransaccionModelo :: __KsvmContarEgresosModelo();
+          }
+          return $KsvmContaTransaccion;
+      }
+
+      /**
+       * Función que permite imprimir una Transaccion 
+       */
+      public function __KsvmImprimirTransaccionControlador()
+      {
+        return KsvmTransaccionModelo :: __KsvmImprimirTransaccionModelo();
+      }
+
+      /**
+       * Función que permite imprimir una Transaccion 
+       */
+      public function __KsvmImprimirTransaccionesControlador($KsvmTipo)
+      {
+            return KsvmTransaccionModelo :: __KsvmImprimirTransaccionesModelo($KsvmTipo);
+      }
+
+      /**
+       * Función que permite imprimir un detalle de Transaccion 
+       */
+      public function __KsvmImprimirDetalleTransaccionControlador($KsvmCodTransaccion)
+      {
+        $KsvmCodigo = KsvmEstMaestra :: __KsvmDesencriptacion($KsvmCodTransaccion);
+        return KsvmTransaccionModelo :: __KsvmEditarDetalleTransaccionModelo($KsvmCodigo);
       }
 
       /**

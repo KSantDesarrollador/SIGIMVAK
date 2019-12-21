@@ -39,8 +39,6 @@ if ($KsvmUrl == "Login" || $KsvmUrl == "404") {
   include "Compartido/KsvmMenu.php";
   /**Menu Lateral*/
   include "Compartido/KsvmMenuLateral.php";
-  /**Script AgregaRegistros*/
-  include "Compartido/KsvmAgregaRegistros.php";
   /**Script Carga Select*/
   include "Compartido/KsvmCargaSelect.php";
   /**Contenido*/

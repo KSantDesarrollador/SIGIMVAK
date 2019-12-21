@@ -141,11 +141,12 @@
                             <tr>
                                 <th class="mdl-data-table__cell--non-numeric">#</th>
                                 <th class="mdl-data-table__cell--non-numeric">Bodega</th>
+                                <th class="mdl-data-table__cell--non-numeric">Imagen</th>
                                 <th class="mdl-data-table__cell--non-numeric">Nombre</th>
                                 <th class="mdl-data-table__cell--non-numeric">Lote</th>
-                                <th class="mdl-data-table__cell--non-numeric">Fch.Cad</th>
+                                <th class="mdl-data-table__cell--non-numeric hide-on-tablet">Fch.Cad</th>
                                 <th class="mdl-data-table__cell--non-numeric">Stock</th>
-                                <th class="mdl-data-table__cell--non-numeric">Cod.Barras</th>
+                                <th class="mdl-data-table__cell--non-numeric hide-on-tablet">Cod.Barras</th>
                                 <th style="text-align:center; witdh:30px;">Acción</th>
                             </tr>
                         </thead>
@@ -158,11 +159,12 @@
                 $KsvmTabla .= '<tr>
                                 <td class="mdl-data-table__cell--non-numeric">'.$KsvmContReg.'</td>
                                 <td class="mdl-data-table__cell--non-numeric">'.$rows['BdgDescBod'].'</td>
+                                <td class="mdl-data-table__cell--non-numeric"><img height="35px" width="45px" src="data:image/jpg;base64,'. base64_encode($rows['MdcFotoMed']).'"/></td>
                                 <td class="mdl-data-table__cell--non-numeric">'.$rows['MdcDescMed'].' '.$rows['MdcConcenMed'].'</td>
                                 <td class="mdl-data-table__cell--non-numeric">'.$rows['ExtLoteEx'].'</td>
-                                <td class="mdl-data-table__cell--non-numeric">'.$rows['ExtFchCadEx'].'</td>
+                                <td class="mdl-data-table__cell--non-numeric hide-on-tablet">'.$rows['ExtFchCadEx'].'</td>
                                 <td class="mdl-data-table__cell--non-numeric">'.$rows['ExbStockEbo'].'</td>
-                                <td class="mdl-data-table__cell--non-numeric"><svg id="Barcode'.$rows['ExtCodBarEx'].'"></td>
+                                <td class="mdl-data-table__cell--non-numeric hide-on-tablet"><img src="'.KsvmServUrl.'Vistas/Contenidos/barcode.php?text='.$rows['ExtCodBarEx'].'&size=25&orientation=horizontal&codetype=codabar&print=false&sizefactor=1"/></td>
                                 <td style="text-align:right; witdh:30px;">';
                                 if ($KsvmRol == 1) {
                                     if ($KsvmCodigo == 0) {
@@ -264,7 +266,7 @@
              
                 $KsvmTabla .= '</nav></div>';      
 
-            } else {
+            } elseif ($KsvmTotalReg >= 1 && $KsvmPagina <= $KsvmNPaginas && $KsvmCodigo == 1) {
                 $KsvmTabla .= '<nav class="navbar-form navbar-right form-group">';
                 
                 if ($KsvmPagina == 1) {
@@ -342,6 +344,14 @@
       public function __KsvmContarExistenciaControlador()
       {
           return KsvmExistenciaModelo :: __KsvmContarExistenciaModelo(0);
+      }
+
+      /**
+       * Función que permite imprimir una Existencia 
+       */
+      public function __KsvmImprimirExistenciaControlador()
+      {
+        return KsvmExistenciaModelo :: __KsvmImprimirExistenciaModelo();
       }
 
       /**
@@ -505,30 +515,4 @@
 
 }
    
- ?>
- 			<!-- <script type="text/javascript">
-					alert('hola');
-        function arrayjsonbarcode(j){
-			json=JSON.parse(j);
-			arr=[];
-			for (var x in json) {
-				arr.push(json[x]);
-			}
-			return arr;
-		}
-
-		jsonvalor='<?php echo json_encode($KsvmArrayCode) ?>';
-
-		valores=arrayjsonbarcode(jsonvalor);
-
-		for (var i = 0; i < valores.length; i++) {
-
-			JsBarcode("#Barcode" + valores[i], valores[i].toString(), {
-				format: "codabar",
-				lineColor: "#000",
-				width: 2,
-				height: 20,
-				displayValue: true
-			});
-		}
-		</script> -->
+ 

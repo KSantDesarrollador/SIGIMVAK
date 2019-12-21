@@ -26,11 +26,11 @@
 				<div
 					class="mdl-cell mdl-cell--4-col-phone mdl-cell--8-col-tablet mdl-cell--13-col-desktop mdl-cell--0-offset-desktop">
 					<div class="" style="float:right;">
-							<a href="<?php echo KsvmServUrl;?>KsvmRequisicionesCrud/1/" id="btn-input"
-								class="btn btn-sm btn-dark mdl-shadow--8dp btn-salir">VER LISTA &nbsp;<i
-									class="zmdi zmdi-arrow-left"></i></a>
-						</div>
-						<br>
+						<a href="<?php echo KsvmServUrl;?>KsvmRequisicionesCrud/1/" id="btn-input"
+							class="btn btn-sm btn-dark mdl-shadow--8dp btn-salir">VER LISTA &nbsp;<i
+								class="zmdi zmdi-arrow-left"></i></a>
+					</div>
+					<br>
 					<div class="full-width panel mdl-shadow--8dp">
 						<div class="full-width modal-header-input text-center">
 							Nuevo Pedido
@@ -176,8 +176,10 @@
 									<label class="mdl-textfield__label"></label>
 								</div>
 								<div class="mdl-textfield--expandable navBar-options-list">
-									<a class="btn btn-sm btn-success mdl-shadow--8dp mdl-tabs__tab">PDF</a>&nbsp;
-									<a href="#KsvmNuevoPedido" id="btn-input" 
+									<a class="btn btn-sm btn-success mdl-shadow--8dp"
+										href="<?php echo KsvmServUrl;?>Reportes/KsvmRequisicionesPdf.php"
+										target="_blank"><i class="zmdi zmdi-file">&nbsp;PDF</i></a>
+									<a href="#KsvmNuevoPedido" id="btn-input"
 										class="btn btn-sm btn-warning mdl-shadow--8dp mdl-tabs__tab">NUEVO &nbsp;<i
 											class="zmdi zmdi-plus-circle"></i></a>
 								</div>
@@ -196,12 +198,12 @@
 						$_SESSION['KsvmBuscarReq'] = $_POST['KsvmBuscarReq'];
                         $KsvmPagina = explode("/", $_GET['Vistas']);
 						echo $KsvmIniReq -> __KsvmPaginador($KsvmPagina[1], KsvmNumPag, $_SESSION['KsvmRolId-SIGIM'], 
-						0, $_SESSION['KsvmBuscarReq']);
+						0, $_SESSION['KsvmBuscarReq'], "");
 					}else{
 
 						$KsvmPagina = explode("/", $_GET['Vistas']);
 						echo $KsvmIniReq -> __KsvmPaginador($KsvmPagina[1], KsvmNumPag, $_SESSION['KsvmRolId-SIGIM'], 
-						0, "");
+						0, "", "");
 				       }
 				?>
 

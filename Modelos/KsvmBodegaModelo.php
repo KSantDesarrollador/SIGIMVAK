@@ -59,6 +59,15 @@
           $KsvmQuery->execute();
           return $KsvmQuery;
       }
+     /**
+      *Función que permite imprimir una Bodega
+      */
+      protected function __KsvmImprimirBodegaModelo()
+      {
+          $KsvmImprimirBodega = "SELECT * FROM ksvmvistabodegas";
+          $KsvmQuery = KsvmEstMaestra :: __KsvmConexion()->query($KsvmImprimirBodega);
+          return $KsvmQuery;
+      }
        /**
       *Función que permite actualizar una bodega
       */

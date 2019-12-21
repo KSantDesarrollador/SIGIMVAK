@@ -57,6 +57,15 @@
           $KsvmQuery->execute();
           return $KsvmQuery;
       }
+     /**
+      *Función que permite imprimir una alerta
+      */
+      protected function __KsvmImprimirAlertaModelo()
+      {
+          $KsvmImprimirAlerta = "SELECT * FROM ksvmalerta15";
+          $KsvmQuery = KsvmEstMaestra :: __KsvmConexion()->query($KsvmImprimirAlerta);
+          return $KsvmQuery;
+      }
        /**
       *Función que permite actualizar una alerta
       */

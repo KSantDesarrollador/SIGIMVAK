@@ -17,22 +17,24 @@
      protected function __KsvmAgregarRequisicionModelo($KsvmDataRequisicion)
      {
          if ($KsvmDataRequisicion['KsvmIvtId'] == 0) {
-            $KsvmIngRequisicion = "INSERT INTO ksvmrequisicion13(RqcNumReq, RqcOrigenReq, RqcFchRevReq, RqcPerElabReq, RqcPerAprbReq)
-                                    VALUES(:KsvmNumReq, :KsvmOrigenReq, :KsvmFchRevReq, :KsvmPerElabReq, :KsvmPerAprbReq)";
+            $KsvmIngRequisicion = "INSERT INTO ksvmrequisicion13(RqcNumReq, RqcOrigenReq, RqcFchElabReq, RqcFchRevReq, RqcPerElabReq, RqcPerAprbReq)
+                                    VALUES(:KsvmNumReq, :KsvmOrigenReq, :KsvmFchElabReq, :KsvmFchRevReq, :KsvmPerElabReq, :KsvmPerAprbReq)";
             $KsvmQuery = KsvmEstMaestra :: __KsvmConexion()->prepare($KsvmIngRequisicion);
             $KsvmQuery->bindParam(":KsvmNumReq", $KsvmDataRequisicion['KsvmNumReq']);
             $KsvmQuery->bindParam(":KsvmOrigenReq", $KsvmDataRequisicion['KsvmOrigenReq']);
+            $KsvmQuery->bindParam(":KsvmFchElabReq", $KsvmDataRequisicion['KsvmFchElabReq']);
             $KsvmQuery->bindParam(":KsvmFchRevReq", $KsvmDataRequisicion['KsvmFchRevReq']);
             $KsvmQuery->bindParam(":KsvmPerElabReq", $KsvmDataRequisicion['KsvmPerElabReq']);
             $KsvmQuery->bindParam(":KsvmPerAprbReq", $KsvmDataRequisicion['KsvmPerAprbReq']);
             $KsvmQuery->execute();
          } else {
-            $KsvmIngRequisicion = "INSERT INTO ksvmrequisicion13(IvtId, RqcNumReq, RqcOrigenReq, RqcFchRevReq, RqcPerElabReq, RqcPerAprbReq)
-                                    VALUES(:KsvmIvtId, :KsvmNumReq, :KsvmOrigenReq, :KsvmFchRevReq, :KsvmPerElabReq, :KsvmPerAprbReq)";
+            $KsvmIngRequisicion = "INSERT INTO ksvmrequisicion13(IvtId, RqcNumReq, RqcOrigenReq, RqcFchElabReq, RqcFchRevReq, RqcPerElabReq, RqcPerAprbReq)
+                                    VALUES(:KsvmIvtId, :KsvmNumReq, :KsvmOrigenReq, :KsvmFchElabReq, :KsvmFchRevReq, :KsvmPerElabReq, :KsvmPerAprbReq)";
             $KsvmQuery = KsvmEstMaestra :: __KsvmConexion()->prepare($KsvmIngRequisicion);
             $KsvmQuery->bindParam(":KsvmIvtId", $KsvmDataRequisicion['KsvmIvtId']);
             $KsvmQuery->bindParam(":KsvmNumReq", $KsvmDataRequisicion['KsvmNumReq']);
             $KsvmQuery->bindParam(":KsvmOrigenReq", $KsvmDataRequisicion['KsvmOrigenReq']);
+            $KsvmQuery->bindParam(":KsvmFchElabReq", $KsvmDataRequisicion['KsvmFchElabReq']);
             $KsvmQuery->bindParam(":KsvmFchRevReq", $KsvmDataRequisicion['KsvmFchRevReq']);
             $KsvmQuery->bindParam(":KsvmPerElabReq", $KsvmDataRequisicion['KsvmPerElabReq']);
             $KsvmQuery->bindParam(":KsvmPerAprbReq", $KsvmDataRequisicion['KsvmPerAprbReq']);
@@ -61,7 +63,7 @@
       */
       protected function __KsvmEliminarRequisicionModelo($KsvmCodRequisicion)
       {
-         $KsvmDelRequisicion = "UPDATE ksvmrequisicion13 SET RqcEstReq = 'X' WHERE RqcId = :KsvmCodRequisicion";
+         $KsvmDelRequisicion = "UPDATE ksvmrequisicion13 SET RqcEstReq = 'I' WHERE RqcId = :KsvmCodRequisicion";
          $KsvmQuery = KsvmEstMaestra :: __KsvmConexion()->prepare($KsvmDelRequisicion);
          $KsvmQuery->bindParam(":KsvmCodRequisicion", $KsvmCodRequisicion);
          $KsvmQuery->execute();
@@ -122,14 +124,65 @@
           $KsvmQuery->execute();
           return $KsvmQuery;
       }
-       /**
+     /**
       *Función que permite contar una requisición
       */
-      protected function __KsvmContarRequisicionModelo($KsvmCodRequisicion)
+      protected function __KsvmContarRequisicionModelo()
       {
           $KsvmContarRequisicion = "SELECT RqcId FROM ksvmvistapedidos WHERE RqcEstReq != 'X'";
           $KsvmQuery = KsvmEstMaestra :: __KsvmConexion()->prepare($KsvmContarRequisicion);
           $KsvmQuery->execute();
+          return $KsvmQuery;
+      }
+       /**
+      *Función que permite contar una requisición
+      */
+      protected function __KsvmContarRequisicionSuperModelo()
+      {
+          $KsvmContarRequisicion = "SELECT RqcId FROM ksvmvistapedidos WHERE RqcEstReq = 'P'";
+          $KsvmQuery = KsvmEstMaestra :: __KsvmConexion()->prepare($KsvmContarRequisicion);
+          $KsvmQuery->execute();
+          return $KsvmQuery;
+      }
+             /**
+      *Función que permite contar una requisición
+      */
+      protected function __KsvmContarRequisicionTecniModelo()
+      {
+          $KsvmContarRequisicion = "SELECT RqcId FROM ksvmvistapedidos WHERE RqcEstReq = 'A'";
+          $KsvmQuery = KsvmEstMaestra :: __KsvmConexion()->prepare($KsvmContarRequisicion);
+          $KsvmQuery->execute();
+          return $KsvmQuery;
+      }
+     /**
+      *Función que permite aprobar una Requisicion
+      */
+      protected function __KsvmApruebaRequisicionModelo($KsvmDataRequisicion)
+      {
+          $KsvmApbrRequisicion = "UPDATE ksvmrequisicion13 SET RqcEstReq = 'A' WHERE RqcId = :KsvmCodRequisicion";
+          $KsvmQuery = KsvmEstMaestra :: __KsvmConexion()->prepare($KsvmApbrRequisicion);
+          $KsvmQuery->bindParam(":KsvmCodRequisicion", $KsvmDataRequisicion['KsvmCodRequisicion']);
+          $KsvmQuery->execute();
+          return $KsvmQuery;
+      }
+     /**
+      *Función que permite negar una Requisicion
+      */
+      protected function __KsvmNiegaRequisicionModelo($KsvmDataRequisicion)
+      {
+          $KsvmNiegaRequisicion = "UPDATE ksvmrequisicion13 SET RqcEstReq = 'X' WHERE RqcId = :KsvmCodRequisicion";
+          $KsvmQuery = KsvmEstMaestra :: __KsvmConexion()->prepare($KsvmNiegaRequisicion);
+          $KsvmQuery->bindParam(":KsvmCodRequisicion", $KsvmDataRequisicion['KsvmCodRequisicion']);
+          $KsvmQuery->execute();
+          return $KsvmQuery;
+      }
+     /**
+      *Función que permite imprimir una Requisicion      
+      */
+      protected function __KsvmImprimirRequisicionModelo()
+      {
+          $KsvmImprimirRequisicion = "SELECT * FROM ksvmvistapedidos";
+          $KsvmQuery = KsvmEstMaestra :: __KsvmConexion()->query($KsvmImprimirRequisicion);
           return $KsvmQuery;
       }
        /**

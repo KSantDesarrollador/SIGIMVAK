@@ -1,0 +1,85 @@
+<?php
+require_once 'PDF/fpdf.php';
+require_once '../Raiz/KsvmConfiguracion.php';
+
+class PDF extends FPDF
+{
+
+// Cabecera de página
+function Header()
+{
+  $KsvmUrlImg = '../Vistas/assets/img/Logo.png';
+    // Logo
+    $this->Image($KsvmUrlImg,10,8,13);
+    // Arial bold 15
+    $this->SetFont('Arial','B',17);
+    // Movernos a la derecha
+    $this->Cell(80);
+    // Título
+    $this->Cell(30,10,'SIGIMVAK',0,0,'C');
+    // Movernos a la derecha
+    $this->Cell(45);
+    // Arial bold 10
+    $this->SetFont('Arial','B',9);
+    setlocale(LC_ALL, 'es_EC.UTF-8');
+    $this->Cell(30,10,strftime("%d  de %B del %Y"),0,0,'C'); //date("d") . " de " . date("F") . " del " . date("Y")
+    // Salto de línea
+    $this->Ln(10);
+    // Arial bold 12
+    $this->SetFont('Arial','B',14);
+    $this->Cell(50,10,'_____________________________________________________________________', 0,0);
+    // Salto de línea
+    $this->Ln(15);
+    // Movernos a la derecha
+    $this->Cell(80);
+    // Título
+    $this->Cell(30,10,'Lista de Procedencias',0,0,'C');
+    // Salto de línea
+    $this->Ln(15);
+    // Arial bold 11
+    $this->SetFont('Arial','B',10);
+
+    $this->Cell(30,10,utf8_decode('Código'),1,0,'C');
+    $this->Cell(60,10,utf8_decode('Nombre'),1,0,'C');
+    $this->Cell(30,10,utf8_decode('Nivel'),1,0,'C');
+    $this->Cell(50,10,utf8_decode('Descripción'),1,0,'C');
+    $this->Cell(20,10,utf8_decode('Estado'),1,1,'C');
+}
+
+// Pie de página
+function Footer()
+{
+    // Posición: a 1,5 cm del final
+    $this->SetY(-15);
+    // Arial italic 8
+    $this->SetFont('Arial','B',8);
+    // Número de página
+    $this->Cell(0,10,utf8_decode('Página').$this->PageNo().'/{nb}',0,0,'C');
+}
+}
+$KsvmPeticionAjax = true;
+require_once "../Controladores/KsvmProcedenciaControlador.php";
+$KsvmIniBod = new KsvmProcedenciaControlador();
+
+$KsvmQuery = $KsvmIniBod->__KsvmImprimirProcedenciaControlador();
+if ($KsvmQuery->rowCount() >= 1) {
+    $KsvmListaProcedencia = $KsvmQuery->fetchAll();
+    // Creación del objeto de la clase heredada
+$pdf = new PDF();
+$pdf->AliasNbPages();
+$pdf->AddPage();
+$pdf->SetFont('Times','',8);
+foreach ($KsvmListaProcedencia as $row){
+    $pdf->Cell(30,8,$row['PrcCodProc'],1,0);
+    $pdf->Cell(60,8,$row['PrcNomProc'],1,0);
+    $pdf->Cell(30,8,$row['PrcNivProc'],1,0);
+    $pdf->Cell(50,8,$row['PrcDescProc'],1,0);
+    $pdf->Cell(20,8,$row['PrcEstProc'],1,1);
+  }
+  $pdf->Output();
+}
+else{
+  echo '<div><strong>No se ha encontrado registros que mostrar....</strong></div>';
+}
+
+

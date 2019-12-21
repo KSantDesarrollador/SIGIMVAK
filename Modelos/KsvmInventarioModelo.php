@@ -49,7 +49,7 @@
       */
       protected function __KsvmEliminarInventarioModelo($KsvmCodInventario)
       {
-         $KsvmDelInventario = "UPDATE ksvminventario11 SET IvtEstInv = 'X' WHERE IvtId = :KsvmCodInventario";
+         $KsvmDelInventario = "UPDATE ksvminventario11 SET IvtEstInv = 'I' WHERE IvtId = :KsvmCodInventario";
          $KsvmQuery = KsvmEstMaestra :: __KsvmConexion()->prepare($KsvmDelInventario);
          $KsvmQuery->bindParam(":KsvmCodInventario", $KsvmCodInventario);
          $KsvmQuery->execute();
@@ -110,10 +110,10 @@
           $KsvmQuery->execute();
           return $KsvmQuery;
       }
-       /**
-      *Función que permite contar un inventario
+     /**
+      *Función que permite contar una Inventario
       */
-      protected function __KsvmContarInventarioModelo($KsvmCodInventario)
+      protected function __KsvmContarInventarioModelo()
       {
           $KsvmContarInventario = "SELECT IvtId FROM ksvmvistainventarios WHERE IvtEstInv != 'X'";
           $KsvmQuery = KsvmEstMaestra :: __KsvmConexion()->prepare($KsvmContarInventario);
@@ -121,6 +121,46 @@
           return $KsvmQuery;
       }
        /**
+      *Función que permite contar un inventario
+      */
+      protected function __KsvmContarInventarioSuperModelo()
+      {
+          $KsvmContarInventario = "SELECT IvtId FROM ksvmvistainventarios WHERE IvtEstInv = 'P'";
+          $KsvmQuery = KsvmEstMaestra :: __KsvmConexion()->prepare($KsvmContarInventario);
+          $KsvmQuery->execute();
+          return $KsvmQuery;
+      }
+             /**
+      *Función que permite contar un inventario
+      */
+      protected function __KsvmContarInventarioTecniModelo()
+      {
+          $KsvmContarInventario = "SELECT IvtId FROM ksvmvistainventarios WHERE IvtEstInv = 'A'";
+          $KsvmQuery = KsvmEstMaestra :: __KsvmConexion()->prepare($KsvmContarInventario);
+          $KsvmQuery->execute();
+          return $KsvmQuery;
+      }
+     /**
+      *Función que permite aprobar una inventario
+      */
+      protected function __KsvmApruebaInventarioModelo($KsvmDataInventario)
+      {
+          $KsvmApbrInventario = "UPDATE ksvminventario11 SET IvtEstInv = 'A' WHERE IvtId = :KsvmCodInventario";
+          $KsvmQuery = KsvmEstMaestra :: __KsvmConexion()->prepare($KsvmApbrInventario);
+          $KsvmQuery->bindParam(":KsvmCodInventario", $KsvmDataInventario['KsvmCodInventario']);
+          $KsvmQuery->execute();
+          return $KsvmQuery;
+      }
+     /**
+      *Función que permite imprimir un Inventario
+      */
+      protected function __KsvmImprimirInventarioModelo()
+      {
+          $KsvmImprimirInventario = "SELECT * FROM ksvmvistainventarios";
+          $KsvmQuery = KsvmEstMaestra :: __KsvmConexion()->query($KsvmImprimirInventario);
+          return $KsvmQuery;
+      }
+     /**
       *Función que permite actualizar un inventario
       */
       protected function __KsvmActualizarInventarioModelo($KsvmDataInventario)

@@ -65,24 +65,27 @@
                                  <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
                                      <input class="mdl-textfield__input" type="text" name="KsvmNomAle"
                                          value="<?php echo $KsvmLlenarForm['AltNomAle'];?>"
-                                         pattern="-?[A-Za-záéíóúÁÉÍÓÚñ ]*(\.[0-9]+)?" id="KsvmNomAle">
-                                     <label class="mdl-textfield__label" for="KsvmNomAle">Nombre</label>
+                                         pattern="-?[A-Za-záéíóúÁÉÍÓÚñ ]*(\.[0-9]+)?" id="KsvmDato1">
+                                     <label class="mdl-textfield__label" for="KsvmDato1">Nombre</label>
                                      <span class="mdl-textfield__error">Nombre Inválido</span>
+                                     <span id="KsvmError1" class="ValForm"><i class="zmdi zmdi-alert-triangle">&nbsp;Por favor llene este campo</i></span>
                                  </div>
                                  <br>
                                  <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
                                      <input class="mdl-textfield__input" type="color" name="KsvmColorAle"
                                          value="<?php echo $KsvmLlenarForm['AltColorAle'];?>"
-                                          id="KsvmColorAle">
-                                     <label class="mdl-textfield__label" for="KsvmColorAle">Color</label>
+                                          id="KsvmDato2">
+                                     <label class="mdl-textfield__label" for="KsvmDato2">Color</label>
                                      <span class="mdl-textfield__error">Color Inválido</span>
+                                     <span id="KsvmError2" class="ValForm"><i class="zmdi zmdi-alert-triangle">&nbsp;Por favor llene este campo</i></span>
                                  </div>
                                  <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
                                      <input class="mdl-textfield__input" type="text" name="KsvmDescAle"
                                          value="<?php echo  $KsvmLlenarForm['AltDescAle'];?>" 
-                                         pattern="-?[A-Za-záéíóúÁÉÍÓÚñ ]*(\.[0-9]+)?" id="KsvmDescAle">
-                                     <label class="mdl-textfield__label" for="KsvmDescAle">Descripción</label>
+                                         pattern="-?[A-Za-záéíóúÁÉÍÓÚñ ]*(\.[0-9]+)?" id="KsvmDato3">
+                                     <label class="mdl-textfield__label" for="KsvmDato3">Descripción</label>
                                      <span class="mdl-textfield__error">Descripción Inválida</span>
+                                     <span id="KsvmError3" class="ValForm"><i class="zmdi zmdi-alert-triangle">&nbsp;Por favor llene este campo</i></span>
                                  </div>
                              </div>
                          </div>
@@ -90,11 +93,11 @@
                          <p class="text-center">
                              <button type="submit"
                                  class="mdl-button mdl-js-button mdl-js-ripple-effect btn-primary mdl-shadow--4dp"
-                                 id="btn-ActualizarAlerta">
+                                 id="btnSave">
                                  <i class="zmdi zmdi-save">&nbsp;Guardar</i>
                              </button>
                          </p>
-                         <div class="mdl-tooltip" for="btn-ActualizarAlerta">Actualizar Alerta</div>
+                         <div class="mdl-tooltip" for="btnSave">Actualizar Alerta</div>
                          <div class="RespuestaAjax"></div>
                      </form>
                  </div>

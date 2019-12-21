@@ -29,11 +29,7 @@
 				<!-- Formulario para ingresar un nuevo Inventario -->
 				<div
 					class="mdl-cell mdl-cell--4-col-phone mdl-cell--8-col-tablet mdl-cell--13-col-desktop mdl-cell--0-offset-desktop">
-					<!-- <div class="" style="float:right;">
-							<a href="<?php echo KsvmServUrl;?>KsvmInventariosCrud/1/" id="btn-input"
-								class="btn btn-sm btn-dark mdl-shadow--8dp btn-salir">VER LISTA &nbsp;<i
-									class="zmdi zmdi-arrow-right"></i></a>
-						</div> -->
+					<br>
 					<div class="full-width panel mdl-shadow--8dp">
 						<div class="full-width modal-header-input text-center">
 							Nuevo Ingreso
@@ -103,10 +99,12 @@
 								<div class="mdl-grid" id="GridRows">
 									<div
 										class="mdl-cell mdl-cell--4-col-phone mdl-cell--8-col-tablet mdl-cell--6-col-desktop">
-										<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label" hidden>
+										<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label"
+											hidden>
 											<input class="mdl-textfield__input" type="text" name="KsvmTipoTran"
 												id="KsvmTipoTran" value="Ingreso">
-											<label class="mdl-textfield__label" for="KsvmTipoTran">Tipo de transacción</label>
+											<label class="mdl-textfield__label" for="KsvmTipoTran">Tipo de
+												transacción</label>
 										</div>
 										<div class="mdl-textfield mdl-js-textfield">
 											<select class="mdl-textfield__input" name="KsvmExtId" id="KsvmExtId"
@@ -123,17 +121,21 @@
 									</div>
 									<div
 										class="mdl-cell mdl-cell--4-col-phone mdl-cell--8-col-tablet mdl-cell--6-col-desktop">
-										<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label" id="KsvmCantTran">
+										<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label"
+											id="KsvmCantTran">
 											<input class="mdl-textfield__input" type="number" max="1000" min="1"
-												name="KsvmCantTran" pattern="-?[0-9+()- ]*(\.[0-9]+)?>
-											<label class="mdl-textfield__label" for="KsvmCantTran">Cantidad</label>
+												name="KsvmCantTran" pattern="-?[0-9+()- ]*(\.[0-9]+)?" id="KsvmDato3">
+											<label class="mdl-textfield__label" for="KsvmDato3">Cantidad</label>
 											<span class="mdl-textfield__error">Cantidad Inválida</span>
+											<span id="KsvmError3" class="ValForm"><i
+ 												class="zmdi zmdi-alert-triangle">&nbsp;Por favor llene este
+ 												campo</i></span>
 										</div>
 										<br>
 										<p class="text-center">
 											<button type="submit" style="width:49%; float:left;"
 												class="mdl-button mdl-js-button mdl-js-ripple-effect btn-success mdl-shadow--4dp"
-												id="btnAgregar">
+												id="btnSave">
 												<i class="zmdi zmdi-plus" style="font-size:20px;"></i>&nbsp;Agregar
 											</button>
 
@@ -144,7 +146,7 @@
 												&nbsp;Guardar
 											</button>
 										</p>
-										<div class="mdl-tooltip" for="btnAgregar">Agregar</div>
+										<div class="mdl-tooltip" for="btnSave">Agregar</div>
 										<div class="mdl-tooltip" for="btnGuardar">Guardar</div>
 									</div>
 								</div>
@@ -181,7 +183,9 @@
 									<label class="mdl-textfield__label"></label>
 								</div>
 								<div class="mdl-textfield--expandable navBar-options-list">
-									<a class="btn btn-sm btn-success mdl-shadow--8dp mdl-tabs__tab">PDF</a>&nbsp;
+									<a class="btn btn-sm btn-success mdl-shadow--8dp"
+										href="<?php echo KsvmServUrl;?>Reportes/KsvmIngresosPdf.php" target="_blank"><i
+											class="zmdi zmdi-file">&nbsp;PDF</i></a>
 								</div>
 							</div>
 							<div class="RespuestaAjax"></div>
@@ -198,12 +202,12 @@
 						$_SESSION['KsvmBuscarTran'] = $_POST['KsvmBuscarTran'];
                         $KsvmPagina = explode("/", $_GET['Vistas']);
 						echo $KsvmIniTran -> __KsvmPaginador($KsvmPagina[1], KsvmNumPag, $_SESSION['KsvmRolId-SIGIM'], 
-						1, $_SESSION['KsvmBuscarTran']);
+						1, $_SESSION['KsvmBuscarTran'], "", "");
 					}else{
 
 						$KsvmPagina = explode("/", $_GET['Vistas']);
 						echo $KsvmIniTran -> __KsvmPaginador($KsvmPagina[1], KsvmNumPag, $_SESSION['KsvmRolId-SIGIM'], 
-						1, "");
+						1, "", "", "");
 				       }
 				?>
 

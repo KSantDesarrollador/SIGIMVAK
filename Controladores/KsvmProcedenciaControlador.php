@@ -272,6 +272,14 @@
       }
 
       /**
+       * Función que permite imprimir una Procedencia 
+       */
+      public function __KsvmImprimirProcedenciaControlador()
+      {
+        return KsvmProcedenciaModelo :: __KsvmImprimirProcedenciaModelo();
+      }
+
+      /**
        * Función que permite actualizar una Procedencia 
        */
       public function __KsvmActualizarProcedenciaControlador()

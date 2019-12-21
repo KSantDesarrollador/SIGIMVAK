@@ -7,7 +7,7 @@ $KsvmPeticionAjax = true;
 require_once "../Raiz/KsvmConfiguracion.php";
 
 if (isset($_POST['KsvmIvtId']) || isset($_POST['KsvmCodDelete']) || isset($_POST['KsvmCodEdit']) || isset($_POST['KsvmBdgCod'])
-    || isset($_POST['KsvmRqcCod']) || isset($_POST['KsvmRqcCantCod']) || isset($_POST['KsvmCodX'])) {
+    || isset($_POST['KsvmRqcCod']) || isset($_POST['KsvmRqcCantCod']) || isset($_POST['KsvmTokken']) || isset($_POST['KsvmCodX'])) {
     require_once "../Controladores/KsvmRequisicionControlador.php";
     $KsvmIniRequisicion = new KsvmRequisicionControlador();
 
@@ -18,6 +18,10 @@ if (isset($_POST['KsvmIvtId']) || isset($_POST['KsvmCodDelete']) || isset($_POST
 
     if (isset($_POST['KsvmCodDelete'])) {
         echo $KsvmIniRequisicion->__KsvmEliminarRequisicionControlador();
+    }
+
+    if (isset($_POST['KsvmTokken']) && isset($_POST['KsvmCodRevision'])) {
+        echo $KsvmIniRequisicion->__KsvmRevisarRequisicion();
     }
 
     if (isset($_POST['KsvmCodX'])) {

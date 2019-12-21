@@ -231,6 +231,122 @@ $(document).ready(function() {
 			clearInterval(KsvmIntervalo);
 		});
 	}
+
+	// Validar formularios
+	$('#btnSave').on('click', function() {
+		var KsvmDato1 = $('#KsvmDato1').val();
+		var KsvmDato2 = $('#KsvmDato2').val();
+		var KsvmDato3 = $('#KsvmDato3').val();
+		var KsvmDato4 = $('#KsvmDato4').val();
+		var KsvmDato5 = $('#KsvmDato5').val();
+		var KsvmDato6 = $('#KsvmDato6').val();
+		var KsvmDato7 = $('#KsvmDato7').val();
+		var KsvmDato8 = $('#KsvmDato8').val();
+		var KsvmDato9 = $('#KsvmDato9').val();
+		var KsvmDato10 = $('#KsvmDato10').val();
+		var KsvmDato11 = $('#KsvmDato11').val();
+		var KsvmDato12 = $('#KsvmDato12').val();
+		var KsvmDato13 = $('#KsvmDato13').val();
+		var KsvmDato14 = $('#KsvmDato14').val();
+		var KsvmDato15 = $('#KsvmDato15').val();
+
+		if (KsvmDato1 == '') {
+			$('#KsvmError1').fadeIn(600);
+			return false;
+		} else {
+			$('#KsvmError1').fadeOut(600);
+			if (KsvmDato2 == '') {
+				$('#KsvmError2').fadeIn(600);
+				return false;
+			} else {
+				$('#KsvmError2').fadeOut(600);
+				if (KsvmDato3 == '') {
+					$('#KsvmError3').fadeIn(600);
+					return false;
+				} else {
+					$('#KsvmError3').fadeOut(600);
+					if (KsvmDato4 == '') {
+						$('#KsvmError4').fadeIn(600);
+						return false;
+					} else {
+						$('#KsvmError4').fadeOut(600);
+						if (KsvmDato5 == '') {
+							$('#KsvmError5').fadeIn(600);
+							return false;
+						} else {
+							$('#KsvmError5').fadeOut(600);
+							if (KsvmDato6 == '') {
+								$('#KsvmError6').fadeIn(600);
+								return false;
+							} else {
+								$('#KsvmError6').fadeOut(600);
+								if (KsvmDato7 == '') {
+									$('#KsvmError7').fadeIn(600);
+									return false;
+								} else {
+									$('#KsvmError7').fadeOut(600);
+									if (KsvmDato8 == '') {
+										$('#KsvmError8').fadeIn(600);
+										return false;
+									} else {
+										$('#KsvmError8').fadeOut(600);
+										if (KsvmDato9 == '') {
+											$('#KsvmError9').fadeIn(600);
+											return false;
+										} else {
+											$('#KsvmError9').fadeOut(600);
+											if (KsvmDato10 == '') {
+												$('#KsvmError10').fadeIn(600);
+												return false;
+											} else {
+												$('#KsvmError10').fadeOut(600);
+												if (KsvmDato11 == '') {
+													$('#KsvmError11').fadeIn(600);
+													return false;
+												} else {
+													$('#KsvmError11').fadeOut(600);
+													if (KsvmDato12 == '') {
+														$('#KsvmError12').fadeIn(600);
+														return false;
+													} else {
+														$('#KsvmError12').fadeOut(600);
+														if (KsvmDato13 == '') {
+															$('#KsvmError13').fadeIn(600);
+															return false;
+														} else {
+															$('#KsvmError13').fadeOut(600);
+															if (KsvmDato14 == '') {
+																$('#KsvmError14').fadeIn(600);
+																return false;
+															} else {
+																$('#KsvmError14').fadeOut(600);
+																if (KsvmDato15 == '') {
+																	$('#KsvmError15').fadeIn(600);
+																	return false;
+																}
+															}
+														}
+													}
+												}
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	});
+
+	$('.mdl-textfield__input').on('keypress', function() {
+		$('.ValForm').fadeOut(600);
+	});
+
+	$('.mdl-textfield__input').on('change', function() {
+		$('.ValForm').fadeOut(600);
+	});
 });
 
 /*Barras de navegación*/

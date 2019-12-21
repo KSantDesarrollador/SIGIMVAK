@@ -24,7 +24,7 @@
          $KsvmNivPrescMed = KsvmEstMaestra :: __KsvmFiltrarCadena($_POST['KsvmNivPrescMed']);
          $KsvmNivAtencMed = KsvmEstMaestra :: __KsvmFiltrarCadena($_POST['KsvmNivAtencMed']);
          $KsvmViaAdmMed = KsvmEstMaestra :: __KsvmFiltrarCadena($_POST['KsvmViaAdmMed']);
-         $KsvmFotoMed = addslashes(file_get_contents($_FILES['KsvmFotoMed']['tmp_name']));
+         $KsvmFotoMed = file_get_contents($_FILES['KsvmFotoMed']['tmp_name']);
         
               $KsvmNuevoMed = [
                 "KsvmCtgId" => $KsvmCtgId,
@@ -100,7 +100,7 @@
                                 <th class="mdl-data-table__cell--non-numeric">Foto</th>
                                 <th class="mdl-data-table__cell--non-numeric">Código</th>
                                 <th class="mdl-data-table__cell--non-numeric">Descripción</th>
-                                <th class="mdl-data-table__cell--non-numeric">Nivel</th>
+                                <th class="mdl-data-table__cell--non-numeric hide-on-tablet">Nivel</th>
                                 <th class="mdl-data-table__cell--non-numeric">Categoría</th>
                                 <th class="mdl-data-table__cell--non-numeric">Color</th>
                                 <th style="text-align:center; witdh:30px;">Acción</th>
@@ -113,15 +113,14 @@
             foreach ($KsvmQuery as $rows) {
                 $KsvmTabla .= '<tr>
                                 <td class="mdl-data-table__cell--non-numeric">'.$KsvmContReg.'</td>
-                                <td class="mdl-data-table__cell--non-numeric"><img src="data:image/jpg;base64,'. base64_encode($rows['MdcFotoMed']).'"/></td>
+                                <td class="mdl-data-table__cell--non-numeric"><img style="border-radius:30px;" height="35px" width="35px" src="data:image/jpg;base64,'. base64_encode($rows['MdcFotoMed']).'"/></td>
                                 <td class="mdl-data-table__cell--non-numeric">'.$rows['MdcCodMed'].'</td>
                                 <td class="mdl-data-table__cell--non-numeric">'.$rows['MdcDescMed'].'</td>
-                                <td class="mdl-data-table__cell--non-numeric">'.$rows['MdcNivAtencMed'].'</td>
+                                <td class="mdl-data-table__cell--non-numeric hide-on-tablet">'.$rows['MdcNivAtencMed'].'</td>
                                 <td class="mdl-data-table__cell--non-numeric">'.$rows['CtgNomCat'].'</td>
                                 <td class="mdl-data-table__cell--non-numeric"><button class="btn btn-md" style="border-color:#000; background-color:'.$rows['CtgColorCat'].';"></button></td>
                                 <td style="text-align:right; witdh:30px;">';
                                 if ($KsvmRol == 1) {
-                                    if ($KsvmCodigo == 0) {
 
                                     $KsvmTabla .= '<form action="'.KsvmServUrl.'Ajax/KsvmMedicamentoAjax.php" method="POST" class="FormularioAjax" data-form="eliminar" enctype="multipart/form-data"> 
                                                 <a id="btn-detail" class="btn btn-sm btn-info" href="'.KsvmServUrl.'KsvmMedicamentosCrud/Detail/'.KsvmEstMaestra::__KsvmEncriptacion($rows['MdcId']).'/"><i class="zmdi zmdi-card"></i></a>
@@ -133,18 +132,6 @@
                                                 <div class="mdl-tooltip" for="btn-delete">Inhabilitar</div>
                                                 <div class="RespuestaAjax"></div>
                                                 </form>';
-                                    } else {
-                                    $KsvmTabla .= '<form action="'.KsvmServUrl.'Ajax/KsvmMedicamentoAjax.php" method="POST" class="FormularioAjax" data-form="eliminar" enctype="multipart/form-data"> 
-                                                    <a id="btn-detail" class="btn btn-sm btn-info" href="'.KsvmServUrl.'KsvmCatalogoMedicamentos/Detail/'.KsvmEstMaestra::__KsvmEncriptacion($rows['MdcId']).'"><i class="zmdi zmdi-card"></i></a>
-                                                    <div class="mdl-tooltip" for="btn-detail">Detalles</div>
-                                                    <a id="btn-edit" class="btn btn-sm btn-primary" href="'.KsvmServUrl.'KsvmMedicamentosEditar/'.KsvmEstMaestra::__KsvmEncriptacion($rows['MdcId']).'/1/"><i class="zmdi zmdi-edit"></i></a>
-                                                    <div class="mdl-tooltip" for="btn-edit">Editar</div>
-                                                    <input type="hidden" name="KsvmCodDelete" value="'.KsvmEstMaestra::__KsvmEncriptacion($rows['MdcId']).'">              
-                                                    <button id="btn-delete" type="submit" class="btn btn-sm btn-danger"><i class="zmdi zmdi-delete"></i></button>
-                                                    <div class="mdl-tooltip" for="btn-delete">Inhabilitar</div>
-                                                    <div class="RespuestaAjax"></div>
-                                                    </form>';
-                                    }
                                 }elseif ($KsvmRol == 2 || $KsvmRol == 3){
                                     $KsvmTabla .= '<a id="btn-detail" class="btn btn-sm btn-info" href="'.KsvmServUrl.'KsvmCatalogoMedicamentos/Detail/'.KsvmEstMaestra::__KsvmEncriptacion($rows['MdcId']).'/"><i class="zmdi zmdi-card"></i></a>
                                                     <div class="mdl-tooltip" for="btn-detail">Detalles</div>
@@ -165,7 +152,6 @@
 
                             
                 $KsvmTabla .= '</table>
-
                            <br>
 				           <div class=" mdl-shadow--8dp full-width">
                             <nav class="navbar-form navbar-left form-group">
@@ -220,33 +206,7 @@
              
                 $KsvmTabla .= '</nav></div>';        
 
-            } else {
-                $KsvmTabla .= '<nav class="navbar-form navbar-right form-group">';
-                
-                if ($KsvmPagina == 1) {
-                    $KsvmTabla .= '<button class = "btn btn-xs btn-success mdl-shadow--8dp disabled">Primero</button>
-                                   <span></span>
-                                   <button class = "btn btn-xs btn-default mdl-shadow--8dp disabled"><i class="zmdi zmdi-fast-rewind"></i></button>';
-                } else {
-                    $KsvmTabla .= '<a class = "btn btn-xs btn-success mdl-shadow--8dp " href="'.KsvmServUrl.'KsvmCatalogoMedicamentos/1/">Primero</a>
-                                   <span></span>
-                                   <a class = "btn btn-xs btn-default mdl-shadow--8dp " href="'.KsvmServUrl.'KsvmCatalogoMedicamentos/'.($KsvmPagina-1).'/"><i class="zmdi zmdi-fast-rewind"></i></a>';
-                }
-
-                if ($KsvmPagina == $KsvmNPaginas) {
-                    $KsvmTabla .= '<button class = "btn btn-xs btn-default mdl-shadow--8dp disabled"><i class="zmdi zmdi-fast-forward"></i></button>
-                                   <span></span>
-                                   <button class = "btn btn-xs btn-success mdl-shadow--8dp disabled">Último</button>';
-                } else {
-                    $KsvmTabla .= '<a class="btn btn-xs btn-default mdl-shadow--8dp" href="'.KsvmServUrl.'KsvmCatalogoMedicamentos/'.($KsvmPagina+1).'/"><i class="zmdi zmdi-fast-forward"></i></a>
-                                   <span></span>
-                                   <a class="btn btn-xs btn-success mdl-shadow--8dp" href="'.KsvmServUrl.'KsvmCatalogoMedicamentos/'.($KsvmNPaginas).'/">Último</a>';
-                                   
-                                   
-                }
-                
-                $KsvmTabla .= '</nav></div>'; 
-            }
+            } 
 
         }else {
 
@@ -260,8 +220,7 @@
                                     <div class="mdl-card mdl-shadow--8dp full-width product-card">
                                     <button class="btn btn-md" style="width:100%; background-color:'.$rows['CtgColorCat'].';">'.$rows['CtgNomCat'].'</button>
                                     <div class="mdl-card__title">
-                                        <img src="'.KsvmServUrl.'/Vistas/assets/img/inicio.jpg" alt="product"
-                                            class="img-responsive">
+                                    <img height="100px" src="data:image/jpg;base64,'. base64_encode($rows['MdcFotoMed']).'"/>
                                     </div>
                                     <div class="mdl-card__supporting-text">
                                         <small>'.$rows['MdcPresenMed'].'</small><br>
@@ -307,36 +266,8 @@
     
                 }
             }
-                if ($KsvmTotalReg >= 1 && $KsvmPagina <= $KsvmNPaginas && $KsvmCodigo == 0) {
     
-                    $KsvmTabla .= '<nav class="navbar-form navbar-right form-group">';
-                    
-                    if ($KsvmPagina == 1) {
-                        $KsvmTabla .= '<button class = "btn btn-xs btn-success mdl-shadow--8dp disabled">Primero</button>
-                                       <span></span>
-                                       <button class = "btn btn-xs btn-default mdl-shadow--8dp disabled"><i class="zmdi zmdi-fast-rewind"></i></button>';
-                    } else {
-                        $KsvmTabla .= '<a class = "btn btn-xs btn-success mdl-shadow--8dp " href="'.KsvmServUrl.'KsvmMedicamentosCrud/1/">Primero</a>
-                                       <span></span>
-                                       <a class = "btn btn-xs btn-default mdl-shadow--8dp " href="'.KsvmServUrl.'KsvmMedicamentosCrud/'.($KsvmPagina-1).'/"><i class="zmdi zmdi-fast-rewind"></i></a>';
-                    }
-    
-                    if ($KsvmPagina == $KsvmNPaginas) {
-                        $KsvmTabla .= '<button class = "btn btn-xs btn-default mdl-shadow--8dp disabled"><i class="zmdi zmdi-fast-forward"></i></button>
-                                       <span></span>
-                                       <button class = "btn btn-xs btn-success mdl-shadow--8dp disabled">Último</button>';
-                    } else {
-                        $KsvmTabla .= '<a class="btn btn-xs btn-default mdl-shadow--8dp" href="'.KsvmServUrl.'KsvmMedicamentosCrud/'.($KsvmPagina+1).'/"><i class="zmdi zmdi-fast-forward"></i></a>
-                                       <span></span>
-                                       <a class="btn btn-xs btn-success mdl-shadow--8dp" href="'.KsvmServUrl.'KsvmMedicamentosCrud/'.($KsvmNPaginas).'/">Último</a>';
-                                       
-                                       
-                    }
-                    
-                 
-                    $KsvmTabla .= '</nav></div>';        
-    
-                } else {
+                 if ($KsvmTotalReg >= 1 && $KsvmPagina <= $KsvmNPaginas && $KsvmCodigo == 1)  {
                     $KsvmTabla .= '<nav class="navbar-form navbar-right form-group">';
                     
                     if ($KsvmPagina == 1) {
@@ -357,18 +288,14 @@
                         $KsvmTabla .= '<a class="btn btn-xs btn-default mdl-shadow--8dp" href="'.KsvmServUrl.'KsvmCatalogoMedicamentos/'.($KsvmPagina+1).'/"><i class="zmdi zmdi-fast-forward"></i></a>
                                        <span></span>
                                        <a class="btn btn-xs btn-success mdl-shadow--8dp" href="'.KsvmServUrl.'KsvmCatalogoMedicamentos/'.($KsvmNPaginas).'/">Último</a>';
-                                       
-                                       
+                                        
                     }
                     
                     $KsvmTabla .= '</nav></div>'; 
                 }
-        }
-            
-        
-                                   
-        return $KsvmTabla;
       }
+      return $KsvmTabla;
+    }
      
       /**
        * Función que permite inhabilitar un Medicamento 
@@ -418,6 +345,14 @@
       }
 
       /**
+       * Función que permite imprimir una Medicamento 
+       */
+      public function __KsvmImprimirMedicamentoControlador()
+      {
+        return KsvmMedicamentoModelo :: __KsvmImprimirMedicamentoModelo();
+      }
+
+      /**
        * Función que permite actualizar un Medicamento 
        */
       public function __KsvmActualizarMedicamentoControlador()
@@ -431,7 +366,7 @@
         $KsvmNivPrescMed = KsvmEstMaestra :: __KsvmFiltrarCadena($_POST['KsvmNivPrescMed']);
         $KsvmNivAtencMed = KsvmEstMaestra :: __KsvmFiltrarCadena($_POST['KsvmNivAtencMed']);
         $KsvmViaAdmMed = KsvmEstMaestra :: __KsvmFiltrarCadena($_POST['KsvmViaAdmMed']);
-        $KsvmFotoMed = addslashes(file_get_contents($_FILES['KsvmFotoMed']['tmp_name']));
+        $KsvmFotoMed = file_get_contents($_FILES['KsvmFotoMed']['tmp_name']);
 
         $KsvmActualMed = [
             "KsvmCtgId" => $KsvmCtgId,
@@ -447,7 +382,7 @@
             ];
 
             $KsvmGuardarMed = KsvmMedicamentoModelo :: __KsvmActualizarMedicamentoModelo($KsvmActualMed);
-                if ($KsvmGuardarMed->rowCount() == 1) {
+                if ($KsvmGuardarMed->rowCount() >= 1) {
                     $KsvmAlerta = [
                     "Alerta" => "Actualiza",
                     "Titulo" => "Grandioso",

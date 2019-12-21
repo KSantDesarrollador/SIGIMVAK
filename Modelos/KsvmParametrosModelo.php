@@ -42,7 +42,7 @@
       */
       protected function __KsvmEditarParametrosModelo($KsvmCodParametros)
       {
-          $KsvmEditParametros = "SELECT * FROM ksvmparametros22 WHERE PmtId = :KsvmCodParametros";
+          $KsvmEditParametros = "SELECT * FROM ksvmvistaparametros WHERE PmtId = :KsvmCodParametros";
           $KsvmQuery = KsvmEstMaestra :: __KsvmConexion()->prepare($KsvmEditParametros);
           $KsvmQuery->bindParam(":KsvmCodParametros", $KsvmCodParametros);
           $KsvmQuery->execute();
@@ -56,6 +56,15 @@
           $KsvmContarParametros = "SELECT PmtId FROM ksvmparametros22";
           $KsvmQuery = KsvmEstMaestra :: __KsvmConexion()->prepare($KsvmContarParametros);
           $KsvmQuery->execute();
+          return $KsvmQuery;
+      }
+     /**
+      *Función que permite imprimir un Parametro
+      */
+      protected function __KsvmImprimirParametrosModelo()
+      {
+          $KsvmImprimirParametros = "SELECT * FROM ksvmvistaparametros";
+          $KsvmQuery = KsvmEstMaestra :: __KsvmConexion()->query($KsvmImprimirParametros);
           return $KsvmQuery;
       }
        /**

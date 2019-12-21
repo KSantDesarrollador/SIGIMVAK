@@ -129,6 +129,35 @@
       return $KsvmQuery;
     }
     /**
+     *Funcion que permite eliminar una sesión en bitácora
+    */
+    protected function __KsvmEliminaBitacoraModelo($KsvmCod)
+    {
+      $KsvmEliBit = "DELETE FROM ksvmbitacora20 WHERE BtcId = :KsvmCod";
+      $KsvmQuery = self :: __KsvmConexion()->prepare($KsvmEliBit);
+      $KsvmQuery->bindParam(":KsvmCod", $KsvmCod);
+      $KsvmQuery->execute();
+      return $KsvmQuery;
+    }
+     /**
+      *Función que permite imprimir una sesión de bitácora
+      */
+      protected function __KsvmImprimirBitacoraModelo()
+      {
+          $KsvmImprimirBitacora = "SELECT * FROM ksvmvistabitacora";
+          $KsvmQuery = self :: __KsvmConexion()->query($KsvmImprimirBitacora);
+          return $KsvmQuery;
+      }
+     /**
+      *Función que permite imprimir una sesión de bitácora
+      */
+      protected function __KsvmImprimirDetalleBitacoraModelo($KsvmCodBit)
+      {
+          $KsvmImprimirBitacora = "SELECT * FROM ksvmvistabitacora WHERE BtcId = '$KsvmCodBit'";
+          $KsvmQuery = self :: __KsvmConexion()->query($KsvmImprimirBitacora);
+          return $KsvmQuery;
+      }
+    /**
      *Funcion que permite ingresar un nuevo usuario
     */
     protected function __KsvmAgregarUsuario($KsvmDataUsuario)
@@ -145,34 +174,66 @@
         $KsvmQuery->execute();
         return $KsvmQuery;
     }
-    /**
+     /**
       *Función que permite editar un usuario
       */
       protected function __KsvmEditarUsuario($KsvmCodUsuario)
       {
           $KsvmEditUsuario = "SELECT * FROM ksvmvistausuario WHERE UsrId = :KsvmCodUsuario";
-          $KsvmQuery = KsvmEstMaestra :: __KsvmConexion()->prepare($KsvmEditUsuario);
+          $KsvmQuery = self :: __KsvmConexion()->prepare($KsvmEditUsuario);
           $KsvmQuery->bindParam(":KsvmCodUsuario", $KsvmCodUsuario);
           $KsvmQuery->execute();
           return $KsvmQuery;
       }
-       /**
+     /**
+      *Función que permite editar un usuario
+      */
+      protected function __KsvmEditarPerfil($KsvmCodUsuario)
+      {
+          $KsvmEditUsuario = "SELECT * FROM ksvmvistausuario WHERE UsrId = :KsvmCodUsuario";
+          $KsvmQuery = self :: __KsvmConexion()->prepare($KsvmEditUsuario);
+          $KsvmQuery->bindParam(":KsvmCodUsuario", $KsvmCodUsuario);
+          $KsvmQuery->execute();
+          return $KsvmQuery;
+      }
+     /**
       *Función que permite contar un usuario
       */
       protected function __KsvmContarUsuario($KsvmCodUsuario)
       {
           $KsvmContarUsuario = "SELECT UsrId FROM ksvmvistausuario WHERE UsrId != 1 AND UsrEstUsu = 'A'";
-          $KsvmQuery = KsvmEstMaestra :: __KsvmConexion()->prepare($KsvmContarUsuario);
+          $KsvmQuery = self :: __KsvmConexion()->prepare($KsvmContarUsuario);
           $KsvmQuery->execute();
+          return $KsvmQuery;
+      }
+     /**
+      *Función que permite imprimir un usuario      
+      */
+      protected function __KsvmImprimirUsuarioModelo()
+      {
+          $KsvmImprimirUsuario = "SELECT * FROM ksvmvistausuario";
+          $KsvmQuery = self :: __KsvmConexion()->query($KsvmImprimirUsuario);
           return $KsvmQuery;
       }
     /**
      *Funcion que permite actualizar un nuevo usuario
-    */
+     */
     protected function __KsvmActualizarUsuario($KsvmDataUsuario)
     {
-        $KsvmActUsu = "UPDATE ksvmusuario01 SET RrlId = :KsvmRrlId, UsrNomUsu = :KsvmNomUsu, UsrEmailUsu = :KsvmEmailUsu,
-                       UsrTelfUsu = :KsvmTelfUsu, UsrImgUsu = :KsvmImgUsu WHERE UsrId = :KsvmCode";
+      if ($KsvmDataUsuario['KsvmContraUsu'] != " ") {
+        $KsvmActUsu = "UPDATE ksvmusuario01 SET UsrContraUsu = :KsvmContraUsu, UsrTelfUsu = :KsvmTelfUsu 
+                       WHERE UsrId = :KsvmCode";
+
+        $KsvmQuery = self :: __KsvmConexion()->prepare($KsvmActUsu);
+        $KsvmQuery->bindParam(":KsvmContraUsu", $KsvmDataUsuario['KsvmContraUsu']);
+        $KsvmQuery->bindParam(":KsvmTelfUsu", $KsvmDataUsuario['KsvmTelfUsu']);
+        $KsvmQuery->bindParam(":KsvmCode", $KsvmDataUsuario['KsvmCode']);
+        $KsvmQuery->execute();
+        return $KsvmQuery;
+        
+      } else {
+        $KsvmActUsu = "UPDATE ksvmusuario01 SET RrlId = :KsvmRrlId, UsrNomUsu = :KsvmNomUsu, UsrEmailUsu = :KsvmEmailUsu, UsrTelfUsu = :KsvmTelfUsu, 
+                       UsrImgUsu = :KsvmImgUsu WHERE UsrId = :KsvmCode";
 
         $KsvmQuery = self :: __KsvmConexion()->prepare($KsvmActUsu);
         $KsvmQuery->bindParam(":KsvmRrlId", $KsvmDataUsuario['KsvmRrlId']);
@@ -183,7 +244,10 @@
         $KsvmQuery->bindParam(":KsvmCode", $KsvmDataUsuario['KsvmCode']);
         $KsvmQuery->execute();
         return $KsvmQuery;
+
+      }
     }
+      
    /**
     *Funcion que permite eliminar un nuevo usuario
    */

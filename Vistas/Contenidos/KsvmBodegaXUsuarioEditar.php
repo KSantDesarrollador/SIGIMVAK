@@ -63,7 +63,7 @@
                          <div class="mdl-grid">
                              <div class="mdl-cell mdl-cell--4-col-phone mdl-cell--8-col-tablet mdl-cell--12-col-desktop">
                                  <div class="mdl-textfield mdl-js-textfield">
-                                     <select class="mdl-textfield__input" name="KsvmUsrId">
+                                     <select class="mdl-textfield__input" name="KsvmUsrId" id="KsvmDato1">
                                          <option value="<?php echo $KsvmLlenarForm['UsrId'];?>" selected="">
                                              <?php echo $KsvmLlenarForm['UsrNomUsu'];?></option>
                                              <?php require_once "./Controladores/KsvmUsuarioControlador.php";
@@ -71,9 +71,10 @@
 											   echo $KsvmSelUsu->__KsvmSeleccionarUsuario();
 										     ?>
                                      </select>
+                                     <span id="KsvmError1" class="ValForm"><i class="zmdi zmdi-alert-triangle">&nbsp;Por favor llene este campo</i></span>
                                  </div>
                                  <div class="mdl-textfield mdl-js-textfield">
-                                     <select class="mdl-textfield__input" name="KsvmBdgId">
+                                     <select class="mdl-textfield__input" name="KsvmBdgId" id="KsvmDato2">
                                          <option value="<?php echo $KsvmLlenarForm['BdgId'];?>" selected="">
                                              <?php echo $KsvmLlenarForm['BdgDescBod'];?></option>
                                              <?php require_once "./Controladores/KsvmBodegaControlador.php";
@@ -81,6 +82,7 @@
 											   echo $KsvmSelBod->__KsvmSeleccionarBodega();
 										 ?>
                                      </select>
+                                     <span id="KsvmError2" class="ValForm"><i class="zmdi zmdi-alert-triangle">&nbsp;Por favor llene este campo</i></span>
                                  </div>
                              </div>
                          </div>
@@ -88,11 +90,11 @@
                          <p class="text-center">
                              <button type="submit"
                                  class="mdl-button mdl-js-button mdl-js-ripple-effect btn-primary mdl-shadow--4dp"
-                                 id="btn-ActualizarBodegaXUsuario">
+                                 id="btnSave">
                                  <i class="zmdi zmdi-save">&nbsp;Guardar</i>
                              </button>
                          </p>
-                         <div class="mdl-tooltip" for="btn-ActualizarBodegaXUsuario">Actualizar Asigna Bodega</div>
+                         <div class="mdl-tooltip" for="btnSave">Actualizar Asigna Bodega</div>
                          <div class="RespuestaAjax"></div>
                      </form>
                  </div>

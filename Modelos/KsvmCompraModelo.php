@@ -16,12 +16,13 @@
       */
      protected function __KsvmAgregarCompraModelo($KsvmDataCompra)
      {
-         $KsvmIngCompra = "INSERT INTO ksvmcompras14(UmdId, CmpNumOcp, PvdId, CmpFchPagoOcp, CmpNumFactOcp, CmpPerElabOcp, CmpPerAprbOcp)
-                                    VALUES(:KsvmUmdId, :KsvmNumOcp, :KsvmPvdId, :KsvmFchPagoOcp, :KsvmNumFactOcp, :KsvmPerElabOcp, :KsvmPerAprbOcp)";
+         $KsvmIngCompra = "INSERT INTO ksvmcompras14(UmdId, CmpNumOcp, PvdId, CmpFchElabOcp, CmpFchPagoOcp, CmpNumFactOcp, CmpPerElabOcp, CmpPerAprbOcp)
+                                    VALUES(:KsvmUmdId, :KsvmNumOcp, :KsvmPvdId, :KsvmFchElabOcp, :KsvmFchPagoOcp, :KsvmNumFactOcp, :KsvmPerElabOcp, :KsvmPerAprbOcp)";
          $KsvmQuery = KsvmEstMaestra :: __KsvmConexion()->prepare($KsvmIngCompra);
          $KsvmQuery->bindParam(":KsvmUmdId", $KsvmDataCompra['KsvmUmdId']);
          $KsvmQuery->bindParam(":KsvmNumOcp", $KsvmDataCompra['KsvmNumOcp']);
          $KsvmQuery->bindParam(":KsvmPvdId", $KsvmDataCompra['KsvmPvdId']);
+         $KsvmQuery->bindParam(":KsvmFchElabOcp", $KsvmDataCompra['KsvmFchElabOcp']);
          $KsvmQuery->bindParam(":KsvmFchPagoOcp", $KsvmDataCompra['KsvmFchPagoOcp']);
          $KsvmQuery->bindParam(":KsvmNumFactOcp", $KsvmDataCompra['KsvmNumFactOcp']);
          $KsvmQuery->bindParam(":KsvmPerElabOcp", $KsvmDataCompra['KsvmPerElabOcp']);
@@ -51,7 +52,7 @@
       */
       protected function __KsvmEliminarCompraModelo($KsvmCodCompra)
       {
-         $KsvmDelCompra = "UPDATE ksvmcompras14 SET CmpEstOcp = 'X' WHERE CmpId = :KsvmCodCompra";
+         $KsvmDelCompra = "UPDATE ksvmcompras14 SET CmpEstOcp = 'I' WHERE CmpId = :KsvmCodCompra";
          $KsvmQuery = KsvmEstMaestra :: __KsvmConexion()->prepare($KsvmDelCompra);
          $KsvmQuery->bindParam(":KsvmCodCompra", $KsvmCodCompra);
          $KsvmQuery->execute();
@@ -73,7 +74,7 @@
       */
       protected function __KsvmEditarCompraModelo($KsvmCodCompra)
       {
-          $KsvmEditCompra = "SELECT * FROM ksvmvistacompras WHERE CmpId = '$KsvmCodCompra'";
+          $KsvmEditCompra = "SELECT * FROM ksvmvistacompras WHERE CmpId = :KsvmCodCompra";
           $KsvmQuery = KsvmEstMaestra :: __KsvmConexion()->prepare($KsvmEditCompra);
           $KsvmQuery->bindParam(":KsvmCodCompra", $KsvmCodCompra);
           $KsvmQuery->execute();
@@ -84,7 +85,7 @@
       */
       protected function __KsvmEditarDetalleCompraModelo($KsvmCodCompra)
       {
-          $KsvmEditCompra = "SELECT * FROM ksvmvistadetallecompras WHERE CmpId = '$KsvmCodCompra'";
+          $KsvmEditCompra = "SELECT * FROM ksvmvistadetallecompras WHERE CmpId = :KsvmCodCompra";
           $KsvmQuery = KsvmEstMaestra :: __KsvmConexion()->prepare($KsvmEditCompra);
           $KsvmQuery->bindParam(":KsvmCodCompra", $KsvmCodCompra);
           $KsvmQuery->execute();
@@ -95,20 +96,71 @@
       */
       protected function __KsvmCargarDataModelo($KsvmCodCompra)
       {
-          $KsvmEditCompra = "SELECT * FROM ksvmvistadetallecompras WHERE DocId = '$KsvmCodCompra'";
+          $KsvmEditCompra = "SELECT * FROM ksvmvistadetallecompras WHERE DocId = :KsvmCodCompra";
           $KsvmQuery = KsvmEstMaestra :: __KsvmConexion()->prepare($KsvmEditCompra);
           $KsvmQuery->bindParam(":KsvmCodCompra", $KsvmCodCompra);
           $KsvmQuery->execute();
           return $KsvmQuery;
       }
-       /**
+     /**
       *Función que permite contar una compra
       */
-      protected function __KsvmContarCompraModelo($KsvmCodCompra)
+      protected function __KsvmContarCompraModelo()
       {
           $KsvmContarCompra = "SELECT CmpId FROM ksvmvistacompras WHERE CmpEstOcp != 'X'";
           $KsvmQuery = KsvmEstMaestra :: __KsvmConexion()->prepare($KsvmContarCompra);
           $KsvmQuery->execute();
+          return $KsvmQuery;
+      }
+     /**
+      *Función que permite contar una compra
+      */
+      protected function __KsvmContarCompraSuperModelo()
+      {
+          $KsvmContarCompra = "SELECT CmpId FROM ksvmvistacompras WHERE CmpEstOcp = 'P'";
+          $KsvmQuery = KsvmEstMaestra :: __KsvmConexion()->prepare($KsvmContarCompra);
+          $KsvmQuery->execute();
+          return $KsvmQuery;
+      }
+     /**
+      *Función que permite contar una compra
+      */
+      protected function __KsvmContarCompraTecniModelo()
+      {
+          $KsvmContarCompra = "SELECT CmpId FROM ksvmvistacompras WHERE CmpEstOcp = 'A'";
+          $KsvmQuery = KsvmEstMaestra :: __KsvmConexion()->prepare($KsvmContarCompra);
+          $KsvmQuery->execute();
+          return $KsvmQuery;
+      }
+     /**
+      *Función que permite aprobar una compra
+      */
+      protected function __KsvmApruebaCompraModelo($KsvmDataCompra)
+      {
+          $KsvmApbrCompra = "UPDATE ksvmcompras14 SET CmpEstOcp = 'A' WHERE CmpId = :KsvmCodCompra";
+          $KsvmQuery = KsvmEstMaestra :: __KsvmConexion()->prepare($KsvmApbrCompra);
+          $KsvmQuery->bindParam(":KsvmCodCompra", $KsvmDataCompra['KsvmCodCompra']);
+          $KsvmQuery->execute();
+          return $KsvmQuery;
+      }
+     /**
+      *Función que permite negar una compra
+      */
+      protected function __KsvmNiegaCompraModelo($KsvmDataCompra)
+      {
+          $KsvmNiegaCompra = "UPDATE ksvmcompras14 SET CmpEstOcp = 'X' WHERE CmpId = :KsvmCodCompra";
+          $KsvmQuery = KsvmEstMaestra :: __KsvmConexion()->prepare($KsvmNiegaCompra);
+          $KsvmQuery->bindParam(":KsvmCodCompra", $KsvmDataCompra['KsvmCodCompra']);
+          $KsvmQuery->execute();
+          return $KsvmQuery;
+      }
+     /**
+      *Función que permite imprimir una Compra
+      */
+      protected function __KsvmImprimirCompraModelo()
+      {
+          $KsvmImprimirCompra = "SELECT * FROM ksvmvistacompras";
+          $KsvmQuery = KsvmEstMaestra :: __KsvmConexion()->query($KsvmImprimirCompra);
           return $KsvmQuery;
       }
        /**

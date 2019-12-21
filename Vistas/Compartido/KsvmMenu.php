@@ -14,24 +14,29 @@
     <div class="mdl-tooltip" for="btn-menu">Menu</div>
     <nav class="navBar-options-list">
       <ul class="list-unstyle">
-      <li class="noLink tittles" style=":white;">
-							<span class="hide-on-tablet"><?php echo $KsvmCalendar;?></span>
-              &nbsp; <i class="zmdi zmdi-calendar-note" id="calendar"></i>
-              <div class="mdl-tooltip" for="calendar"><?php echo $KsvmCalendar;?></div>
+        <li class="noLink tittles" style=":white;">
+          <span class="hide-on-tablet"><?php echo $KsvmCalendar;?></span>
+          &nbsp; <a href="<?php echo KsvmServUrl;?>KsvmCalendario"><i class="zmdi zmdi-calendar-note"
+              id="calendar"></i></a>
+          <div class="mdl-tooltip" for="calendar">Eventos</div>
         </li>
+        <?php if ($_SESSION['KsvmRolNom-SIGIM'] != "Usuario") {?>
         <li class="btn-Notification" id="notifications">
           <i class="zmdi zmdi-notifications"></i>
           <!-- <i class="zmdi zmdi-notifications-active btn-Notification" id="notifications"></i> -->
           <div class="mdl-tooltip" for="notifications">Notificaciones</div>
         </li>
+        <?php }?>
         <li>
-          <a href="<?php echo $KsvmLogueo -> __KsvmEncriptacion($_SESSION['KsvmToken-SIGIM']); ?>" class="btn-exit"  id="exit"><i class="zmdi zmdi-power"></i></a>
+          <a href="<?php echo $KsvmLogueo -> __KsvmEncriptacion($_SESSION['KsvmToken-SIGIM']); ?>" class="btn-exit"
+            id="exit"><i class="zmdi zmdi-power"></i></a>
           <div class="mdl-tooltip" for="exit">Cerrar Sesion</div>
         </li>
         <!-- <li class="text-condensedLight noLink"><small><?php echo $_SESSION['KsvmUsuNom-SIGIM']; ?></small></li> -->
         <li class="noLink">
           <figure>
-            <img src="<?php echo KsvmServUrl?>Vistas/assets/img/avatar-male.png" alt="Avatar" class="img-responsive hide-on-tablet">
+          <img width="80%" src="data:image/jpg;base64,<?php echo base64_encode($_SESSION['KsvmImg-SIGIM']); ?>" alt="Avatar"
+          class="img-responsive">
           </figure>
         </li>
       </ul>

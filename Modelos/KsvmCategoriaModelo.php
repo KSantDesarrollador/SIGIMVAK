@@ -57,6 +57,15 @@
           $KsvmQuery->execute();
           return $KsvmQuery;
       }
+     /**
+      *Función que permite imprimir una Categoria
+      */
+      protected function __KsvmImprimirCategoriaModelo()
+      {
+          $KsvmImprimirCategoria = "SELECT * FROM ksvmcategoria10";
+          $KsvmQuery = KsvmEstMaestra :: __KsvmConexion()->query($KsvmImprimirCategoria);
+          return $KsvmQuery;
+      }
        /**
       *Función que permite actualizar una categoria
       */

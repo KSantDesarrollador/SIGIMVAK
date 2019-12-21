@@ -39,7 +39,9 @@
 										<label class="mdl-textfield__label"></label>
 									</div>
 									<div class="mdl-textfield--expandable navBar-options-list">
-										<a class="btn btn-sm btn-success mdl-shadow--8dp mdl-tabs__tab">PDF</a>&nbsp;
+										<a class="btn btn-sm btn-success mdl-shadow--8dp"
+											href="<?php echo KsvmServUrl;?>Reportes/KsvmMenuXRolPdf.php"
+											target="_blank"><i class="zmdi zmdi-file">&nbsp;PDF</i></a>
 										<a href="#KsvmNuevoMenuxRol" id="btn-input"
 											class="btn btn-sm btn-warning mdl-shadow--8dp mdl-tabs__tab">NUEVO &nbsp;<i
 												class="zmdi zmdi-plus-circle"></i></a>
@@ -96,8 +98,8 @@
 
 			<!-- Formulario de Detalles del MenuxRol -->
 
-			<div class="modal fade" id="KsvmDetallesMenuxRol" tabindex="-1" role="dialog"
-				aria-labelledby="myModalLabel" aria-hidden="true">
+			<div class="modal fade" id="KsvmDetallesMenuxRol" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+				aria-hidden="true">
 				<div class="modal-dialog" role="document">
 					<div class="modal-content ">
 						<div class="modal-header">
@@ -113,11 +115,11 @@
 										class="mdl-cell mdl-cell--4-col-phone mdl-cell--8-col-tablet mdl-cell--12-col-desktop">
 										<div class="mdl-textfield mdl-js-textfield">
 											<div class="mdl-textfield__input"><strong>Rol :</strong>
-											&nbsp; &nbsp;<?php echo $KsvmLlenarForm['RrlNomRol'];?></div>
+												&nbsp; &nbsp;<?php echo $KsvmLlenarForm['RrlNomRol'];?></div>
 										</div>
 										<div class="mdl-textfield mdl-js-textfield">
 											<div class="mdl-textfield__input"><strong>Menú Asignado :</strong>
-											&nbsp; &nbsp;<?php echo $KsvmLlenarForm['MnuNomMen'];?></div>
+												&nbsp; &nbsp;<?php echo $KsvmLlenarForm['MnuNomMen'];?></div>
 										</div>
 									</div>
 								</div>
@@ -154,22 +156,22 @@
 										<div
 											class="mdl-cell mdl-cell--4-col-phone mdl-cell--8-col-tablet mdl-cell--12-col-desktop">
 											<div class="mdl-textfield mdl-js-textfield">
-											<select class="mdl-textfield__input" name="KsvmRrlId">
-												<option value="" disabled="" selected="">Seleccione Rol</option>
-												<?php require_once "./Controladores/KsvmRolControlador.php";
+												<select class="mdl-textfield__input" name="KsvmRrlId">
+													<option value="" disabled="" selected="">Seleccione Rol</option>
+													<?php require_once "./Controladores/KsvmRolControlador.php";
 													$KsvmSelRol = new KsvmRolControlador();
 													echo $KsvmSelRol->__KsvmSeleccionarRol();
 													?>
-											</select>
+												</select>
 											</div>
 											<div class="mdl-textfield mdl-js-textfield">
-											<select class="mdl-textfield__input" name="KsvmMnuId">
-												<option value="" disabled="" selected="">Seleccione Menú</option>
-												<?php require_once "./Controladores/KsvmMenuControlador.php";
+												<select class="mdl-textfield__input" name="KsvmMnuId">
+													<option value="" disabled="" selected="">Seleccione Menú</option>
+													<?php require_once "./Controladores/KsvmMenuControlador.php";
 													$KsvmSelMed = new KsvmMenuControlador();
 													echo $KsvmSelMed->__KsvmSeleccionarMenu();
 													?>
-											</select>
+												</select>
 											</div>
 										</div>
 									</div>

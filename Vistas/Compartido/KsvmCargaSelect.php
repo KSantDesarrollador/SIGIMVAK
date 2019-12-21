@@ -217,8 +217,8 @@ $(document).ready(function(){
         });
         }
     });
-        /**Método para cargar Stock*/
-        $('#KsvmExtId').on('change', function () {
+    /**Método para cargar Stock*/
+    $('#KsvmExtId').on('change', function () {
         var KsvmId = $('#KsvmExtId').val()
         if (KsvmId != "") {
         $.ajax({
@@ -240,12 +240,10 @@ $(document).ready(function(){
     $("#GridRowsInv").hide();
     $('#KsvmBdgExt').hide();
     /*Método para mostrar u ocultar botones*/
-    $('#btnAgregar').on('click', function () {
-        var KsvmDato1 = $('#KsvmBdgExt').val();
-        var KsvmDato2 = $('#KsvmBdgInv').val();
-        var KsvmDato3 = $('#KsvmBdgReq').val();
-        var KsvmDato4 = $('#KsvmCodX').val();
-        if ((KsvmDato1 != null && KsvmDato4 != "") || (KsvmDato2 != null && KsvmDato4 != "") || (KsvmDato3 != null && KsvmDato4 != "")) {
+    $('#btnSave').on('click', function () {
+        // var KsvmDato2 = $('#KsvmExtId').val();
+        var KsvmDato3 = $('#KsvmDato3').val();
+        if (KsvmDato3 != "") {
             $("#btnGuardar").show(500);
             $("#btnIniciar").hide(500);
             $("#leyenda").hide(500);
@@ -285,17 +283,26 @@ $(document).ready(function(){
     $('#btnExitOcpCrud').on('click', function () {
         window.location.href="<?php echo KsvmServUrl;?>KsvmComprasCrud/1/";
     });
+    $('#btnExitOcpRep').on('click', function () {
+        window.location.href="<?php echo KsvmServUrl;?>KsvmReporteCompras/1/";
+    });
     $('#btnExitInv').on('click', function () {
         window.location.href="<?php echo KsvmServUrl;?>KsvmInventarios/1/";
     });
     $('#btnExitInvCrud').on('click', function () {
         window.location.href="<?php echo KsvmServUrl;?>KsvmInventariosCrud/1/";
     });
+    $('#btnExitInvRep').on('click', function () {
+        window.location.href="<?php echo KsvmServUrl;?>KsvmReporteInventarios/1/";
+    });
     $('#btnExitReq').on('click', function () {
         window.location.href="<?php echo KsvmServUrl;?>KsvmRequisiciones/1/";
     });
     $('#btnExitReqCrud').on('click', function () {
         window.location.href="<?php echo KsvmServUrl;?>KsvmRequisicionesCrud/1/";
+    });
+    $('#btnExitReqRep').on('click', function () {
+        window.location.href="<?php echo KsvmServUrl;?>KsvmReportePedidos/1/";
     });
     $('#btnExitIng').on('click', function () {
         window.location.href="<?php echo KsvmServUrl;?>KsvmIngresos/1/";
@@ -306,7 +313,12 @@ $(document).ready(function(){
     $('#btnExitTran').on('click', function () {
         window.location.href="<?php echo KsvmServUrl;?>KsvmTransaccionesCrud/1/";
     });
+    $('#btnExitTranRep').on('click', function () {
+        window.location.href="<?php echo KsvmServUrl;?>KsvmReporteTransacciones/1/";
+    });
 
 });
 
 </script>
+
+

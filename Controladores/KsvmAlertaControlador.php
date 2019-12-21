@@ -290,6 +290,14 @@
       }
 
       /**
+       * Función que permite imprimir una alerta 
+       */
+      public function __KsvmImprimirAlertaControlador()
+      {
+        return KsvmAlertaModelo :: __KsvmImprimirAlertaModelo();
+      }
+
+      /**
        * Función que permite actualizar una alerta 
        */
       public function __KsvmActualizarAlertaControlador()

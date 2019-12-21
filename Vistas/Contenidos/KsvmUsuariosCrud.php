@@ -8,45 +8,46 @@
    }
  ?>
 
-	<!-- pageContent -->
-	<section class="full-width pageContent">
-		<section class="full-width header-well">
-			<div class="full-width header-well-icon">
-				<i class="zmdi zmdi-folder-star"></i>
-			</div>
-			<div class="full-width header-well-text">
-				<p class="text-condensedLight">
-					CRUD-USUARIOS
-				</p>
-			</div>
-		</section>
-		<div class="full-width divider-menu-h"></div>
-		<div class="mdl-tabs mdl-js-tabs mdl-js-ripple-effect">
+<!-- pageContent -->
+<section class="full-width pageContent">
+	<section class="full-width header-well">
+		<div class="full-width header-well-icon">
+			<i class="zmdi zmdi-folder-star"></i>
+		</div>
+		<div class="full-width header-well-text">
+			<p class="text-condensedLight">
+				CRUD-USUARIOS
+			</p>
+		</div>
+	</section>
+	<div class="full-width divider-menu-h"></div>
+	<div class="mdl-tabs mdl-js-tabs mdl-js-ripple-effect">
 		<div class="mdl-tabs__panel is-active" id="KsvmListaUsuario">
 			<div class="mdl-grid">
 				<div class="mdl-cell mdl-cell--4-col-phone mdl-cell--8-col-tablet mdl-cell--12-col-desktop">
-                         <!-- Formulario de busqueda -->
-						<form data-form="" action="" method="POST" autocomplete="off" enctype="multipart/form-data">
-							<div class="mdl-textfield mdl-js-textfield mdl-textfield--expandable">
-								<label class="mdl-button mdl-js-button mdl-button--icon" for="KsvmBuscarUsu">
-									<i class="zmdi zmdi-search"></i>
-								</label>
-								<div class="mdl-textfield__expandable-holder">
-									<input class="mdl-textfield__input" type="text" id="KsvmBuscarUsu"
-										name="KsvmBuscarUsu">
-									<label class="mdl-textfield__label"></label>
-								</div>
-								<div class="mdl-textfield--expandable navBar-options-list">
-									<a class="btn btn-sm btn-success mdl-shadow--8dp mdl-tabs__tab">PDF</a>
-									<a href="#KsvmNuevoUsuario" id="btn-input" 
-										class="btn btn-sm btn-warning mdl-shadow--8dp mdl-tabs__tab">NUEVO &nbsp;<i
-											class="zmdi zmdi-plus-circle"></i></a>
-								</div>
+					<!-- Formulario de busqueda -->
+					<form data-form="" action="" method="POST" autocomplete="off" enctype="multipart/form-data">
+						<div class="mdl-textfield mdl-js-textfield mdl-textfield--expandable">
+							<label class="mdl-button mdl-js-button mdl-button--icon" for="KsvmBuscarUsu">
+								<i class="zmdi zmdi-search"></i>
+							</label>
+							<div class="mdl-textfield__expandable-holder">
+								<input class="mdl-textfield__input" type="text" id="KsvmBuscarUsu" name="KsvmBuscarUsu">
+								<label class="mdl-textfield__label"></label>
 							</div>
-							<div class="RespuestaAjax"></div>
-						</form>
+							<div class="mdl-textfield--expandable navBar-options-list">
+								<a class="btn btn-sm btn-success mdl-shadow--8dp"
+									href="<?php echo KsvmServUrl;?>Reportes/KsvmUsuariosPdf.php" target="_blank"><i
+										class="zmdi zmdi-file">&nbsp;PDF</i></a>
+								<a href="#KsvmNuevoUsuario" id="btn-input"
+									class="btn btn-sm btn-warning mdl-shadow--8dp mdl-tabs__tab">NUEVO &nbsp;<i
+										class="zmdi zmdi-plus-circle"></i></a>
+							</div>
+						</div>
+						<div class="RespuestaAjax"></div>
+					</form>
 
-                    <!-- Método para mostrar la lista de Usuarios -->
+					<!-- Método para mostrar la lista de Usuarios -->
 					<?php
                     require_once "./Controladores/KsvmUsuarioControlador.php";
 					$KsvmIniUsu = new KsvmUsuarioControlador();
@@ -68,8 +69,8 @@
 				</div>
 			</div>
 		</div>
-		 
-        <!-- Método para cargar datos en el formulario -->
+
+		<!-- Método para cargar datos en el formulario -->
 		<?php 
 			  
 		  $KsvmPagina = explode("/", $_GET['Vistas']);
@@ -105,67 +106,77 @@
 			}
 		</script>
 
-        <!-- Formulario de Detalles del Usuario -->
-           
+		<!-- Formulario de Detalles del Usuario -->
+
 		<div class="modal fade" id="KsvmDetallesUsuario" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
 			aria-hidden="true">
 			<div class="modal-dialog" role="document">
 				<div class="modal-content ">
 					<div class="modal-header ">
-						<button class="close close-edit" type="button" data-dismiss="modal"
-							aria-hidden="true" id="KsvmBtnExit">&times;</button>
+						<button class="close close-edit" type="button" data-dismiss="modal" aria-hidden="true"
+							id="KsvmBtnExit">&times;</button>
 						<h5 class="modal-title text-center"></h5>
 					</div>
 					<div class="modal-body" id="">
-					<form method="POST" action="">
-						<input type="hidden" name="KsvmCodEdit" value="<?php echo $KsvmPagina[2]; ?>">
-						<div class="mdl-grid">
-						<div class="mdl-cell mdl-cell--4-col-phone mdl-cell--8-col-tablet mdl-cell--5-col-desktop">
-							<div class="mdl-textfield mdl-js-textfield">
-								<label class="mdl-textfield"><img src="data:image/jpg;base64,<?php echo base64_encode($KsvmLlenarForm['UsrImgUsu']);?>"
-								    height="230px" width="80%"></label>
+						<form method="POST" action="">
+							<input type="hidden" name="KsvmCodEdit" value="<?php echo $KsvmPagina[2]; ?>">
+							<div class="mdl-grid">
+								<div
+									class="mdl-cell mdl-cell--4-col-phone mdl-cell--8-col-tablet mdl-cell--5-col-desktop">
+									<div class="mdl-textfield mdl-js-textfield">
+										<label class="mdl-textfield"><img
+												src="data:image/jpg;base64,<?php echo base64_encode($KsvmLlenarForm['UsrImgUsu']);?>"
+												height="230px" width="60%"></label>
+									</div>
+									<div class="mdl-textfield mdl-js-textfield">
+										<div class="mdl-textfield__input"><strong>Empleado : </strong>&nbsp;
+											&nbsp;<?php echo $KsvmEmpleado;?></div>
+									</div>
+								</div>
+								<div
+									class="mdl-cell mdl-cell--4-col-phone mdl-cell--8-col-tablet mdl-cell--7-col-desktop">
+									<div class="mdl-textfield mdl-js-textfield">
+										<div class="mdl-textfield__input"><strong>Rol : </strong>&nbsp;
+											&nbsp;<?php echo $KsvmLlenarForm['RrlNomRol'];?></div>
+									</div>
+									<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+										<div class="mdl-textfield__input"><strong>Teléfono : </strong>&nbsp;
+											&nbsp;<?php echo $KsvmLlenarForm['UsrTelfUsu'];?></div>
+									</div>
+									<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+										<div class="mdl-textfield__input"><strong>Email : </strong>&nbsp;
+											&nbsp;<?php echo $KsvmLlenarForm['UsrEmailUsu'];?></div>
+									</div>
+									<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+										<div class="mdl-textfield__input"><strong>Usuario : </strong>&nbsp;
+											&nbsp;<?php echo $KsvmLlenarForm['UsrNomUsu'];?></div>
+									</div>
+									<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+										<div class="mdl-textfield__input"><strong>Contraseña : </strong>&nbsp;
+											&nbsp;??????????</div>
+									</div>
+									<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+										<div class="mdl-textfield__input"><strong>Estado : </strong>&nbsp;
+											&nbsp;<?php echo $KsvmEstado;?></div>
+									</div>
+								</div>
 							</div>
-							<div class="mdl-textfield mdl-js-textfield">
-									<div class="mdl-textfield__input"><strong>Empleado : </strong>&nbsp; &nbsp;<?php echo $KsvmEmpleado;?></div>
-								</div>
-						</div>
-							<div class="mdl-cell mdl-cell--4-col-phone mdl-cell--8-col-tablet mdl-cell--7-col-desktop">
-								<div class="mdl-textfield mdl-js-textfield">
-									<div class="mdl-textfield__input"><strong>Rol : </strong>&nbsp; &nbsp;<?php echo $KsvmLlenarForm['RrlNomRol'];?></div>
-								</div>
-								<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-									<div class="mdl-textfield__input"><strong>Teléfono : </strong>&nbsp; &nbsp;<?php echo $KsvmLlenarForm['UsrTelfUsu'];?></div>
-								</div>
-								<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-									<div class="mdl-textfield__input"><strong>Email : </strong>&nbsp; &nbsp;<?php echo $KsvmLlenarForm['UsrEmailUsu'];?></div>
-								</div>
-								<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-									<div class="mdl-textfield__input"><strong>Usuario : </strong>&nbsp; &nbsp;<?php echo $KsvmLlenarForm['UsrNomUsu'];?></div>
-								</div>
-								<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-									<div class="mdl-textfield__input"><strong>Contraseña : </strong>&nbsp; &nbsp;??????????</div>
-								</div>
-								<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-									<div class="mdl-textfield__input"><strong>Estado : </strong>&nbsp; &nbsp;<?php echo $KsvmEstado;?></div>
-								</div>
-							</div>
-						</div>
-						<br>
+							<br>
 					</div>
 					</form>
 				</div>
 			</div>
 		</div>
-		<script type="text/javascript"> 
-		 $(document).ready(function(){
-          $('#KsvmBtnExit').on('click', function () {
-			  window.location.href="localhost:90/SIGIMVAK/KsvmUsuariosCrud/1/";
-		  });
+		<script type="text/javascript">
+			$(document).ready(function () {
+				$('#KsvmBtnExit').on('click', function () {
+					window.location.href = "localhost:90/SIGIMVAK/KsvmUsuariosCrud/1/";
+				});
 
-		 }):
+			}):
 		</script>
 		<?php } }?>
-		  
+
 		<!-- Formulario para ingresar un nuevo Usuario -->
 
 		<div class="mdl-tabs__panel" id="KsvmNuevoUsuario">
@@ -175,7 +186,7 @@
 					<div class="" style="float:right;">
 						<a href="<?php echo KsvmServUrl;?>KsvmUsuariosCrud/1/" id="btn-input"
 							class="btn btn-sm btn-dark mdl-shadow--8dp btn-salir">VOLVER &nbsp;<i
-							class="zmdi zmdi-arrow-left"></i></a>
+								class="zmdi zmdi-arrow-left"></i></a>
 					</div>
 					<br><br>
 					<div class="full-width panel mdl-shadow--8dp">
@@ -190,7 +201,7 @@
 									<div
 										class="mdl-cell mdl-cell--4-col-phone mdl-cell--8-col-tablet mdl-cell--6-col-desktop">
 										<div class="mdl-textfield mdl-js-textfield">
-										<select class="mdl-textfield__input" name="KsvmRrlId">
+											<select class="mdl-textfield__input" name="KsvmRrlId">
 												<option value="" disabled="" selected="">Seleccione Rol</option>
 												<?php require_once "./Controladores/KsvmRolControlador.php";
 													$KsvmSelRol = new KsvmRolControlador();
@@ -211,10 +222,12 @@
 											<span class="mdl-textfield__error">E-mail Inválido</span>
 										</div>
 										<div class="">
-                                     <input class="mdl-textfield__input" type="file" name="KsvmImgUsu" id="KsvmImgUsu">
-									 <label class="mdl-textfield" for="KsvmImgUsu"><img src="<?php echo KsvmServUrl;?>Vistas/assets/img/avatar-male.png" 
-									        height="35px" width="35px">&nbsp;Agregar Foto</label>
-                                    </div>
+											<input class="mdl-textfield__input" type="file" name="KsvmImgUsu"
+												id="KsvmImgUsu">
+											<label class="mdl-textfield" for="KsvmImgUsu"><img
+													src="<?php echo KsvmServUrl;?>Vistas/assets/img/avatar-male.png"
+													height="35px" width="35px">&nbsp;Agregar Foto</label>
+										</div>
 									</div>
 									<div
 										class="mdl-cell mdl-cell--4-col-phone mdl-cell--8-col-tablet mdl-cell--6-col-desktop">
@@ -256,4 +269,4 @@
 			</div>
 		</div>
 	</div>
-	</section>
+</section>

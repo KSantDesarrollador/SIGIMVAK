@@ -70,7 +70,7 @@
                          <div class="mdl-grid">
                              <div class="mdl-cell mdl-cell--4-col-phone mdl-cell--8-col-tablet mdl-cell--12-col-desktop">
                                  <div class="mdl-textfield mdl-js-textfield">
-                                     <select class="mdl-textfield__input" name="KsvmUmdId">
+                                     <select class="mdl-textfield__input" name="KsvmUmdId" id="KsvmDato1">
                                          <option value="<?php echo $KsvmLlenarForm['UmdId'];?>" selected="">
                                              <?php echo $KsvmLlenarForm['UmdNomUdm'];?></option>
                                              <?php require_once "./Controladores/KsvmUnidadMedicaControlador.php";
@@ -78,27 +78,31 @@
 											   echo $KsvmSelUndMed->__KsvmSeleccionarUndMedica();
 										     ?>
                                      </select>
+                                     <span id="KsvmError1" class="ValForm"><i class="zmdi zmdi-alert-triangle">&nbsp;Por favor llene este campo</i></span>
                                  </div>
                                  <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
                                      <input class="mdl-textfield__input" type="text" name="KsvmDescBod"
                                          value="<?php echo $KsvmLlenarForm['BdgDescBod'];?>"
-                                         pattern="-?[A-Za-z0-9áéíóúÁÉÍÓÚ ]*(\.[0-9]+)?" id="KsvmDescBod">
-                                     <label class="mdl-textfield__label" for="KsvmDescBod">Descripción</label>
+                                         pattern="-?[A-Za-z0-9áéíóúÁÉÍÓÚ ]*(\.[0-9]+)?" id="KsvmDato2">
+                                     <label class="mdl-textfield__label" for="KsvmDato2">Descripción</label>
                                      <span class="mdl-textfield__error">Descripción Inválido</span>
+                                     <span id="KsvmError2" class="ValForm"><i class="zmdi zmdi-alert-triangle">&nbsp;Por favor llene este campo</i></span>
                                  </div>
                                  <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
                                      <input class="mdl-textfield__input" type="tel" name="KsvmTelfBod"
                                          value="<?php echo $KsvmLlenarForm['BdgTelfBod'];?>" 
-                                         pattern="-?[0-9+()-]*(\.[0-9]+)?" id="KsvmTelfBod">
-                                     <label class="mdl-textfield__label" for="KsvmTelfBod">Teléfono</label>
+                                         pattern="-?[0-9+()-]*(\.[0-9]+)?" id="KsvmDato3">
+                                     <label class="mdl-textfield__label" for="KsvmDato3">Teléfono</label>
                                      <span class="mdl-textfield__error">Teléfono Inválido</span>
+                                     <span id="KsvmError3" class="ValForm"><i class="zmdi zmdi-alert-triangle">&nbsp;Por favor llene este campo</i></span>
                                  </div>
                                  <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
                                      <input class="mdl-textfield__input" type="text" name="KsvmDirBod"
                                          value="<?php echo $KsvmLlenarForm['BdgDirBod'];?>"
-                                          id="KsvmDirBod">
-                                     <label class="mdl-textfield__label" for="KsvmDirBod">Dirección</label>
+                                          id="KsvmDato4">
+                                     <label class="mdl-textfield__label" for="KsvmDato4">Dirección</label>
                                      <span class="mdl-textfield__error">Dirección Inválido</span>
+                                     <span id="KsvmError4" class="ValForm"><i class="zmdi zmdi-alert-triangle">&nbsp;Por favor llene este campo</i></span>
                                  </div>
                              </div>
                          </div>
@@ -106,11 +110,11 @@
                          <p class="text-center">
                              <button type="submit"
                                  class="mdl-button mdl-js-button mdl-js-ripple-effect btn-primary mdl-shadow--4dp"
-                                 id="btn-ActualizarBodega">
+                                 id="btnSave">
                                  <i class="zmdi zmdi-save">&nbsp;Guardar</i>
                              </button>
                          </p>
-                         <div class="mdl-tooltip" for="btn-ActualizarBodega">Actualizar Bodega</div>
+                         <div class="mdl-tooltip" for="btnSave">Actualizar Bodega</div>
                          <div class="RespuestaAjax"></div>
                      </form>
                  </div>

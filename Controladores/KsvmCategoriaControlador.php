@@ -258,6 +258,14 @@
       }
 
       /**
+       * Función que permite imprimir una Categoría 
+       */
+      public function __KsvmImprimirCategoriaControlador()
+      {
+        return KsvmCategoriaModelo :: __KsvmImprimirCategoriaModelo();
+      }
+
+      /**
        * Función que permite actualizar una Categoria 
        */
       public function __KsvmActualizarCategoriaControlador()

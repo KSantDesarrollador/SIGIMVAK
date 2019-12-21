@@ -59,6 +59,15 @@
           $KsvmQuery->execute();
           return $KsvmQuery;
       }
+     /**
+      *Función que permite imprimir una Procedencia      
+      */
+      protected function __KsvmImprimirProcedenciaModelo()
+      {
+          $KsvmImprimirProcedencia = "SELECT * FROM ksvmprocedencia06";
+          $KsvmQuery = KsvmEstMaestra :: __KsvmConexion()->query($KsvmImprimirProcedencia);
+          return $KsvmQuery;
+      }
        /**
       *Función que permite actualizar una procedencia
       */

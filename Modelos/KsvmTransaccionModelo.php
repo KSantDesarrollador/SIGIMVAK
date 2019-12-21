@@ -16,13 +16,14 @@
       */
      protected function __KsvmAgregarTransaccionModelo($KsvmDataTransaccion)
      {
-         $KsvmIngTransaccion = "INSERT INTO ksvmtransaccion16(RqcId, TsnNumTran, TsnTipoTran, TsnDestinoTran, TsnPerReaTran, TsnFchRevTran, TsnPerRevTran)
-                                    VALUES(:KsvmRqcId, :KsvmNumTran, :KsvmTipoTran, :KsvmDestinoTran, :KsvmPerReaTran, :KsvmFchRevTran, :KsvmPerRevTran)";
+         $KsvmIngTransaccion = "INSERT INTO ksvmtransaccion16(RqcId, TsnNumTran, TsnTipoTran, TsnDestinoTran, TsnFchReaTran, TsnPerReaTran, TsnFchRevTran, TsnPerRevTran)
+                                    VALUES(:KsvmRqcId, :KsvmNumTran, :KsvmTipoTran, :KsvmDestinoTran, :KsvmFchReaTran, :KsvmPerReaTran, :KsvmFchRevTran, :KsvmPerRevTran)";
          $KsvmQuery = KsvmEstMaestra :: __KsvmConexion()->prepare($KsvmIngTransaccion);
          $KsvmQuery->bindParam(":KsvmRqcId", $KsvmDataTransaccion['KsvmRqcId']);
          $KsvmQuery->bindParam(":KsvmNumTran", $KsvmDataTransaccion['KsvmNumTran']);
          $KsvmQuery->bindParam(":KsvmTipoTran", $KsvmDataTransaccion['KsvmTipoTran']);
          $KsvmQuery->bindParam(":KsvmDestinoTran", $KsvmDataTransaccion['KsvmDestinoTran']);
+         $KsvmQuery->bindParam(":KsvmFchReaTran", $KsvmDataTransaccion['KsvmFchReaTran']);
          $KsvmQuery->bindParam(":KsvmPerReaTran", $KsvmDataTransaccion['KsvmPerReaTran']);
          $KsvmQuery->bindParam(":KsvmFchRevTran", $KsvmDataTransaccion['KsvmFchRevTran']);
          $KsvmQuery->bindParam(":KsvmPerRevTran", $KsvmDataTransaccion['KsvmPerRevTran']);
@@ -99,14 +100,82 @@
           $KsvmQuery->execute();
           return $KsvmQuery;
       }
-       /**
+     /**
       *Función que permite contar una transacción
       */
-      protected function __KsvmContarTransaccionModelo($KsvmCodTransaccion)
+      protected function __KsvmContarIngresosModelo()
       {
-          $KsvmContarTransaccion = "SELECT TsnId FROM ksvmvistatransacciones WHERE TsnEstTran != 'X'";
+          $KsvmContarTransaccion = "SELECT TsnId FROM ksvmvistatransacciones WHERE TsnEstTran != 'X' AND TsnTipoTran = 'Ingreso'";
           $KsvmQuery = KsvmEstMaestra :: __KsvmConexion()->prepare($KsvmContarTransaccion);
           $KsvmQuery->execute();
+          return $KsvmQuery;
+      }
+     /**
+      *Función que permite contar una transacción
+      */
+      protected function __KsvmContarIngresosSuperModelo()
+      {
+          $KsvmContarTransaccion = "SELECT TsnId FROM ksvmvistatransacciones WHERE TsnEstTran = 'P' AND TsnTipoTran = 'Ingreso'";
+          $KsvmQuery = KsvmEstMaestra :: __KsvmConexion()->prepare($KsvmContarTransaccion);
+          $KsvmQuery->execute();
+          return $KsvmQuery;
+      }
+     /**
+      *Función que permite contar una transacción
+      */
+      protected function __KsvmContarIngresosTecniModelo()
+      {
+          $KsvmContarTransaccion = "SELECT TsnId FROM ksvmvistatransacciones WHERE TsnEstTran = 'A' AND TsnTipoTran = 'Ingreso'";
+          $KsvmQuery = KsvmEstMaestra :: __KsvmConexion()->prepare($KsvmContarTransaccion);
+          $KsvmQuery->execute();
+          return $KsvmQuery;
+      }
+     /**
+      *Función que permite contar una transacción
+      */
+      protected function __KsvmContarEgresosModelo()
+      {
+          $KsvmContarTransaccion = "SELECT TsnId FROM ksvmvistatransacciones WHERE TsnEstTran != 'X' AND TsnTipoTran = 'Egreso'";
+          $KsvmQuery = KsvmEstMaestra :: __KsvmConexion()->prepare($KsvmContarTransaccion);
+          $KsvmQuery->execute();
+          return $KsvmQuery;
+      }
+     /**
+      *Función que permite contar una transacción
+      */
+      protected function __KsvmContarEgresosSuperModelo()
+      {
+          $KsvmContarTransaccion = "SELECT TsnId FROM ksvmvistatransacciones WHERE TsnEstTran = 'P' AND TsnTipoTran = 'Egreso'";
+          $KsvmQuery = KsvmEstMaestra :: __KsvmConexion()->prepare($KsvmContarTransaccion);
+          $KsvmQuery->execute();
+          return $KsvmQuery;
+      }
+     /**
+      *Función que permite contar una transacción
+      */
+      protected function __KsvmContarEgresosTecniModelo()
+      {
+          $KsvmContarTransaccion = "SELECT TsnId FROM ksvmvistatransacciones WHERE TsnEstTran = 'A' AND TsnTipoTran = 'Egreso'";
+          $KsvmQuery = KsvmEstMaestra :: __KsvmConexion()->prepare($KsvmContarTransaccion);
+          $KsvmQuery->execute();
+          return $KsvmQuery;
+      }
+     /**
+      *Función que permite imprimir una Transaccion      
+      */
+      protected function __KsvmImprimirTransaccionModelo()
+      {
+          $KsvmImprimirTransaccion = "SELECT * FROM ksvmvistatransacciones";
+          $KsvmQuery = KsvmEstMaestra :: __KsvmConexion()->query($KsvmImprimirTransaccion);
+          return $KsvmQuery;
+      }
+     /**
+      *Función que permite imprimir una Transaccion      
+      */
+      protected function __KsvmImprimirTransaccionesModelo($KsvmTipo)
+      {
+          $KsvmImprimirTransaccion = "SELECT * FROM ksvmvistatransacciones WHERE TsnTipoTran = '$KsvmTipo'";
+          $KsvmQuery = KsvmEstMaestra :: __KsvmConexion()->query($KsvmImprimirTransaccion);
           return $KsvmQuery;
       }
        /**

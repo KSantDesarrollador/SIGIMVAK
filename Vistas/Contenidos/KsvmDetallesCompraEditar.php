@@ -42,12 +42,17 @@
                 class="btn btn-sm btn-dark mdl-shadow--8dp btn-salir">VOLVER &nbsp;<i
                 class="zmdi zmdi-arrow-left"></i>
                 </a>';
-               } else {
+			} elseif($KsvmPagina[2] == 1) {
                 echo '<a href="'.KsvmServUrl.'KsvmCompras/1/" id="btn-input"
                 class="btn btn-sm btn-dark mdl-shadow--8dp btn-salir">VOLVER &nbsp;<i
                 class="zmdi zmdi-arrow-left"></i>
                 </a>';
-               }
+               }else {
+                echo '<a href="'.KsvmServUrl.'KsvmSuperCompras/1/" id="btn-input"
+                class="btn btn-sm btn-dark mdl-shadow--8dp btn-salir">VOLVER &nbsp;<i
+                class="zmdi zmdi-arrow-left"></i>
+                </a>';
+			   }
                
              ?>
             </div>
@@ -65,28 +70,31 @@
 								<div
 									class="mdl-cell mdl-cell--4-col-phone mdl-cell--8-col-tablet mdl-cell--12-col-desktop">
                                     <div class="mdl-textfield mdl-js-textfield">
-									<select class="mdl-textfield__input" name="KsvmMdcId">
+									<select class="mdl-textfield__input" name="KsvmMdcId" id="KsvmDato1">
                                          <option value="<?php echo $KsvmLlenarForm['MdcId'];?>" selected="">
                                              <?php echo $KsvmLlenarForm['MdcDescMed'].' '.$KsvmLlenarForm['MdcConcenMed'];?></option>
                                              <?php require_once "./Controladores/KsvmMedicamentoControlador.php";
 											   $KsvmSelMedic = new KsvmMedicamentoControlador();
 											   echo $KsvmSelMedic->__KsvmSeleccionarMedicamento();
 										     ?>
-                                     </select>
+									 </select>
+									 <span id="KsvmError1" class="ValForm"><i class="zmdi zmdi-alert-triangle">&nbsp;Por favor llene este campo</i></span>
 									</div>
 									<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-										<input class="mdl-textfield__input" type="number" name="KsvmValorUntOcp"
+										<input class="mdl-textfield__input" type="text" name="KsvmValorUntOcp"
 											value="<?php echo $KsvmLlenarForm['DocValorUntOcp'];?>"
-											pattern="-?[0-9]*(\.[0-9]+)?" id="KsvmValorUntOcp">
-										<label class="mdl-textfield__label" for="KsvmValorUntOcp">Valor Und</label>
+											pattern="-?[0-9.]*[A-Za-záéíóúÁÉÍÓÚ ]?" id="KsvmDato2">
+										<label class="mdl-textfield__label" for="KsvmDato2">Valor Und</label>
 										<span class="mdl-textfield__error">Valor Und Inválido</span>
+										<span id="KsvmError2" class="ValForm"><i class="zmdi zmdi-alert-triangle">&nbsp;Por favor llene este campo</i></span>
 									</div>
 									<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
 										<input class="mdl-textfield__input" type="number" name="KsvmCantOcp"
 											value="<?php echo $KsvmLlenarForm['DocCantOcp'];?>"
-											pattern="-?[0-9]*(\.[0-9]+)?" id="KsvmCantOcp">
-										<label class="mdl-textfield__label" for="KsvmCantOcp">Cantidad</label>
+											pattern="-?[0-9]*(\.[0-9]+)?" id="KsvmDato3">
+										<label class="mdl-textfield__label" for="KsvmDato3">Cantidad</label>
 										<span class="mdl-textfield__error">Cantidad Inválida</span>
+										<span id="KsvmError3" class="ValForm"><i class="zmdi zmdi-alert-triangle">&nbsp;Por favor llene este campo</i></span>
 									</div>
                                     <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
 										<input class="mdl-textfield__input" type="text" name="KsvmObservOcp"
@@ -100,11 +108,11 @@
 							<p class="text-center">
 								<button type="submit"
 									class="mdl-button mdl-js-button mdl-js-ripple-effect btn-primary mdl-shadow--4dp"
-									id="btn-NuevoCompra">
+									id="btnSave">
 									<i class="zmdi zmdi-save">&nbsp;Guardar</i>
 								</button>
 							</p>
-							<div class="mdl-tooltip" for="btn-NuevoCompra">Editar Compra</div>
+							<div class="mdl-tooltip" for="btnSave">Editar Compra</div>
 							<div class="RespuestaAjax"></div>
 						</form>
 					</div>

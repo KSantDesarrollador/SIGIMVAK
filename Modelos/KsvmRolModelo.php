@@ -55,6 +55,15 @@
           $KsvmQuery->execute();
           return $KsvmQuery;
       }
+     /**
+      *Función que permite imprimir un Rol      
+      */
+      protected function __KsvmImprimirRolModelo()
+      {
+          $KsvmImprimirRol = "SELECT * FROM ksvmrol02";
+          $KsvmQuery = KsvmEstMaestra :: __KsvmConexion()->query($KsvmImprimirRol);
+          return $KsvmQuery;
+      }
        /**
       *Función que permite actualizar un rol
       */

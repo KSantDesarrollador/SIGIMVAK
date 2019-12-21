@@ -53,13 +53,17 @@
                 class="btn btn-sm btn-dark mdl-shadow--8dp btn-salir">VOLVER &nbsp;<i
                 class="zmdi zmdi-arrow-left"></i>
                 </a>';
-               } else {
+               } elseif($KsvmPagina[2] == 1) {
                 echo '<a href="'.KsvmServUrl.'KsvmRequisiciones/1/" id="btn-input"
                 class="btn btn-sm btn-dark mdl-shadow--8dp btn-salir">VOLVER &nbsp;<i
                 class="zmdi zmdi-arrow-left"></i>
                 </a>';
-               }
-               
+               }else {
+                echo '<a href="'.KsvmServUrl.'KsvmSuperPedidos/1/" id="btn-input"
+                class="btn btn-sm btn-dark mdl-shadow--8dp btn-salir">VOLVER &nbsp;<i
+                class="zmdi zmdi-arrow-left"></i>
+                </a>';
+			   }
              ?>
             </div>
             <br>
@@ -88,16 +92,18 @@
 									<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label" id="KsvmStockReq">
 										<input class="mdl-textfield__input" type="number" name="KsvmStockReq"
 											value="<?php echo $KsvmLlenarForm['DrqStockReq'];?>"
-											pattern="-?[0-9]*(\.[0-9]+)?">
+											pattern="-?[0-9]*[A-Za-záéíóúÁÉÍÓÚ ]?" id="KsvmDato1">
 										<label class="mdl-textfield__label" for="KsvmStockReq">Stock</label>
 										<span class="mdl-textfield__error">Stock Inválido</span>
+										<span id="KsvmError1" class="ValForm"><i class="zmdi zmdi-alert-triangle">&nbsp;Por favor llene este campo</i></span>
 									</div>
 									<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
 										<input class="mdl-textfield__input" type="number" name="KsvmCantReq"
 											value="<?php echo $KsvmLlenarForm['DrqCantReq'];?>"
-											pattern="-?[0-9]*(\.[0-9]+)?" id="KsvmCantReq">
-										<label class="mdl-textfield__label" for="KsvmCantReq">Cantidad</label>
+											pattern="-?[0-9]*[A-Za-záéíóúÁÉÍÓÚ ]?" id="KsvmDato2">
+										<label class="mdl-textfield__label" for="KsvmDato2">Cantidad</label>
 										<span class="mdl-textfield__error">Cantidad Inválida</span>
+										<span id="KsvmError2" class="ValForm"><i class="zmdi zmdi-alert-triangle">&nbsp;Por favor llene este campo</i></span>
 									</div>
                                     <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
 										<input class="mdl-textfield__input" type="text" name="KsvmObservReq"
@@ -111,11 +117,11 @@
 							<p class="text-center">
 								<button type="submit"
 									class="mdl-button mdl-js-button mdl-js-ripple-effect btn-primary mdl-shadow--4dp"
-									id="btn-EditarRequisicion">
+									id="btnSave">
 									<i class="zmdi zmdi-save">&nbsp;Guardar</i>
 								</button>
 							</p>
-							<div class="mdl-tooltip" for="btn-EditarRequisicion">Editar Requisicion</div>
+							<div class="mdl-tooltip" for="btnSave">Editar Requisicion</div>
 							<div class="RespuestaAjax"></div>
 						</form>
 					</div>

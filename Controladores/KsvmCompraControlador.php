@@ -31,7 +31,7 @@
         $KsvmQuery = KsvmEstMaestra :: __KsvmEjecutaConsulta($KsvmCompras);
         $KsvmNum = ($KsvmQuery->rowCount())+1;
 
-        $KsvmNumOcp = KsvmEstMaestra :: __KsvmGeneraCodigoAleatorio("00", 6, $KsvmNum);
+        $KsvmNumOcp = KsvmEstMaestra :: __KsvmGeneraCodigoAleatorio("00", 4, $KsvmNum);
         echo $KsvmNumOcp;
 
         $KsvmUser = $_SESSION['KsvmUsuId-SIGIM'];
@@ -41,6 +41,7 @@
          if ($KsvmQuery->rowCount() == 1) {
             $KsvmPerElab = $KsvmQuery->fetch();
 
+            $KsvmFchElabOcp = date("Y-m-d");
             $KsvmFchPagoOcp = "no registrado";
             $KsvmNumFactOcp = "no registrado";
             $KsvmPerElabOcp = $KsvmPerElab['PerElab'];
@@ -58,6 +59,7 @@
                 "KsvmUmdId" => $KsvmUmdId,
                 "KsvmPvdId" => $KsvmPvdId,
                 "KsvmNumOcp" => $KsvmNumOcp,
+                "KsvmFchElabOcp" => $KsvmFchElabOcp,
                 "KsvmFchPagoOcp" => $KsvmFchPagoOcp,
                 "KsvmNumFactOcp" => $KsvmNumFactOcp,
                 "KsvmPerElabOcp" => $KsvmPerElabOcp,
@@ -128,24 +130,33 @@
     /**
      * Función que permite paginar 
      */
-      public function __KsvmPaginador($KsvmPagina, $KsvmNRegistros, $KsvmRol, $KsvmCodigo, $KsvmBuscar)
+      public function __KsvmPaginador($KsvmPagina, $KsvmNRegistros, $KsvmRol, $KsvmCodigo, $KsvmBuscarIni, $KsvmBuscarFin)
       {
         $KsvmPagina = KsvmEstMaestra :: __KsvmFiltrarCadena($KsvmPagina);
         $KsvmNRegistros = KsvmEstMaestra :: __KsvmFiltrarCadena($KsvmNRegistros);
         $KsvmRol = KsvmEstMaestra :: __KsvmFiltrarCadena($KsvmRol);
         $KsvmCodigo = KsvmEstMaestra :: __KsvmFiltrarCadena($KsvmCodigo);
-        $KsvmBuscar = KsvmEstMaestra :: __KsvmFiltrarCadena($KsvmBuscar);
+        $KsvmBuscarIni = KsvmEstMaestra :: __KsvmFiltrarCadena($KsvmBuscarIni);
+        $KsvmUsuario = $_SESSION['KsvmUsuId-SIGIM'];
         $KsvmTabla = "";
         
         $KsvmPagina = (isset($KsvmPagina) && $KsvmPagina > 0 ) ? (int)$KsvmPagina : 1;
         $KsvmDesde = ($KsvmPagina > 0) ? (($KsvmPagina*$KsvmNRegistros) - $KsvmNRegistros) : 0;
 
-        if (isset($KsvmBuscar) && $KsvmBuscar != "") {
-            $KsvmDataCompra = "SELECT SQL_CALC_FOUND_ROWS * FROM ksvmvistacompras WHERE ((CmpEstOcp != 'X') AND (CmpNumOcp LIKE '%$KsvmBuscar%' 
-                          OR PvdRazSocProv LIKE '%$KsvmBuscar%' OR MdcDescMed LIKE '%$KsvmBuscar%' OR CmpFchElabOcp LIKE '%$KsvmBuscar%')) 
+        if (isset($KsvmBuscarIni) && $KsvmBuscarIni != "" && !isset($KsvmBuscarFin)) {
+            $KsvmDataCompra = "SELECT SQL_CALC_FOUND_ROWS * FROM ksvmvistacompras WHERE ((CmpEstOcp != 'I') AND (CmpNumOcp LIKE '%$KsvmBuscarIni%' 
+                          OR PvdRazSocProv LIKE '%$KsvmBuscarIni%' OR MdcDescMed LIKE '%$KsvmBuscarIni%' OR CmpFchElabOcp LIKE '%$KsvmBuscarIni%')) 
                           LIMIT $KsvmDesde, $KsvmNRegistros";
+        } elseif (isset($KsvmBuscarIni) && isset($KsvmBuscarFin) && $KsvmBuscarFin != "") {
+            $KsvmDataCompra = "SELECT SQL_CALC_FOUND_ROWS * FROM ksvmvistacompras WHERE CmpFchElabOcp BETWEEN '$KsvmBuscarIni' AND '$KsvmBuscarFin'
+            LIMIT $KsvmDesde, $KsvmNRegistros";
         } else {
-            $KsvmDataCompra = "SELECT SQL_CALC_FOUND_ROWS * FROM ksvmvistacompras WHERE CmpEstOcp != 'X' LIMIT $KsvmDesde, $KsvmNRegistros" ;
+            if ($KsvmRol == 1 || $KsvmRol == 2) {
+                $KsvmDataCompra = "SELECT SQL_CALC_FOUND_ROWS * FROM ksvmvistacompras WHERE CmpEstOcp != 'I' LIMIT $KsvmDesde, $KsvmNRegistros" ;
+            } else {
+                $KsvmDataCompra = "SELECT SQL_CALC_FOUND_ROWS * FROM ksvmvistacompras WHERE UsrId = '$KsvmUsuario' AND CmpEstOcp != 'I' LIMIT $KsvmDesde, $KsvmNRegistros" ;
+            }
+            
         }
         
 
@@ -163,12 +174,12 @@
                         <thead>
                             <tr>
                                 <th class="mdl-data-table__cell--non-numeric">#</th>
-                                <th class="mdl-data-table__cell--non-numeric"># Compra</th>
+                                <th class="mdl-data-table__cell--non-numeric">#Comp</th>
                                 <th class="mdl-data-table__cell--non-numeric">Fecha</th>
-                                <th class="mdl-data-table__cell--non-numeric">Num.Factura</th>
-                                <th class="mdl-data-table__cell--non-numeric">Responsable</th>
-                                <th class="mdl-data-table__cell--non-numeric">Unidad Médica</th>
-                                <th class="mdl-data-table__cell--non-numeric">Proveedor</th>
+                                <th class="mdl-data-table__cell--non-numeric">#Factura</th>
+                                <th class="mdl-data-table__cell--non-numeric">Resp</th>
+                                <th class="mdl-data-table__cell--non-numeric hide-on-tablet">Und Médica</th>
+                                <th class="mdl-data-table__cell--non-numeric">Prov</th>
                                 <th style="text-align:center; witdh:30px;">Acción</th>
                             </tr>
                         </thead>
@@ -183,13 +194,13 @@
                                 <td class="mdl-data-table__cell--non-numeric">'.$rows['CmpFchElabOcp'].'</td>
                                 <td class="mdl-data-table__cell--non-numeric">'.$rows['CmpNumFactOcp'].'</td>
                                 <td class="mdl-data-table__cell--non-numeric">'.$rows['CmpPerElabOcp'].'</td>
-                                <td class="mdl-data-table__cell--non-numeric">'.$rows['UmdNomUdm'].'</td>
+                                <td class="mdl-data-table__cell--non-numeric hide-on-tablet">'.$rows['UmdNomUdm'].'</td>
                                 <td class="mdl-data-table__cell--non-numeric">'.$rows['PvdRazSocProv'].'</td>
                                 <td style="text-align:right; witdh:30px;">';
-                                if ($KsvmRol == 1) {
+                                if ($KsvmRol == 1 || $KsvmRol == 2) {
                                     if ($KsvmCodigo == 0) {
 
-                                    $KsvmTabla .=  '<form action="'.KsvmServUrl.'Ajax/KsvmRequisicionAjax.php" method="POST" class="FormularioAjax" data-form="eliminar" enctype="multipart/form-data"> 
+                                    $KsvmTabla .=  '<form action="'.KsvmServUrl.'Ajax/KsvmComprasAjax.php" method="POST" class="FormularioAjax" data-form="eliminar" enctype="multipart/form-data"> 
                                                     <a id="btn-detail" class="btn btn-sm btn-info" href="'.KsvmServUrl.'KsvmComprasCrud/Detail/'.KsvmEstMaestra::__KsvmEncriptacion($rows['CmpId']).'/"><i class="zmdi zmdi-card"></i></a>
                                                     <div class="mdl-tooltip" for="btn-detail">Detalles</div>
                                                     <a id="btn-edit" class="btn btn-sm btn-primary" href="'.KsvmServUrl.'KsvmComprasEditar/'.KsvmEstMaestra::__KsvmEncriptacion($rows['CmpId']).'/0/"><i class="zmdi zmdi-edit"></i></a>
@@ -198,8 +209,8 @@
                                                     <button id="btn-delete" type="submit" class="btn btn-sm btn-danger"><i class="zmdi zmdi-delete"></i></button>
                                                     <div class="RespuestaAjax"></div>
                                                     </form>';
-                                    } else {
-                                    $KsvmTabla .= '<form action="'.KsvmServUrl.'Ajax/KsvmRequisicionAjax.php" method="POST" class="FormularioAjax" data-form="eliminar" enctype="multipart/form-data"> 
+                                    } elseif ($KsvmCodigo == 1) {
+                                    $KsvmTabla .= '<form action="'.KsvmServUrl.'Ajax/KsvmComprasAjax.php" method="POST" class="FormularioAjax" data-form="eliminar" enctype="multipart/form-data"> 
                                                     <a id="btn-detail" class="btn btn-sm btn-info" href="'.KsvmServUrl.'KsvmCompras/Detail/'.KsvmEstMaestra::__KsvmEncriptacion($rows['CmpId']).'"><i class="zmdi zmdi-card"></i></a>
                                                     <div class="mdl-tooltip" for="btn-detail">Detalles</div>
                                                     <a id="btn-edit" class="btn btn-sm btn-primary" href="'.KsvmServUrl.'KsvmComprasEditar/'.KsvmEstMaestra::__KsvmEncriptacion($rows['CmpId']).'/1/"><i class="zmdi zmdi-edit"></i></a>
@@ -209,8 +220,13 @@
                                                     <div class="mdl-tooltip" for="btn-delete">Inhabilitar</div>
                                                     <div class="RespuestaAjax"></div>
                                                     </form>';
+                                    } else {
+                                    $KsvmTabla .= ' <a id="btn-detail" class="btn btn-sm btn-info" href="'.KsvmServUrl.'KsvmReporteCompras/Detail/'.KsvmEstMaestra::__KsvmEncriptacion($rows['CmpId']).'"><i class="zmdi zmdi-card"></i></a>
+                                                    <div class="mdl-tooltip" for="btn-detail">Detalles</div>
+                                                    <a id="btn-print" class="btn btn-sm btn-success" href="'.KsvmServUrl.'Reportes/KsvmComprasPdf.php?Cod='.KsvmEstMaestra::__KsvmEncriptacion($rows['CmpId']).'" target="_blank"><i class="zmdi zmdi-print"></i></a>
+                                                    <div class="mdl-tooltip" for="btn-print">Imprimir</div>';
                                     }
-                                }elseif ($KsvmRol == 2 || $KsvmRol == 3){
+                                }elseif ($KsvmRol == 3){
                                     $KsvmTabla .= '<a id="btn-detail" class="btn btn-sm btn-info" href="'.KsvmServUrl.'KsvmCompras/Detail/'.KsvmEstMaestra::__KsvmEncriptacion($rows['CmpId']).'/"><i class="zmdi zmdi-card"></i></a>
                                                     <div class="mdl-tooltip" for="btn-detail">Detalles</div>
                                                     <a id="btn-edit" class="btn btn-sm btn-primary" href="'.KsvmServUrl.'KsvmComprasEditar/'.KsvmEstMaestra::__KsvmEncriptacion($rows['CmpId']).'/1/"><i class="zmdi zmdi-edit"></i></a>
@@ -232,7 +248,7 @@
                 $KsvmTabla .= '</table>
 
                            <br>
-				           <div class=" mdl-shadow--8dp full-width">
+				           <div class="mdl-shadow--8dp full-width">
                             <nav class="navbar-form navbar-left form-group">
 				            <span class="">
 				             <strong>Total de '.$KsvmTotalReg.' </strong> registros encontrados
@@ -285,7 +301,7 @@
              
                 $KsvmTabla .= '</nav></div>';  
 
-            } else {
+            } elseif ($KsvmTotalReg >= 1 && $KsvmPagina <= $KsvmNPaginas && $KsvmCodigo == 1) {
                 $KsvmTabla .= '<nav class="navbar-form navbar-right form-group">';
                 
                 if ($KsvmPagina == 1) {
@@ -311,15 +327,52 @@
                 }
                 
                 $KsvmTabla .= '</nav></div>'; 
+            } elseif ($KsvmTotalReg >= 1 && $KsvmPagina <= $KsvmNPaginas && $KsvmCodigo == 3) {
+                $KsvmTabla .= '<nav class="navbar-form navbar-right form-group">';
+                
+                if ($KsvmPagina == 1) {
+                    $KsvmTabla .= '<button class = "btn btn-xs btn-success mdl-shadow--8dp disabled">Primero</button>
+                                   <span></span>
+                                   <button class = "btn btn-xs btn-default mdl-shadow--8dp disabled"><i class="zmdi zmdi-fast-rewind"></i></button>';
+                } else {
+                    $KsvmTabla .= '<a class = "btn btn-xs btn-success mdl-shadow--8dp " href="'.KsvmServUrl.'KsvmReporteCompras/1/">Primero</a>
+                                   <span></span>
+                                   <a class = "btn btn-xs btn-default mdl-shadow--8dp " href="'.KsvmServUrl.'KsvmReporteCompras/'.($KsvmPagina-1).'/"><i class="zmdi zmdi-fast-rewind"></i></a>';
+                }
+
+                if ($KsvmPagina == $KsvmNPaginas) {
+                    $KsvmTabla .= '<button class = "btn btn-xs btn-default mdl-shadow--8dp disabled"><i class="zmdi zmdi-fast-forward"></i></button>
+                                   <span></span>
+                                   <button class = "btn btn-xs btn-success mdl-shadow--8dp disabled">Último</button>';
+                } else {
+                    $KsvmTabla .= '<a class="btn btn-xs btn-default mdl-shadow--8dp" href="'.KsvmServUrl.'KsvmReporteCompras/'.($KsvmPagina+1).'/"><i class="zmdi zmdi-fast-forward"></i></a>
+                                   <span></span>
+                                   <a class="btn btn-xs btn-success mdl-shadow--8dp" href="'.KsvmServUrl.'KsvmReporteCompras/'.($KsvmNPaginas).'/">Último</a>';
+                                   
+                                   
+                }
+                
+                $KsvmTabla .= '</nav></div>'; 
             }
+
             
                                    
         return $KsvmTabla;
 
       } 
      
+      /**
+       * Función que permite listar una Compra 
+       */
+     public function __KsvmListarSuperCompras()
+     {
+      $KsvmDataCompra = "SELECT SQL_CALC_FOUND_ROWS * FROM ksvmvistacompras WHERE CmpEstOcp = 'P'" ;
+      $KsvmConsulta = KsvmEstMaestra :: __KsvmConexion();
+  
+      $KsvmQuery = $KsvmConsulta->query($KsvmDataCompra);
+      return $KsvmQuery;
+     }
 
-     
       /**
        * Función que permite inhabilitar una Compra 
        */
@@ -408,9 +461,91 @@
       /**
        * Función que permite contar una Compra 
        */
-      public function __KsvmContarCompraControlador()
+      public function __KsvmContarCompraControlador($KsvmTokken)
       {
-          return KsvmCompraModelo :: __KsvmContarCompraModelo(0);
+          if ($KsvmTokken == 0) {
+            $KsvmContaCompra = KsvmCompraModelo :: __KsvmContarCompraSuperModelo();
+          } elseif ($KsvmTokken == 1) {
+            $KsvmContaCompra = KsvmCompraModelo :: __KsvmContarCompraTecniModelo();
+          } else{
+            $KsvmContaCompra = KsvmCompraModelo :: __KsvmContarCompraModelo();
+          }
+          return $KsvmContaCompra; 
+      }
+
+      /**
+       * Función que permite imprimir una Compra 
+       */
+      public function __KsvmImprimirCompraControlador()
+      {
+        return KsvmCompraModelo :: __KsvmImprimirCompraModelo();
+      }
+
+      /**
+       * Función que permite imprimir un detalle de Compra 
+       */
+      public function __KsvmImprimirDetalleCompraControlador($KsvmCodCompra)
+      {
+        $KsvmCodigo = KsvmEstMaestra :: __KsvmDesencriptacion($KsvmCodCompra);
+        return KsvmCompraModelo :: __KsvmEditarDetalleCompraModelo($KsvmCodigo);
+      }
+
+      /**
+       * Función que permite revisar una Compra 
+       */
+      public function __KsvmRevisarCompra()
+      {
+        $KsvmTokken = KsvmEstMaestra :: __KsvmDesencriptacion($_POST['KsvmTokken']);
+        $KsvmCodRevision = KsvmEstMaestra :: __KsvmDesencriptacion($_POST['KsvmCodRevision']);
+        if ($KsvmTokken == "APB") {
+            $KsvmRevCompra =[
+                "KsvmCodCompra" => $KsvmCodRevision
+            ];
+
+            $KsvmApbrCompra = KsvmCompraModelo :: __KsvmApruebaCompraModelo($KsvmRevCompra);
+            if ($KsvmApbrCompra->rowCount() >= 1) {
+                $KsvmAlerta = [
+                "Alerta" => "Actualiza",
+                "Titulo" => "Grandioso",
+                "Cuerpo" => "La Compra a sido aprobada satisfactoriamente",
+                "Tipo" => "success"
+                ];
+            } else {
+                $KsvmAlerta = [
+                "Alerta" => "simple",
+                "Titulo" => "Error inesperado",
+                "Cuerpo" => "No se a podido actualizar la información de la Compra",
+                "Tipo" => "info"
+                ];
+            }
+            return KsvmEstMaestra :: __KsvmMostrarAlertas($KsvmAlerta);
+
+        } else {
+
+            $KsvmRevCompra =[
+                "KsvmCodCompra" => $KsvmCodRevision
+            ];
+
+            $KsvmNiegaCompra = KsvmCompraModelo :: __KsvmNiegaCompraModelo($KsvmRevCompra);
+            if ($KsvmNiegaCompra->rowCount() >= 1) {
+                $KsvmAlerta = [
+                "Alerta" => "Actualiza",
+                "Titulo" => "Grandioso",
+                "Cuerpo" => "La Compra a sido negada satisfactoriamente",
+                "Tipo" => "success"
+                ];
+            } else {
+                $KsvmAlerta = [
+                "Alerta" => "simple",
+                "Titulo" => "Error inesperado",
+                "Cuerpo" => "No se a podido actualizar la información de la Compra",
+                "Tipo" => "info"
+                ];
+            }
+            return KsvmEstMaestra :: __KsvmMostrarAlertas($KsvmAlerta);
+        }
+        
+
       }
 
       /**

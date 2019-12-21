@@ -26,12 +26,7 @@
 			<div class="mdl-grid">
 				<div
 					class="mdl-cell mdl-cell--4-col-phone mdl-cell--8-col-tablet mdl-cell--13-col-desktop mdl-cell--0-offset-desktop">
-					<!-- <div class="" style="float:right;">
-							<a href="<?php echo KsvmServUrl;?>KsvmMedicamentosCrud/1/" id="btn-input"
-								class="btn btn-sm btn-info mdl-shadow--8dp">VOLVER &nbsp;<i
-									class="zmdi zmdi-arrow-left"></i></a>
-						</div>
-						<br><br> -->
+					<br>
 					<div class="full-width panel mdl-shadow--8dp">
 						<div class="full-width modal-header-input text-center">
 							Nuevo Medicamento
@@ -43,31 +38,34 @@
 								<div class="mdl-grid">
 									<input type="HIDDEN" name="dest-exists-action" value="overwrite" />
 									<div class="mdl-textfield mdl-js-textfield">
-										<select class="mdl-textfield__input" name="KsvmCtgId">
-											<option value="" selected="" disabled="">Seleccione Categoría</option>
+										<select class="mdl-textfield__input" name="KsvmCtgId" id="KsvmDato1">
+											<option value="" selected="">Seleccione Categoría</option>
 											<?php require_once "./Controladores/KsvmCategoriaControlador.php";
 											   $KsvmSelCat = new KsvmCategoriaControlador();
 											   echo $KsvmSelCat->__KsvmSeleccionarCategoria();
 										     ?>
 										</select>
+										<span id="KsvmError1" class="ValForm"><i class="zmdi zmdi-alert-triangle">&nbsp;Por favor llene este campo</i></span>
 									</div>
 									<div
 										class="mdl-cell mdl-cell--4-col-phone mdl-cell--8-col-tablet mdl-cell--6-col-desktop">
 										<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
 											<input class="mdl-textfield__input" type="text" name="KsvmCodMed"
-												id="KsvmCodMed">
-											<label class="mdl-textfield__label" for="KsvmCodMed">Código</label>
+												id="KsvmDato2">
+											<label class="mdl-textfield__label" for="KsvmDato2">Código</label>
 											<span class="mdl-textfield__error">Código Inválido</span>
+											<span id="KsvmError2" class="ValForm"><i class="zmdi zmdi-alert-triangle">&nbsp;Por favor llene este campo</i></span>
 										</div>
 										<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
 											<input class="mdl-textfield__input" type="text" name="KsvmPresenMed"
-												pattern="-?[A-Za-záéíóúÁÉÍÓÚ ]*(\.[0-9]+)?" id="KsvmPresenMed">
-											<label class="mdl-textfield__label" for="KsvmPresenMed">Presentación</label>
+												pattern="-?[A-Za-záéíóúÁÉÍÓÚ ]*(\.[0-9]+)?" id="KsvmDato3">
+											<label class="mdl-textfield__label" for="KsvmDato3">Presentación</label>
 											<span class="mdl-textfield__error">Presentación Inválida</span>
+											<span id="KsvmError3" class="ValForm"><i class="zmdi zmdi-alert-triangle">&nbsp;Por favor llene este campo</i></span>
 										</div>
 										<div class="mdl-textfield mdl-js-textfield">
-											<select class="mdl-textfield__input" name="KsvmNivPrescMed">
-												<option value="" selected="" disabled="">Seleccione Nivel de
+											<select class="mdl-textfield__input" name="KsvmNivPrescMed" id="KsvmDato4">
+												<option value="" selected="">Seleccione Nivel de
 													Prescripción</option>
 												<option value="E">E</option>
 												<option value="H">H</option>
@@ -77,10 +75,11 @@
 												<option value="HE(p)">HE(p)</option>
 												<option value="(p)">(p)</option>
 											</select>
+											<span id="KsvmError4" class="ValForm"><i class="zmdi zmdi-alert-triangle">&nbsp;Por favor llene este campo</i></span>
 										</div>
 										<div class="mdl-textfield mdl-js-textfield">
-											<select class="mdl-textfield__input" name="KsvmViaAdmMed">
-												<option value="" selected="" disabled="">Seleccione Vía de
+											<select class="mdl-textfield__input" name="KsvmViaAdmMed" id="KsvmDato5">
+												<option value="" selected="">Seleccione Vía de
 													Administración</option>
 												<option value="P">P</option>
 												<option value="O">O</option>
@@ -97,6 +96,7 @@
 												<option value="P(IV)">P(IV)</option>
 												<option value="SC">SC</option>
 											</select>
+											<span id="KsvmError5" class="ValForm"><i class="zmdi zmdi-alert-triangle">&nbsp;Por favor llene este campo</i></span>
 										</div>
 
 									</div>
@@ -104,20 +104,22 @@
 										class="mdl-cell mdl-cell--4-col-phone mdl-cell--8-col-tablet mdl-cell--6-col-desktop">
 										<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
 											<input class="mdl-textfield__input" type="text" name="KsvmDescMed"
-												pattern="-?[A-Za-záéíóúÁÉÍÓÚ ]*(\.[0-9]+)?" id="KsvmDescMed">
-											<label class="mdl-textfield__label" for="KsvmDescMed">Descripción</label>
+												pattern="-?[A-Za-záéíóúÁÉÍÓÚ ]*(\.[0-9]+)?" id="KsvmDato6">
+											<label class="mdl-textfield__label" for="KsvmDato6">Descripción</label>
 											<span class="mdl-textfield__error">Descripción Inválida</span>
+											<span id="KsvmError6" class="ValForm"><i class="zmdi zmdi-alert-triangle">&nbsp;Por favor llene este campo</i></span>
 										</div>
 										<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
 											<input class="mdl-textfield__input" type="text" name="KsvmConcenMed"
-												id="KsvmConcenMed">
+												id="KsvmDato7">
 											<label class="mdl-textfield__label"
-												for="KsvmConcenMed">Concentración</label>
+												for="KsvmDato7">Concentración</label>
 											<span class="mdl-textfield__error">Concentración Inválida</span>
+											<span id="KsvmError7" class="ValForm"><i class="zmdi zmdi-alert-triangle">&nbsp;Por favor llene este campo</i></span>
 										</div>
 										<div class="mdl-textfield mdl-js-textfield">
-											<select class="mdl-textfield__input" name="KsvmNivAtencMed">
-												<option value="" selected="" disabled="">Selecione Nivel de Atención
+											<select class="mdl-textfield__input" name="KsvmNivAtencMed" id="KsvmDato8">
+												<option value="" selected="">Selecione Nivel de Atención
 												</option>
 												<option value="I">Nivel 1</option>
 												<option value="II">Nivel 2</option>
@@ -127,12 +129,13 @@
 												<option value="II-III">Nivel 2-3</option>
 												<option value="I-II-III">Nivel 1-2-3</option>
 											</select>
+											<span id="KsvmError8" class="ValForm"><i class="zmdi zmdi-alert-triangle">&nbsp;Por favor llene este campo</i></span>
 										</div>
 										<div class="">
-											<input class="mdl-textfield__input" type="file" name="KsvmFotoMed"
-												id="KsvmFotoMed">
 											<label class="mdl-textfield" for="KsvmFotoMed"><img height="35px"
 													width="35px">&nbsp;Agregar Imagen</label>
+											<input class="mdl-textfield__input" type="file" name="KsvmFotoMed"
+												id="KsvmFotoMed">
 										</div>
 									</div>
 								</div>
@@ -140,11 +143,11 @@
 								<p class="text-center">
 									<button type="submit" name="Enviar"
 										class="mdl-button mdl-js-button mdl-js-ripple-effect btn-warning mdl-shadow--4dp"
-										id="btn-NuevoMedicamento">
+										id="btnSave">
 										<i class="zmdi zmdi-save">&nbsp;Guardar</i>
 									</button>
 								</p>
-								<div class="mdl-tooltip" for="btn-NuevoMedicamento">Nuevo Medicamento</div>
+								<div class="mdl-tooltip" for="btnSave">Nuevo Medicamento</div>
 								<div class="RespuestaAjax"></div>
 							</form>
 						</div>
@@ -169,7 +172,9 @@
 									<label class="mdl-textfield__label"></label>
 								</div>
 								<div class="mdl-textfield--expandable navBar-options-list">
-									<a class="btn btn-sm btn-success mdl-shadow--8dp mdl-tabs__tab">PDF</a>&nbsp;
+									<a class="btn btn-sm btn-success mdl-shadow--8dp"
+										href="<?php echo KsvmServUrl;?>Reportes/KsvmMedicamentosPdf.php"
+										target="_blank"><i class="zmdi zmdi-file">&nbsp;PDF</i></a>
 								</div>
 							</div>
 							<div class="RespuestaAjax"></div>
@@ -213,46 +218,46 @@
 	
 				  switch ($KsvmViaAdmin) {
 					case 'P':
-					$KsvmViaAdmin = "";
+					$KsvmViaAdmin = "P";
 					break;
 					case 'O':
-					$KsvmViaAdmin = "";
+					$KsvmViaAdmin = "O";
 					break;
 					case 'T':
-					$KsvmViaAdmin = "";
+					$KsvmViaAdmin = "T";
 					break;
 					case 'N':
-					$KsvmViaAdmin = "";
+					$KsvmViaAdmin = "N";
 					break;
 					case 'R':
-					$KsvmViaAdmin = "";
+					$KsvmViaAdmin = "R";
 					break;
 					case 'I':
-					$KsvmViaAdmin = "";
+					$KsvmViaAdmin = "I";
 					break;
 					case 'Oc':
-					$KsvmViaAdmin = "";
+					$KsvmViaAdmin = "Oc";
 					break;
 					case 'O/v':
-					$KsvmViaAdmin = "";
+					$KsvmViaAdmin = "O/v";
 					break;
 					case 'IT':
-					$KsvmViaAdmin = "";
+					$KsvmViaAdmin = "IT";
 					break;
 					case 'P/MI':
-					$KsvmViaAdmin = "";
+					$KsvmViaAdmin = "P/MI";
 					break;
 					case 'P/IV':
-					$KsvmViaAdmin = "";
+					$KsvmViaAdmin = "P/IV";
 					break;
 					case 'P(IM)':
-					$KsvmViaAdmin = "";
+					$KsvmViaAdmin = "P(IM)";
 					break;
 					case 'P(IV)':
-					$KsvmViaAdmin = "";
+					$KsvmViaAdmin = "P(IV)";
 					break;
 					case 'SC':
-					$KsvmViaAdmin = "";
+					$KsvmViaAdmin = "SC";
 					break;
 						  
 					default;
@@ -263,25 +268,25 @@
 				  $KsvmNivPresc = $KsvmLlenarForm['MdcNivPrescMed'];
 				  switch ($KsvmNivPresc) {
 					case 'E':
-					$KsvmNivPresc = "";
+					$KsvmNivPresc = "E";
 					break;
 					case 'H':
-					$KsvmNivPresc = "";
+					$KsvmNivPresc = "H";
 					break;
 					case 'HE':
-					$KsvmNivPresc = "";
+					$KsvmNivPresc = "HE";
 					break;
 					case 'E(p)':
-					$KsvmNivPresc = "";
+					$KsvmNivPresc = "E(p)";
 					break;
 					case 'H(p)':
-					$KsvmNivPresc = "";
+					$KsvmNivPresc = "H(p)";
 					break;
 					case 'HE(p)':
-					$KsvmNivPresc = "";
+					$KsvmNivPresc = "HE(p)";
 					break;
 					case '(p)':
-					$KsvmNivPresc = "";
+					$KsvmNivPresc = "(p)";
 					break;
 	
 					default:
@@ -297,97 +302,102 @@
 					}
 				  
 			?>
-				<script>
-					window.onload = function () {
-	
-						$("#KsvmFormMed").trigger("reset");
-						$(".modal-title").text("Detalles Medicamento");
-						$("#KsvmDetallesMedicamento").modal({
-							show: true
-						});
-					}
-				</script>
-	
-				<!-- Formulario de Detalles del Medicamento -->
-	
-				<div class="modal fade" id="KsvmDetallesMedicamento" tabindex="-1" role="dialog"
-					aria-labelledby="myModalLabel" aria-hidden="true">
-					<div class="modal-dialog" role="document">
-						<div class="modal-content ">
-							<div class="modal-header">
-								<button class="close close-edit" type="button" data-dismiss="modal"
-									aria-hidden="true">&times;</button>
-								<h5 class="modal-title text-center"></h5>
-							</div>
-							<div class="modal-body">
-							<form action="'.KsvmServUrl.'Ajax/KsvmMedicamentoAjax.php" method="POST" class="FormularioAjax" data-form="eliminar" enctype="multipart/form-data"> 
-									<input type="hidden" name="KsvmCodEdit" value="<?php echo $KsvmPagina[2]; ?>">
-									<div class="mdl-grid">
-										<div
-											class="mdl-cell mdl-cell--4-col-phone mdl-cell--8-col-tablet mdl-cell--5-col-desktop">
-											<div class="mdl-textfield mdl-js-textfield">
-												<div class="img-responsive">
-													<img height="255px" width="90%"
-														src="data:image/png;base64,<?php echo base64_encode($KsvmLlenarForm['MdcFotoMed']);?>" />
-												</div>
-											</div>
-											<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-												<div class="mdl-textfield__input"><strong>Categoría :</strong>
-													&nbsp; &nbsp;<?php echo $KsvmLlenarForm['CtgNomCat'];?></div>
-											</div>
-											<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-												<div class="mdl-textfield__input"><strong>Color :</strong>
-													&nbsp; &nbsp;<button class="btn btn-md"
-														style="width:50%; border-color:#000; background-color:<?php echo $KsvmLlenarForm['CtgColorCat'];?>;"></button>
-												</div>
-											</div>
-										</div>
-										<div
-											class="mdl-cell mdl-cell--4-col-phone mdl-cell--8-col-tablet mdl-cell--7-col-desktop">
-											<div class="mdl-textfield mdl-js-textfield">
-												<div class="mdl-textfield__input"><strong>Código :</strong>
-													&nbsp; &nbsp;<?php echo $KsvmLlenarForm['MdcCodMed'];?></div>
-											</div>
-											<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-												<div class="mdl-textfield__input"><strong>Descripción :</strong>
-													&nbsp; &nbsp;<?php echo $KsvmLlenarForm['MdcDescMed'];?></div>
-											</div>
-											<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-												<div class="mdl-textfield__input"><strong>Presentación :</strong>
-													&nbsp; &nbsp;<?php echo $KsvmLlenarForm['MdcPresenMed'];?></div>
-											</div>
-											<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-												<div class="mdl-textfield__input"><strong>Concentración :</strong>
-													&nbsp; &nbsp;<?php echo $KsvmLlenarForm['MdcConcenMed'];?></div>
-											</div>
-											<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-												<div class="mdl-textfield__input"><strong>Nivel de Prescripción :</strong>
-													&nbsp; &nbsp;<?php echo $KsvmNivPresc;?></div>
-											</div>
-											<div class="mdl-textfield mdl-js-textfield">
-												<div class="mdl-textfield__input"><strong>Nivel de Atención :</strong>
-													&nbsp; &nbsp;<?php echo $KsvmLlenarForm['MdcNivAtencMed'];?></div>
-											</div>
-											<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-												<div class="mdl-textfield__input"><strong>Via de Administración :</strong>
-													&nbsp; &nbsp;<?php echo $KsvmViaAdmin;?></div>
-											</div>
-											<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-											 <input type="hidden" name="KsvmCodDelete" value="<?php echo KsvmEstMaestra::__KsvmEncriptacion($KsvmLlenarForm['MdcId']);?>">   
-											   	<nav style="float:right;">
-											    <a class="btn btn-xs btn-primary" href="<?php echo KsvmServUrl;?>KsvmMedicamentosEditar/<?php echo KsvmEstMaestra::__KsvmEncriptacion($KsvmLlenarForm['MdcId']);?>/1/"><i class="zmdi zmdi-edit">&nbsp;EDITAR</i></a>
-												<button type="submit" class="btn btn-xs btn-danger"><i class="zmdi zmdi-delete">&nbsp;ELIMINAR</i></button>
-												</nav>
-											</div>
+		<script>
+			window.onload = function () {
+
+				$("#KsvmFormMed").trigger("reset");
+				$(".modal-title").text("Detalles Medicamento");
+				$("#KsvmDetallesMedicamento").modal({
+					show: true
+				});
+			}
+		</script>
+
+		<!-- Formulario de Detalles del Medicamento -->
+
+		<div class="modal fade" id="KsvmDetallesMedicamento" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+			aria-hidden="true">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content ">
+					<div class="modal-header">
+						<button class="close close-edit" type="button" data-dismiss="modal"
+							aria-hidden="true" id="btnExitMed">&times;</button>
+						<h5 class="modal-title text-center"></h5>
+					</div>
+					<div class="modal-body">
+						<form action="'.KsvmServUrl.'Ajax/KsvmMedicamentoAjax.php" method="POST" class="FormularioAjax"
+							data-form="eliminar" enctype="multipart/form-data">
+							<input type="hidden" name="KsvmCodEdit" value="<?php echo $KsvmPagina[2]; ?>">
+							<div class="mdl-grid">
+								<div
+									class="mdl-cell mdl-cell--4-col-phone mdl-cell--8-col-tablet mdl-cell--5-col-desktop">
+									<div class="mdl-textfield mdl-js-textfield">
+										<div class="img-responsive">
+											<img height="255px" width="80%"
+												src="data:image/jpg;base64,<?php echo base64_encode($KsvmLlenarForm['MdcFotoMed']);?>" />
 										</div>
 									</div>
-									<div class="RespuestaAjax"></div>
-								</form>
+									<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+										<div class="mdl-textfield__input"><strong>Categoría :</strong>
+											&nbsp; &nbsp;<?php echo $KsvmLlenarForm['CtgNomCat'];?></div>
+									</div>
+									<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+										<div class="mdl-textfield__input"><strong>Color :</strong>
+											&nbsp; &nbsp;<button class="btn btn-md"
+												style="width:50%; border-color:#000; background-color:<?php echo $KsvmLlenarForm['CtgColorCat'];?>;"></button>
+										</div>
+									</div>
+								</div>
+								<div
+									class="mdl-cell mdl-cell--4-col-phone mdl-cell--8-col-tablet mdl-cell--7-col-desktop">
+									<div class="mdl-textfield mdl-js-textfield">
+										<div class="mdl-textfield__input"><strong>Código :</strong>
+											&nbsp; &nbsp;<?php echo $KsvmLlenarForm['MdcCodMed'];?></div>
+									</div>
+									<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+										<div class="mdl-textfield__input"><strong>Descripción :</strong>
+											&nbsp; &nbsp;<?php echo $KsvmLlenarForm['MdcDescMed'];?></div>
+									</div>
+									<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+										<div class="mdl-textfield__input"><strong>Presentación :</strong>
+											&nbsp; &nbsp;<?php echo $KsvmLlenarForm['MdcPresenMed'];?></div>
+									</div>
+									<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+										<div class="mdl-textfield__input"><strong>Concentración :</strong>
+											&nbsp; &nbsp;<?php echo $KsvmLlenarForm['MdcConcenMed'];?></div>
+									</div>
+									<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+										<div class="mdl-textfield__input"><strong>Nivel de Prescripción :</strong>
+											&nbsp; &nbsp;<?php echo $KsvmNivPresc;?></div>
+									</div>
+									<div class="mdl-textfield mdl-js-textfield">
+										<div class="mdl-textfield__input"><strong>Nivel de Atención :</strong>
+											&nbsp; &nbsp;<?php echo $KsvmLlenarForm['MdcNivAtencMed'];?></div>
+									</div>
+									<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+										<div class="mdl-textfield__input"><strong>Via de Administración :</strong>
+											&nbsp; &nbsp;<?php echo $KsvmViaAdmin;?></div>
+									</div>
+									<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+										<input type="hidden" name="KsvmCodDelete"
+											value="<?php echo KsvmEstMaestra::__KsvmEncriptacion($KsvmLlenarForm['MdcId']);?>">
+										<nav style="float:right;">
+											<a class="btn btn-xs btn-primary"
+												href="<?php echo KsvmServUrl;?>KsvmMedicamentosEditar/<?php echo KsvmEstMaestra::__KsvmEncriptacion($KsvmLlenarForm['MdcId']);?>/1/"><i
+													class="zmdi zmdi-edit">&nbsp;EDITAR</i></a>
+											<button type="submit" class="btn btn-xs btn-danger"><i
+													class="zmdi zmdi-delete">&nbsp;ELIMINAR</i></button>
+										</nav>
+									</div>
+								</div>
 							</div>
-						</div>
+							<div class="RespuestaAjax"></div>
+						</form>
 					</div>
 				</div>
-	
-				<?php } }?>
+			</div>
+		</div>
+
+		<?php } }?>
 	</div>
 </section>

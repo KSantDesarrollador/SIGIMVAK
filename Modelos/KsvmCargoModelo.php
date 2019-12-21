@@ -56,6 +56,15 @@
           $KsvmQuery->execute();
           return $KsvmQuery;
       }
+     /**
+      *Función que permite imprimir un cargo
+      */
+      protected function __KsvmImprimirCargoModelo()
+      {
+          $KsvmImprimirCargo = "SELECT * FROM ksvmvistacargos";
+          $KsvmQuery = KsvmEstMaestra :: __KsvmConexion()->query($KsvmImprimirCargo);
+          return $KsvmQuery;
+      }
        /**
       *Función que permite actualizar un cargo
       */

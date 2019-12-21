@@ -56,6 +56,15 @@
           $KsvmQuery->execute();
           return $KsvmQuery;
       }
+     /**
+      *Función que permite imprimir un privilegio
+      */
+      protected function __KsvmImprimirMenuxRolModelo()
+      {
+          $KsvmImprimirMenuxRol = "SELECT * FROM ksvmvistaasignaprivilegio";
+          $KsvmQuery = KsvmEstMaestra :: __KsvmConexion()->query($KsvmImprimirMenuxRol);
+          return $KsvmQuery;
+      }
        /**
       *Función que permite actualizar un privilegio
       */

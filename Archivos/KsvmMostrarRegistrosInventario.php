@@ -33,9 +33,9 @@ class KsvmMostrarRegistrosInventario extends KsvmEstMaestra
                         </th>
                         <th class="mdl-data-table__cell--non-numeric">Caducidad
                         </th>
-                        <th class="mdl-data-table__cell--non-numeric">Stock Sistema
+                        <th class="mdl-data-table__cell--non-numeric">Stock
                         </th>
-                        <th class="mdl-data-table__cell--non-numeric">Conteo Físico
+                        <th class="mdl-data-table__cell--non-numeric">Cont Físico
                         </th>
                         <th style="text-align:center; witdh:30px;">Acción
                         </th>

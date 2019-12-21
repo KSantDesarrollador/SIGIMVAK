@@ -241,6 +241,14 @@
       }
 
       /**
+       * Función que permite imprimir un MenuxRol 
+       */
+      public function __KsvmImprimirMenuxRolControlador()
+      {
+        return KsvmMenuxRolModelo :: __KsvmImprimirMenuxRolModelo();
+      }
+
+      /**
        * Función que permite actualizar un MenuxRol 
        */
       public function __KsvmActualizarMenuxRolControlador()

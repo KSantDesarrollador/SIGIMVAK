@@ -10,7 +10,7 @@
 <section class="full-width pageContent">
 	<section class="full-width header-well">
 		<div class="full-width header-well-icon">
-			<i class="zmdi zmdi-store"></i>
+			<i class="zmdi zmdi-upload"></i>
 		</div>
 		<div class="full-width header-well-text">
 			<p class="text-condensedLight">
@@ -29,11 +29,7 @@
 				<!-- Formulario para ingresar un nuevo Inventario -->
 				<div
 					class="mdl-cell mdl-cell--4-col-phone mdl-cell--8-col-tablet mdl-cell--13-col-desktop mdl-cell--0-offset-desktop">
-					<!-- <div class="" style="float:right;">
-							<a href="<?php echo KsvmServUrl;?>KsvmInventariosCrud/1/" id="btn-input"
-								class="btn btn-sm btn-dark mdl-shadow--8dp btn-salir">VER LISTA &nbsp;<i
-									class="zmdi zmdi-arrow-right"></i></a>
-						</div> -->
+					<br>
 					<div class="full-width panel mdl-shadow--8dp">
 						<div class="full-width modal-header-input text-center">
 							Nuevo Pedido
@@ -179,7 +175,9 @@
 									<label class="mdl-textfield__label"></label>
 								</div>
 								<div class="mdl-textfield--expandable navBar-options-list">
-									<a class="btn btn-sm btn-success mdl-shadow--8dp mdl-tabs__tab">PDF</a>&nbsp;
+									<a class="btn btn-sm btn-success mdl-shadow--8dp"
+										href="<?php echo KsvmServUrl;?>Reportes/KsvmRequisicionesPdf.php"
+										target="_blank"><i class="zmdi zmdi-file">&nbsp;PDF</i></a>
 								</div>
 							</div>
 							<div class="RespuestaAjax"></div>
@@ -196,12 +194,12 @@
 						$_SESSION['KsvmBuscarReq'] = $_POST['KsvmBuscarReq'];
                         $KsvmPagina = explode("/", $_GET['Vistas']);
 						echo $KsvmIniReq -> __KsvmPaginador($KsvmPagina[1], KsvmNumPag, $_SESSION['KsvmRolId-SIGIM'], 
-						1, $_SESSION['KsvmBuscarReq']);
+						1, $_SESSION['KsvmBuscarReq'], "");
 					}else{
 
 						$KsvmPagina = explode("/", $_GET['Vistas']);
 						echo $KsvmIniReq -> __KsvmPaginador($KsvmPagina[1], KsvmNumPag, $_SESSION['KsvmRolId-SIGIM'], 
-						1, "");
+						1, "", "");
 				       }
 				?>
 

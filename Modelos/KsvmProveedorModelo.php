@@ -65,6 +65,15 @@
           $KsvmQuery->execute();
           return $KsvmQuery;
       }
+     /**
+      *Función que permite imprimir un Proveedor      
+      */
+      protected function __KsvmImprimirProveedorModelo()
+      {
+          $KsvmImprimirProveedor = "SELECT * FROM ksvmvistaproveedores";
+          $KsvmQuery = KsvmEstMaestra :: __KsvmConexion()->query($KsvmImprimirProveedor);
+          return $KsvmQuery;
+      }
        /**
       *Función que permite actualizar un proveedor
       */

@@ -78,6 +78,15 @@
           $KsvmQuery->execute();
           return $KsvmQuery;
       }
+     /**
+      *Función que permite imprimir una Existencia
+      */
+      protected function __KsvmImprimirExistenciaModelo()
+      {
+          $KsvmImprimirExistencia = "SELECT * FROM ksvmvistaexistencias";
+          $KsvmQuery = KsvmEstMaestra :: __KsvmConexion()->query($KsvmImprimirExistencia);
+          return $KsvmQuery;
+      }
        /**
       *Función que permite actualizar una existencia
       */

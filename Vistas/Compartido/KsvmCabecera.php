@@ -17,6 +17,8 @@
   <link rel="stylesheet" href="<?php echo KsvmServUrl; ?>Vistas/css/ripples.min.css">
   <link rel="stylesheet" href="<?php echo KsvmServUrl; ?>Vistas/css/jquery.mCustomScrollbar.css">
   <link rel="stylesheet" href="<?php echo KsvmServUrl; ?>Vistas/css/main.css">
+  <link rel="stylesheet" href="<?php echo KsvmServUrl; ?>Vistas/css/tcal.css">
+  <link rel="shortcut icon" href="<?php echo KsvmServUrl; ?>Vistas/assets/img/Logo.png">
 
   <script src="<?php echo KsvmServUrl; ?>Vistas/js/jquery-3.4.1.min.js"></script>
   <script src="<?php echo KsvmServUrl; ?>Vistas/js/JsBarcode.all.min.js"></script>
@@ -26,5 +28,7 @@
   <script src="<?php echo KsvmServUrl; ?>Vistas/js/material.min.js"></script>
   <script src="<?php echo KsvmServUrl; ?>Vistas/js/push.min.js"></script>
   <script src="<?php echo KsvmServUrl; ?>Vistas/js/ripples.min.js"></script>
+  <script src="<?php echo KsvmServUrl; ?>Vistas/js/tcal.js"></script>
   <script src="<?php echo KsvmServUrl; ?>Vistas/js/jquery.mCustomScrollbar.concat.min.js"></script>
 </head>
+

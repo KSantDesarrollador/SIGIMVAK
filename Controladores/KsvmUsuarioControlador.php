@@ -22,7 +22,7 @@
          $KsvmConContra = KsvmEstMaestra :: __KsvmFiltrarCadena($_POST['KsvmConContra']);
          $KsvmEmail = KsvmEstMaestra :: __KsvmFiltrarCadena($_POST['KsvmEmail']);
          $KsvmTelf = KsvmEstMaestra :: __KsvmFiltrarCadena($_POST['KsvmTelf']);
-         $KsvmImgUsu = addslashes(file_get_contents($_FILES['KsvmImgUsu']['tmp_name']));
+         $KsvmImgUsu = file_get_contents($_FILES['KsvmImgUsu']['tmp_name']);
 
          if ($KsvmContra != $KsvmConContra) {
              $KsvmAlerta = [
@@ -109,12 +109,12 @@
         $KsvmDesde = ($KsvmPagina > 0) ? (($KsvmPagina*$KsvmNRegistros) - $KsvmNRegistros) : 0;
 
         if (isset($KsvmBuscar) && $KsvmBuscar != "") {
-            $KsvmDataUsu = "SELECT SQL_CALC_FOUND_ROWS * FROM ksvmvistausuario WHERE ((RrlId != '$KsvmRol') AND (UsrNomUsu LIKE '%$KsvmBuscar%' 
+            $KsvmDataUsu = "SELECT SQL_CALC_FOUND_ROWS * FROM ksvmvistausuario WHERE ((RrlId != '$KsvmRol') AND (RrlNomRol != 'Administrador') AND (UsrNomUsu LIKE '%$KsvmBuscar%' 
                           OR RrlNomRol LIKE '%$KsvmBuscar%' OR UsrEmailUsu LIKE '%$KsvmBuscar%')) 
                           LIMIT $KsvmDesde, $KsvmNRegistros";
                           
         } else {
-            $KsvmDataUsu = "SELECT SQL_CALC_FOUND_ROWS * FROM ksvmvistausuario WHERE RrlId != '$KsvmRol' LIMIT $KsvmDesde, $KsvmNRegistros" ;
+            $KsvmDataUsu = "SELECT SQL_CALC_FOUND_ROWS * FROM ksvmvistausuario WHERE RrlId != '$KsvmRol' AND RrlNomRol != 'Administrador' LIMIT $KsvmDesde, $KsvmNRegistros" ;
         }
         
 
@@ -132,9 +132,10 @@
                         <thead>
                             <tr>
                                 <th class="mdl-data-table__cell--non-numeric">#</th>
+                                <th class="mdl-data-table__cell--non-numeric">Foto</th>
                                 <th class="mdl-data-table__cell--non-numeric">Usuario</th>
-                                <th class="mdl-data-table__cell--non-numeric">Contraseña</th>
-                                <th class="mdl-data-table__cell--non-numeric">Telf</th>
+                                <th class="mdl-data-table__cell--non-numeric hide-on-tablet">Contraseña</th>
+                                <th class="mdl-data-table__cell--non-numeric hide-on-tablet">Telf</th>
                                 <th class="mdl-data-table__cell--non-numeric">Email</th>
                                 <th class="mdl-data-table__cell--non-numeric">Rol</th>
                                 <th style="text-align:center; witdh:30px;">Acción</th>
@@ -148,9 +149,10 @@
                 
                 $KsvmTabla .= '<tr>
                                 <td class="mdl-data-table__cell--non-numeric">'.$KsvmContReg.'</td>
+                                <td class="mdl-data-table__cell--non-numeric"><img style="border-radius:30px;" height="35px" width="35px" src="data:image/jpg;base64,'. base64_encode($rows['UsrImgUsu']).'"/></td>
                                 <td class="mdl-data-table__cell--non-numeric">'.$rows['UsrNomUsu'].'</td>
-                                <td class="mdl-data-table__cell--non-numeric">'.$rows['UsrContraUsu'].'</td>
-                                <td class="mdl-data-table__cell--non-numeric">'.$rows['UsrTelfUsu'].'</td>
+                                <td class="mdl-data-table__cell--non-numeric hide-on-tablet">'.$rows['UsrContraUsu'].'</td>
+                                <td class="mdl-data-table__cell--non-numeric hide-on-tablet">'.$rows['UsrTelfUsu'].'</td>
                                 <td class="mdl-data-table__cell--non-numeric">'.$rows['UsrEmailUsu'].'</td>
                                 <td class="mdl-data-table__cell--non-numeric">'.$rows['RrlNomRol'].'</td>
                                 <td style="text-align:right; witdh:30px;">';
@@ -254,7 +256,7 @@
              
                 $KsvmTabla .= '</nav></div>';    
 
-            } else {
+            } elseif ($KsvmTotalReg >= 1 && $KsvmPagina <= $KsvmNPaginas && $KsvmCodigo == 1)  {
                 $KsvmTabla .= '<nav class="navbar-form navbar-right form-group">';
                 
                 if ($KsvmPagina == 1) {
@@ -329,6 +331,16 @@
 
           return KsvmEstMaestra :: __KsvmEditarUsuario($KsvmCodigo);
       }
+
+            /**
+       * Función que permite editar un usuario 
+       */
+      public function __KsvmEditarPerfilControlador($KsvmCodUsuario)
+      {
+          $KsvmCodigo = KsvmEstMaestra :: __KsvmDesencriptacion($KsvmCodUsuario);
+
+          return KsvmEstMaestra :: __KsvmEditarPerfil($KsvmCodigo);
+      }
       
       /**
        * Función que permite contar un usuario 
@@ -336,6 +348,24 @@
       public function __KsvmContarUsuarioControlador()
       {
           return KsvmEstMaestra :: __KsvmContarUsuario(0);
+      }
+
+      /**
+       * Función que permite editar un usuario 
+       */
+      public function __KsvmDesencriptarPerfil($KsvmClaveUsuario)
+      {
+          $KsvmCodigo = KsvmEstMaestra :: __KsvmDesencriptacion($KsvmClaveUsuario);
+
+          return $KsvmCodigo;
+      }
+
+      /**
+       * Función que permite imprimir una Usuario 
+       */
+      public function __KsvmImprimirUsuarioControlador()
+      {
+        return KsvmEstMaestra :: __KsvmImprimirUsuarioModelo();
       }
 
       /**
@@ -347,18 +377,21 @@
 
         $KsvmRol = KsvmEstMaestra :: __KsvmFiltrarCadena($_POST['KsvmRol']);
         $KsvmNomUsu = KsvmEstMaestra :: __KsvmFiltrarCadena($_POST['KsvmNomUsu']);
+        $KsvmContra = KsvmEstMaestra :: __KsvmFiltrarCadena($_POST['KsvmContra']);
+        $KsvmConContra = KsvmEstMaestra :: __KsvmFiltrarCadena($_POST['KsvmConContra']);
         $KsvmTelf = KsvmEstMaestra :: __KsvmFiltrarCadena($_POST['KsvmTelf']);
         $KsvmEmail = KsvmEstMaestra :: __KsvmFiltrarCadena($_POST['KsvmEmail']);
-        $KsvmImgUsu = addslashes(file_get_contents($_FILES['KsvmImgUsu']['tmp_name']));
-
-        if ($KsvmContra != $KsvmConContra) {
-          $KsvmAlerta = [
-            "Alerta" => "simple",
-            "Titulo" => "Error inesperado",
-            "Cuerpo" => "Las contraseñas ingresadas no coinciden, Por favor Intentelo de nuevo",
-            "Tipo" => "error"
-          ];
-          return KsvmEstMaestra :: __KsvmMostrarAlertas($KsvmAlerta);
+        $KsvmImgUsu = file_get_contents($_FILES['KsvmImgUsu']['tmp_name']);
+        if ($KsvmContra != "" && $KsvmConContra != "") {
+            if ($KsvmContra != $KsvmConContra) {
+                $KsvmAlerta = [
+                  "Alerta" => "simple",
+                  "Titulo" => "Error inesperado",
+                  "Cuerpo" => "Las contraseñas ingresadas no coinciden, Por favor Intentelo de nuevo",
+                  "Tipo" => "error"
+                ];
+                return KsvmEstMaestra :: __KsvmMostrarAlertas($KsvmAlerta);
+              }
         }
 
         $KsvmConsulta = "SELECT * FROM ksvmvistausuario WHERE UsrId = '$KsvmCode'";
@@ -379,10 +412,11 @@
                     exit();
             }
         }
-
+        $KsvmContrasenia = KsvmEstMaestra :: __KsvmEncriptacion($KsvmContra);
         $KsvmActualUsu = [
             "KsvmRrlId" => $KsvmRol,
             "KsvmNomUsu" => $KsvmNomUsu,
+            "KsvmContraUsu" => $KsvmContrasenia,
             "KsvmEmailUsu" => $KsvmEmail,
             "KsvmTelfUsu" => $KsvmTelf,
             "KsvmImgUsu" => $KsvmImgUsu,
@@ -409,7 +443,60 @@
          
         }
 
-        public function __KsvmSeleccionarUsuario(){
+      /**
+       * Función que permite actualizar un empleado 
+       */
+      public function __KsvmActualizarPerfilControlador()
+      {
+        $KsvmCode = KsvmEstMaestra :: __KsvmDesencriptacion($_POST['KsvmCodEdit']);
+
+        $KsvmContra = KsvmEstMaestra :: __KsvmFiltrarCadena($_POST['KsvmContra']);
+        $KsvmConContra = KsvmEstMaestra :: __KsvmFiltrarCadena($_POST['KsvmConContra']);
+        $KsvmTelf = KsvmEstMaestra :: __KsvmFiltrarCadena($_POST['KsvmTelf']);
+
+        if ($KsvmContra != "" && $KsvmConContra != "") {
+            if ($KsvmContra != $KsvmConContra) {
+                $KsvmAlerta = [
+                  "Alerta" => "simple",
+                  "Titulo" => "Error inesperado",
+                  "Cuerpo" => "Las contraseñas ingresadas no coinciden, Por favor Intentelo de nuevo",
+                  "Tipo" => "error"
+                ];
+                return KsvmEstMaestra :: __KsvmMostrarAlertas($KsvmAlerta);
+              }
+        }
+
+        $KsvmContrasenia = KsvmEstMaestra :: __KsvmEncriptacion($KsvmContra);
+        $KsvmActualPerfil = [
+            "KsvmContraUsu" => $KsvmContrasenia,
+            "KsvmTelfUsu" => $KsvmTelf,
+            "KsvmCode" => $KsvmCode
+            ];
+
+            $KsvmGuardarPerfil = KsvmEstMaestra :: __KsvmActualizarUsuario($KsvmActualPerfil);
+                if ($KsvmGuardarPerfil->rowCount() >= 1) {
+                    $KsvmAlerta = [
+                    "Alerta" => "Actualiza",
+                    "Titulo" => "Grandioso",
+                    "Cuerpo" => "El Perfil se actualizó satisfactoriamente",
+                    "Tipo" => "success"
+                    ];
+                } else {
+                    $KsvmAlerta = [
+                    "Alerta" => "simple",
+                    "Titulo" => "Error inesperado",
+                    "Cuerpo" => "No se a podido actualizar la información del Perfil",
+                    "Tipo" => "info"
+                    ];
+                }
+                return KsvmEstMaestra :: __KsvmMostrarAlertas($KsvmAlerta);
+      }
+
+        /**
+         * Función que permite seleccionar un usuario
+         */
+        public function __KsvmSeleccionarUsuario()
+        {
             $KsvmSelectUsuario = "SELECT * FROM ksvmusuario01";
 
             $KsvmConsulta = KsvmEstMaestra :: __KsvmConexion();

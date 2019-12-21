@@ -95,6 +95,15 @@
            $KsvmQuery->execute();
            return $KsvmQuery;
        }
+     /**
+      *Función que permite imprimir un Menu
+      */
+      protected function __KsvmImprimirMenuModelo()
+      {
+          $KsvmImprimirMenu = "SELECT * FROM ksvmmenu17";
+          $KsvmQuery = KsvmEstMaestra :: __KsvmConexion()->query($KsvmImprimirMenu);
+          return $KsvmQuery;
+      }
         /**
        *Función que permite actualizar un menu
        */

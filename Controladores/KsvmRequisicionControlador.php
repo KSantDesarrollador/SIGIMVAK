@@ -23,7 +23,7 @@
         $KsvmQuery = KsvmEstMaestra :: __KsvmEjecutaConsulta($KsvmPedidos);
         $KsvmNum = ($KsvmQuery->rowCount())+1;
 
-        $KsvmNumReq = KsvmEstMaestra :: __KsvmGeneraCodigoAleatorio("00", 6, $KsvmNum);
+        $KsvmNumReq = KsvmEstMaestra :: __KsvmGeneraCodigoAleatorio("00", 4, $KsvmNum);
 
         session_start(['name' => 'SIGIM']);
         $KsvmUser = $_SESSION['KsvmUsuId-SIGIM'];
@@ -33,6 +33,7 @@
          if ($KsvmQuery->rowCount() == 1) {
             $KsvmPerElab = $KsvmQuery->fetch();
 
+            $KsvmFchElabReq = date("Y-m-d");
             $KsvmFchRevReq = "no registrado";
             $KsvmPerElabReq = $KsvmPerElab['PerElab'];
             $KsvmPerAprbReq = "no registrado"; 
@@ -48,6 +49,7 @@
               $KsvmNuevaReq = [
                 "KsvmIvtId" => $KsvmIvtId,
                 "KsvmNumReq" => $KsvmNumReq,
+                "KsvmFchElabReq" => $KsvmFchElabReq,
                 "KsvmOrigenReq" => $KsvmOrigenReq,
                 "KsvmFchRevReq" => $KsvmFchRevReq,
                 "KsvmPerElabReq" => $KsvmPerElabReq,
@@ -75,7 +77,7 @@
         }
 
      /**
-      *Función que permite ingresar una Detalle de Compra
+      *Función que permite ingresar una Detalle de Requisicion
       */
     public function __KsvmAgregarDetalleRequisicionControlador()
     {
@@ -111,25 +113,33 @@
     /**
      * Función que permite paginar 
      */
-      public function __KsvmPaginador($KsvmPagina, $KsvmNRegistros, $KsvmRol, $KsvmCodigo, $KsvmBuscar)
+      public function __KsvmPaginador($KsvmPagina, $KsvmNRegistros, $KsvmRol, $KsvmCodigo, $KsvmBuscarIni, $KsvmBuscarFin)
       {
         $KsvmPagina = KsvmEstMaestra :: __KsvmFiltrarCadena($KsvmPagina);
         $KsvmNRegistros = KsvmEstMaestra :: __KsvmFiltrarCadena($KsvmNRegistros);
         $KsvmRol = KsvmEstMaestra :: __KsvmFiltrarCadena($KsvmRol);
         $KsvmCodigo = KsvmEstMaestra :: __KsvmFiltrarCadena($KsvmCodigo);
-        $KsvmBuscar = KsvmEstMaestra :: __KsvmFiltrarCadena($KsvmBuscar);
+        $KsvmBuscarIni = KsvmEstMaestra :: __KsvmFiltrarCadena($KsvmBuscarIni);
         $KsvmTabla = "";
         
         $KsvmPagina = (isset($KsvmPagina) && $KsvmPagina > 0 ) ? (int)$KsvmPagina : 1;
         $KsvmDesde = ($KsvmPagina > 0) ? (($KsvmPagina*$KsvmNRegistros) - $KsvmNRegistros) : 0;
-
-        if (isset($KsvmBuscar) && $KsvmBuscar != "") {
-            $KsvmDataReq = "SELECT SQL_CALC_FOUND_ROWS * FROM ksvmvistapedidos WHERE ((RqcEstReq != 'X') AND (OR RqcNumReq LIKE '%$KsvmBuscar%' 
-                            OR RqcOrigenReq LIKE '%$KsvmBuscar%'OR RqcPerElabReq LIKE '%$KsvmBuscar%')) LIMIT $KsvmDesde, $KsvmNRegistros";
-        } else {
-            $KsvmDataReq = "SELECT SQL_CALC_FOUND_ROWS * FROM ksvmvistapedidos WHERE RqcEstReq != 'X' LIMIT $KsvmDesde, $KsvmNRegistros" ;
-        }
         
+        if (isset($KsvmBuscarIni) && $KsvmBuscarIni != "" && !isset($KsvmBuscarFin)) {
+            $KsvmDataReq = "SELECT SQL_CALC_FOUND_ROWS * FROM ksvmvistapedidos WHERE ((RqcEstReq != 'I') AND (RqcNumReq LIKE '%$KsvmBuscarIni%' 
+                          OR RqcOrigenReq LIKE '%$KsvmBuscarIni%' OR RqcPerElabReq LIKE '%$KsvmBuscarIni%' OR RqcFchElabReq LIKE '%$KsvmBuscarIni%')) 
+                          LIMIT $KsvmDesde, $KsvmNRegistros";
+        } elseif (isset($KsvmBuscarIni) && isset($KsvmBuscarFin) && $KsvmBuscarFin != "") {
+            $KsvmDataReq = "SELECT SQL_CALC_FOUND_ROWS * FROM ksvmvistapedidos WHERE RqcFchElabReq BETWEEN '$KsvmBuscarIni' AND '$KsvmBuscarFin'
+            LIMIT $KsvmDesde, $KsvmNRegistros";
+        } else {
+            if ($KsvmRol == 1 || $KsvmRol == 2) {
+                $KsvmDataReq = "SELECT SQL_CALC_FOUND_ROWS * FROM ksvmvistapedidos WHERE RqcEstReq != 'I' LIMIT $KsvmDesde, $KsvmNRegistros" ;
+            } else {
+                $KsvmDataReq = "SELECT SQL_CALC_FOUND_ROWS * FROM ksvmvistapedidos WHERE UsrId = '$KsvmUsuario' AND RqcEstReq != 'I' LIMIT $KsvmDesde, $KsvmNRegistros" ;
+            }
+            
+        }
 
         $KsvmConsulta = KsvmEstMaestra :: __KsvmConexion();
     
@@ -145,9 +155,9 @@
                         <thead>
                             <tr>
                                 <th class="mdl-data-table__cell--non-numeric">#</th>
-                                <th class="mdl-data-table__cell--non-numeric"># Pedido</th>
+                                <th class="mdl-data-table__cell--non-numeric">#Pedido</th>
                                 <th class="mdl-data-table__cell--non-numeric">Fecha</th>
-                                <th class="mdl-data-table__cell--non-numeric">Responsable</th>
+                                <th class="mdl-data-table__cell--non-numeric">Resp</th>
                                 <th class="mdl-data-table__cell--non-numeric">Origen</th>
                                 <th style="text-align:center; witdh:30px;">Acción</th>
                             </tr>
@@ -170,22 +180,21 @@
                                 <td class="mdl-data-table__cell--non-numeric">'.$rows['RqcPerElabReq'].'</td>
                                 <td class="mdl-data-table__cell--non-numeric">'.$KsvmBodDest.'</td>
                                 <td style="text-align:right; witdh:30px;">';
-                                if ($KsvmRol == 1) {
+                                if ($KsvmRol == 1 || $KsvmRol == 2) {
                                     if ($KsvmCodigo == 0) {
 
+                                    $KsvmTabla .=  '<form action="'.KsvmServUrl.'Ajax/KsvmRequisicionAjax.php" method="POST" class="FormularioAjax" data-form="eliminar" enctype="multipart/form-data"> 
+                                                    <a id="btn-detail" class="btn btn-sm btn-info" href="'.KsvmServUrl.'KsvmRequisicionesCrud/Detail/'.KsvmEstMaestra::__KsvmEncriptacion($rows['RqcId']).'/"><i class="zmdi zmdi-card"></i></a>
+                                                    <div class="mdl-tooltip" for="btn-detail">Detalles</div>
+                                                    <a id="btn-edit" class="btn btn-sm btn-primary" href="'.KsvmServUrl.'KsvmRequisicionesEditar/'.KsvmEstMaestra::__KsvmEncriptacion($rows['RqcId']).'/0/"><i class="zmdi zmdi-edit"></i></a>
+                                                    <div class="mdl-tooltip" for="btn-edit">Editar</div>
+                                                    <input type="hidden" name="KsvmCodDelete" value="'.KsvmEstMaestra::__KsvmEncriptacion($rows['RqcId']).'">              
+                                                    <button id="btn-delete" type="submit" class="btn btn-sm btn-danger"><i class="zmdi zmdi-delete"></i></button>
+                                                    <div class="RespuestaAjax"></div>
+                                                    </form>';
+                                    } elseif ($KsvmCodigo == 1) {
                                     $KsvmTabla .= '<form action="'.KsvmServUrl.'Ajax/KsvmRequisicionAjax.php" method="POST" class="FormularioAjax" data-form="eliminar" enctype="multipart/form-data"> 
-                                                   <a id="btn-detail" class="btn btn-sm btn-info" href="'.KsvmServUrl.'KsvmRequisicionesCrud/Detail/'.KsvmEstMaestra::__KsvmEncriptacion($rows['RqcId']).'/"><i class="zmdi zmdi-card"></i></a>
-                                                   <div class="mdl-tooltip" for="btn-detail">Detalles</div>
-                                                   <a id="btn-edit" class="btn btn-sm btn-primary" href="'.KsvmServUrl.'KsvmRequisicionesEditar/'.KsvmEstMaestra::__KsvmEncriptacion($rows['RqcId']).'/0/"><i class="zmdi zmdi-edit"></i></a>
-                                                   <div class="mdl-tooltip" for="btn-edit">Editar</div>
-                                                   <input type="hidden" name="KsvmCodDelete" value="'.KsvmEstMaestra::__KsvmEncriptacion($rows['RqcId']).'">              
-                                                   <button id="btn-delete" type="submit" class="btn btn-sm btn-danger"><i class="zmdi zmdi-delete"></i></button>
-                                                   <div class="mdl-tooltip" for="btn-delete">Inhabilitar</div>
-                                                   <div class="RespuestaAjax"></div>
-                                                   </form>';
-                                    } else {
-                                    $KsvmTabla .= '<form action="'.KsvmServUrl.'Ajax/KsvmRequisicionAjax.php" method="POST" class="FormularioAjax" data-form="eliminar" enctype="multipart/form-data"> 
-                                                    <a id="btn-detail" class="btn btn-sm btn-info" href="'.KsvmServUrl.'KsvmRequisiciones/Detail/'.KsvmEstMaestra::__KsvmEncriptacion($rows['RqcId']).'/"><i class="zmdi zmdi-card"></i></a>
+                                                    <a id="btn-detail" class="btn btn-sm btn-info" href="'.KsvmServUrl.'KsvmRequisiciones/Detail/'.KsvmEstMaestra::__KsvmEncriptacion($rows['RqcId']).'"><i class="zmdi zmdi-card"></i></a>
                                                     <div class="mdl-tooltip" for="btn-detail">Detalles</div>
                                                     <a id="btn-edit" class="btn btn-sm btn-primary" href="'.KsvmServUrl.'KsvmRequisicionesEditar/'.KsvmEstMaestra::__KsvmEncriptacion($rows['RqcId']).'/1/"><i class="zmdi zmdi-edit"></i></a>
                                                     <div class="mdl-tooltip" for="btn-edit">Editar</div>
@@ -194,9 +203,13 @@
                                                     <div class="mdl-tooltip" for="btn-delete">Inhabilitar</div>
                                                     <div class="RespuestaAjax"></div>
                                                     </form>';
+                                    } else {
+                                    $KsvmTabla .= ' <a id="btn-detail" class="btn btn-sm btn-info" href="'.KsvmServUrl.'KsvmReportePedidos/Detail/'.KsvmEstMaestra::__KsvmEncriptacion($rows['RqcId']).'"><i class="zmdi zmdi-card"></i></a>
+                                                    <div class="mdl-tooltip" for="btn-detail">Detalles</div>
+                                                    <a id="btn-print" class="btn btn-sm btn-success" href="'.KsvmServUrl.'Reportes/KsvmRequisicionesPdf.php?Cod='.KsvmEstMaestra::__KsvmEncriptacion($rows['RqcId']).'" target="_blank"><i class="zmdi zmdi-print"></i></a>
+                                                    <div class="mdl-tooltip" for="btn-print">Imprimir</div>';
                                     }
-                                    
-                                }elseif ($KsvmRol == 2 || $KsvmRol == 3){
+                                }elseif ($KsvmRol == 3){
                                     $KsvmTabla .= '<a id="btn-detail" class="btn btn-sm btn-info" href="'.KsvmServUrl.'KsvmRequisiciones/Detail/'.KsvmEstMaestra::__KsvmEncriptacion($rows['RqcId']).'/"><i class="zmdi zmdi-card"></i></a>
                                                     <div class="mdl-tooltip" for="btn-detail">Detalles</div>
                                                     <a id="btn-edit" class="btn btn-sm btn-primary" href="'.KsvmServUrl.'KsvmRequisicionesEditar/'.KsvmEstMaestra::__KsvmEncriptacion($rows['RqcId']).'/1/"><i class="zmdi zmdi-edit"></i></a>
@@ -242,7 +255,7 @@
 
             }
         }
-            if ($KsvmTotalReg >= 1 && $KsvmPagina <= $KsvmNPaginas) {
+            if ($KsvmTotalReg >= 1 && $KsvmPagina <= $KsvmNPaginas && $KsvmCodigo == 0) {
 
                 $KsvmTabla .= '<nav class="navbar-form navbar-right form-group">';
                 
@@ -271,7 +284,7 @@
              
                 $KsvmTabla .= '</nav></div>';     
                            
-            } else {
+            } elseif ($KsvmTotalReg >= 1 && $KsvmPagina <= $KsvmNPaginas && $KsvmCodigo == 1) {
                 $KsvmTabla .= '<nav class="navbar-form navbar-right form-group">';
                 
                 if ($KsvmPagina == 1) {
@@ -297,12 +310,48 @@
                 }
                 
                 $KsvmTabla .= '</nav></div>'; 
+            } elseif ($KsvmTotalReg >= 1 && $KsvmPagina <= $KsvmNPaginas && $KsvmCodigo == 3) {
+                $KsvmTabla .= '<nav class="navbar-form navbar-right form-group">';
+                
+                if ($KsvmPagina == 1) {
+                    $KsvmTabla .= '<button class = "btn btn-xs btn-success mdl-shadow--8dp disabled">Primero</button>
+                                   <span></span>
+                                   <button class = "btn btn-xs btn-default mdl-shadow--8dp disabled"><i class="zmdi zmdi-fast-rewind"></i></button>';
+                } else {
+                    $KsvmTabla .= '<a class = "btn btn-xs btn-success mdl-shadow--8dp " href="'.KsvmServUrl.'KsvmReportePedidos/1/">Primero</a>
+                                   <span></span>
+                                   <a class = "btn btn-xs btn-default mdl-shadow--8dp " href="'.KsvmServUrl.'KsvmReportePedidos/'.($KsvmPagina-1).'/"><i class="zmdi zmdi-fast-rewind"></i></a>';
+                }
+
+                if ($KsvmPagina == $KsvmNPaginas) {
+                    $KsvmTabla .= '<button class = "btn btn-xs btn-default mdl-shadow--8dp disabled"><i class="zmdi zmdi-fast-forward"></i></button>
+                                   <span></span>
+                                   <button class = "btn btn-xs btn-success mdl-shadow--8dp disabled">Último</button>';
+                } else {
+                    $KsvmTabla .= '<a class="btn btn-xs btn-default mdl-shadow--8dp" href="'.KsvmServUrl.'KsvmReportePedidos/'.($KsvmPagina+1).'/"><i class="zmdi zmdi-fast-forward"></i></a>
+                                   <span></span>
+                                   <a class="btn btn-xs btn-success mdl-shadow--8dp" href="'.KsvmServUrl.'KsvmReportePedidos/'.($KsvmNPaginas).'/">Último</a>';
+                                   
+                                   
+                }
+                
+                $KsvmTabla .= '</nav></div>'; 
             }
-            
-        
                                    
         return $KsvmTabla;
       }
+
+    /**
+     * Función que permite listar un Requisicion 
+     */
+     public function __KsvmListarSuperRequisiciones()
+     {
+      $KsvmDataReq = "SELECT SQL_CALC_FOUND_ROWS * FROM ksvmvistapedidos WHERE RqcEstReq = 'P'" ;
+      $KsvmConsulta = KsvmEstMaestra :: __KsvmConexion();
+  
+      $KsvmQuery = $KsvmConsulta->query($KsvmDataReq);
+      return $KsvmQuery;
+     }
      
       /**
        * Función que permite inhabilitar un Pedido 
@@ -370,7 +419,7 @@
       }
 
             /**
-       * Función que permite editar una Detalle de Requisicion 
+       * Función que permite editar un Detalle de Requisicion 
        */
       public function  __KsvmEditarDetalleRequisicionControlador($KsvmCodRequisicion)
       {
@@ -380,7 +429,7 @@
       }
 
       /**
-       * Función que permite editar una Detalle de Requisicion 
+       * Función que permite editar un Detalle de Requisicion 
        */
       public function  __KsvmEditarDataRequisicionControlador($KsvmCodRequisicion)
       {
@@ -392,9 +441,91 @@
       /**
        * Función que permite contar un Pedido 
        */
-      public function __KsvmContarRequisicionControlador()
+      public function __KsvmContarRequisicionControlador($KsvmTokken)
       {
-          return KsvmRequisicionModelo :: __KsvmContarRequisicionModelo(0);
+          if ($KsvmTokken == 0) {
+            $KsvmContaRequisicion = KsvmRequisicionModelo :: __KsvmContarRequisicionSuperModelo();
+          } elseif($KsvmTokken == 1) {
+            $KsvmContaRequisicion = KsvmRequisicionModelo :: __KsvmContarRequisicionTecniModelo();
+          } else{
+            $KsvmContaRequisicion = KsvmRequisicionModelo :: __KsvmContarRequisicionModelo();
+          }
+          return $KsvmContaRequisicion;
+      }
+
+      /**
+       * Función que permite imprimir una Requisicion 
+       */
+      public function __KsvmImprimirRequisicionControlador()
+      {
+        return KsvmRequisicionModelo :: __KsvmImprimirRequisicionModelo();
+      }
+
+      /**
+       * Función que permite imprimir un detalle de Requisicion 
+       */
+      public function __KsvmImprimirDetalleRequisicionControlador($KsvmCodRequisicion)
+      {
+        $KsvmCodigo = KsvmEstMaestra :: __KsvmDesencriptacion($KsvmCodRequisicion);
+        return KsvmRequisicionModelo :: __KsvmEditarDetalleRequisicionModelo($KsvmCodigo);
+      }
+
+      /**
+       * Función que permite revisar una Requisicion 
+       */
+      public function __KsvmRevisarRequisicion()
+      {
+        $KsvmTokken = KsvmEstMaestra :: __KsvmDesencriptacion($_POST['KsvmTokken']);
+        $KsvmCodRevision = KsvmEstMaestra :: __KsvmDesencriptacion($_POST['KsvmCodRevision']);
+        if ($KsvmTokken == "APB") {
+            $KsvmRevRequisicion =[
+                "KsvmCodRequisicion" => $KsvmCodRevision
+            ];
+
+            $KsvmApbrRequisicion = KsvmRequisicionModelo :: __KsvmApruebaRequisicionModelo($KsvmRevRequisicion);
+            if ($KsvmApbrRequisicion->rowCount() >= 1) {
+                $KsvmAlerta = [
+                "Alerta" => "Actualiza",
+                "Titulo" => "Grandioso",
+                "Cuerpo" => "La Requisicion a sido aprobada satisfactoriamente",
+                "Tipo" => "success"
+                ];
+            } else {
+                $KsvmAlerta = [
+                "Alerta" => "simple",
+                "Titulo" => "Error inesperado",
+                "Cuerpo" => "No se a podido actualizar la información de la Requisicion",
+                "Tipo" => "info"
+                ];
+            }
+            return KsvmEstMaestra :: __KsvmMostrarAlertas($KsvmAlerta);
+
+        } else {
+
+            $KsvmRevRequisicion =[
+                "KsvmCodRequisicion" => $KsvmCodRevision
+            ];
+
+            $KsvmNiegaRequisicion = KsvmRequisicionModelo :: __KsvmNiegaRequisicionModelo($KsvmRevRequisicion);
+            if ($KsvmNiegaRequisicion->rowCount() >= 1) {
+                $KsvmAlerta = [
+                "Alerta" => "Actualiza",
+                "Titulo" => "Grandioso",
+                "Cuerpo" => "La Requisicion a sido negada satisfactoriamente",
+                "Tipo" => "success"
+                ];
+            } else {
+                $KsvmAlerta = [
+                "Alerta" => "simple",
+                "Titulo" => "Error inesperado",
+                "Cuerpo" => "No se a podido actualizar la información de la Requisicion",
+                "Tipo" => "info"
+                ];
+            }
+            return KsvmEstMaestra :: __KsvmMostrarAlertas($KsvmAlerta);
+        }
+        
+
       }
 
       /**
@@ -526,8 +657,8 @@
             $KsvmDataCant = KsvmRequisicionModelo :: __KsvmSeleccionarCantidad($KsvmCant);
             if ($KsvmDataCant->rowCount() == 1) {
                 $KsvmLlenarCant = $KsvmDataCant->fetch();
-                $KsvmListar = '<input class="mdl-textfield__input" type="text" name="KsvmCantTran"
-                               value="'.$KsvmLlenarCant['DrqCantReq'].'">';
+                $KsvmListar = '<input class="mdl-textfield__input" type="number" name="KsvmCantTran"
+                              id="KsvmDato3" value="'.$KsvmLlenarCant['DrqCantReq'].'">';
 
             }
 

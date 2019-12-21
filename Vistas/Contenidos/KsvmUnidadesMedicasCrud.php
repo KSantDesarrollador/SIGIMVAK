@@ -38,7 +38,9 @@
 								<label class="mdl-textfield__label"></label>
 							</div>
 							<div class="mdl-textfield--expandable navBar-options-list">
-								<a class="btn btn-sm btn-success mdl-shadow--8dp mdl-tabs__tab">PDF</a>
+								<a class="btn btn-sm btn-success mdl-shadow--8dp"
+									href="<?php echo KsvmServUrl;?>Reportes/KsvmUnidadesMedicasPdf.php"
+									target="_blank"><i class="zmdi zmdi-file">&nbsp;PDF</i></a>
 								<a href="#KsvmNuevoUnidadMedica" id="btn-input"
 									class="btn btn-sm btn-warning mdl-shadow--8dp mdl-tabs__tab">NUEVO &nbsp;<i
 										class="zmdi zmdi-plus-circle"></i></a>
@@ -141,46 +143,46 @@
 									class="mdl-cell mdl-cell--4-col-phone mdl-cell--8-col-tablet mdl-cell--6-col-desktop">
 									<div class="mdl-textfield mdl-js-textfield">
 										<div class="mdl-textfield__input"><strong>País :</strong>
-										&nbsp; &nbsp;<?php echo $KsvmPais;?></div>
+											&nbsp; &nbsp;<?php echo $KsvmPais;?></div>
 									</div>
 									<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
 										<div class="mdl-textfield__input"><strong>Cantón :</strong>
-										&nbsp; &nbsp;<?php echo $KsvmCanton;?></div>
+											&nbsp; &nbsp;<?php echo $KsvmCanton;?></div>
 									</div>
 									<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
 										<div class="mdl-textfield__input"><strong>Razon Social :</strong>
-										&nbsp; &nbsp;<?php echo $KsvmLlenarForm['UmdNomUdm'];?></div>
+											&nbsp; &nbsp;<?php echo $KsvmLlenarForm['UmdNomUdm'];?></div>
 									</div>
 									<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
 										<div class="mdl-textfield__input"><strong>Teléfono :</strong>
-										&nbsp; &nbsp;<?php echo $KsvmLlenarForm['UmdTelfUdm'];?></div>
+											&nbsp; &nbsp;<?php echo $KsvmLlenarForm['UmdTelfUdm'];?></div>
 									</div>
 									<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
 										<div class="mdl-textfield__input"><strong>Dirección :</strong>
-										&nbsp; &nbsp;<?php echo $KsvmLlenarForm['UmdDirUdm'];?></div>
+											&nbsp; &nbsp;<?php echo $KsvmLlenarForm['UmdDirUdm'];?></div>
 									</div>
 								</div>
 								<div
 									class="mdl-cell mdl-cell--4-col-phone mdl-cell--8-col-tablet mdl-cell--6-col-desktop">
 									<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
 										<div class="mdl-textfield__input"><strong>Provincia :</strong>
-										&nbsp; &nbsp;<?php echo $KsvmProvincia;?></div>
+											&nbsp; &nbsp;<?php echo $KsvmProvincia;?></div>
 									</div>
 									<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
 										<div class="mdl-textfield__input"><strong>Parroquia :</strong>
-										&nbsp; &nbsp;<?php echo $KsvmParroquia;?></div>
+											&nbsp; &nbsp;<?php echo $KsvmParroquia;?></div>
 									</div>
 									<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
 										<div class="mdl-textfield__input"><strong>Identificación :</strong>
-										&nbsp; &nbsp;<?php echo $KsvmLlenarForm['UmdIdentUdm'];?></div>
+											&nbsp; &nbsp;<?php echo $KsvmLlenarForm['UmdIdentUdm'];?></div>
 									</div>
 									<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
 										<div class="mdl-textfield__input"><strong>Email :</strong>
-										&nbsp; &nbsp;<?php echo $KsvmLlenarForm['UmdEmailUdm'];?></div>
+											&nbsp; &nbsp;<?php echo $KsvmLlenarForm['UmdEmailUdm'];?></div>
 									</div>
 									<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
 										<div class="mdl-textfield__input"><strong>Estado :</strong>
-										&nbsp; &nbsp;<?php echo $KsvmEstado;?></div>
+											&nbsp; &nbsp;<?php echo $KsvmEstado;?></div>
 									</div>
 								</div>
 							</div>

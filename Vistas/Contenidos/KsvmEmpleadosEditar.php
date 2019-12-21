@@ -120,7 +120,7 @@
 								<div
 									class="mdl-cell mdl-cell--4-col-phone mdl-cell--8-col-tablet mdl-cell--6-col-desktop">
 									<div class="mdl-textfield mdl-js-textfield">
-											<select class="mdl-textfield__input" name="KsvmIdPais" id="">
+											<select class="mdl-textfield__input" name="KsvmIdPais" id="" required>
 												<option value="<?php echo $KsvmLlenarForm['PrcId']?>" selected=""><?php echo $KsvmPais;?></option>
 												<?php 
 													$KsvmCbxProc = $KsvmSelProc->__KsvmSeleccionaProcedencia("");
@@ -136,58 +136,78 @@
 											</select>
 										</div>
 									<div class="mdl-textfield mdl-js-textfield">
-										<select class="mdl-textfield__input" name="KsvmTipoIdent">
+										<select class="mdl-textfield__input" name="KsvmTipoIdent" id="KsvmDato1">
 											<option value="<?php echo $KsvmLlenarForm['EpoTipIdentEmp'];?>"
 												selected=""><?php echo $KsvmTipo;?>
 											</option>
 											<option value="C">Cédula</option>
 											<option value="P">Pasaporte</option>
 										</select>
+										<span id="KsvmError1" class="ValForm"><i
+													class="zmdi zmdi-alert-triangle">&nbsp;Por favor llene este
+													campo</i></span>
 									</div>
 									<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
 										<input class="mdl-textfield__input" type="number" name="KsvmIdent"
 											value="<?php echo $KsvmLlenarForm['EpoIdentEmp'];?>"
-											pattern="-?[0-9]*(\.[0-9]+)?" id="KsvmIdent">
-										<label class="mdl-textfield__label" for="KsvmIdent">Identificación</label>
+											pattern="-?[0-9]*(\.[0-9]+)?" id="KsvmDato2">
+										<label class="mdl-textfield__label" for="KsvmDato2">Identificación</label>
 										<span class="mdl-textfield__error">Número Inválido</span>
+										<span id="KsvmError2" class="ValForm"><i
+													class="zmdi zmdi-alert-triangle">&nbsp;Por favor llene este
+													campo</i></span>
 									</div>
 									<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
 										<input class="mdl-textfield__input" type="text" name="KsvmPrimApel"
 											value="<?php echo $KsvmLlenarForm['EpoPriApeEmp'];?>"
-											pattern="-?[A-Za-záéíóúÁÉÍÓÚ ]*(\.[0-9]+)?" id="KsvmPrimApel">
-										<label class="mdl-textfield__label" for="KsvmPrimApel">Primer Apellido</label>
-										<span class="mdl-textfield__error" for="KsvmPrimApel">Apellido Inválido</span>
+											pattern="-?[A-Za-záéíóúÁÉÍÓÚ ]*(\.[0-9]+)?" id="KsvmDato3">
+										<label class="mdl-textfield__label" for="KsvmDato3">Primer Apellido</label>
+										<span class="mdl-textfield__error">Apellido Inválido</span>
+										<span id="KsvmError3" class="ValForm"><i
+													class="zmdi zmdi-alert-triangle">&nbsp;Por favor llene este
+													campo</i></span>
 									</div>
 									<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
 										<input class="mdl-textfield__input" type="text" name="KsvmSegApel"
 											value="<?php echo $KsvmLlenarForm['EpoSegApeEmp'];?>"
-											pattern="-?[A-Za-záéíóúÁÉÍÓÚ ]*(\.[0-9]+)?" id="KsvmSegApel">
-										<label class="mdl-textfield__label" for="KsvmSegApel">Segundo Apellido</label>
+											pattern="-?[A-Za-záéíóúÁÉÍÓÚ ]*(\.[0-9]+)?" id="KsvmDato4">
+										<label class="mdl-textfield__label" for="KsvmDato4">Segundo Apellido</label>
 										<span class="mdl-textfield__error">Apellido Inválido</span>
+										<span id="KsvmError4" class="ValForm"><i
+													class="zmdi zmdi-alert-triangle">&nbsp;Por favor llene este
+													campo</i></span>
 									</div>
 									<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
 										<input class="mdl-textfield__input" type="text" name="KsvmPrimNom"
 											value="<?php echo $KsvmLlenarForm['EpoPriNomEmp'];?>"
-											pattern="-?[A-Za-záéíóúÁÉÍÓÚ ]*(\.[0-9]+)?" id="KsvmPrimNom">
-										<label class="mdl-textfield__label" for="KsvmPrimNom">Primer Nombre</label>
+											pattern="-?[A-Za-záéíóúÁÉÍÓÚ ]*(\.[0-9]+)?" id="KsvmDato5">
+										<label class="mdl-textfield__label" for="KsvmDato5">Primer Nombre</label>
 										<span class="mdl-textfield__error">Nombre Inválido</span>
+										<span id="KsvmError5" class="ValForm"><i
+													class="zmdi zmdi-alert-triangle">&nbsp;Por favor llene este
+													campo</i></span>
 									</div>
 									<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
 										<input class="mdl-textfield__input" type="text" name="KsvmSegNom"
 											value="<?php echo $KsvmLlenarForm['EpoSegNomEmp'];?>"
-											pattern="-?[A-Za-záéíóúÁÉÍÓÚ ]*(\.[0-9]+)?" id="KsvmSegNom">
-										<label class="mdl-textfield__label" for="KsvmSegNom">Segundo Nombre</label>
+											pattern="-?[A-Za-záéíóúÁÉÍÓÚ ]*(\.[0-9]+)?" id="KsvmDato6">
+										<label class="mdl-textfield__label" for="KsvmDato6">Segundo Nombre</label>
 										<span class="mdl-textfield__error">Nombre Inválido</span>
+										<span id="KsvmError6" class="ValForm"><i
+													class="zmdi zmdi-alert-triangle">&nbsp;Por favor llene este
+													campo</i></span>
 									</div>
 									<div class="mdl-textfield mdl-js-textfield">
-										<input type="date" class="mdl-textfield__input" id="KsvmFchNac"
-											value="<?php echo $KsvmLlenarForm['EpoFchNacEmp'];?>" name="KsvmFchNac">
-										<label class="mdl-textfield__label" for="KsvmFchNac"
-											style="text-align:right;"></label>Fecha de
-											Nacimiento
+										<input type="text" class="mdl-textfield__input tcal" id="KsvmDato7"
+											value="<?php echo $KsvmLlenarForm['EpoFchNacEmp'];?>" name="KsvmFchNac"
+											placeholder="Fecha de nacimiento">
+										<label class="mdl-textfield__label" for="KsvmDato7"></label>
+										<span id="KsvmError7" class="ValForm"><i
+													class="zmdi zmdi-alert-triangle">&nbsp;Por favor llene este
+													campo</i></span>
 									</div>
 									<div class="">
-                                     <label class="mdl-textfield"><img height="33px" width="45px" src="data:image/jpg;base64,<?php echo base64_encode($KsvmLlenarForm['EpoFotoEmp']);?>"/>&nbsp;Cambiar Imagen</label>
+                                     <label class="mdl-textfield"><img height="45px" width="45px" src="data:image/jpg;base64,<?php echo base64_encode($KsvmLlenarForm['EpoFotoEmp']);?>"/>&nbsp;Cambiar Imagen</label>
                                      <input class="mdl-textfield__input" type="file" name="KsvmFotoEmp" id="KsvmFotoEmp">
                                    </div>
 								</div>
@@ -204,7 +224,7 @@
 											</select>
 										</div>
 									<div class="mdl-textfield mdl-js-textfield">
-									<select class="mdl-textfield__input" name="KsvmRol">
+									<select class="mdl-textfield__input" name="KsvmRol" id="KsvmDato8">
                                          <option value="<?php echo $KsvmLlenarForm['RrlId'];?>" selected="">
                                              <?php echo $KsvmLlenarForm['RrlNomRol'];?></option>
                                              <?php require_once "./Controladores/KsvmRolControlador.php";
@@ -212,9 +232,12 @@
 											   echo $KsvmSelRol->__KsvmSeleccionarRol();
 										     ?>
                                      </select>
+									 <span id="KsvmError8" class="ValForm"><i
+													class="zmdi zmdi-alert-triangle">&nbsp;Por favor llene este
+													campo</i></span>
 									</div>
 									<div class="mdl-textfield mdl-js-textfield">
-									<select class="mdl-textfield__input" name="KsvmCargo">
+									<select class="mdl-textfield__input" name="KsvmCargo" id="KsvmDato9">
                                          <option value="<?php echo $KsvmLlenarForm['CrgId'];?>" selected="">
                                              <?php echo $KsvmLlenarForm['CrgNomCar'];?></option>
                                              <?php require_once "./Controladores/KsvmCargoControlador.php";
@@ -222,28 +245,41 @@
 											   echo $KsvmSelCargo->__KsvmSeleccionarCargo();
 										     ?>
                                      </select>
+									 <span id="KsvmError9" class="ValForm"><i
+													class="zmdi zmdi-alert-triangle">&nbsp;Por favor llene este
+													campo</i></span>
 									</div>
 									<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
 										<input class="mdl-textfield__input" type="text" name="KsvmDirc"
-											value="<?php echo $KsvmLlenarForm['EpoDirEmp'];?>" id="KsvmDirc">
-										<label class="mdl-textfield__label" for="KsvmDirc">Dirección</label>
+											value="<?php echo $KsvmLlenarForm['EpoDirEmp'];?>" id="KsvmDato10">
+										<label class="mdl-textfield__label" for="KsvmDato10">Dirección</label>
 										<span class="mdl-textfield__error">Dirección Inválida</span>
+										<span id="KsvmError10" class="ValForm"><i
+													class="zmdi zmdi-alert-triangle">&nbsp;Por favor llene este
+													campo</i></span>
 									</div>
 									<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
 										<input class="mdl-textfield__input" type="tel" name="KsvmTelf"
 											value="<?php echo $KsvmLlenarForm['EpoTelfEmp'];?>"
-											pattern="-?[0-9+()- ]*(\.[0-9]+)?" id="KsvmTelf">
-										<label class="mdl-textfield__label" for="KsvmTelf">Teléfono</label>
+											pattern="-?[0-9+()- ]*(\.[0-9]+)?" id="KsvmDato11">
+										<label class="mdl-textfield__label" for="KsvmDato11">Teléfono</label>
 										<span class="mdl-textfield__error">Número de teléfono Inválido</span>
+										<span id="KsvmError11" class="ValForm"><i
+													class="zmdi zmdi-alert-triangle">&nbsp;Por favor llene este
+													campo</i></span>
 									</div>
 									<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
 										<input class="mdl-textfield__input" type="email" name="KsvmEmail"
-											value="<?php echo $KsvmLlenarForm['EpoEmailEmp'];?>" id="KsvmEmail">
-										<label class="mdl-textfield__label" for="KsvmEmail">E-mail</label>
+											value="<?php echo $KsvmLlenarForm['EpoEmailEmp'];?>" 
+											placeholder="^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$" id="KsvmDato12">
+										<label class="mdl-textfield__label" for="KsvmDato12">E-mail</label>
 										<span class="mdl-textfield__error">E-mail Inválido</span>
+										<span id="KsvmError12" class="ValForm"><i
+													class="zmdi zmdi-alert-triangle">&nbsp;Por favor llene este
+													campo</i></span>
 									</div>
 									<div class="mdl-textfield mdl-js-textfield">
-										<select class="mdl-textfield__input" name="KsvmEstCiv">
+										<select class="mdl-textfield__input" name="KsvmEstCiv" id="KsvmDato13">
 											<option value="<?php echo $KsvmLlenarForm['EpoEstCivEmp'];?>"
 												selected=""><?php echo $KsvmCivil;?></option>
 											<option value="S">Soltero/a</option>
@@ -252,35 +288,44 @@
 											<option value="D">Divorciado/a</option>
 											<option value="V">Viudo/a</option>
 										</select>
+										<span id="KsvmError13" class="ValForm"><i
+													class="zmdi zmdi-alert-triangle">&nbsp;Por favor llene este
+													campo</i></span>
 									</div>
 									<div class="mdl-textfield mdl-js-textfield">
-										<select class="mdl-textfield__input" name="KsvmSexo">
+										<select class="mdl-textfield__input" name="KsvmSexo" id="KsvmDato14">
 											<option value="<?php echo $KsvmLlenarForm['EpoSexoEmp'];?>"
 												selected="">
 												<?php echo $KsvmSexo;?></option>
 											<option value="H">Hombre</option>
 											<option value="M">Mujer</option>
 										</select>
+										<span id="KsvmError14" class="ValForm"><i
+													class="zmdi zmdi-alert-triangle">&nbsp;Por favor llene este
+													campo</i></span>
 									</div>
 									<div class="mdl-textfield mdl-js-textfield">
-										<select class="mdl-textfield__input" name="KsvmGenero">
+										<select class="mdl-textfield__input" name="KsvmGenero" id="KsvmDato15">
 											<option value="<?php echo $KsvmLlenarForm['EpoGeneroEmp'];?>"
 												selected="">
 												<?php echo $KsvmGenero;?></option>
 											<option value="M">Masculino</option>
 											<option value="F">Femenino</option>
 										</select>
+										<span id="KsvmError15" class="ValForm"><i
+													class="zmdi zmdi-alert-triangle">&nbsp;Por favor llene este
+													campo</i></span>
 									</div>
 								</div>
 							</div>
 							<p class="text-center">
 								<button type="submit"
 									class="mdl-button mdl-js-button mdl-js-ripple-effect btn-primary mdl-shadow--4dp"
-									id="btn-NuevoEmpleado">
+									id="btnSave">
 									<i class="zmdi zmdi-save">&nbsp;Guardar</i>
 								</button>
 							</p>
-							<div class="mdl-tooltip" for="btn-NuevoEmpleado">Editar empleado</div>
+							<div class="mdl-tooltip" for="btnSave">Editar empleado</div>
 							<div class="RespuestaAjax"></div>
 						</form>
 					</div>

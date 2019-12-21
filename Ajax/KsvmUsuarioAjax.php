@@ -23,6 +23,10 @@ if (isset($_POST['KsvmRol']) || isset($_POST['KsvmCodDelete']) || isset($_POST['
     if (isset($_POST['KsvmCodEdit']) && isset($_POST['KsvmNomUsu'])) {
         echo $KsvmIniUsuario->__KsvmActualizarUsuarioControlador();
     }
+
+    if (isset($_POST['KsvmCodEdit']) && isset($_POST['KsvmContra'])) {
+        echo $KsvmIniUsuario->__KsvmActualizarPerfilControlador();
+    }
 } else {
     session_start();
     session_destroy();

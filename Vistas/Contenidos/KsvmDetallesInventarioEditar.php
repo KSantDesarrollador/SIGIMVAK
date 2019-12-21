@@ -51,12 +51,17 @@
                 class="btn btn-sm btn-dark mdl-shadow--8dp btn-salir">VOLVER &nbsp;<i
                 class="zmdi zmdi-arrow-left"></i>
                 </a>';
-               } else {
+			} elseif($KsvmPagina[2] == 1) {
                 echo '<a href="'.KsvmServUrl.'KsvmInventarios/1/" id="btn-input"
                 class="btn btn-sm btn-dark mdl-shadow--8dp btn-salir">VOLVER &nbsp;<i
                 class="zmdi zmdi-arrow-left"></i>
                 </a>';
-               }
+               }else {
+                echo '<a href="'.KsvmServUrl.'KsvmSuperInventarios/1/" id="btn-input"
+                class="btn btn-sm btn-dark mdl-shadow--8dp btn-salir">VOLVER &nbsp;<i
+                class="zmdi zmdi-arrow-left"></i>
+                </a>';
+			   }
                
              ?>
             </div>
@@ -85,37 +90,40 @@
 													?>
                                      </select>
                                     </div>
-									<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+									<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label" id="KsvmStockInv">
 										<input class="mdl-textfield__input" type="number" name="KsvmStockInv"
 											value="<?php echo $KsvmLlenarForm['DivStockInv'];?>"
-											pattern="-?[0-9]*(\.[0-9]+)?" id="KsvmStockInv">
-										<label class="mdl-textfield__label" for="KsvmStockInv">Stock</label>
+											pattern="-?[0-9]*(\.[0-9]+)?" id="KsvmDato1">
+										<label class="mdl-textfield__label" for="KsvmDato1">Stock</label>
 										<span class="mdl-textfield__error">Stock Inválido</span>
+										<span id="KsvmError1" class="ValForm"><i class="zmdi zmdi-alert-triangle">&nbsp;Por favor llene este campo</i></span>
 									</div>
 									<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
 										<input class="mdl-textfield__input" type="number" name="KsvmContFisInv"
 											value="<?php echo $KsvmLlenarForm['DivContFisInv'];?>"
-											id="KsvmContFisInv">
-										<label class="mdl-textfield__label" for="KsvmContFisInv">Conteo Físico</label>
+											id="KsvmDato2">
+										<label class="mdl-textfield__label" for="KsvmDato2">Conteo Físico</label>
 										<span class="mdl-textfield__error">Conteo Físico Inválida</span>
+										<span id="KsvmError2" class="ValForm"><i class="zmdi zmdi-alert-triangle">&nbsp;Por favor llene este campo</i></span>
 									</div>
                                     <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
 										<input class="mdl-textfield__input" type="text" name="KsvmDiferenciaInv"
 											value="<?php echo $KsvmLlenarForm['DivDifInv'];?>"
-											 id="KsvmDiferenciaInv">
-										<label class="mdl-textfield__label" for="KsvmDiferenciaInv">Diferencia</label>
+											 pattern="-?[0-9]*[A-Za-záéíóúÁÉÍÓÚ ]?" id="KsvmDato3">
+										<label class="mdl-textfield__label" for="KsvmDato3">Diferencia</label>
 										<span class="mdl-textfield__error">Diferencia Inválida</span>
+										<span id="KsvmError3" class="ValForm"><i class="zmdi zmdi-alert-triangle">&nbsp;Por favor llene este campo</i></span>
 									</div>
 								</div>
 							</div>
 							<p class="text-center">
 								<button type="submit"
 									class="mdl-button mdl-js-button mdl-js-ripple-effect btn-primary mdl-shadow--4dp"
-									id="btn-NuevoInventario">
+									id="btnSave">
 									<i class="zmdi zmdi-save">&nbsp;Guardar</i>
 								</button>
 							</p>
-							<div class="mdl-tooltip" for="btn-NuevoInventario">Editar Inventario</div>
+							<div class="mdl-tooltip" for="btnSave">Editar Inventario</div>
 							<div class="RespuestaAjax"></div>
 						</form>
 					</div>

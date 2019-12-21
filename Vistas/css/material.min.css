@@ -3557,6 +3557,54 @@ fieldset[disabled] .mdl-checkbox .mdl-checkbox__ripple-container .mdl-ripple, .m
   text-align: left
 }
 
+@media(max-width:760px){
+  .mdl-data-table {
+    position: relative;
+    border: 1px solid rgba(0, 0, 0, .12);
+    border-collapse: collapse;
+    white-space: normal;
+    font-size: 10px;
+    background-color: rgba(255, 255, 255, .8)
+  }
+
+  .mdl-data-table th {
+    position: relative;
+    vertical-align: bottom;
+    text-overflow: ellipsis;
+    font-weight: 750;
+    line-height: 24px;
+    letter-spacing: 0;
+    height: 20px;
+    font-size: 12px;
+    color: rgba(0, 0, 0, .65);
+    padding-bottom: 7px;
+    box-sizing: border-box;
+    background-color: #3396ff;
+  }
+
+  .mdl-data-table-data {
+    position: relative;
+    border: 1px solid rgba(0, 0, 0, .12);
+    border-collapse: collapse;
+    white-space: normal;
+    font-size: 10px;
+    background-color: rgba(255, 255, 255, .8)
+  }
+
+  .mdl-data-table-data th {
+    position: relative;
+    vertical-align: bottom;
+    text-overflow: ellipsis;
+    font-weight: 750;
+    line-height: 24px;
+    letter-spacing: 0;
+    height: 20px;
+    font-size: 10px;
+    padding-bottom: 7px;
+    box-sizing: border-box;
+  }
+}
+
 .mdl-dialog {
   border: none;
   box-shadow: 0 9px 46px 8px rgba(0, 0, 0, .14), 0 11px 15px -7px rgba(0, 0, 0, .12), 0 24px 38px 3px rgba(0, 0, 0, .2);
@@ -6346,7 +6394,7 @@ fieldset[disabled] .mdl-switch .mdl-switch__ripple-container .mdl-ripple, .mdl-s
   font-size: 14px;
   text-transform: uppercase;
   color: #000;
-  background-color: ghostwhite;
+  background-color: rgba(255, 255, 255, .2);
   overflow: hidden
 }
 
@@ -6566,22 +6614,36 @@ fieldset[disabled] .mdl-textfield .mdl-textfield__label, .mdl-textfield.is-disab
 }
 
 .mdl-textfield__error {
-  color: #d50000;
+  color: #d50000ce;
   position: absolute;
-  font-size: 10px;
-  margin-top: 3px;
-  visibility: hidden;
-  display: block
+  font-weight: 600;
+  font-size: 11px;
+  margin-top: -3px;
+  display: none
 }
 
 .mdl-textfield.is-invalid .mdl-textfield__error {
-  visibility: visible
+  display: block;
+}
+
+.ValForm{
+  background-color: #c62828;
+  color: ghostwhite;
+  position: absolute;
+  display:none;
+  margin-top: -30px;
+  padding: 4px 10px;
+  font-size: 12px;
+  border-radius: 5px;
+  right: 0;
+  box-shadow: 0 3px 4px 0 rgba(0, 0, 0, .4), 0 3px 3px -2px rgba(0, 0, 0, .6), 0 1px 8px 0 rgba(0, 0, 0, .32)
+
 }
 
 .mdl-textfield__expandable-holder {
   display: inline-block;
   position: relative;
-  margin-left: 32px;
+  margin-left: 35px;
   transition-duration: .2s;
   transition-timing-function: cubic-bezier(.4, 0, .2, 1);
   display: inline-block;

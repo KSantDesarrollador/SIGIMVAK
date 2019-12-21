@@ -21,7 +21,7 @@ class KsvmLoginControlador extends KsvmLoginModelo
      $KsvmUss = KsvmEstMaestra :: __KsvmFiltrarCadena($_POST['KsvmUsuario']);
      $KsvmCon = KsvmEstMaestra :: __KsvmFiltrarCadena($_POST['KsvmContra']);
 
-    //  $KsvmCon = KsvmEstMaestra :: __KsvmEncriptacion($KsvmCon);
+     $KsvmCon = KsvmEstMaestra :: __KsvmEncriptacion($KsvmCon);
 
      $KsvmDataLogin = [
        "KsvmUsuario" => $KsvmUss,
@@ -64,7 +64,8 @@ class KsvmLoginControlador extends KsvmLoginModelo
          ];
 
          $KsvmGuardarBitacora = KsvmEstMaestra :: __KsvmRegistrarBitacora($KsvmDataBitacora);
-          if ($KsvmGuardarBitacora->rowCount() >= 1) {
+          if ($KsvmGuardarBitacora->rowCount() == 1) {
+
                 session_start(['name' => 'SIGIM']);
                 $_SESSION['KsvmUsuId-SIGIM'] = $KsvmUsu;
                 $_SESSION['KsvmUsuNom-SIGIM'] = $KsvmFilaUs['UsrNomUsu'];
@@ -75,7 +76,9 @@ class KsvmLoginControlador extends KsvmLoginModelo
                 $_SESSION['KsvmToken-SIGIM'] = md5(uniqid(mt_rand(), true));
 
                 if ($KsvmRolNom == "Administrador") {
-                   $KsvmUrl = KsvmServUrl . "KsvmEscritorioAdmin/";
+                    $KsvmUrl = KsvmServUrl . "KsvmEscritorioAdmin/";
+                } elseif ($KsvmRolNom == "Supervisor") {
+                    $KsvmUrl = KsvmServUrl . "KsvmEscritorioSup/";
                 } elseif ($KsvmRolNom == "Tecnico") {
                     $KsvmUrl = KsvmServUrl . "KsvmEscritorioTec/";
                 } else{
@@ -132,4 +135,5 @@ class KsvmLoginControlador extends KsvmLoginModelo
       session_destroy();
       return header("Location: ". KsvmServUrl ."Login");
   }
+  
 }

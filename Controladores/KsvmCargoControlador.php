@@ -258,6 +258,14 @@
       }
 
       /**
+       * Función que permite imprimir un cargo 
+       */
+      public function __KsvmImprimirCargoControlador()
+      {
+        return KsvmCargoModelo :: __KsvmImprimirCargoModelo();
+      }
+
+      /**
        * Función que permite actualizar un cargo
        */
       public function __KsvmActualizarCargoControlador()

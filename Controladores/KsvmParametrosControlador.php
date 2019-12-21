@@ -163,8 +163,10 @@
                             </nav>';
                             
         } else {
-            if ($KsvmTotalReg >= 1) {
-                echo '<script> window.location.href=" '.KsvmServUrl.'KsvmParametrosCrud"</script>';
+            if ($KsvmTotalReg >= 1 && $KsvmCodigo == 0) {
+                echo '<script> window.location.href=" '.KsvmServUrl.'KsvmParametrosCrud/1/"</script>';
+            }elseif ($KsvmTotalReg >= 1 && $KsvmCodigo == 1){
+                echo '<script> window.location.href=" '.KsvmServUrl.'KsvmParametros/1/"</script>';
             } else {
                 $KsvmTabla .= '<tr> 
                             <td class="mdl-data-table__cell--non-numeric" colspan="7"><strong>No se encontraron registros...</strong></td>
@@ -202,7 +204,7 @@
              
                 $KsvmTabla .= '</nav></div>';   
 
-            } else {
+            } elseif($KsvmTotalReg >= 1 && $KsvmPagina <= $KsvmNPaginas && $KsvmCodigo == 1) {
                 $KsvmTabla .= '<nav class="navbar-form navbar-right form-group">';
                 
                 if ($KsvmPagina == 1) {
@@ -279,6 +281,14 @@
       public function __KsvmContarParametrosControlador()
       {
           return KsvmParametrosModelo :: __KsvmContarParametrosModelo(0);
+      }
+
+      /**
+       * Función que permite imprimir un Parametro 
+       */
+      public function __KsvmImprimirParametrosControlador()
+      {
+        return KsvmParametrosModelo :: __KsvmImprimirParametrosModelo();
       }
 
       /**

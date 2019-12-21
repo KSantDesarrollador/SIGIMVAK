@@ -36,7 +36,7 @@
                 $KsvmQuery = KsvmEstMaestra :: __KsvmEjecutaConsulta($KsvmBodega);
                 $KsvmNum = ($KsvmQuery->rowCount())+1;
        
-                $KsvmCodigo = KsvmEstMaestra :: __KsvmGeneraCodigoAleatorio("BOD", 6, $KsvmNum);
+                $KsvmCodigo = KsvmEstMaestra :: __KsvmGeneraCodigoAleatorio("BD", 4, $KsvmNum);
 
                 $KsvmNuevaBod = [
                 "KsvmUmdId" => $KsvmUmdId,
@@ -299,9 +299,17 @@
       /**
        * Función que permite contar una bodega
        */
-      public function __KsvmContarEmpleadoControlador()
+      public function __KsvmContarBodegaControlador()
       {
           return KsvmBodegaModelo :: __KsvmContarBodegaModelo(0);
+      }
+
+      /**
+       * Función que permite imprimir una bodega 
+       */
+      public function __KsvmImprimirBodegaControlador()
+      {
+        return KsvmBodegaModelo :: __KsvmImprimirBodegaModelo();
       }
 
       /**

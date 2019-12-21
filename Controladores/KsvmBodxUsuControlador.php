@@ -209,9 +209,7 @@
                 
                 $KsvmTabla .= '</nav></div>'; 
             }
-            
-        
-                                   
+                                       
         return $KsvmTabla;
       }
      
@@ -260,6 +258,14 @@
       public function __KsvmContarBodxUsuControlador()
       {
           return KsvmBodxUsuModelo :: __KsvmContarBodxUsuModelo(0);
+      }
+
+      /**
+       * Función que permite imprimir una asignación de bodega 
+       */
+      public function __KsvmImprimirBodxUsuControlador()
+      {
+        return KsvmBodxUsuModelo :: __KsvmImprimirBodxUsuModelo();
       }
 
       /**

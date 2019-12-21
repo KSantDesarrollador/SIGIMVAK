@@ -282,6 +282,14 @@
       }
 
       /**
+       * Función que permite imprimir una Menu 
+       */
+      public function __KsvmImprimirMenuControlador()
+      {
+        return KsvmMenuModelo :: __KsvmImprimirMenuModelo();
+      }
+
+      /**
        * Función que permite actualizar un Menu 
        */
       public function __KsvmActualizarMenuControlador()
