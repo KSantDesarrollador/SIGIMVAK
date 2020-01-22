@@ -97,7 +97,7 @@
       </div>
     </div>
     <?php }?>
-    <a href="<?php echo KsvmServUrl;?>KsvmSuperPagos/1/" class="Notification" id="notifation-read-2">
+    <!-- <a href="<?php echo KsvmServUrl;?>KsvmSuperPagos/1/" class="Notification" id="notifation-read-2">
       <div class="Notification-icon"><i class="zmdi zmdi-money bg-danger"></i></div>
       <div class="Notification-text">
         <p>
@@ -108,7 +108,7 @@
         </p>
       </div>
       <div class="mdl-tooltip mdl-tooltip--left" for="notifation-read-2">Notificación leída</div>
-    </a>
+    </a> -->
      <!-- Area de notificaciones para el técnico -->
     <?php }elseif($_SESSION['KsvmRolNom-SIGIM'] == "Tecnico"){?>
     <div class="full-width text-center NotificationArea-title tittles">Notificaciones <i

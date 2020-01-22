@@ -1,7 +1,7 @@
 <?php
 
 /** Copyright 2019 Klever Santiago Vaca Muela*/
-
+session_start(['name' => 'SIGIM']);
   setlocale(LC_ALL, 'es_EC.UTF-8');
   $KsvmFecha = date('y:m:d',time());
   $KsvmCalendar = strftime("%A, %d de %B del %Y", strtotime($KsvmFecha));
@@ -16,11 +16,11 @@
       <ul class="list-unstyle">
         <li class="noLink tittles" style=":white;">
           <span class="hide-on-tablet"><?php echo $KsvmCalendar;?></span>
-          &nbsp; <a href="<?php echo KsvmServUrl;?>KsvmCalendario"><i class="zmdi zmdi-calendar-note"
+          &nbsp; <a href="#"><i class="zmdi zmdi-calendar-note"
               id="calendar"></i></a>
-          <div class="mdl-tooltip" for="calendar">Eventos</div>
+          <div class="mdl-tooltip" for="calendar">Calendario</div>
         </li>
-        <?php if ($_SESSION['KsvmRolNom-SIGIM'] != "Usuario") {?>
+        <?php if ($_SESSION['KsvmRolNom-SIGIM'] == 'Supervisor' || $_SESSION['KsvmRolNom-SIGIM'] == 'Tecnico') {?>
         <li class="btn-Notification" id="notifications">
           <i class="zmdi zmdi-notifications"></i>
           <!-- <i class="zmdi zmdi-notifications-active btn-Notification" id="notifications"></i> -->

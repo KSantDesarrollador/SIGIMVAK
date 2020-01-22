@@ -16,13 +16,25 @@
       */
      public function __KsvmAgregarParametrosControlador()
      {
-         $KsvmExtId = KsvmEstMaestra :: __KsvmFiltrarCadena($_POST['KsvmExtId']);
+         $KsvmMdcId = KsvmEstMaestra :: __KsvmFiltrarCadena($_POST['KsvmMdcId']);
          $KsvmAltId = KsvmEstMaestra :: __KsvmFiltrarCadena($_POST['KsvmAltId']);
          $KsvmMinPar = KsvmEstMaestra :: __KsvmFiltrarCadena($_POST['KsvmMinPar']);
          $KsvmMaxPar = KsvmEstMaestra :: __KsvmFiltrarCadena($_POST['KsvmMaxPar']);
 
+         $KsvmAlerta = "SELECT AltId, MdcId FROM ksvmvistaparametros WHERE AltId ='$KsvmAltId' AND MdcId = '$KsvmMdcId'";
+         $KsvmQuery = KsvmEstMaestra :: __KsvmEjecutaConsulta($KsvmAlerta);
+         if ($KsvmQuery->rowCount() >= 1) {
+            $KsvmAlerta = [
+              "Alerta" => "simple",
+              "Titulo" => "Error inesperado",
+              "Cuerpo" => "El alerta ingresada ya se encuentra registrada!, Por favor intentelo de nuevo",
+              "Tipo" => "info"
+             ];
+ 
+         } else{
+
               $KsvmNuevoParametro = [
-                "KsvmExtId" => $KsvmExtId,
+                "KsvmMdcId" => $KsvmMdcId,
                 "KsvmAltId" => $KsvmAltId,
                 "KsvmMinPar" => $KsvmMinPar,
                 "KsvmMaxPar" => $KsvmMaxPar
@@ -31,21 +43,22 @@
                 $KsvmGuardarPar = KsvmParametrosModelo :: __KsvmAgregarParametrosModelo($KsvmNuevoParametro);
                 if ($KsvmGuardarPar->rowCount() >= 1) {
                     $KsvmAlerta = [
-                    "Parametros" => "Limpia",
+                    "Alerta" => "Actualiza",
                     "Titulo" => "Grandioso",
                     "Cuerpo" => "El Parametro se registró satisfactoriamente",
                     "Tipo" => "success"
                     ];
                 } else {
                     $KsvmAlerta = [
-                    "Parametros" => "simple",
+                    "Alerta" => "simple",
                     "Titulo" => "Error inesperado",
                     "Cuerpo" => "No se a podido registrar el Parametro",
                     "Tipo" => "info"
                     ];
                 }
+            }
                 
-            return KsvmEstMaestra :: __KsvmMostrarParametross($KsvmAlerta);
+            return KsvmEstMaestra :: __KsvmMostrarAlertas($KsvmAlerta);
         }
             
     /**
@@ -64,10 +77,10 @@
         $KsvmDesde = ($KsvmPagina > 0) ? (($KsvmPagina*$KsvmNRegistros) - $KsvmNRegistros) : 0;
 
         if (isset($KsvmBuscar) && $KsvmBuscar != "") {
-            $KsvmDataAle = "SELECT SQL_CALC_FOUND_ROWS * FROM ksvmvistaparametros WHERE (MdcDescMen LIKE '%$KsvmBuscar%' 
-                          OR ExtLoteEx LIKE '%$KsvmBuscar%') OR AltNomAle LIKE '%$KsvmBuscar%') ORDER BY ExtId LIMIT $KsvmDesde, $KsvmNRegistros";
+            $KsvmDataAle = "SELECT SQL_CALC_FOUND_ROWS * FROM ksvmvistaparametros WHERE (MdcDescMed LIKE '%$KsvmBuscar%' 
+                           OR AltNomAle LIKE '%$KsvmBuscar%') LIMIT $KsvmDesde, $KsvmNRegistros";
         } else {
-            $KsvmDataAle = "SELECT SQL_CALC_FOUND_ROWS * FROM ksvmvistaparametros ORDER BY ExtId LIMIT $KsvmDesde, $KsvmNRegistros" ;
+            $KsvmDataAle = "SELECT SQL_CALC_FOUND_ROWS * FROM ksvmvistaparametros LIMIT $KsvmDesde, $KsvmNRegistros" ;
         }
         
 
@@ -85,10 +98,10 @@
                         <thead>
                             <tr>
                                 <th class="mdl-data-table__cell--non-numeric">#</th>
-                                <th class="mdl-data-table__cell--non-numeric">Existencia</th>
+                                <th class="mdl-data-table__cell--non-numeric">Medicamento</th>
                                 <th class="mdl-data-table__cell--non-numeric">Alerta</th>
-                                <th class="mdl-data-table__cell--non-numeric">Valor Máximo</th>
                                 <th class="mdl-data-table__cell--non-numeric">Valor Mínimo</th>
+                                <th class="mdl-data-table__cell--non-numeric">Valor Máximo</th>
                                 <th style="text-align:center; witdh:30px;">Acción</th>
                             </tr>
                         </thead>
@@ -99,7 +112,7 @@
             foreach ($KsvmQuery as $rows) {
                 $KsvmTabla .= '<tr>
                                 <td class="mdl-data-table__cell--non-numeric">'.$KsvmContReg.'</td>
-                                <td class="mdl-data-table__cell--non-numeric">'.$rows['MdcDescMed'].' '.$rows['MdcConcenMed'].' '.$rows['ExtLoteEx'].'</td>
+                                <td class="mdl-data-table__cell--non-numeric">'.$rows['MdcDescMed'].' '.$rows['MdcConcenMed'].'</td>
                                 <td class="mdl-data-table__cell--non-numeric">'.$rows['AltNomAle'].'</td>
                                 <td class="mdl-data-table__cell--non-numeric">'.$rows['PmtMinPar'].'</td>
                                 <td class="mdl-data-table__cell--non-numeric">'.$rows['PmtMaxPar'].'</td>
@@ -262,7 +275,7 @@
                 ];
          }
 
-         return KsvmEstMaestra :: __KsvmMostrarParametross($KsvmAlerta);
+         return KsvmEstMaestra :: __KsvmMostrarAlertas($KsvmAlerta);
       }
     
       /**
@@ -297,7 +310,7 @@
       public function __KsvmActualizarParametrosControlador()
       {
         $KsvmCodPar = KsvmEstMaestra :: __KsvmDesencriptacion($_POST['KsvmCodEdit']);
-        $KsvmExtId = KsvmEstMaestra :: __KsvmFiltrarCadena($_POST['KsvmExtId']);
+        $KsvmMdcId = KsvmEstMaestra :: __KsvmFiltrarCadena($_POST['KsvmMdcId']);
         $KsvmAltId = KsvmEstMaestra :: __KsvmFiltrarCadena($_POST['KsvmAltId']);
         $KsvmMinPar = KsvmEstMaestra :: __KsvmFiltrarCadena($_POST['KsvmMinPar']);
         $KsvmMaxPar = KsvmEstMaestra :: __KsvmFiltrarCadena($_POST['KsvmMaxPar']);
@@ -307,7 +320,7 @@
         $KsvmDataParametros = $KsvmQuery->fetch();
 
         $KsvmActualPar = [
-            "KsvmExtId" => $KsvmExtId,
+            "KsvmMdcId" => $KsvmMdcId,
             "KsvmAltId" => $KsvmAltId,
             "KsvmMinPar" => $KsvmMinPar,
             "KsvmMaxPar" => $KsvmMaxPar,
@@ -330,7 +343,7 @@
                     "Tipo" => "info"
                     ];
                 }
-                return KsvmEstMaestra :: __KsvmMostrarParametross($KsvmAlerta);
+                return KsvmEstMaestra :: __KsvmMostrarAlertas($KsvmAlerta);
          
         }
     

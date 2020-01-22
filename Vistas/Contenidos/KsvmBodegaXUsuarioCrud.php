@@ -152,24 +152,30 @@
 									<div
 										class="mdl-cell mdl-cell--4-col-phone mdl-cell--8-col-tablet mdl-cell--12-col-desktop">
 										<div class="mdl-textfield mdl-js-textfield">
-											<select class="mdl-textfield__input" name="KsvmUsrId" id="KsvmDato1">
+											<select class="ksvmSelectDin" name="KsvmUsrId" id="KsvmDato1"
+												style="width:98%;">
 												<option value="" selected="">Seleccione Usuario</option>
 												<?php require_once "./Controladores/KsvmUsuarioControlador.php";
                                                     $KsvmSelUsu = new KsvmUsuarioControlador();
                                                     echo $KsvmSelUsu->__KsvmSeleccionarUsuario();
                                                     ?>
 											</select>
-											<span id="KsvmError1" class="ValForm"><i class="zmdi zmdi-alert-triangle">&nbsp;Por favor llene este campo</i></span>
+											<span id="KsvmError1" class="ValForm"><i
+													class="zmdi zmdi-alert-triangle">&nbsp;Por favor llene este
+													campo</i></span>
 										</div>
 										<div class="mdl-textfield mdl-js-textfield">
-											<select class="mdl-textfield__input" name="KsvmBdgId" id="KsvmDato2">
+											<select class="ksvmSelectDin" name="KsvmBdgId" id="KsvmDato2"
+												style="width:98%;">
 												<option value="" selected="">Seleccione Bodega</option>
 												<?php require_once "./Controladores/KsvmBodegaControlador.php";
                                                     $KsvmSelBod = new KsvmBodegaControlador();
                                                     echo $KsvmSelBod->__KsvmSeleccionarBodega();
                                                     ?>
 											</select>
-											<span id="KsvmError2" class="ValForm"><i class="zmdi zmdi-alert-triangle">&nbsp;Por favor llene este campo</i></span>
+											<span id="KsvmError2" class="ValForm"><i
+													class="zmdi zmdi-alert-triangle">&nbsp;Por favor llene este
+													campo</i></span>
 										</div>
 									</div>
 								</div>

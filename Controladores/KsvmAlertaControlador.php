@@ -40,7 +40,7 @@
                 $KsvmGuardarAle = KsvmAlertaModelo :: __KsvmAgregarAlertaModelo($KsvmNuevaAlerta);
                 if ($KsvmGuardarAle->rowCount() >= 1) {
                     $KsvmAlerta = [
-                    "Alerta" => "Limpia",
+                    "Alerta" => "Actualiza",
                     "Titulo" => "Grandioso",
                     "Cuerpo" => "La alerta se registró satisfactoriamente",
                     "Tipo" => "success"
@@ -115,7 +115,7 @@
                                 if ($KsvmRol == 1) {
                                     if ($KsvmCodigo == 0) {
 
-                                    $KsvmTabla .=  '<form action="'.KsvmServUrl.'Ajax/KsvmRequisicionAjax.php" method="POST" class="FormularioAjax" data-form="eliminar" enctype="multipart/form-data"> 
+                                    $KsvmTabla .=  '<form action="'.KsvmServUrl.'Ajax/KsvmAlertaAjax.php" method="POST" class="FormularioAjax" data-form="eliminar" enctype="multipart/form-data"> 
                                                     <a id="btn-detail" class="btn btn-sm btn-info" href="'.KsvmServUrl.'KsvmAlertasCrud/Detail/'.KsvmEstMaestra::__KsvmEncriptacion($rows['AltId']).'/"><i class="zmdi zmdi-card"></i></a>
                                                     <div class="mdl-tooltip" for="btn-detail">Detalles</div>
                                                     <a id="btn-edit" class="btn btn-sm btn-primary" href="'.KsvmServUrl.'KsvmAlertasEditar/'.KsvmEstMaestra::__KsvmEncriptacion($rows['AltId']).'/0/"><i class="zmdi zmdi-edit"></i></a>
@@ -125,7 +125,7 @@
                                                     <div class="RespuestaAjax"></div>
                                                     </form>';
                                     } else {
-                                    $KsvmTabla .= '<form action="'.KsvmServUrl.'Ajax/KsvmRequisicionAjax.php" method="POST" class="FormularioAjax" data-form="eliminar" enctype="multipart/form-data"> 
+                                    $KsvmTabla .= '<form action="'.KsvmServUrl.'Ajax/KsvmAlertaAjax.php" method="POST" class="FormularioAjax" data-form="eliminar" enctype="multipart/form-data"> 
                                                     <a id="btn-detail" class="btn btn-sm btn-info" href="'.KsvmServUrl.'KsvmAlertas/Detail/'.KsvmEstMaestra::__KsvmEncriptacion($rows['AltId']).'"><i class="zmdi zmdi-card"></i></a>
                                                     <div class="mdl-tooltip" for="btn-detail">Detalles</div>
                                                     <a id="btn-edit" class="btn btn-sm btn-primary" href="'.KsvmServUrl.'KsvmAlertasEditar/'.KsvmEstMaestra::__KsvmEncriptacion($rows['AltId']).'/1/"><i class="zmdi zmdi-edit"></i></a>
@@ -363,7 +363,7 @@
         $KsvmConsulta = KsvmEstMaestra :: __KsvmConexion();
         $KsvmQuery = $KsvmConsulta->query($KsvmSelectExt);
         $KsvmQuery = $KsvmQuery->fetchAll();
-        $KsvmListar = '<option value="" selected="" disabled>Seleccione Alerta</option>';
+        $KsvmListar = '<option value="">Seleccione Alerta</option>';
 
         foreach ($KsvmQuery as $row) {
             $KsvmListar .= '<option value="'.$row['AltId'].'">'.$row['AltNomAle'].'</option>';

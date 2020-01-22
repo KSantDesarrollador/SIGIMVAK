@@ -16,8 +16,8 @@
       */
      protected function __KsvmAgregarInventarioModelo($KsvmDataInventario)
      {
-         $KsvmIngInventario = "INSERT INTO ksvminventario11(BdgId, IvtCodInv, IvtPerElabInv, IvtFchElabInv, IvtHoraInv, IvtDuracionInv)
-                                    VALUES(:KsvmBdgId, :KsvmCodInv, :KsvmPerElabInv, :KsvmFchElabInv, :KsvmHoraInv, :KsvmDuracionInv)";
+         $KsvmIngInventario = "INSERT INTO ksvminventario11(BdgId, IvtCodInv, IvtPerElabInv, IvtFchElabInv, IvtHoraInv, IvtDuracionInv, UsrId)
+                                    VALUES(:KsvmBdgId, :KsvmCodInv, :KsvmPerElabInv, :KsvmFchElabInv, :KsvmHoraInv, :KsvmDuracionInv, :KsvmUsrId)";
          $KsvmQuery = KsvmEstMaestra :: __KsvmConexion()->prepare($KsvmIngInventario);
          $KsvmQuery->bindParam(":KsvmBdgId", $KsvmDataInventario['KsvmBdgId']);
          $KsvmQuery->bindParam(":KsvmCodInv", $KsvmDataInventario['KsvmCodInv']);
@@ -25,6 +25,7 @@
          $KsvmQuery->bindParam(":KsvmFchElabInv", $KsvmDataInventario['KsvmFchElabInv']);
          $KsvmQuery->bindParam(":KsvmHoraInv", $KsvmDataInventario['KsvmHoraInv']);
          $KsvmQuery->bindParam(":KsvmDuracionInv", $KsvmDataInventario['KsvmDuracionInv']);
+         $KsvmQuery->bindParam(":KsvmUsrId", $KsvmDataInventario['KsvmUsrId']);
          $KsvmQuery->execute();
          return $KsvmQuery;
      }
@@ -33,10 +34,11 @@
       */
       protected function __KsvmAgregarDetalleInventarioModelo($KsvmDataInventario)
       {
-          $KsvmIngInventario = "INSERT INTO ksvmdetalleinventario11(ExtId, DivStockInv, DivContFisInv, DivDifInv, DivObservInv)
-                                     VALUES(:KsvmExtId, :KsvmStockInv, :KsvmContFisInv, :KsvmDifInv, :KsvmObservInv)";
+          $KsvmIngInventario = "INSERT INTO ksvmdetalleinventario11(ExtId, DivNuevoStockInv, DivStockInv, DivContFisInv, DivDifInv, DivObservInv)
+                                     VALUES(:KsvmExtId, :KsvmNuevoStockInv, :KsvmStockInv, :KsvmContFisInv, :KsvmDifInv, :KsvmObservInv)";
           $KsvmQuery = KsvmEstMaestra :: __KsvmConexion()->prepare($KsvmIngInventario);
           $KsvmQuery->bindParam(":KsvmExtId", $KsvmDataInventario['KsvmExtId']);
+          $KsvmQuery->bindParam(":KsvmNuevoStockInv", $KsvmDataInventario['KsvmNuevoStockInv']);
           $KsvmQuery->bindParam(":KsvmStockInv", $KsvmDataInventario['KsvmStockInv']);
           $KsvmQuery->bindParam(":KsvmContFisInv", $KsvmDataInventario['KsvmContFisInv']);
           $KsvmQuery->bindParam(":KsvmDifInv", $KsvmDataInventario['KsvmDifInv']);
@@ -69,13 +71,14 @@
      /**
       *Función que permite eliminar un inventario
       */
-      protected function __KsvmSeleccionarStock($KsvmCodInventario)
+      protected function __KsvmSeleccionarStock($KsvmCodInventario, $KsvmBodega)
       {
-         $KsvmStockInventario = "SELECT * FROM ksvmvistadetalleinventario WHERE ExtId = :KsvmCodInventario";
-         $KsvmQuery = KsvmEstMaestra :: __KsvmConexion()->prepare($KsvmStockInventario);
-         $KsvmQuery->bindParam(":KsvmCodInventario", $KsvmCodInventario);
-         $KsvmQuery->execute();
-         return $KsvmQuery;
+        $KsvmStockInventario = "SELECT * FROM ksvmvistadetalleinventario WHERE ExtId = :KsvmCodInventario AND BdgId = :KsvmCodBodega";
+        $KsvmQuery = KsvmEstMaestra :: __KsvmConexion()->prepare($KsvmStockInventario);
+        $KsvmQuery->bindParam(":KsvmCodInventario", $KsvmCodInventario);
+        $KsvmQuery->bindParam(":KsvmCodBodega", $KsvmBodega);
+        $KsvmQuery->execute();
+          return $KsvmQuery;
       }
       /**
       *Función que permite editar un inventario
@@ -165,11 +168,12 @@
       */
       protected function __KsvmActualizarInventarioModelo($KsvmDataInventario)
       {
-        $KsvmActInventario = "UPDATE ksvminventario11 SET IvtHoraInv = :KsvmHoraInv, IvtDuracionInv = :KsvmDuracionInv, IvtEstInv = :KsvmEstInv
-                              WHERE IvtId = :KsvmCodInventario";
+        $KsvmActInventario = "UPDATE ksvminventario11 SET IvtHoraInv = :KsvmHoraInv, IvtDuracionInv = :KsvmDuracionInv, UsrId = :KsvmUsrId, 
+                              IvtEstInv = :KsvmEstInv WHERE IvtId = :KsvmCodInventario";
         $KsvmQuery = KsvmEstMaestra :: __KsvmConexion()->prepare($KsvmActInventario);
         $KsvmQuery->bindParam(":KsvmHoraInv", $KsvmDataInventario['KsvmHoraInv']);
         $KsvmQuery->bindParam(":KsvmDuracionInv", $KsvmDataInventario['KsvmDuracionInv']);
+        $KsvmQuery->bindParam(":KsvmUsrId", $KsvmDataInventario['KsvmUsrId']);
         $KsvmQuery->bindParam(":KsvmEstInv", $KsvmDataInventario['KsvmEstInv']);
         $KsvmQuery->bindParam(":KsvmCodInventario", $KsvmDataInventario['KsvmCodInventario']);
         $KsvmQuery->execute();

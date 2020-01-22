@@ -5,11 +5,13 @@
 /**
  *Condicion para peticion Ajax
  */
- if ($KsvmPeticionAjax) {
-     require_once "../Modelos/KsvmLoginModelo.php";
- } else {
-     require_once "./Modelos/KsvmLoginModelo.php";
- }
+  if ($KsvmPeticionAjax === "R") {
+    require_once "../../Modelos/KsvmLoginModelo.php";
+  } elseif ($KsvmPeticionAjax){
+    require_once "../Modelos/KsvmLoginModelo.php";
+  }elseif (!$KsvmPeticionAjax) {
+      require_once "./Modelos/KsvmLoginModelo.php";
+  }
 
 class KsvmLoginControlador extends KsvmLoginModelo
 {
@@ -108,6 +110,134 @@ class KsvmLoginControlador extends KsvmLoginModelo
      }
 
   }
+
+ /**
+  *Función que permite recuperar la contrasenia
+  */
+  public function __KsvmRecuperaContrasenia()
+  {
+    $KsvmEmail = KsvmEstMaestra :: __KsvmFiltrarCadena($_POST['KsvmEmail']);
+
+  if ($KsvmEmail != "") {
+      $KsvmEmailQ = "UPDATE ksvmusuario01 SET UsrTokkenRecUsu = 1 WHERE UsrEmailUsu ='$KsvmEmail'";
+      $KsvmQuery = KsvmEstMaestra :: __KsvmEjecutaConsulta($KsvmEmailQ);
+      
+      $KsvmEmailQ = "SELECT UsrEmailUsu FROM ksvmusuario01 WHERE UsrEmailUsu ='$KsvmEmail'";
+      $KsvmQuery = KsvmEstMaestra :: __KsvmEjecutaConsulta($KsvmEmailQ);
+      $KsvmEmaEm = $KsvmQuery->rowCount();
+  }else{
+      $KsvmEmaEm = 0;
+  }
+
+    if ($KsvmEmaEm == 1) {
+
+    require_once 'Mail/PHPMailerAutoload.php';
+    require_once 'Mail/class.smtp.php';
+    require_once 'Mail/class.phpmailer.php';
+
+
+    $mail = new PHPMailer();
+
+        //Server settings
+        $mail->SMTPDebug = 0;                     
+        $mail->isSMTP();                                    
+        $mail->Host       = 'smtp.gmail.com';                  
+        $mail->SMTPAuth   = true;                                 
+        $mail->Username   = 'santy.vak69@gmail.com';                     
+        $mail->Password   = 'santy1330dark';                            
+        $mail->SMTPSecure = 'tls';        
+        $mail->Port       = 587;                              
+    
+        if ($KsvmQuery->rowCount() == 1) {
+          $KsvmCorreo = $KsvmQuery->fetch();
+        }
+        //Recipients
+        $mail->setFrom('santy.vak69@gmail.com', KsvmCompany);
+        $mail->addAddress($KsvmCorreo['UsrEmailUsu'], $KsvmCorreo['UsrEmailUsu']);      
+    
+        // Content
+        $mail->isHTML(true);                                 
+        $mail->Subject = 'Recuperar Clave';
+        $mail->Body    = 'Por favor siga el enlace para registrar una nueva clave:'.' '.KsvmServUrl.'Vistas/Contenidos/KsvmNuevaContrasenia.php?Cod='
+        .KsvmEstMaestra :: __KsvmEncriptacion($KsvmCorreo['UsrEmailUsu']).'';
+
+    
+       if (!$mail->send()) {
+        $KsvmAlerta = [
+          "Alerta" => "simple",
+          "Titulo" => "Error inesperado",
+          "Cuerpo" => "El Email no pudo ser enviado, Por favor intentelo de nuevo",
+          "Tipo" => "info"
+         ];
+        echo "El Email no pudo ser enviado: {$mail->ErrorInfo}";
+        return KsvmEstMaestra :: __KsvmMostrarAlertas($KsvmAlerta);
+
+       } else {
+        $KsvmAlerta = [
+          "Alerta" => "simple",
+          "Titulo" => "En hora buena",
+          "Cuerpo" => "Se ha enviado un correo al email ingresado, Por favor revise su correo",
+          "Tipo" => "info"
+         ];
+       }
+      }else{
+        $KsvmAlerta = [
+          "Alerta" => "simple",
+          "Titulo" => "Error inesperado",
+          "Cuerpo" => "El Email ingresado no se encuentra registrado, Por favor ingrese un Email válido",
+          "Tipo" => "info"
+         ];
+      }
+      return KsvmEstMaestra :: __KsvmMostrarAlertas($KsvmAlerta);
+  }
+
+    /**
+   * Función que permite editar un usuario 
+   */
+  public function __KsvmCambioClaveControlador()
+  {
+      $KsvmEmail = KsvmEstMaestra :: __KsvmFiltrarCadena($_POST['KsvmEmail']);
+      $KsvmNuevaContra = KsvmEstMaestra :: __KsvmFiltrarCadena($_POST['KsvmNuevaContra']);
+      $KsvmConContra = KsvmEstMaestra :: __KsvmFiltrarCadena($_POST['KsvmConContra']);
+
+      if ($KsvmNuevaContra != $KsvmConContra) {
+        $KsvmAlerta = [
+          "Alerta" => "simple",
+          "Titulo" => "Error inesperado",
+          "Cuerpo" => "Las contraseñas ingresadas no coinciden, Por favor Intentelo de nuevo",
+          "Tipo" => "error"
+        ];
+        return KsvmEstMaestra :: __KsvmMostrarAlertas($KsvmAlerta);
+      }else{
+
+      $KsvmCodEmail = KsvmEstMaestra :: __KsvmDesencriptacion($KsvmEmail);
+      echo $KsvmCodEmail;
+      $KsvmTokken = 1;
+      $KsvmCon = KsvmEstMaestra :: __KsvmEncriptacion($KsvmNuevaContra);
+
+      $KsvmData = [
+        "KsvmCon" => $KsvmCon,
+        "KsvmTokken" => $KsvmTokken,
+        "KsvmCodEmail" => $KsvmCodEmail
+
+      ];
+
+      $KsvmConfirmacion = KsvmEstMaestra :: __KsvmCambioClave($KsvmData);
+
+      if ($KsvmConfirmacion->rowCount() >= 1) {
+        echo '<script>window.location="'.KsvmServUrl.'Login";</script>';
+        } else {
+            $KsvmAlerta = [
+            "Alerta" => "simple",
+            "Titulo" => "Error inesperado",
+            "Cuerpo" => "No se ha podido actualizar la contraseña",
+            "Tipo" => "info"
+            ];
+        }
+        return KsvmEstMaestra :: __KsvmMostrarAlertas($KsvmAlerta);
+      }
+  }
+
   /**
   *Función que permite cerrar la sesión
   */

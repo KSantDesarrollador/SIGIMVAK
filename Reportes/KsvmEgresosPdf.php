@@ -10,9 +10,9 @@ if (isset($_GET['Cod'])) {
 // Cabecera de página
 function Header()
 {
-  $KsvmUrlImg = '../Vistas/assets/img/Logo.png';
+  $KsvmUrlImg = '../Vistas/assets/img/medicamentos.png';
     // Logo
-    $this->Image($KsvmUrlImg,10,8,13);
+    $this->Image($KsvmUrlImg,10,10,20);
     // Arial bold 15
     $this->SetFont('Arial','B',17);
     // Movernos a la derecha
@@ -97,9 +97,9 @@ class PDF extends FPDF
 // Cabecera de página
 function Header()
 {
-  $KsvmUrlImg = '../Vistas/assets/img/Logo.png';
+  $KsvmUrlImg = '../Vistas/assets/img/medicamentos.png';
     // Logo
-    $this->Image($KsvmUrlImg,10,8,13);
+    $this->Image($KsvmUrlImg,10,10,20);
     // Arial bold 15
     $this->SetFont('Arial','B',17);
     // Movernos a la derecha

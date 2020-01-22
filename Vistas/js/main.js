@@ -344,9 +344,12 @@ $(document).ready(function() {
 		$('.ValForm').fadeOut(600);
 	});
 
-	$('.mdl-textfield__input').on('change', function() {
+	$('.ksvmSelectDin').on('change', function() {
 		$('.ValForm').fadeOut(600);
 	});
+
+	/* Multiple Item Picker */
+	$('.ksvmSelectDin').select2();
 });
 
 /*Barras de navegación*/
@@ -358,17 +361,17 @@ $(document).ready(function() {
 			autoHideScrollbar: true,
 			scrollButtons: { enable: true }
 		});
-		$('.pageContent, .NotificationArea').mCustomScrollbar({
+		$('.pageContent, .NotificationArea, #containerCant').mCustomScrollbar({
 			theme: 'dark',
 			scrollbarPosition: 'inside',
 			autoHideScrollbar: true,
 			scrollButtons: { enable: true }
 		});
-		$('.pageContent').mCSB_scrollTools_horizontal({
-			theme: 'dark',
-			scrollbarPosition: 'inside',
-			autoHideScrollbar: true,
-			scrollButtons: { enable: true }
-		});
+		// $('').mCustomScrollbar({
+		// 	theme: 'dark',
+		// 	scrollbarPosition: 'inside',
+		// 	autoHideScrollbar: true,
+		// 	scrollButtons: { enable: true }
+		// });
 	});
 })(jQuery);

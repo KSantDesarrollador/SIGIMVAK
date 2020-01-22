@@ -16,17 +16,19 @@
       */
      protected function __KsvmAgregarCompraModelo($KsvmDataCompra)
      {
-         $KsvmIngCompra = "INSERT INTO ksvmcompras14(UmdId, CmpNumOcp, PvdId, CmpFchElabOcp, CmpFchPagoOcp, CmpNumFactOcp, CmpPerElabOcp, CmpPerAprbOcp)
-                                    VALUES(:KsvmUmdId, :KsvmNumOcp, :KsvmPvdId, :KsvmFchElabOcp, :KsvmFchPagoOcp, :KsvmNumFactOcp, :KsvmPerElabOcp, :KsvmPerAprbOcp)";
+         $KsvmIngCompra = "INSERT INTO ksvmcompras14(UmdId, CmpNumOcp, PvdId, CmpFchElabOcp, CmpFchRevOcp, CmpNumFactOcp, CmpPerElabOcp, CmpPerAprbOcp, UsrId)
+                                    VALUES(:KsvmUmdId, :KsvmNumOcp, :KsvmPvdId, :KsvmFchElabOcp, :KsvmFchRevOcp, :KsvmNumFactOcp, :KsvmPerElabOcp, 
+                                    :KsvmPerAprbOcp, :KsvmUsrId)";
          $KsvmQuery = KsvmEstMaestra :: __KsvmConexion()->prepare($KsvmIngCompra);
          $KsvmQuery->bindParam(":KsvmUmdId", $KsvmDataCompra['KsvmUmdId']);
          $KsvmQuery->bindParam(":KsvmNumOcp", $KsvmDataCompra['KsvmNumOcp']);
          $KsvmQuery->bindParam(":KsvmPvdId", $KsvmDataCompra['KsvmPvdId']);
          $KsvmQuery->bindParam(":KsvmFchElabOcp", $KsvmDataCompra['KsvmFchElabOcp']);
-         $KsvmQuery->bindParam(":KsvmFchPagoOcp", $KsvmDataCompra['KsvmFchPagoOcp']);
+         $KsvmQuery->bindParam(":KsvmFchRevOcp", $KsvmDataCompra['KsvmFchRevOcp']);
          $KsvmQuery->bindParam(":KsvmNumFactOcp", $KsvmDataCompra['KsvmNumFactOcp']);
          $KsvmQuery->bindParam(":KsvmPerElabOcp", $KsvmDataCompra['KsvmPerElabOcp']);
          $KsvmQuery->bindParam(":KsvmPerAprbOcp", $KsvmDataCompra['KsvmPerAprbOcp']);
+         $KsvmQuery->bindParam(":KsvmUsrId", $KsvmDataCompra['KsvmUsrId']);
          $KsvmQuery->execute();
          return $KsvmQuery;
      }
@@ -137,8 +139,12 @@
       */
       protected function __KsvmApruebaCompraModelo($KsvmDataCompra)
       {
-          $KsvmApbrCompra = "UPDATE ksvmcompras14 SET CmpEstOcp = 'A' WHERE CmpId = :KsvmCodCompra";
+          $KsvmApbrCompra = "UPDATE ksvmcompras14 SET CmpFchRevOcp = :KsvmFchRevOcp, CmpNumFactOcp = :KsvmNumFactOcp, CmpPerAprbOcp = :KsvmPerAprbOcp, 
+                            CmpEstOcp = 'A' WHERE CmpId = :KsvmCodCompra";
           $KsvmQuery = KsvmEstMaestra :: __KsvmConexion()->prepare($KsvmApbrCompra);
+          $KsvmQuery->bindParam(":KsvmFchRevOcp", $KsvmDataCompra['KsvmFchRevOcp']);
+          $KsvmQuery->bindParam(":KsvmNumFactOcp", $KsvmDataCompra['KsvmNumFactOcp']);
+          $KsvmQuery->bindParam(":KsvmPerAprbOcp", $KsvmDataCompra['KsvmPerRevOcp']);
           $KsvmQuery->bindParam(":KsvmCodCompra", $KsvmDataCompra['KsvmCodCompra']);
           $KsvmQuery->execute();
           return $KsvmQuery;
@@ -148,8 +154,11 @@
       */
       protected function __KsvmNiegaCompraModelo($KsvmDataCompra)
       {
-          $KsvmNiegaCompra = "UPDATE ksvmcompras14 SET CmpEstOcp = 'X' WHERE CmpId = :KsvmCodCompra";
+          $KsvmNiegaCompra = "UPDATE ksvmcompras14 SET CmpFchRevOcp = :KsvmFchRevOcp, CmpPerAprbOcp = :KsvmPerAprbOcp, 
+                             CmpEstOcp = 'X' WHERE CmpId = :KsvmCodCompra";
           $KsvmQuery = KsvmEstMaestra :: __KsvmConexion()->prepare($KsvmNiegaCompra);
+          $KsvmQuery->bindParam(":KsvmFchRevOcp", $KsvmDataCompra['KsvmFchRevOcp']);
+          $KsvmQuery->bindParam(":KsvmPerAprbOcp", $KsvmDataCompra['KsvmPerRevOcp']);
           $KsvmQuery->bindParam(":KsvmCodCompra", $KsvmDataCompra['KsvmCodCompra']);
           $KsvmQuery->execute();
           return $KsvmQuery;
@@ -168,14 +177,17 @@
       */
       protected function __KsvmActualizarCompraModelo($KsvmDataCompra)
       {
-        $KsvmActCompra = "UPDATE ksvmcompras14 SET UmdId = :KsvmUmdId, PvdId = :KsvmPvdId, CmpFchPagoOcp = :KsvmFchPagoOcp, 
-                          CmpNumFactOcp = :KsvmNumFactOcp, CmpPerAprbOcp = :KsvmPerAprbOcp WHERE CmpId = :KsvmCodCompra";
+        $KsvmActCompra = "UPDATE ksvmcompras14 SET UmdId = :KsvmUmdId, PvdId = :KsvmPvdId, CmpFchRevOcp = :KsvmFchRevOcp, 
+                          CmpNumFactOcp = :KsvmNumFactOcp, CmpPerAprbOcp = :KsvmPerAprbOcp, UsrId = :KsvmUsrId,
+                          CmpEstOcp = :KsvmEstOcp WHERE CmpId = :KsvmCodCompra";
         $KsvmQuery = KsvmEstMaestra :: __KsvmConexion()->prepare($KsvmActCompra);
          $KsvmQuery->bindParam(":KsvmUmdId", $KsvmDataCompra['KsvmUmdId']);
          $KsvmQuery->bindParam(":KsvmPvdId", $KsvmDataCompra['KsvmPvdId']);
-         $KsvmQuery->bindParam(":KsvmFchPagoOcp", $KsvmDataCompra['KsvmFchPagoOcp']);
+         $KsvmQuery->bindParam(":KsvmFchRevOcp", $KsvmDataCompra['KsvmFchRevOcp']);
          $KsvmQuery->bindParam(":KsvmNumFactOcp", $KsvmDataCompra['KsvmNumFactOcp']);
          $KsvmQuery->bindParam(":KsvmPerAprbOcp", $KsvmDataCompra['KsvmPerAprbOcp']);
+         $KsvmQuery->bindParam(":KsvmUsrId", $KsvmDataCompra['KsvmUsrId']);
+         $KsvmQuery->bindParam(":KsvmEstOcp", $KsvmDataCompra['KsvmEstOcp']);
          $KsvmQuery->bindParam(":KsvmCodCompra", $KsvmDataCompra['KsvmCodCompra']);
          $KsvmQuery->execute();
          return $KsvmQuery;

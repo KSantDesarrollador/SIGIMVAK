@@ -150,7 +150,7 @@
                              <div class="mdl-grid">
                                  <!-- <input type="HIDDEN" name="dest-exists-action" value="overwrite"/> -->
                                  <div class="mdl-textfield mdl-js-textfield">
-                                     <select class="mdl-textfield__input" name="KsvmCtgId" id="KsvmDato1">
+                                     <select class="ksvmSelectDin" name="KsvmCtgId" id="KsvmDato1" style="width:98%;">
                                          <option value="<?php echo $KsvmLlenarForm['CtgId'];?>" selected="">
                                              <?php echo $KsvmLlenarForm['CtgNomCat'];?></option>
                                          <?php require_once "./Controladores/KsvmCategoriaControlador.php";
@@ -166,7 +166,8 @@
                                      class="mdl-cell mdl-cell--4-col-phone mdl-cell--8-col-tablet mdl-cell--6-col-desktop">
                                      <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
                                          <input class="mdl-textfield__input" type="text" name="KsvmCodMed"
-                                             value="<?php echo $KsvmLlenarForm['MdcCodMed'];?>" id="KsvmDato2">
+                                             value="<?php echo $KsvmLlenarForm['MdcCodMed'];?>" 
+                                             pattern="-?[A-Za-z0-9áéíóúÁÉÍÓÚ-]*(\.[0-9]+)?" id="KsvmDato2">
                                          <label class="mdl-textfield__label" for="KsvmDato2">Código</label>
                                          <span class="mdl-textfield__error">Código Inválido</span>
                                          <span id="KsvmError2" class="ValForm"><i
@@ -176,7 +177,7 @@
                                      <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
                                          <input class="mdl-textfield__input" type="text" name="KsvmPresenMed"
                                              value="<?php echo $KsvmLlenarForm['MdcPresenMed'];?>"
-                                             pattern="-?[A-Za-záéíóúÁÉÍÓÚ ]*(\.[0-9]+)?" id="KsvmDato3">
+                                             pattern="-?[A-Za-záéíóúÁÉÍÓÚ()/ ]*(\.[0-9]+)?" id="KsvmDato3">
                                          <label class="mdl-textfield__label" for="KsvmDato3">Presentación</label>
                                          <span class="mdl-textfield__error">Presentación Inválida</span>
                                          <span id="KsvmError3" class="ValForm"><i
@@ -184,7 +185,7 @@
                                                  campo</i></span>
                                      </div>
                                      <div class="mdl-textfield mdl-js-textfield">
-                                         <select class="mdl-textfield__input" name="KsvmNivPrescMed" id="KsvmDato4">
+                                         <select class="ksvmSelectDin" name="KsvmNivPrescMed" id="" style="width:100%;">
                                              <option value="<?php echo $KsvmLlenarForm['MdcNivPrescMed'];?>"
                                                  selected=""><?php echo $KsvmNivPresc;?></option>
                                              <option value="E">E</option>
@@ -200,7 +201,7 @@
                                                  campo</i></span>
                                      </div>
                                      <div class="mdl-textfield mdl-js-textfield">
-                                         <select class="mdl-textfield__input" name="KsvmViaAdmMed" id="KsvmDato5">
+                                         <select class="ksvmSelectDin" name="KsvmViaAdmMed" id="KsvmDato5" style="width:100%;">
                                              <option value="<?php echo $KsvmLlenarForm['MdcViaAdmMed'];?>" selected="">
                                                  <?php echo $KsvmViaAdmin;?></option>
                                              <option value="P">P</option>
@@ -229,7 +230,7 @@
                                      <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
                                          <input class="mdl-textfield__input" type="text" name="KsvmDescMed"
                                              value="<?php echo $KsvmLlenarForm['MdcDescMed'];?>"
-                                             pattern="-?[A-Za-záéíóúÁÉÍÓÚ ]*(\.[0-9]+)?" id="KsvmDato6">
+                                             pattern="-?[A-Za-z0-9áéíóúÁÉÍÓÚ():, ]*(\.[0-9]+)?" id="KsvmDato6">
                                          <label class="mdl-textfield__label" for="KsvmDato6">Descripción</label>
                                          <span class="mdl-textfield__error">Descripción Inválida</span>
                                          <span id="KsvmError6" class="ValForm"><i
@@ -238,7 +239,8 @@
                                      </div>
                                      <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
                                          <input class="mdl-textfield__input" type="text" name="KsvmConcenMed"
-                                             value="<?php echo $KsvmLlenarForm['MdcConcenMed'];?>" id="KsvmDato7">
+                                             value="<?php echo $KsvmLlenarForm['MdcConcenMed'];?>" 
+                                             pattern="-?[A-Za-z0-9áéíóúÁÉÍÓÚ()/%-., ]*(\.[0-9]+)?" id="">
                                          <label class="mdl-textfield__label" for="KsvmDato7">Concentración</label>
                                          <span class="mdl-textfield__error">Concentración Inválida</span>
                                          <span id="KsvmError7" class="ValForm"><i
@@ -246,7 +248,7 @@
                                                  campo</i></span>
                                      </div>
                                      <div class="mdl-textfield mdl-js-textfield">
-                                         <select class="mdl-textfield__input" name="KsvmNivAtencMed" id="KsvmDato8">
+                                         <select class="ksvmSelectDin" name="KsvmNivAtencMed" id="KsvmDato8" style="width:100%;">
                                              <option value="<?php echo $KsvmLlenarForm['MdcNivAtencMed'];?>"
                                                  selected=""><?php echo $KsvmLlenarForm['MdcNivAtencMed'];?></option>
                                              <option value="I">Nivel 1</option>
@@ -264,9 +266,8 @@
                                      <div class="">
                                          <label class="mdl-textfield"><img height="40px" width="45px"
                                                  src="data:image/png;base64,<?php echo base64_encode($KsvmLlenarForm['MdcFotoMed']);?>" />&nbsp;Cambiar
-                                             Imagen</label>
-                                         <input class="mdl-textfield__input" type="file" name="KsvmFotoMed"
-                                             id="KsvmFotoMed">
+                                             Imagen<input class="" type="file" name="KsvmFotoMed" id="KsvmFotoMed"></label>
+
                                      </div>
                                  </div>
                              </div>

@@ -28,24 +28,28 @@
                         <form data-form="" action="" method="POST" autocomplete="off" enctype="multipart/form-data">
                             <div class="mdl-textfield mdl-js-textfield">
                                 <article class="full-width tile-buscar">
-                                    <div class="mdl-textfield--expandable" style="display:inline-flex;">
-                                        <select class="mdl-textfield__input" name="KsvmFiltro" id="KsvmFiltro">
-                                        <option value="" selected="" disabled>Filtro</option>
-                                        <option value="R">Rol</option>
-                                        <option value="U">Usuario</option>
+                                    <div class="mdl-textfield--floating-label" style="display:inline-flex;">
+                                        <select class="ksvmSelectDin" name="KsvmFiltro" id="KsvmFiltro"
+                                            style="width:100%;">
+                                            <option value="" selected="" disabled>Filtro</option>
+                                            <option value="R">Rol</option>
+                                            <option value="U">Usuario</option>
                                         </select>&nbsp;
                                         <input class="mdl-textfield__input" type="text" id="KsvmCriterioBq"
-                                            name="KsvmCriterioBq" placeholder="Criterio" >&nbsp;
+                                            name="KsvmCriterioBq" placeholder="Criterio">&nbsp;
                                         <label class="hide-on-tablet" for="KsvmFchInicio">Desde</label>
                                         <input class="mdl-textfield__input tcal" type="text" id="KsvmFchInicio"
-                                            name="KsvmFchInicio" placeholder="Fecha Inicio" >
+                                            name="KsvmFchInicio" placeholder="Fecha Inicio" pattern="[0-9-]{10,10}">
+                                            <span class="mdl-textfield__error">Fecha Inválida</span>
                                         <label class="hide-on-tablet" for="KsvmFchFin">Hasta</label>
                                         <input class="mdl-textfield__input tcal" type="text" id="KsvmFchFin"
-                                            name="KsvmFchFin" placeholder="Fecha Fin" >&nbsp;
+                                            name="KsvmFchFin" placeholder="Fecha Fin" pattern="[0-9-]{10,10}">
+                                            <span class="mdl-textfield__error">Fecha Inválida</span>&nbsp;
                                     </div>
                                     <button type="submit" style="float:right;" class="btn btn-info"
                                         for="KsvmBuscarBitacora">
-                                        <i class="zmdi zmdi-search">&nbsp;<strong class="hide-on-tablet">BUSCAR</strong></i>
+                                        <i class="zmdi zmdi-search">&nbsp;<strong
+                                                class="hide-on-tablet">BUSCAR</strong></i>
                                     </button>
                                 </article>
                                 <div class="mdl-textfield--expandable navBar-options-list">
@@ -83,4 +87,4 @@
             </div>
         </div>
     </div>
-</section>        
+</section>

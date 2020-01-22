@@ -5,8 +5,10 @@
 /**
  *Condicion para peticion Ajax
  */
- if ($KsvmPeticionAjax) {
-     require_once "../Raiz/KsvmEstMaestra.php";
+ if ($KsvmPeticionAjax === "R") {
+   require_once "../../Raiz/KsvmEstMaestra.php";
+ }elseif ($KsvmPeticionAjax){
+   require_once "../Raiz/KsvmEstMaestra.php";
  } else {
      require_once "./Raiz/KsvmEstMaestra.php";
  }

@@ -32,7 +32,7 @@
       */
       protected function __KsvmEliminarBodegaModelo($KsvmCodBodega)
       {
-         $KsvmDelBodega = "UPDATE ksvmbodega05 SET BdgEstBod = 'X' WHERE BdgId = :KsvmCodBodega";
+         $KsvmDelBodega = "DELETE FROM ksvmbodega05 WHERE BdgId = :KsvmCodBodega AND BdgId != 5";
          $KsvmQuery = KsvmEstMaestra :: __KsvmConexion()->prepare($KsvmDelBodega);
          $KsvmQuery->bindParam(":KsvmCodBodega", $KsvmCodBodega);
          $KsvmQuery->execute();

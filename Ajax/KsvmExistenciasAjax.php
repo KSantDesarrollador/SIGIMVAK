@@ -12,7 +12,7 @@ if (isset($_POST['KsvmLoteEx']) || isset($_POST['KsvmCodDelete']) || isset($_POS
     $KsvmIniExistencia = new KsvmExistenciaControlador();
 
     if (!isset($_POST['KsvmCodDelete']) && !isset($_POST['KsvmCodEdit']) && isset($_POST['KsvmLoteEx']) && isset($_POST['KsvmFchCadEx']) &&
-          isset($_POST['KsvmPresentEx']) && isset($_POST['KsvmStockEx']) && isset($_POST['KsvmDocId']) && isset($_POST['KsvmBdgId'])) {
+          isset($_POST['KsvmStockSegEx']) && isset($_POST['KsvmDocId'])) {
 
           echo $KsvmIniExistencia->__KsvmAgregarExistenciaControlador();
     }

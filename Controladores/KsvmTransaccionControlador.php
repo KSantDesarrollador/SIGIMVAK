@@ -16,7 +16,7 @@
       */
      public function __KsvmAgregarTransaccionControlador()
      {
-        $KsvmRqcId = KsvmEstMaestra :: __KsvmFiltrarCadena($_POST['KsvmRqcId']);
+        $KsvmRqcCod = KsvmEstMaestra :: __KsvmFiltrarCadena($_POST['KsvmRqcId']);
         $KsvmTipoTran = KsvmEstMaestra :: __KsvmFiltrarCadena($_POST['KsvmTipoTran']);
         $KsvmDestinoTran = KsvmEstMaestra :: __KsvmFiltrarCadena($_POST['KsvmDestinoTran']);
 
@@ -26,42 +26,53 @@
 
         $KsvmNumTran = KsvmEstMaestra :: __KsvmGeneraCodigoAleatorio("00", 4, $KsvmNum);
 
+        $KsvmRqcSel = "SELECT RqcId FROM ksvmvistapedidos WHERE RqcNumReq = '$KsvmRqcCod'";
+        $KsvmQuery = KsvmEstMaestra :: __KsvmConexion()->query($KsvmRqcSel);
+
+        if ($KsvmQuery->rowCount() >= 1) {
+            $KsvmRqcId = $KsvmQuery->fetch();
+            $KsvmRequ = $KsvmRqcId['RqcId'];
+        } else {
+            $KsvmRequ = "";
+        }
+
         session_start(['name' => 'SIGIM']);
         $KsvmUser = $_SESSION['KsvmUsuId-SIGIM'];
         $KsvmElabora = "SELECT concat(EpoPriApeEmp,' ',EpoSegApeEmp,' ',EpoPriNomEmp,' ',EpoSegNomEmp) as PerElab FROM ksvmvistaempleado WHERE UsrId = '$KsvmUser'";
         $KsvmQuery = KsvmEstMaestra :: __KsvmConexion()->query($KsvmElabora);
          
-         if ($KsvmQuery->rowCount() == 1) {
-            $KsvmPerElab = $KsvmQuery->fetch();
+            if ($KsvmQuery->rowCount() >= 1) {
+                $KsvmPerElab = $KsvmQuery->fetch();
 
-            $KsvmFchReaTran= date("Y-m-d");
-            $KsvmFchRevTran = "no registrado";
-            $KsvmPerReaTran = $KsvmPerElab['PerElab'];
-            $KsvmPerRevTran = "no registrado"; 
-         } else {
-            $KsvmAlerta = [
-                "Alerta" => "simple",
-                "Titulo" => "Error inesperado",
-                "Cuerpo" => "No se a podido verificar el usuario",
-                "Tipo" => "info"
-                ];
-         }
+                $KsvmFchReaTran= date("Y-m-d");
+                $KsvmFchRevTran = "no registrado";
+                $KsvmPerReaTran = $KsvmPerElab['PerElab'];
+                $KsvmPerRevTran = "no registrado"; 
+            } else {
+                $KsvmAlerta = [
+                    "Alerta" => "simple",
+                    "Titulo" => "Error inesperado",
+                    "Cuerpo" => "No se ha podido verificar el usuario",
+                    "Tipo" => "info"
+                    ];
+            }
 
                 $KsvmNuevaTran = [
-                "KsvmRqcId" => $KsvmRqcId,
-                "KsvmNumTran," => $KsvmNumTran,
-                "KsvmFchReaTran" => $KsvmFchReaTran,
+                "KsvmRqcId" => $KsvmRequ,
+                "KsvmNumTran" => $KsvmNumTran,
                 "KsvmTipoTran" => $KsvmTipoTran,
                 "KsvmDestinoTran" => $KsvmDestinoTran,
+                "KsvmFchReaTran" => $KsvmFchReaTran,
                 "KsvmPerReaTran" => $KsvmPerReaTran,
                 "KsvmFchRevTran" => $KsvmFchRevTran,
-                "KsvmPerRevTran" => $KsvmPerRevTran
+                "KsvmPerRevTran" => $KsvmPerRevTran,
+                "KsvmUsrId" => $KsvmUser
                 ];
 
                 $KsvmGuardarTran = KsvmTransaccionModelo :: __KsvmAgregarTransaccionModelo($KsvmNuevaTran);
                 if ($KsvmGuardarTran->rowCount() >= 1) {
                     $KsvmAlerta = [
-                    "Alerta" => "Limpia",
+                    "Alerta" => "Actualiza",
                     "Titulo" => "Grandioso",
                     "Cuerpo" => "La Transacción se registró satisfactoriamente",
                     "Tipo" => "success"
@@ -70,8 +81,8 @@
                     $KsvmAlerta = [
                     "Alerta" => "simple",
                     "Titulo" => "Error inesperado",
-                    "Cuerpo" => "No se a podido registrar la Transacción",
-                    "Tipo" => "info"
+                    "Cuerpo" => "No se ha podido registrar la Transacción",
+                    "Tipo" => "error"
                     ];
                 }
                 
@@ -84,12 +95,26 @@
     public function __KsvmAgregarDetalleTransaccionControlador()
     {
         $KsvmExtId = KsvmEstMaestra :: __KsvmFiltrarCadena($_POST['KsvmExtId']);
+        $KsvmBdgId = KsvmEstMaestra :: __KsvmFiltrarCadena($_POST['KsvmBdgId']);
         $KsvmTipoTran = KsvmEstMaestra :: __KsvmFiltrarCadena($_POST['KsvmTipoTran']);
         $KsvmCantTran = KsvmEstMaestra :: __KsvmFiltrarCadena($_POST['KsvmCantTran']);
         $KsvmObservTran = KsvmEstMaestra :: __KsvmFiltrarCadena($_POST['KsvmObservTran']);
 
+        $KsvmMedicamento = "SELECT ExtId FROM ksvmdetalletransaccion16 WHERE ExtId ='$KsvmExtId' AND DtsEstTran = 'N'";
+        $KsvmQuery = KsvmEstMaestra :: __KsvmEjecutaConsulta($KsvmMedicamento);
+        if ($KsvmQuery->rowCount() >= 1) {
+           $KsvmAlerta = [
+             "Alerta" => "simple",
+             "Titulo" => "Error inesperado",
+             "Cuerpo" => "El medicamento ingresado ya se encuentra registrado!, Por favor intentelo de nuevo",
+             "Tipo" => "info"
+            ];
+
+        } else{
+
         $KsvmNuevoDetalleTran = [
             "KsvmExtId" => $KsvmExtId,
+            "KsvmBdgId" => $KsvmBdgId,
             "KsvmTipoTran" => $KsvmTipoTran,
             "KsvmCantTran" => $KsvmCantTran,
             "KsvmObservTran" => $KsvmObservTran
@@ -107,10 +132,14 @@
                     "Tipo" => "info"
                     ];
                     $KsvmResult = "false";
+                    return KsvmEstMaestra :: __KsvmMostrarAlertas($KsvmAlerta);
                 }
-                return $KsvmResult;
 
-                return KsvmEstMaestra :: __KsvmMostrarAlertas($KsvmAlerta);
+                return $KsvmResult;
+            }
+            return KsvmEstMaestra :: __KsvmMostrarAlertas($KsvmAlerta);
+
+
     }
             
     /**
@@ -126,6 +155,8 @@
         $KsvmBuscarFin = KsvmEstMaestra :: __KsvmFiltrarCadena($KsvmBuscarFin);
         $KsvmFiltro = KsvmEstMaestra :: __KsvmFiltrarCadena($KsvmFiltro);
         $KsvmTabla = "";
+
+        $KsvmUsuario = $_SESSION['KsvmUsuId-SIGIM'];
         
         $KsvmPagina = (isset($KsvmPagina) && $KsvmPagina > 0 ) ? (int)$KsvmPagina : 1;
         $KsvmDesde = ($KsvmPagina > 0) ? (($KsvmPagina*$KsvmNRegistros) - $KsvmNRegistros) : 0;
@@ -628,7 +659,7 @@
                                                     <td class="mdl-data-table__cell--non-numeric">'.$rows['TsnPerReaTran'].'</td>
                                                     <td style="text-align:right; witdh:30px;">';
 
-                                    $KsvmTabla .= ' <a id="btn-detail" class="btn btn-sm btn-info" href="'.KsvmServUrl.'KsvmReporteTransacciones/Detail/'.KsvmEstMaestra::__KsvmEncriptacion($rows['TsnId']).'"><i class="zmdi zmdi-card"></i></a>
+                                    $KsvmTabla .= ' <a id="btn-detail" class="btn btn-sm btn-info" href="'.KsvmServUrl.'KsvmReporteTransaccionesGen/Detail/'.KsvmEstMaestra::__KsvmEncriptacion($rows['TsnId']).'"><i class="zmdi zmdi-card"></i></a>
                                                     <div class="mdl-tooltip" for="btn-detail">Detalles</div>
                                                     <a id="btn-print" class="btn btn-sm btn-success" href="'.KsvmServUrl.'Reportes/KsvmTransaccionesPdf.php?Cod='.KsvmEstMaestra::__KsvmEncriptacion($rows['TsnId']).'" target="_blank"><i class="zmdi zmdi-print"></i></a>
                                                     <div class="mdl-tooltip" for="btn-print">Imprimir</div>';
@@ -856,12 +887,16 @@
         $KsvmPerRevTran = KsvmEstMaestra :: __KsvmFiltrarCadena($_POST['KsvmPerRevTran']);
         $KsvmEstTran = KsvmEstMaestra :: __KsvmFiltrarCadena($_POST['KsvmEstTran']);
 
+        session_start(['name' => 'SIGIM']);
+        $KsvmUser = $_SESSION['KsvmUsuId-SIGIM'];
+
         $KsvmActualTran = [
             "KsvmRqcId" => $KsvmRqcId,
             "KsvmTipoTran" => $KsvmTipoTran,
             "KsvmDestinoTran" => $KsvmDestinoTran,
             "KsvmFchRevTran" => $KsvmFchRevTran,
             "KsvmPerRevTran" => $KsvmPerRevTran,
+            "KsvmUsrId" => $KsvmUser,
             "KsvmEstTran" => $KsvmEstTran,
             "KsvmCodTransaccion" => $KsvmCodTransaccion
             ];
@@ -925,6 +960,341 @@
          
         }
 
+                /**
+         * Función que permite cargar reportes
+         */
+        public function __KsvmCargarReporteTransacciones($KsvmMedicamento, $KsvmAnio, $KsvmTotReg, $KsvmMes, $KsvmTokken)
+        {
+            $KsvmMedicamento = KsvmEstMaestra :: __KsvmFiltrarCadena($KsvmMedicamento);
+            $KsvmAnio = KsvmEstMaestra :: __KsvmFiltrarCadena($KsvmAnio);
+            $KsvmUsuario = $_SESSION['KsvmUsuId-SIGIM'];
+
+            $KsvmConsulta = KsvmEstMaestra :: __KsvmConexion();
+
+            if ($KsvmMedicamento != "" && $KsvmAnio != "" && $KsvmTotReg != 0) {
+
+                switch ($KsvmMes) {
+                    case 'January':
+                        if ($KsvmTokken == 1) {
+                            $KsvmTotalMes = "SELECT SUM(DtsCantTran) AS ValorTotal FROM ksvmvistadetalletransaccion WHERE TsnEstTran != 'I' AND TsnMesTran = 'January' AND 
+                            MdcId = '$KsvmMedicamento' AND TsnAnioTran = '$KsvmAnio' AND DtsTipoTran = 'Ingreso'";
+                            $KsvmConVal = $KsvmConsulta->query($KsvmTotalMes);
+                                $KsvmValRep = $KsvmConVal->fetch();
+                                $KsvmTotal =  $KsvmValRep['ValorTotal'];
+                                $KsvmDataRep = round(($KsvmTotal*100/$KsvmTotReg));
+                        } elseif ($KsvmTokken == 2) {
+                            $KsvmTotalMes = "SELECT SUM(DtsCantTran) AS ValorTotal FROM ksvmvistadetalletransaccion WHERE TsnEstTran != 'I' AND TsnMesTran = 'January' AND 
+                            MdcId = '$KsvmMedicamento' AND TsnAnioTran = '$KsvmAnio' AND DtsTipoTran = 'Egreso'";
+                            $KsvmConVal = $KsvmConsulta->query($KsvmTotalMes);
+                                $KsvmValRep = $KsvmConVal->fetch();
+                                $KsvmTotal =  $KsvmValRep['ValorTotal'];
+                                $KsvmDataRep = round(($KsvmTotal*100/$KsvmTotReg));
+                        } else {
+                            $KsvmDataRep = 0;
+                        }
+                        return $KsvmDataRep;
+                        break;
+
+                    case 'February':
+                        if ($KsvmTokken == 1) {
+                            $KsvmTotalMes = "SELECT SUM(DtsCantTran) AS ValorTotal FROM ksvmvistadetalletransaccion WHERE TsnEstTran != 'I' AND TsnMesTran = 'February' AND 
+                            MdcId = '$KsvmMedicamento' AND TsnAnioTran = '$KsvmAnio' AND DtsTipoTran = 'Ingreso'";
+                            $KsvmConVal = $KsvmConsulta->query($KsvmTotalMes);
+                                $KsvmValRep = $KsvmConVal->fetch();
+                                $KsvmTotal =  $KsvmValRep['ValorTotal'];
+                                $KsvmDataRep = round(($KsvmTotal*100/$KsvmTotReg));
+                        } elseif ($KsvmTokken == 2) {
+                            $KsvmTotalMes = "SELECT SUM(DtsCantTran) AS ValorTotal FROM ksvmvistadetalletransaccion WHERE TsnEstTran != 'I' AND TsnMesTran = 'February' AND 
+                            MdcId = '$KsvmMedicamento' AND TsnAnioTran = '$KsvmAnio' AND DtsTipoTran = 'Egreso'";
+                            $KsvmConVal = $KsvmConsulta->query($KsvmTotalMes);
+                            if ($KsvmConVal->rowCount() >= 1) {
+                                $KsvmValRep = $KsvmConVal->fetch();
+                                $KsvmTotal =  $KsvmValRep['ValorTotal'];
+                                $KsvmDataRep = round(($KsvmTotal*100/$KsvmTotReg));
+                            }
+                        } else {
+                            $KsvmDataRep = 0;
+                        }
+                        return $KsvmDataRep;
+                        break;
+
+                    case 'March':
+                        if ($KsvmTokken == 1) {
+                            $KsvmTotalMes = "SELECT SUM(DtsCantTran) AS ValorTotal FROM ksvmvistadetalletransaccion WHERE TsnEstTran != 'I' AND TsnMesTran = 'March' AND 
+                            MdcId = '$KsvmMedicamento' AND TsnAnioTran = '$KsvmAnio' AND DtsTipoTran = 'Ingreso'";
+                            $KsvmConVal = $KsvmConsulta->query($KsvmTotalMes);
+                                $KsvmValRep = $KsvmConVal->fetch();
+                                $KsvmTotal =  $KsvmValRep['ValorTotal'];
+                                $KsvmDataRep = round(($KsvmTotal*100/$KsvmTotReg));
+                        } elseif ($KsvmTokken == 2) {
+                            $KsvmTotalMes = "SELECT SUM(DtsCantTran) AS ValorTotal FROM ksvmvistadetalletransaccion WHERE TsnEstTran != 'I' AND TsnMesTran = 'March' AND 
+                            MdcId = '$KsvmMedicamento' AND TsnAnioTran = '$KsvmAnio' AND DtsTipoTran = 'Egreso'";
+                            $KsvmConVal = $KsvmConsulta->query($KsvmTotalMes);
+                                $KsvmValRep = $KsvmConVal->fetch();
+                                $KsvmTotal =  $KsvmValRep['ValorTotal'];
+                                $KsvmDataRep = round(($KsvmTotal*100/$KsvmTotReg));
+                        } else {
+                            $KsvmDataRep = 0;
+                        }
+                        return $KsvmDataRep;
+                        break;
+
+                    case 'April':
+                        if ($KsvmTokken == 1) {
+                            $KsvmTotalMes = "SELECT SUM(DtsCantTran) AS ValorTotal FROM ksvmvistadetalletransaccion WHERE TsnEstTran != 'I' AND TsnMesTran = 'April' AND 
+                            MdcId = '$KsvmMedicamento' AND TsnAnioTran = '$KsvmAnio' AND DtsTipoTran = 'Ingreso'";
+                            $KsvmConVal = $KsvmConsulta->query($KsvmTotalMes);
+                            $KsvmValRep = $KsvmConVal->fetch();
+                            $KsvmTotal =  $KsvmValRep['ValorTotal'];
+                            $KsvmDataRep = round(($KsvmTotal*100/$KsvmTotReg));
+                        } elseif ($KsvmTokken == 2) {
+                            $KsvmTotalMes = "SELECT SUM(DtsCantTran) AS ValorTotal FROM ksvmvistadetalletransaccion WHERE TsnEstTran != 'I' AND TsnMesTran = 'April' AND 
+                            MdcId = '$KsvmMedicamento' AND TsnAnioTran = '$KsvmAnio' AND DtsTipoTran = 'Egreso'";
+                            $KsvmConVal = $KsvmConsulta->query($KsvmTotalMes);
+                            $KsvmValRep = $KsvmConVal->fetch();
+                            $KsvmTotal =  $KsvmValRep['ValorTotal'];
+                            $KsvmDataRep = round(($KsvmTotal*100/$KsvmTotReg));
+                        } else {
+                            $KsvmDataRep = 0;
+                        }
+                        return $KsvmDataRep;
+                        break;
+
+                    case 'May':
+                        if ($KsvmTokken == 1) {
+                            $KsvmTotalMes = "SELECT SUM(DtsCantTran) AS ValorTotal FROM ksvmvistadetalletransaccion WHERE TsnEstTran != 'I' AND TsnMesTran = 'May' AND 
+                            MdcId = '$KsvmMedicamento' AND TsnAnioTran = '$KsvmAnio' AND DtsTipoTran = 'Ingreso'";
+                            $KsvmConVal = $KsvmConsulta->query($KsvmTotalMes);
+                            $KsvmValRep = $KsvmConVal->fetch();
+                            $KsvmTotal =  $KsvmValRep['ValorTotal'];
+                            $KsvmDataRep = round(($KsvmTotal*100/$KsvmTotReg));
+                        } elseif ($KsvmTokken == 2) {
+                            $KsvmTotalMes = "SELECT SUM(DtsCantTran) AS ValorTotal FROM ksvmvistadetalletransaccion WHERE TsnEstTran != 'I' AND TsnMesTran = 'May' AND 
+                            MdcId = '$KsvmMedicamento' AND TsnAnioTran = '$KsvmAnio' AND DtsTipoTran = 'Egreso'";
+                            $KsvmConVal = $KsvmConsulta->query($KsvmTotalMes);
+                            $KsvmValRep = $KsvmConVal->fetch();
+                            $KsvmTotal =  $KsvmValRep['ValorTotal'];
+                            $KsvmDataRep = round(($KsvmTotal*100/$KsvmTotReg));
+                        } else {
+                            $KsvmDataRep = 0;
+                        }
+                        return $KsvmDataRep;
+                        break;
+
+                    case 'June':
+                        if ($KsvmTokken == 1) {
+                            $KsvmTotalMes = "SELECT SUM(DtsCantTran) AS ValorTotal FROM ksvmvistadetalletransaccion WHERE TsnEstTran != 'I' AND TsnMesTran = 'June' AND 
+                            MdcId = '$KsvmMedicamento' AND TsnAnioTran = '$KsvmAnio' AND DtsTipoTran = 'Ingreso'";
+                            $KsvmConVal = $KsvmConsulta->query($KsvmTotalMes);
+                            $KsvmValRep = $KsvmConVal->fetch();
+                            $KsvmTotal =  $KsvmValRep['ValorTotal'];
+                            $KsvmDataRep = round(($KsvmTotal*100/$KsvmTotReg));
+                        } elseif ($KsvmTokken == 2) {
+                            $KsvmTotalMes = "SELECT SUM(DtsCantTran) AS ValorTotal FROM ksvmvistadetalletransaccion WHERE TsnEstTran != 'I' AND TsnMesTran = 'June' AND 
+                            MdcId = '$KsvmMedicamento' AND TsnAnioTran = '$KsvmAnio' AND DtsTipoTran = 'Egreso'";
+                            $KsvmConVal = $KsvmConsulta->query($KsvmTotalMes);
+                            $KsvmValRep = $KsvmConVal->fetch();
+                            $KsvmTotal =  $KsvmValRep['ValorTotal'];
+                            $KsvmDataRep = round(($KsvmTotal*100/$KsvmTotReg));
+                        } else {
+                            $KsvmDataRep = 0;
+                        }
+                        return $KsvmDataRep;
+                        break;
+
+                    case 'July':
+                        if ($KsvmTokken == 1) {
+                            $KsvmTotalMes = "SELECT SUM(DtsCantTran) AS ValorTotal FROM ksvmvistadetalletransaccion WHERE TsnEstTran != 'I' AND TsnMesTran = 'July' AND 
+                            MdcId = '$KsvmMedicamento' AND TsnAnioTran = '$KsvmAnio' AND DtsTipoTran = 'Ingreso'";
+                            $KsvmConVal = $KsvmConsulta->query($KsvmTotalMes);
+                            $KsvmValRep = $KsvmConVal->fetch();
+                            $KsvmTotal =  $KsvmValRep['ValorTotal'];
+                            $KsvmDataRep = round(($KsvmTotal*100/$KsvmTotReg));
+                        } elseif ($KsvmTokken == 2) {
+                            $KsvmTotalMes = "SELECT SUM(DtsCantTran) AS ValorTotal FROM ksvmvistadetalletransaccion WHERE TsnEstTran != 'I' AND TsnMesTran = 'July' AND 
+                            MdcId = '$KsvmMedicamento' AND TsnAnioTran = '$KsvmAnio' AND DtsTipoTran = 'Egreso'";
+                            $KsvmConVal = $KsvmConsulta->query($KsvmTotalMes);
+                            $KsvmValRep = $KsvmConVal->fetch();
+                            $KsvmTotal =  $KsvmValRep['ValorTotal'];
+                            $KsvmDataRep = round(($KsvmTotal*100/$KsvmTotReg));
+                        } else {
+                            $KsvmDataRep = 0;
+                        }
+                        return $KsvmDataRep;
+                        break;
+
+                    case 'August':
+                        if ($KsvmTokken == 1) {
+                            $KsvmTotalMes = "SELECT SUM(DtsCantTran) AS ValorTotal FROM ksvmvistadetalletransaccion WHERE TsnEstTran != 'I' AND TsnMesTran = 'August' AND 
+                            MdcId = '$KsvmMedicamento' AND TsnAnioTran = '$KsvmAnio' AND DtsTipoTran = 'Ingreso'";
+                            $KsvmConVal = $KsvmConsulta->query($KsvmTotalMes);
+                            $KsvmValRep = $KsvmConVal->fetch();
+                            $KsvmTotal =  $KsvmValRep['ValorTotal'];
+                            $KsvmDataRep = round(($KsvmTotal*100/$KsvmTotReg));
+                        } elseif ($KsvmTokken == 2) {
+                            $KsvmTotalMes = "SELECT SUM(DtsCantTran) AS ValorTotal FROM ksvmvistadetalletransaccion WHERE TsnEstTran != 'I' AND TsnMesTran = 'August' AND 
+                            MdcId = '$KsvmMedicamento' AND TsnAnioTran = '$KsvmAnio' AND DtsTipoTran = 'Egreso'";
+                            $KsvmConVal = $KsvmConsulta->query($KsvmTotalMes);
+                            $KsvmValRep = $KsvmConVal->fetch();
+                            $KsvmTotal =  $KsvmValRep['ValorTotal'];
+                            $KsvmDataRep = round(($KsvmTotal*100/$KsvmTotReg));
+                        } else {
+                            $KsvmDataRep = 0;
+                        }
+                        return $KsvmDataRep;
+                        break;
+
+                    case 'September':
+                        if ($KsvmTokken == 1) {
+                            $KsvmTotalMes = "SELECT SUM(DtsCantTran) AS ValorTotal FROM ksvmvistadetalletransaccion WHERE TsnEstTran != 'I' AND TsnMesTran = 'September' AND 
+                            MdcId = '$KsvmMedicamento' AND TsnAnioTran = '$KsvmAnio' AND DtsTipoTran = 'Ingreso'";
+                            $KsvmConVal = $KsvmConsulta->query($KsvmTotalMes);
+                            $KsvmValRep = $KsvmConVal->fetch();
+                            $KsvmTotal =  $KsvmValRep['ValorTotal'];
+                            $KsvmDataRep = round(($KsvmTotal*100/$KsvmTotReg));
+                        } elseif ($KsvmTokken == 2) {
+                            $KsvmTotalMes = "SELECT SUM(DtsCantTran) AS ValorTotal FROM ksvmvistadetalletransaccion WHERE TsnEstTran != 'I' AND TsnMesTran = 'September' AND 
+                            MdcId = '$KsvmMedicamento' AND TsnAnioTran = '$KsvmAnio' AND DtsTipoTran = 'Egreso'";
+                            $KsvmConVal = $KsvmConsulta->query($KsvmTotalMes);
+                            $KsvmValRep = $KsvmConVal->fetch();
+                            $KsvmTotal =  $KsvmValRep['ValorTotal'];
+                            $KsvmDataRep = round(($KsvmTotal*100/$KsvmTotReg));
+                        } else {
+                            $KsvmDataRep = 0;
+                        }
+                        return $KsvmDataRep;
+                        break;
+
+                    case 'October':
+                        if ($KsvmTokken == 1) {
+                            $KsvmTotalMes = "SELECT SUM(DtsCantTran) AS ValorTotal FROM ksvmvistadetalletransaccion WHERE TsnEstTran != 'I' AND TsnMesTran = 'October' AND 
+                            MdcId = '$KsvmMedicamento' AND TsnAnioTran = '$KsvmAnio' AND DtsTipoTran = 'Ingreso'";
+                            $KsvmConVal = $KsvmConsulta->query($KsvmTotalMes);
+                            $KsvmValRep = $KsvmConVal->fetch();
+                            $KsvmTotal =  $KsvmValRep['ValorTotal'];
+                            $KsvmDataRep = round(($KsvmTotal*100/$KsvmTotReg));
+                        } elseif ($KsvmTokken == 2) {
+                            $KsvmTotalMes = "SELECT SUM(DtsCantTran) AS ValorTotal FROM ksvmvistadetalletransaccion WHERE TsnEstTran != 'I' AND TsnMesTran = 'October' AND 
+                            MdcId = '$KsvmMedicamento' AND TsnAnioTran = '$KsvmAnio' AND DtsTipoTran = 'Egreso'";
+                            $KsvmConVal = $KsvmConsulta->query($KsvmTotalMes);
+                            $KsvmValRep = $KsvmConVal->fetch();
+                            $KsvmTotal =  $KsvmValRep['ValorTotal'];
+                            $KsvmDataRep = round(($KsvmTotal*100/$KsvmTotReg));
+                        } else {
+                            $KsvmDataRep = 0;
+                        }
+                        return $KsvmDataRep;
+                        break;
+
+                    case 'November':
+                        if ($KsvmTokken == 1) {
+                            $KsvmTotalMes = "SELECT SUM(DtsCantTran) AS ValorTotal FROM ksvmvistadetalletransaccion WHERE TsnEstTran != 'I' AND TsnMesTran = 'November' AND 
+                            MdcId = '$KsvmMedicamento' AND TsnAnioTran = '$KsvmAnio' AND DtsTipoTran = 'Ingreso'";
+                            $KsvmConVal = $KsvmConsulta->query($KsvmTotalMes);
+                            $KsvmValRep = $KsvmConVal->fetch();
+                            $KsvmTotal =  $KsvmValRep['ValorTotal'];
+                            $KsvmDataRep = round(($KsvmTotal*100/$KsvmTotReg));
+                        } elseif ($KsvmTokken == 2) {
+                            $KsvmTotalMes = "SELECT SUM(DtsCantTran) AS ValorTotal FROM ksvmvistadetalletransaccion WHERE TsnEstTran != 'I' AND TsnMesTran = 'November' AND 
+                            MdcId = '$KsvmMedicamento' AND TsnAnioTran = '$KsvmAnio' AND DtsTipoTran = 'Egreso'";
+                            $KsvmConVal = $KsvmConsulta->query($KsvmTotalMes);
+                            $KsvmValRep = $KsvmConVal->fetch();
+                            $KsvmTotal = $KsvmValRep['ValorTotal'];
+                            $KsvmDataRep = round(($KsvmTotal*100/$KsvmTotReg));
+                        } else {
+                            $KsvmDataRep = 0;
+                        }
+
+                        return $KsvmDataRep;
+                        break;
+    
+                    case 'December':
+                        if ($KsvmTokken == 1) {
+                            $KsvmTotalMes = "SELECT SUM(DtsCantTran) AS ValorTotal FROM ksvmvistadetalletransaccion WHERE TsnEstTran != 'I' AND TsnMesTran = 'December' AND 
+                            MdcId = '$KsvmMedicamento' AND TsnAnioTran = '$KsvmAnio' AND DtsTipoTran = 'Ingreso'";
+                            $KsvmConVal = $KsvmConsulta->query($KsvmTotalMes);
+                            $KsvmValRep = $KsvmConVal->fetch();
+                            $KsvmTotal =  $KsvmValRep['ValorTotal'];
+                            $KsvmDataRep = round(($KsvmTotal*100/$KsvmTotReg));
+                        } elseif ($KsvmTokken == 2) {
+                            $KsvmTotalMes = "SELECT SUM(DtsCantTran) AS ValorTotal FROM ksvmvistadetalletransaccion WHERE TsnEstTran != 'I' AND TsnMesTran = 'December' AND 
+                            MdcId = '$KsvmMedicamento' AND TsnAnioTran = '$KsvmAnio' AND DtsTipoTran = 'Egreso'";
+                            $KsvmConVal = $KsvmConsulta->query($KsvmTotalMes);
+                            $KsvmValRep = $KsvmConVal->fetch();
+                            $KsvmTotal =  $KsvmValRep['ValorTotal'];
+                            $KsvmDataRep = round(($KsvmTotal*100/$KsvmTotReg));
+                        } else {
+                            $KsvmDataRep = 0;
+                        }
+
+                        return $KsvmDataRep;
+                        break;
+                }
+                             
+            } else {
+                if ($KsvmTokken == 1) {
+                    $KsvmTotalMes = "SELECT SUM(DtsCantTran) AS ValorTotal FROM ksvmvistadetalletransaccion WHERE TsnEstTran != 'I' AND 
+                    TsnAnioTran = '$KsvmAnio' AND DtsTipoTran = 'Ingreso'";
+                    $KsvmConVal = $KsvmConsulta->query($KsvmTotalMes);
+                        $KsvmValRep = $KsvmConVal->fetch();
+                        $KsvmTotal =  $KsvmValRep['ValorTotal'];
+
+                } elseif ($KsvmTokken == 2) {
+                    $KsvmTotalMes = "SELECT SUM(DtsCantTran) AS ValorTotal FROM ksvmvistadetalletransaccion WHERE TsnEstTran != 'I' AND 
+                    TsnAnioTran = '$KsvmAnio' AND DtsTipoTran = 'Egreso'";
+                    $KsvmConVal = $KsvmConsulta->query($KsvmTotalMes);
+                    $KsvmValRep = $KsvmConVal->fetch();
+                    $KsvmTotal =  $KsvmValRep['ValorTotal'];
+                } else {
+                    $KsvmTotal = 0;
+                }
+
+                return $KsvmTotal;
+            }
+
+        }
+
+      /**
+       * Función que permite seleccionar un medicamento  
+       */
+      public function __KsvmMuestraMedicamento($KsvmMdcId)
+      {
+        $KsvmConsulta = KsvmEstMaestra :: __KsvmConexion();
+        $KsvmMedic = "SELECT MdcDescMed, MdcConcenMed FROM ksvmvistamedicamentos WHERE MdcEstMed = 'A' AND MdcId = '$KsvmMdcId'";
+        $KsvmConVal = $KsvmConsulta->query($KsvmMedic);
+        $KsvmDataMed = $KsvmConVal->fetch();
+        return $KsvmDataMed;
+      }
+
+      /**
+       * Función que permite calcular el total de una Compra  
+       */
+      public function __KsvmTotalRegistros($KsvmMedicamento, $KsvmAnio, $KsvmTokken)
+      {
+        $KsvmMedicamento = KsvmEstMaestra :: __KsvmFiltrarCadena($KsvmMedicamento);
+        $KsvmAnio = KsvmEstMaestra :: __KsvmFiltrarCadena($KsvmAnio);
+        $KsvmUsuario = $_SESSION['KsvmUsuId-SIGIM'];
+
+            $KsvmConsulta = KsvmEstMaestra :: __KsvmConexion();
+
+            if ($KsvmTokken == 1) {
+                $KsvmTotalAnio = "SELECT SUM(DtsCantTran) AS ValorTotal FROM ksvmvistadetalletransaccion WHERE TsnEstTran != 'I' AND 
+                MdcId = '$KsvmMedicamento' AND TsnAnioTran = '$KsvmAnio' AND DtsTipoTran = 'Ingreso'";
+                $KsvmQuery = $KsvmConsulta->query($KsvmTotalAnio);
+                $KsvmValTotal = $KsvmQuery->fetch();
+                $KsvmTotReg =  $KsvmValTotal['ValorTotal'];
+            } else {
+                $KsvmTotalAnio = "SELECT SUM(DtsCantTran) AS ValorTotal FROM ksvmvistadetalletransaccion WHERE TsnEstTran != 'I' AND 
+                MdcId = '$KsvmMedicamento' AND TsnAnioTran = '$KsvmAnio' AND DtsTipoTran = 'Egreso'";
+                $KsvmQuery = $KsvmConsulta->query($KsvmTotalAnio);
+                $KsvmValTotal = $KsvmQuery->fetch();
+                $KsvmTotReg =  $KsvmValTotal['ValorTotal'];
+            }
+
+        return $KsvmTotReg;
+        
+      }
+
       /**
        * Función que permite sleccionar una Bodega 
        */
@@ -936,6 +1306,30 @@
             $KsvmQuery = $KsvmQuery->fetch();
             return $KsvmQuery;
         }
+
+        /**
+         * Función que permite cargar el tipo de transacción 
+         */
+        public function __KsvmCargarTipo()
+        {
+            $KsvmTipo = $_POST['KsvmTipoTranCod'];
+            $KsvmListar = '<input class="mdl-textfield__input" type="text" name="KsvmTipoTran"
+            id="KsvmDato3" value="'.$KsvmTipo.'">';
+            return $KsvmListar;
+
+        }  
+
+        /**
+         * Función que permite cargar el tipo de transacción 
+         */
+        public function __KsvmCargarBodega()
+        {
+            $KsvmBodega = $_POST['KsvmBodCod'];
+            $KsvmListar = '<input class="mdl-textfield__input" type="text" name="KsvmBdgId"
+            id="KsvmDato3" value="'.$KsvmBodega.'">';
+            return $KsvmListar;
+
+        } 
     
 }
  

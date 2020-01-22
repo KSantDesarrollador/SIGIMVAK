@@ -39,81 +39,105 @@
 									<div
 										class="mdl-cell mdl-cell--4-col-phone mdl-cell--8-col-tablet mdl-cell--6-col-desktop">
 										<div class="mdl-textfield mdl-js-textfield">
-											<select class="mdl-textfield__input" name="KsvmIdPais"
-												id="KsvmCargaListaPais">
+											<select class="ksvmSelectDin" name="KsvmIdPais" style="width:100%;"
+												id="KsvmCargaListaPais" required>
 											</select>
 										</div>
 										<div class="mdl-textfield mdl-js-textfield">
-											<select class="mdl-textfield__input" id="KsvmCargaListaCanton">
+											<select class="ksvmSelectDin" id="KsvmCargaListaCanton" style="width:100%;">
 												<option value="" disabled="" selected="">Seleccione Cantón</option>
 											</select>
 										</div>
 										<div class="mdl-textfield mdl-js-textfield">
-											<select class="mdl-textfield__input" name="KsvmTipProv">
-												<option value="" selected="" disabled>Seleccione Tipo de Proveedor
+											<select class="ksvmSelectDin" name="KsvmTipProv" id="KsvmDato1"
+												style="width:100%;">
+												<option value="" selected="">Seleccione Tipo de Proveedor
 												</option>
 												<option value="N">Persona Natural</option>
 												<option value="J">Persona Juridica</option>
 											</select>
+											<span id="KsvmError1" class="ValForm"><i
+													class="zmdi zmdi-alert-triangle">&nbsp;Por favor llene este
+													campo</i></span>
 										</div>
 										<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
 											<input class="mdl-textfield__input" type="text" name="KsvmRazSocProv"
-												pattern="-?[A-Za-z0-9áéíóúÁÉÍÓÚ ]*(\.[0-9]+)?" id="KsvmRazSocProv">
-											<label class="mdl-textfield__label" for="KsvmRazSocProv">Razón
+												pattern="-?[A-Za-z0-9áéíóúÁÉÍÓÚ ]*(\.[0-9]+)?" id="KsvmDato2">
+											<label class="mdl-textfield__label" for="KsvmDato2">Razón
 												Social</label>
 											<span class="mdl-textfield__error">Razón Social Inválida</span>
+											<span id="KsvmError2" class="ValForm"><i
+													class="zmdi zmdi-alert-triangle">&nbsp;Por favor llene este
+													campo</i></span>
 										</div>
 										<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
 											<input class="mdl-textfield__input" type="text" name="KsvmDirProv"
-												id="KsvmDirProv">
-											<label class="mdl-textfield__label" for="KsvmDirProv">Dirección</label>
+												pattern="-?[A-Za-z0-9-áéíóúÁÉÍÓÚ ]*(\.[0-9]+)?" id="KsvmDato3">
+											<label class="mdl-textfield__label" for="KsvmDato3">Dirección</label>
 											<span class="mdl-textfield__error">Dirección Inválida</span>
+											<span id="KsvmError3" class="ValForm"><i
+													class="zmdi zmdi-alert-triangle">&nbsp;Por favor llene este
+													campo</i></span>
 										</div>
 										<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
 											<input class="mdl-textfield__input" type="text" name="KsvmPerContProv"
-												pattern="-?[A-Za-z0-9áéíóúÁÉÍÓÚ ]*(\.[0-9]+)?" id="KsvmPerContProv">
-											<label class="mdl-textfield__label" for="KsvmPerContProv">Persona de
+												pattern="-?[A-Za-záéíóúÁÉÍÓÚ ]*(\.[0-9]+)?" id="KsvmDato4">
+											<label class="mdl-textfield__label" for="KsvmDato4">Persona de
 												Contacto</label>
 											<span class="mdl-textfield__error">Nombre Inválido</span>
+											<span id="KsvmError4" class="ValForm"><i
+													class="zmdi zmdi-alert-triangle">&nbsp;Por favor llene este
+													campo</i></span>
 										</div>
 									</div>
 									<div
 										class="mdl-cell mdl-cell--4-col-phone mdl-cell--8-col-tablet mdl-cell--6-col-desktop">
 										<div class="mdl-textfield mdl-js-textfield">
-											<select class="mdl-textfield__input" id="KsvmCargaListaProvincia">
+											<select class="ksvmSelectDin" id="KsvmCargaListaProvincia"
+												style="width:100%;">
 												<option value="" disabled="" selected="">Seleccione Provincia</option>
 											</select>
 										</div>
 										<div class="mdl-textfield mdl-js-textfield">
-											<select class="mdl-textfield__input" name="KsvmIdParroquia"
+											<select class="ksvmSelectDin" name="KsvmIdParroquia" style="width:100%;"
 												id="KsvmCargaListaParroquia">
 												<option value="" disabled="" selected="">Seleccione Parroquia</option>
 											</select>
 										</div>
 										<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
 											<input class="mdl-textfield__input" type="text" name="KsvmIdentProv"
-												pattern="-?[0-9+()-]*(\.[0-9]+)?" id="KsvmIdentProv">
-											<label class="mdl-textfield__label" for="KsvmIdentProv">Identidad</label>
-											<span class="mdl-textfield__error">Identidad Inválida</span>
+												pattern="[0-9]{10,13}" id="Ident" onkeyup="IdValido()">
+											<label class="mdl-textfield__label" for="Ident">Identidad</label>
+											<span id="KsvmErrorIdent" class=""></span>
 										</div>
 										<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
 											<input class="mdl-textfield__input" type="telf" name="KsvmTelfProv"
-												pattern="-?[0-9+()-]*(\.[0-9]+)?" id="KsvmTelfProv">
-											<label class="mdl-textfield__label" for="KsvmTelfProv">Teléfono</label>
+												pattern="[0-9()]{7,10}" id="KsvmDato6">
+											<label class="mdl-textfield__label" for="KsvmDato6">Teléfono</label>
 											<span class="mdl-textfield__error">Teléfono Inválido</span>
+											<span id="KsvmError6" class="ValForm"><i
+													class="zmdi zmdi-alert-triangle">&nbsp;Por favor llene este
+													campo</i></span>
 										</div>
 										<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
 											<input class="mdl-textfield__input" type="email" name="KsvmEmailProv"
-												id="KsvmEmailProv">
-											<label class="mdl-textfield__label" for="KsvmEmailProv">Email</label>
+												pattern="^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$"
+												id="KsvmDato7">
+											<label class="mdl-textfield__label" for="KsvmDato7">Email</label>
 											<span class="mdl-textfield__error">Email Inválida</span>
+											<span id="KsvmError7" class="ValForm"><i
+													class="zmdi zmdi-alert-triangle">&nbsp;Por favor llene este
+													campo</i></span>
 										</div>
 										<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
 											<input class="mdl-textfield__input" type="text" name="KsvmCarContProv"
-												pattern="-?[A-Za-z0-9áéíóúÁÉÍÓÚ ]*(\.[0-9]+)?" id="KsvmCarContProv">
-											<label class="mdl-textfield__label" for="KsvmCarContProv">Cargo Persona
+												pattern="-?[A-Za-z0-9áéíóúÁÉÍÓÚ ]*(\.[0-9]+)?" id="KsvmDato8">
+											<label class="mdl-textfield__label" for="KsvmDato8">Cargo Persona
 												Contacto</label>
 											<span class="mdl-textfield__error">Descripción Inválida</span>
+											<span id="KsvmError8" class="ValForm"><i
+													class="zmdi zmdi-alert-triangle">&nbsp;Por favor llene este
+													campo</i></span>
 										</div>
 									</div>
 								</div>
@@ -121,11 +145,11 @@
 								<p class="text-center">
 									<button type="submit"
 										class="mdl-button mdl-js-button mdl-js-ripple-effect btn-warning mdl-shadow--4dp"
-										id="btn-NuevoProveedor">
+										id="btnSave">
 										<i class="zmdi zmdi-save">&nbsp;Guardar</i>
 									</button>
 								</p>
-								<div class="mdl-tooltip" for="btn-NuevoProveedor">Agregar Proveedor</div>
+								<div class="mdl-tooltip" for="btnSave">Agregar Proveedor</div>
 								<div class="RespuestaAjax"></div>
 							</form>
 						</div>
@@ -240,7 +264,7 @@
 				<div class="modal-content ">
 					<div class="modal-header ">
 						<button class="close close-edit" type="button" data-dismiss="modal" aria-hidden="true"
-							id="KsvmBtnExit">&times;</button>
+							id="btnExitProv">&times;</button>
 						<h5 class="modal-title text-center"></h5>
 					</div>
 					<div class="modal-body" id="">

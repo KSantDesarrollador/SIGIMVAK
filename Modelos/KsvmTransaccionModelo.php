@@ -16,31 +16,55 @@
       */
      protected function __KsvmAgregarTransaccionModelo($KsvmDataTransaccion)
      {
-         $KsvmIngTransaccion = "INSERT INTO ksvmtransaccion16(RqcId, TsnNumTran, TsnTipoTran, TsnDestinoTran, TsnFchReaTran, TsnPerReaTran, TsnFchRevTran, TsnPerRevTran)
-                                    VALUES(:KsvmRqcId, :KsvmNumTran, :KsvmTipoTran, :KsvmDestinoTran, :KsvmFchReaTran, :KsvmPerReaTran, :KsvmFchRevTran, :KsvmPerRevTran)";
-         $KsvmQuery = KsvmEstMaestra :: __KsvmConexion()->prepare($KsvmIngTransaccion);
-         $KsvmQuery->bindParam(":KsvmRqcId", $KsvmDataTransaccion['KsvmRqcId']);
-         $KsvmQuery->bindParam(":KsvmNumTran", $KsvmDataTransaccion['KsvmNumTran']);
-         $KsvmQuery->bindParam(":KsvmTipoTran", $KsvmDataTransaccion['KsvmTipoTran']);
-         $KsvmQuery->bindParam(":KsvmDestinoTran", $KsvmDataTransaccion['KsvmDestinoTran']);
-         $KsvmQuery->bindParam(":KsvmFchReaTran", $KsvmDataTransaccion['KsvmFchReaTran']);
-         $KsvmQuery->bindParam(":KsvmPerReaTran", $KsvmDataTransaccion['KsvmPerReaTran']);
-         $KsvmQuery->bindParam(":KsvmFchRevTran", $KsvmDataTransaccion['KsvmFchRevTran']);
-         $KsvmQuery->bindParam(":KsvmPerRevTran", $KsvmDataTransaccion['KsvmPerRevTran']);
-         $KsvmQuery->execute();
-         return $KsvmQuery;
+         if ($KsvmDataTransaccion['KsvmRqcId'] != "") {
+            $KsvmIngTransaccion = "INSERT INTO ksvmtransaccion16(RqcId, TsnNumTran, TsnTipoTran, TsnDestinoTran, TsnFchReaTran, TsnPerReaTran, TsnFchRevTran, 
+                                    TsnPerRevTran, UsrId)
+                                    VALUES(:KsvmRqcId, :KsvmNumTran, :KsvmTipoTran, :KsvmDestinoTran, :KsvmFchReaTran, :KsvmPerReaTran, :KsvmFchRevTran, 
+                                    :KsvmPerRevTran, :KsvmUsrId)";
+            $KsvmQuery = KsvmEstMaestra :: __KsvmConexion()->prepare($KsvmIngTransaccion);
+            $KsvmQuery->bindParam(":KsvmRqcId", $KsvmDataTransaccion['KsvmRqcId']);
+            $KsvmQuery->bindParam(":KsvmNumTran", $KsvmDataTransaccion['KsvmNumTran']);
+            $KsvmQuery->bindParam(":KsvmTipoTran", $KsvmDataTransaccion['KsvmTipoTran']);
+            $KsvmQuery->bindParam(":KsvmDestinoTran", $KsvmDataTransaccion['KsvmDestinoTran']);
+            $KsvmQuery->bindParam(":KsvmFchReaTran", $KsvmDataTransaccion['KsvmFchReaTran']);
+            $KsvmQuery->bindParam(":KsvmPerReaTran", $KsvmDataTransaccion['KsvmPerReaTran']);
+            $KsvmQuery->bindParam(":KsvmFchRevTran", $KsvmDataTransaccion['KsvmFchRevTran']);
+            $KsvmQuery->bindParam(":KsvmPerRevTran", $KsvmDataTransaccion['KsvmPerRevTran']);
+            $KsvmQuery->bindParam(":KsvmUsrId", $KsvmDataTransaccion['KsvmUsrId']);
+            $KsvmQuery->execute();
+            return $KsvmQuery;
+         } else {
+            $KsvmIngTransaccion = "INSERT INTO ksvmtransaccion16(TsnNumTran, TsnTipoTran, TsnDestinoTran, TsnFchReaTran, TsnPerReaTran, TsnFchRevTran, 
+                                    TsnPerRevTran, UsrId)
+                                    VALUES(:KsvmNumTran, :KsvmTipoTran, :KsvmDestinoTran, :KsvmFchReaTran, :KsvmPerReaTran, :KsvmFchRevTran, 
+                                    :KsvmPerRevTran, :KsvmUsrId)";
+            $KsvmQuery = KsvmEstMaestra :: __KsvmConexion()->prepare($KsvmIngTransaccion);
+            $KsvmQuery->bindParam(":KsvmNumTran", $KsvmDataTransaccion['KsvmNumTran']);
+            $KsvmQuery->bindParam(":KsvmTipoTran", $KsvmDataTransaccion['KsvmTipoTran']);
+            $KsvmQuery->bindParam(":KsvmDestinoTran", $KsvmDataTransaccion['KsvmDestinoTran']);
+            $KsvmQuery->bindParam(":KsvmFchReaTran", $KsvmDataTransaccion['KsvmFchReaTran']);
+            $KsvmQuery->bindParam(":KsvmPerReaTran", $KsvmDataTransaccion['KsvmPerReaTran']);
+            $KsvmQuery->bindParam(":KsvmFchRevTran", $KsvmDataTransaccion['KsvmFchRevTran']);
+            $KsvmQuery->bindParam(":KsvmPerRevTran", $KsvmDataTransaccion['KsvmPerRevTran']);
+            $KsvmQuery->bindParam(":KsvmUsrId", $KsvmDataTransaccion['KsvmUsrId']);
+            $KsvmQuery->execute();
+            return $KsvmQuery;
+         }
+         
+
      }
      /**
       *Función que permite ingresar un detalle de transacción
       */
       protected function __KsvmAgregarDetalleTransaccionModelo($KsvmDataTransaccion)
       {
-          $KsvmIngTransaccion = "INSERT INTO ksvmdetalletransaccion16(ExtId, DtsCantTran, DtsTipoTran, DtsObservTran)
-                                     VALUES(:KsvmExtId, :KsvmCantTran, :KsvmTipoTran, :KsvmObservTran)";
+          $KsvmIngTransaccion = "INSERT INTO ksvmdetalletransaccion16(ExtId, BdgId, DtsCantTran, DtsTipoTran, DtsObservTran)
+                                     VALUES(:KsvmExtId, :KsvmBdgId, :KsvmCantTran, :KsvmTipoTran, :KsvmObservTran)";
           $KsvmQuery = KsvmEstMaestra :: __KsvmConexion()->prepare($KsvmIngTransaccion);
           $KsvmQuery->bindParam(":KsvmExtId", $KsvmDataTransaccion['KsvmExtId']);
-          $KsvmQuery->bindParam(":KsvmTipoTran", $KsvmDataTransaccion['KsvmTipoTran']);
+          $KsvmQuery->bindParam(":KsvmBdgId", $KsvmDataTransaccion['KsvmBdgId']);
           $KsvmQuery->bindParam(":KsvmCantTran", $KsvmDataTransaccion['KsvmCantTran']);
+          $KsvmQuery->bindParam(":KsvmTipoTran", $KsvmDataTransaccion['KsvmTipoTran']);
           $KsvmQuery->bindParam(":KsvmObservTran", $KsvmDataTransaccion['KsvmObservTran']);
           $KsvmQuery->execute();
           return $KsvmQuery;
@@ -50,7 +74,7 @@
       */
       protected function __KsvmEliminarTransaccionModelo($KsvmCodTransaccion)
       {
-         $KsvmDelTransaccion = "UPDATE ksvmtransaccion16 SET TsnEstTran = 'X' WHERE TsnId = :KsvmCodTransaccion";
+         $KsvmDelTransaccion = "UPDATE ksvmtransaccion16 SET TsnEstTran = 'I' WHERE TsnId = :KsvmCodTransaccion";
          $KsvmQuery = KsvmEstMaestra :: __KsvmConexion()->prepare($KsvmDelTransaccion);
          $KsvmQuery->bindParam(":KsvmCodTransaccion", $KsvmCodTransaccion);
          $KsvmQuery->execute();
@@ -183,8 +207,8 @@
       */
       protected function __KsvmActualizarTransaccionModelo($KsvmDataTransaccion)
       {
-        $KsvmActTransaccion = "UPDATE ksvmtransaccion16 SET RqcId = :KsvmReqId, TsnTipoTran = :KsvmTipoTran, TsnDestinoTran = :KsvmDestinoTran, 
-                                      TsnFchRevTran = :KsvmFchRevTran, TsnPerRevTran = :KsvmPerRevTran, TsnEstTran = :KsvmEstTran 
+        $KsvmActTransaccion = "UPDATE ksvmtransaccion16 SET RqcId = :KsvmRqcId, TsnTipoTran = :KsvmTipoTran, TsnDestinoTran = :KsvmDestinoTran, 
+                                      TsnFchRevTran = :KsvmFchRevTran, TsnPerRevTran = :KsvmPerRevTran, UsrId = :KsvmUsrId, TsnEstTran = :KsvmEstTran 
                                       WHERE TsnId = :KsvmCodTransaccion";
         $KsvmQuery = KsvmEstMaestra :: __KsvmConexion()->prepare($KsvmActTransaccion);
         $KsvmQuery->bindParam(":KsvmRqcId", $KsvmDataTransaccion['KsvmRqcId']);
@@ -192,6 +216,7 @@
         $KsvmQuery->bindParam(":KsvmDestinoTran", $KsvmDataTransaccion['KsvmDestinoTran']);
         $KsvmQuery->bindParam(":KsvmFchRevTran", $KsvmDataTransaccion['KsvmFchRevTran']);
         $KsvmQuery->bindParam(":KsvmPerRevTran", $KsvmDataTransaccion['KsvmPerRevTran']);
+        $KsvmQuery->bindParam(":KsvmUsrId", $KsvmDataTransaccion['KsvmUsrId']);
         $KsvmQuery->bindParam(":KsvmEstTran", $KsvmDataTransaccion['KsvmEstTran']);
         $KsvmQuery->bindParam(":KsvmCodTransaccion", $KsvmDataTransaccion['KsvmCodTransaccion']);
         $KsvmQuery->execute();

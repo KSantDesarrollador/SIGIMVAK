@@ -355,7 +355,8 @@
         /**
          *Funcion que permite mostrar un país
         */
-        public function __KsvmSeleccionarPais(){
+        public function __KsvmSeleccionarPais()
+        {
 
             $KsvmSelectPais = "SELECT * FROM ksvmseleccionapais";
 
@@ -374,7 +375,8 @@
         /**
          *Funcion que permite mostrar una provincia
         */
-        public function __KsvmSeleccionarProvincia(){
+        public function __KsvmSeleccionarProvincia()
+        {
 
             $KsvmPadre = $_POST['id'];
             $KsvmSelectProvincia = "SELECT * FROM ksvmseleccionaprovincia WHERE PrcJerqProc = '$KsvmPadre'";
@@ -393,7 +395,8 @@
         /**
          *Funcion que permite mostrar un cantón
         */
-        public function __KsvmSeleccionarCanton(){
+        public function __KsvmSeleccionarCanton()
+        {
 
             $KsvmPadre = $_POST['id'];
             $KsvmSelectCanton = "SELECT * FROM ksvmseleccionacanton WHERE PrcJerqProc = '$KsvmPadre'";
@@ -401,7 +404,7 @@
             $KsvmConsulta = KsvmEstMaestra :: __KsvmConexion();
             $KsvmQuery = $KsvmConsulta->query($KsvmSelectCanton);
             $KsvmQuery = $KsvmQuery->fetchAll();
-            $KsvmListar = '<option value="" selected="" disabled>Seleccione Cantón</option>';
+            $KsvmListar = '<option value="" disabled="" selected="">Seleccione Cantón</option>';
 
             foreach ($KsvmQuery as $row) {
                 $KsvmListar .= '<option value="'.$row['PrcId'].'">'.$row['PrcNomProc'].'</option>';
@@ -412,7 +415,8 @@
         /**
          *Funcion que permite mostrar una paroquia
         */
-        public function __KsvmSeleccionarParroquia(){
+        public function __KsvmSeleccionarParroquia()
+        {
 
             $KsvmPadre = $_POST['id'];
             $KsvmSelectParroquia = "SELECT * FROM ksvmseleccionaparroquia WHERE PrcJerqProc = '$KsvmPadre'";
@@ -431,7 +435,8 @@
         /**
          *Funcion que permite seleccionar la procedencia
         */
-        public function __KsvmSeleccionaProcedencia($Data){
+        public function __KsvmSeleccionaProcedencia($Data)
+        {
             $KsvmSelectProv = "SELECT * FROM ksvmprocedencia06 WHERE PrcId = '$Data'";
 
             $KsvmConsulta = KsvmEstMaestra :: __KsvmConexion();
@@ -441,14 +446,32 @@
         }    
 
         /**
+         *Funcion que permite seleccionar la Jerarquía
+        */
+        public function __KsvmSeleccionarJerarquia()
+        {
+            $KsvmSelectProc = "SELECT * FROM ksvmprocedencia06 WHERE PrcEstProc = 'A' AND PrcNivProc = 0";
+
+            $KsvmConsulta = KsvmEstMaestra :: __KsvmConexion();
+            $KsvmQuery = $KsvmConsulta->query($KsvmSelectProc);
+            $KsvmQuery = $KsvmQuery->fetchAll();
+            
+            foreach ($KsvmQuery as $row) {
+                $KsvmListar .= '<option value="'.$row['PrcId'].'">'.$row['PrcNomProc'].'</option>';
+            }
+            return $KsvmListar;
+        }
+
+        /**
          *Funcion que permite mostrar la Jerarquía
         */
-        public function __KsvmMostrarJerarquia($KsvmJerq)
+        public function __KsvmMostrarJerarquia($KsvmCodJerq)
         {
-        $KsvmJerarquia = "SELECT * FROM ksvmprocedencia06 WHERE PrcEstProc = 'A' AND PrcId = '$KsvmJerq' ";
-        $KsvmQuery = KsvmEstMaestra :: __KsvmConexion()->query($KsvmJerarquia);
+            $KsvmSelectProc = "SELECT * FROM ksvmprocedencia06 WHERE PrcEstProc = 'A' AND PrcId = '$KsvmCodJerq'";
 
-        return $KsvmQuery;
+            $KsvmConsulta = KsvmEstMaestra :: __KsvmConexion();
+            $KsvmQuery = $KsvmConsulta->query($KsvmSelectProc);;
+            return $KsvmQuery;
         }
     
 }

@@ -38,33 +38,41 @@
 								<div class="mdl-grid">
 									<input type="HIDDEN" name="dest-exists-action" value="overwrite" />
 									<div class="mdl-textfield mdl-js-textfield">
-										<select class="mdl-textfield__input" name="KsvmCtgId" id="KsvmDato1">
+										<select class="ksvmSelectDin" name="KsvmCtgId" id="KsvmDato1"
+											style="width:98%;">
 											<option value="" selected="">Seleccione Categoría</option>
 											<?php require_once "./Controladores/KsvmCategoriaControlador.php";
 											   $KsvmSelCat = new KsvmCategoriaControlador();
 											   echo $KsvmSelCat->__KsvmSeleccionarCategoria();
 										     ?>
 										</select>
-										<span id="KsvmError1" class="ValForm"><i class="zmdi zmdi-alert-triangle">&nbsp;Por favor llene este campo</i></span>
+										<span id="KsvmError1" class="ValForm"><i
+												class="zmdi zmdi-alert-triangle">&nbsp;Por favor llene este
+												campo</i></span>
 									</div>
 									<div
 										class="mdl-cell mdl-cell--4-col-phone mdl-cell--8-col-tablet mdl-cell--6-col-desktop">
 										<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
 											<input class="mdl-textfield__input" type="text" name="KsvmCodMed"
-												id="KsvmDato2">
+											    pattern="-?[A-Za-z0-9áéíóúÁÉÍÓÚ-]*(\.[0-9]+)?" id="KsvmDato2">
 											<label class="mdl-textfield__label" for="KsvmDato2">Código</label>
 											<span class="mdl-textfield__error">Código Inválido</span>
-											<span id="KsvmError2" class="ValForm"><i class="zmdi zmdi-alert-triangle">&nbsp;Por favor llene este campo</i></span>
+											<span id="KsvmError2" class="ValForm"><i
+													class="zmdi zmdi-alert-triangle">&nbsp;Por favor llene este
+													campo</i></span>
 										</div>
 										<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
 											<input class="mdl-textfield__input" type="text" name="KsvmPresenMed"
 												pattern="-?[A-Za-záéíóúÁÉÍÓÚ ]*(\.[0-9]+)?" id="KsvmDato3">
 											<label class="mdl-textfield__label" for="KsvmDato3">Presentación</label>
 											<span class="mdl-textfield__error">Presentación Inválida</span>
-											<span id="KsvmError3" class="ValForm"><i class="zmdi zmdi-alert-triangle">&nbsp;Por favor llene este campo</i></span>
+											<span id="KsvmError3" class="ValForm"><i
+													class="zmdi zmdi-alert-triangle">&nbsp;Por favor llene este
+													campo</i></span>
 										</div>
 										<div class="mdl-textfield mdl-js-textfield">
-											<select class="mdl-textfield__input" name="KsvmNivPrescMed" id="KsvmDato4">
+											<select class="ksvmSelectDin" name="KsvmNivPrescMed" id=""
+												style="width:100%;">
 												<option value="" selected="">Seleccione Nivel de
 													Prescripción</option>
 												<option value="E">E</option>
@@ -75,10 +83,13 @@
 												<option value="HE(p)">HE(p)</option>
 												<option value="(p)">(p)</option>
 											</select>
-											<span id="KsvmError4" class="ValForm"><i class="zmdi zmdi-alert-triangle">&nbsp;Por favor llene este campo</i></span>
+											<span id="KsvmError4" class="ValForm"><i
+													class="zmdi zmdi-alert-triangle">&nbsp;Por favor llene este
+													campo</i></span>
 										</div>
 										<div class="mdl-textfield mdl-js-textfield">
-											<select class="mdl-textfield__input" name="KsvmViaAdmMed" id="KsvmDato5">
+											<select class="ksvmSelectDin" name="KsvmViaAdmMed" id="KsvmDato5"
+												style="width:100%;">
 												<option value="" selected="">Seleccione Vía de
 													Administración</option>
 												<option value="P">P</option>
@@ -96,7 +107,9 @@
 												<option value="P(IV)">P(IV)</option>
 												<option value="SC">SC</option>
 											</select>
-											<span id="KsvmError5" class="ValForm"><i class="zmdi zmdi-alert-triangle">&nbsp;Por favor llene este campo</i></span>
+											<span id="KsvmError5" class="ValForm"><i
+													class="zmdi zmdi-alert-triangle">&nbsp;Por favor llene este
+													campo</i></span>
 										</div>
 
 									</div>
@@ -107,18 +120,22 @@
 												pattern="-?[A-Za-záéíóúÁÉÍÓÚ ]*(\.[0-9]+)?" id="KsvmDato6">
 											<label class="mdl-textfield__label" for="KsvmDato6">Descripción</label>
 											<span class="mdl-textfield__error">Descripción Inválida</span>
-											<span id="KsvmError6" class="ValForm"><i class="zmdi zmdi-alert-triangle">&nbsp;Por favor llene este campo</i></span>
+											<span id="KsvmError6" class="ValForm"><i
+													class="zmdi zmdi-alert-triangle">&nbsp;Por favor llene este
+													campo</i></span>
 										</div>
 										<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
 											<input class="mdl-textfield__input" type="text" name="KsvmConcenMed"
-												id="KsvmDato7">
-											<label class="mdl-textfield__label"
-												for="KsvmDato7">Concentración</label>
+											    pattern="-?[A-Za-z0-9áéíóúÁÉÍÓÚ ]*(\.[0-9]+)?" id="">
+											<label class="mdl-textfield__label" for="KsvmDato7">Concentración</label>
 											<span class="mdl-textfield__error">Concentración Inválida</span>
-											<span id="KsvmError7" class="ValForm"><i class="zmdi zmdi-alert-triangle">&nbsp;Por favor llene este campo</i></span>
+											<span id="KsvmError7" class="ValForm"><i
+													class="zmdi zmdi-alert-triangle">&nbsp;Por favor llene este
+													campo</i></span>
 										</div>
 										<div class="mdl-textfield mdl-js-textfield">
-											<select class="mdl-textfield__input" name="KsvmNivAtencMed" id="KsvmDato8">
+											<select class="ksvmSelectDin" name="KsvmNivAtencMed" id="KsvmDato8"
+												style="width:100%;">
 												<option value="" selected="">Selecione Nivel de Atención
 												</option>
 												<option value="I">Nivel 1</option>
@@ -129,12 +146,15 @@
 												<option value="II-III">Nivel 2-3</option>
 												<option value="I-II-III">Nivel 1-2-3</option>
 											</select>
-											<span id="KsvmError8" class="ValForm"><i class="zmdi zmdi-alert-triangle">&nbsp;Por favor llene este campo</i></span>
+											<span id="KsvmError8" class="ValForm"><i
+													class="zmdi zmdi-alert-triangle">&nbsp;Por favor llene este
+													campo</i></span>
 										</div>
 										<div class="">
-											<label class="mdl-textfield" for="KsvmFotoMed"><img height="35px"
-													width="35px">&nbsp;Agregar Imagen</label>
-											<input class="mdl-textfield__input" type="file" name="KsvmFotoMed"
+											<label class="mdl-textfield" for="KsvmFotoMed"><img
+													src="<?php echo KsvmServUrl;?>Vistas/assets/img/frasco.png"
+													height="35px" width="35px">&nbsp;Agregar Imagen</label>
+											<input class="" type="file" name="KsvmFotoMed"
 												id="KsvmFotoMed">
 										</div>
 									</div>
@@ -190,12 +210,12 @@
 
 					$_SESSION['KsvmBuscarMed'] = $_POST['KsvmBuscarMed'];
 					$KsvmPagina = explode("/", $_GET['Vistas']);
-					echo $KsvmIniMed -> __KsvmPaginador($KsvmPagina[1], KsvmNumPag, $_SESSION['KsvmRolId-SIGIM'], 
+					echo $KsvmIniMed -> __KsvmPaginador($KsvmPagina[1], 1000, $_SESSION['KsvmRolId-SIGIM'], 
 					1, $_SESSION['KsvmBuscarMed']);
 					}else{
 
 					$KsvmPagina = explode("/", $_GET['Vistas']);
-					echo $KsvmIniMed -> __KsvmPaginador($KsvmPagina[1], KsvmNumPag, $_SESSION['KsvmRolId-SIGIM'], 
+					echo $KsvmIniMed -> __KsvmPaginador($KsvmPagina[1], 1000, $_SESSION['KsvmRolId-SIGIM'], 
 					1, "");
 					}
 					?>
@@ -320,8 +340,8 @@
 			<div class="modal-dialog" role="document">
 				<div class="modal-content ">
 					<div class="modal-header">
-						<button class="close close-edit" type="button" data-dismiss="modal"
-							aria-hidden="true" id="btnExitMed">&times;</button>
+						<button class="close close-edit" type="button" data-dismiss="modal" aria-hidden="true"
+							id="btnExitMed">&times;</button>
 						<h5 class="modal-title text-center"></h5>
 					</div>
 					<div class="modal-body">

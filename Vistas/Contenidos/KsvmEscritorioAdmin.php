@@ -2,27 +2,30 @@
 * Copyright 2019 Klever Santiago Vaca Muela
 -->
 <?php
+  session_start(['name' => 'SIGIM']);
    if ($_SESSION['KsvmRolNom-SIGIM'] != "Administrador") {
       echo $CerrarSesion->__KsvmMatarSesion();
    }
- ?>
+
+   require_once "Vistas/Contenidos/KsvmAlertasPush.php";
+  ?>
 <!-- Contenido Administrador -->
 <section class="full-width pageContent">
   <section class="full-width text-center" style="padding: 25px 0;">
     <div style="height: 70px;" class="tittle">
-      <h3><img src="<?php echo KsvmServUrl?>Vistas/assets/img/logo.png" height="60px"><span
+      <h3><img src="<?php echo KsvmServUrl?>Vistas/assets/img/medicamentos.png" height="60px"><span
           class="text-center tittles hide-on-tablet">&nbsp;Sistema de Gestión de Inventario de Medicamentos </span></h3>
     </div>
     <?php 
-        require "./Controladores/KsvmProveedorControlador.php";
-        $KsvmDataProv = new KsvmProveedorControlador();
-        $KsvmContProv = $KsvmDataProv->__KsvmContarProveedorControlador();
+        require "./Controladores/KsvmAuditoriaControlador.php";
+        $KsvmDataAudi = new KsvmAuditoriaControlador();
+        $KsvmContAudi = $KsvmDataAudi->__KsvmContarAudiroriaControlador();
       ?>
     <article class="full-width tile">
       <a href="<?php echo KsvmServUrl;?>KsvmAuditoria/1/">
         <div class="tile-text">
           <span class="text-condensedLight">
-            <strong><?php echo $KsvmContProv->rowCount(); ?></strong>
+            <strong><?php echo $KsvmContAudi->rowCount(); ?></strong>
             <br><br>
             <small>Auditoria</small>
           </span>

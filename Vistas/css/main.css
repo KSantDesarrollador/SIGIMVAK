@@ -136,6 +136,7 @@ body {
 .panel-content {
 	display: block;
 	padding: 2px;
+	background-color: rgba(255, 255, 255, 0.3);
 }
 
 /*====== encabezados de paginas*/
@@ -532,25 +533,45 @@ body {
 		margin-right: 0;
 		font-size: 11px;
 	}
+
+	.highcharts-figure,
+	.highcharts-data-table table {
+		width: 100%;
+		margin: 1em auto;
+		margin-top: 5px;
+		background-color: rgba(255, 255, 255, 0.5);
+		box-shadow: 3px 3px 6px 2px rgba(0, 0, 0, 0.5);
+	}
+
+	#container {
+		background-image: url('../assets/img/ReporteG2.jpg');
+		height: 490px;
+	}
 }
 
 /**=============Estilos para Dropdows*/
+.dropdown,
+.dropup {
+	position: relative;
+}
+
 .dropdown-toggle:focus {
 	outline: 0;
 }
 
 .dropdown-menu {
-	position: absolute;
-	top: 10%;
-	left: -65px;
+	position: relative;
+	left: 0;
 	z-index: 1000;
 	display: none;
 	float: left;
-	min-width: auto;
-	padding: 0 0;
+	min-width: 160px;
+	width: 100%;
+	height: 81px;
+	padding: 5px 0;
 	margin: 2px 0 0;
 	font-size: 14px;
-	text-align: center;
+	text-align: left;
 	list-style: none;
 	background-color: #fff;
 	-webkit-background-clip: padding-box;
@@ -560,13 +581,6 @@ body {
 	border-radius: 4px;
 	-webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
 	box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
-}
-
-@media (max-width: 768px) {
-	.dropdown-menu {
-		top: 15%;
-		left: -100px;
-	}
 }
 
 .dropdown-menu.pull-right {
@@ -582,13 +596,12 @@ body {
 }
 
 .dropdown-menu > li > a {
-	display: inline-block;
+	display: block;
 	padding: 3px 20px;
 	clear: both;
 	font-weight: 400;
 	line-height: 1.42857143;
 	color: #333;
-	text-decoration: none;
 	white-space: nowrap;
 }
 
@@ -624,7 +637,7 @@ body {
 }
 
 .open > .dropdown-menu {
-	display: inline-block;
+	display: block;
 }
 
 .open > a {
@@ -1522,7 +1535,7 @@ input[type='submit'].btn-block {
 	/*background-color: #fff;*/
 	background-image: url('../assets/img/fondo1.fw.png');
 	transition: all 0.3s ease-in-out;
-	padding-bottom: 45px;
+	padding-bottom: 40px;
 }
 
 .pageContent {
@@ -1573,15 +1586,15 @@ input[type='submit'].btn-block {
 
 .tile-list {
 	/* border: 1px solid #000; */
-	height: 55px;
+	height: 75px;
 	width: 50%;
-	margin: 5% 0;
+	margin: 3% 0 0 0;
 	position: relative;
 	transition: all 0.3s ease-in-out;
 	overflow: hidden;
 	cursor: pointer;
 	margin-bottom: 10px;
-	padding-top: 10px;
+	padding-top: 20px;
 	display: inline-block;
 	border-radius: 10px;
 	background-color: #5bc0de;
@@ -1592,7 +1605,24 @@ input[type='submit'].btn-block {
 	/* border: 1px solid #000; */
 	height: auto;
 	width: auto;
-	padding: 3px 0 5px 15px;
+	padding: 3px 5px 5px 15px;
+	position: relative;
+	transition: all 0.3s ease-in-out;
+	overflow: hidden;
+	cursor: pointer;
+	margin-bottom: 5px;
+	display: inline-block;
+	border-radius: 5px;
+	background-color: rgba(255, 255, 255, 0.5);
+	/* box-shadow: 3px 3px 4px 3px rgba(0, 0, 0, 0.5); */
+}
+
+.tile-buscar-est {
+	/* border: 1px solid #000; */
+	margin-top: -5px;
+	height: 285px;
+	width: 250px;
+	padding: 3px 15px 5px 15px;
 	position: relative;
 	transition: all 0.3s ease-in-out;
 	overflow: hidden;
@@ -1650,6 +1680,14 @@ input[type='submit'].btn-block {
 	font-size: 90px;
 	line-height: 67px;
 	z-index: 1;
+}
+
+.control {
+	line-height: 20px;
+	background: transparent;
+	border-bottom: 1px inset rgba(0, 0, 0, 0.3);
+	border-right: 4px inset rgba(0, 0, 0, 0.4);
+	text-align: left;
 }
 
 /*=============Linea de tiempo (TimeLine)*/
@@ -1785,7 +1823,7 @@ input[type='submit'].btn-block {
 .product-card {
 	display: inline-block;
 	margin: 6px;
-	width: 140px;
+	width: 250px;
 	text-align: left;
 }
 
@@ -2132,14 +2170,12 @@ button.close-delete {
 }
 
 .modal-backdrop {
+	position: fixed;
 	top: 0;
 	right: 0;
 	bottom: 0;
 	left: 0;
-	z-index: 9999;
-	opacity: 1;
-	background-color: #000;
-	position: relative;
+	z-index: 0;
 	background: rgba(0, 0, 0, 0.6);
 }
 
@@ -2366,4 +2402,82 @@ button.close-delete {
 
 .modal-content .modal-body + .modal-footer {
 	padding-top: 0;
+}
+
+/*******Estilos Reportes*********/
+
+.highcharts-figure,
+.highcharts-data-table table {
+	width: 830px;
+	margin: 1em auto;
+	float: right;
+	margin-top: 5px;
+	background-color: ghostwhite;
+	box-shadow: 3px 3px 6px 2px rgba(0, 0, 0, 0.5);
+}
+
+#container {
+	background-image: url(../assets/img/reporteG2.jpg);
+	background-size: contain;
+	z-index: 82;
+	height: 500px;
+}
+
+#containerCant {
+	background-image: url(../assets/img/medicamentos.svg);
+	background-size: cover;
+	z-index: 1;
+	height: 500px;
+}
+
+.highcharts-data-table table {
+	font-family: Verdana, sans-serif;
+	border-collapse: collapse;
+	border: 1px solid #ebebeb;
+	margin: 10px auto;
+	text-align: center;
+	width: 100%;
+	max-width: 500px;
+}
+.highcharts-data-table caption {
+	padding: 1em 0;
+	font-size: 1.2em;
+	color: #555;
+}
+.highcharts-data-table th {
+	font-weight: 600;
+	padding: 0.5em;
+}
+.highcharts-data-table td,
+.highcharts-data-table th,
+.highcharts-data-table caption {
+	padding: 0.5em;
+}
+.highcharts-data-table thead tr,
+.highcharts-data-table tr:nth-child(even) {
+	background: #f8f8f8;
+}
+.highcharts-data-table tr:hover {
+	background: #f1f7ff;
+}
+
+.highcharts-description {
+	padding: 10px 10px 20px 15px;
+	font-size: 25px;
+	font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+	background-color: rgba(255, 255, 255, 0.8);
+}
+
+input[type='file'] {
+	display: none;
+}
+
+label.mdl-textfield {
+	background-color: #bdbdbd;
+	cursor: pointer;
+	margin-left: 10px;
+	border-radius: 5px;
+	width: 40%;
+	padding-left: 10px;
+	box-shadow: 3px 3px 6px 2px rgba(0, 0, 0, 0.3);
 }

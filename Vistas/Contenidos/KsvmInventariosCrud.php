@@ -52,8 +52,6 @@
 											hidden>
 											<input class="mdl-textfield__input" type="text" id="KsvmDuracionInv"
 												name="KsvmDuracionInv" value="">
-											<!-- <label class="mdl-textfield__label" for="KsvmDuracionInv">Duración</label> -->
-											<!-- <span class="mdl-textfield__error">Duración Inválida</span> -->
 										</div>
 									</div>
 									&nbsp;
@@ -67,15 +65,13 @@
 									<div
 										class="mdl-cell mdl-cell--4-col-phone mdl-cell--8-col-tablet mdl-cell--6-col-desktop">
 										<div class="mdl-textfield mdl-js-textfield">
-											<select class="mdl-textfield__input" name="KsvmBdgId" id="KsvmBdgExt"
-												required>
+											<select class="ksvmSelectDin" name="KsvmBdgId" id="KsvmBdgExt"
+												style="width:100%;" required>
 												<option value="" disabled="" selected="">Seleccione Bodega
 												</option>
-												<!-- <option><div><input class="mdl-textfield__input" type="text" id="KsvmBuscarInv"
-											     name="KsvmBuscarInv"></div></option> -->
 												<?php require_once "./Controladores/KsvmBodegaControlador.php";
 													$KsvmSelBodega = new KsvmBodegaControlador();
-													echo $KsvmSelBodega->__KsvmSeleccionarBodega();
+													echo $KsvmSelBodega->__KsvmSeleccionarBodegaExt();
 													?>
 											</select>
 										</div>
@@ -111,15 +107,19 @@
 								method="POST" class="RegistrosAjax" autocomplete="off" enctype="multipart/form-data"
 								id="KsvmFormInventario">
 								<div class="mdl-grid" id="GridRowsInv">
-									<div
-										class="mdl-cell mdl-cell--4-col-phone mdl-cell--8-col-tablet mdl-cell--6-col-desktop">
-										<div class="mdl-textfield mdl-js-textfield">
-											<select class="mdl-textfield__input" name="KsvmExtId" id="KsvmExtId"
-												required>
+								<div class="mdl-textfield mdl-js-textfield" id="KsvmNvoStock" hidden>
+											<input class="mdl-textfield__input" type="text" name="KsvmNvoStock">
+											<label class="mdl-textfield__label" for="KsvmNvoStock">Bodega</label>
+								</div>
+								<div class="mdl-textfield mdl-js-textfield">
+											<select class="ksvmSelectDin" name="KsvmExtId" id="KsvmExtId"
+												style="width:98%;" required>
 												<option value="" disabled="" selected="">Seleccione Existencia
 												</option>
 											</select>
 										</div>
+									<div
+										class="mdl-cell mdl-cell--4-col-phone mdl-cell--8-col-tablet mdl-cell--6-col-desktop">
 										<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
 											<input class="mdl-textfield__input" type="number" max="1000" min="1"
 												name="KsvmContFisInv" pattern="-?[0-9+()- ]*(\.[0-9]+)?" id="KsvmDato1">
@@ -134,7 +134,7 @@
 									<div
 										class="mdl-cell mdl-cell--4-col-phone mdl-cell--8-col-tablet mdl-cell--6-col-desktop">
 										<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label"
-											id="KsvmStockInv">
+											id="KsvmStockInv" hidden>
 											<input class="mdl-textfield__input" type="text" name="KsvmStockInv"
 												pattern="-?[0-9]*(\[0-9]+)?" id="KsvmDato2">
 											<label class="mdl-textfield__label" for="KsvmDato2">Stock de
@@ -144,9 +144,9 @@
 													class="zmdi zmdi-alert-triangle">&nbsp;Por favor llene este
 													campo</i></span>
 										</div>
-										<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label"
-											pattern="-?[A-Za-záéíóúÁÉÍÓÚ ]*(\.[0-9]+)?" id="KsvmObservInv">
-											<input class="mdl-textfield__input" type="text" name="KsvmObservInv">
+										<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+											<input class="mdl-textfield__input" type="text" name="KsvmObservInv"
+											    pattern="-?[A-Za-z0-9áéíóúÁÉÍÓÚ ]*(\.[0-9]+)?" id="KsvmObservInv">
 											<label class="mdl-textfield__label" for="KsvmStockInv">Observación</label>
 											<span class="mdl-textfield__error">Observación Inválido</span>
 										</div>

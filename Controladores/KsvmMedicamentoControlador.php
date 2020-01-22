@@ -24,7 +24,11 @@
          $KsvmNivPrescMed = KsvmEstMaestra :: __KsvmFiltrarCadena($_POST['KsvmNivPrescMed']);
          $KsvmNivAtencMed = KsvmEstMaestra :: __KsvmFiltrarCadena($_POST['KsvmNivAtencMed']);
          $KsvmViaAdmMed = KsvmEstMaestra :: __KsvmFiltrarCadena($_POST['KsvmViaAdmMed']);
-         $KsvmFotoMed = file_get_contents($_FILES['KsvmFotoMed']['tmp_name']);
+         if (isset($_POST['KsvmFotoMed'])) {
+            $KsvmFotoMed = file_get_contents($_FILES['KsvmFotoMed']['tmp_name']);
+        } else {
+            $KsvmFotoMed = "";
+        }        
         
               $KsvmNuevoMed = [
                 "KsvmCtgId" => $KsvmCtgId,
@@ -115,7 +119,7 @@
                                 <td class="mdl-data-table__cell--non-numeric">'.$KsvmContReg.'</td>
                                 <td class="mdl-data-table__cell--non-numeric"><img style="border-radius:30px;" height="35px" width="35px" src="data:image/jpg;base64,'. base64_encode($rows['MdcFotoMed']).'"/></td>
                                 <td class="mdl-data-table__cell--non-numeric">'.$rows['MdcCodMed'].'</td>
-                                <td class="mdl-data-table__cell--non-numeric">'.$rows['MdcDescMed'].'</td>
+                                <td class="mdl-data-table__cell--non-numeric">'.$rows['MdcDescMed'].' '.$rows['MdcConcenMed'].'</td>
                                 <td class="mdl-data-table__cell--non-numeric hide-on-tablet">'.$rows['MdcNivAtencMed'].'</td>
                                 <td class="mdl-data-table__cell--non-numeric">'.$rows['CtgNomCat'].'</td>
                                 <td class="mdl-data-table__cell--non-numeric"><button class="btn btn-md" style="border-color:#000; background-color:'.$rows['CtgColorCat'].';"></button></td>
@@ -220,7 +224,7 @@
                                     <div class="mdl-card mdl-shadow--8dp full-width product-card">
                                     <button class="btn btn-md" style="width:100%; background-color:'.$rows['CtgColorCat'].';">'.$rows['CtgNomCat'].'</button>
                                     <div class="mdl-card__title">
-                                    <img height="100px" src="data:image/jpg;base64,'. base64_encode($rows['MdcFotoMed']).'"/>
+                                    <img height="100px" width="100%" src="data:image/jpg;base64,'. base64_encode($rows['MdcFotoMed']).'"/>
                                     </div>
                                     <div class="mdl-card__supporting-text">
                                         <small>'.$rows['MdcPresenMed'].'</small><br>
@@ -258,7 +262,7 @@
                                 
             } else {
                 if ($KsvmTotalReg >= 1) {
-                    echo '<script> window.location.href=" '.KsvmServUrl.'KsvmMedicamentosCrud"</script>';
+                    echo '<script> window.location.href=" '.KsvmServUrl.'KsvmCatalogoMedicamentos/1/"</script>';
                 } else {
                     $KsvmTabla .= '<div class="navbar-form navbar-left> 
                                    <div class="mdl-data-table__cell--non-numeric" colspan="7"><strong>No se encontraron registros...</strong></div>
@@ -366,7 +370,12 @@
         $KsvmNivPrescMed = KsvmEstMaestra :: __KsvmFiltrarCadena($_POST['KsvmNivPrescMed']);
         $KsvmNivAtencMed = KsvmEstMaestra :: __KsvmFiltrarCadena($_POST['KsvmNivAtencMed']);
         $KsvmViaAdmMed = KsvmEstMaestra :: __KsvmFiltrarCadena($_POST['KsvmViaAdmMed']);
-        $KsvmFotoMed = file_get_contents($_FILES['KsvmFotoMed']['tmp_name']);
+        if (isset($_POST['KsvmFotoMed'])) {
+            $KsvmFotoMed = file_get_contents($_FILES['KsvmFotoMed']['tmp_name']);
+        } else {
+            $KsvmFotoMed = "";
+        }
+        
 
         $KsvmActualMed = [
             "KsvmCtgId" => $KsvmCtgId,
@@ -402,7 +411,7 @@
         }
 
         public function __KsvmSeleccionarMedicamento(){
-            $KsvmSelectMed = "SELECT * FROM ksvmseleccionamedicamento";
+            $KsvmSelectMed = "SELECT * FROM ksvmseleccionamedicamento ORDER BY MdcDescMed";
 
             $KsvmConsulta = KsvmEstMaestra :: __KsvmConexion();
             $KsvmQuery = $KsvmConsulta->query($KsvmSelectMed);

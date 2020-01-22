@@ -18,7 +18,7 @@ $print = (isset($_GET["print"])&&$_GET["print"]=='true'?true:false);
 $sizefactor = (isset($_GET["sizefactor"])?$_GET["sizefactor"]:"1");
 
 // This function call can be copied into your project and can be made from anywhere in your code
-barcode( $filepath, $text, $size, $orientation, $code_type, $print, $sizefactor );
+// barcode( $filepath, $text, $size, $orientation, $code_type, $print, $sizefactor );
 
 function barcode( $filepath="", $text="0", $size="20", $orientation="horizontal", $code_type="code128", $print=false, $SizeFactor=1 ) {
 	$code_string = "";

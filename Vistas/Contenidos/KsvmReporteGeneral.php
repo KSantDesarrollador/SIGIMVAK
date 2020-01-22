@@ -29,9 +29,9 @@
                         <ul class="full-width list-unstyle menu-principal">
                             <article class="full-width tile-list" style="float:left;">
                                 <li class="full-width">
-                                    <a href="<?php echo KsvmServUrl;?>KsvmReporteCompras/1/" class="full-width tile-icon">
+                                    <a href="<?php echo KsvmServUrl;?>KsvmReporteComprasGen/1/" class="full-width tile-icon">
                                         <div class="navLateral-body-cl">
-                                            <i class="zmdi zmdi-shopping-cart" id="KsvmCompras"></i>
+                                            <i class="zmdi zmdi-shopping-cart" id="KsvmCompras" style="font-size:45px;"></i>
                                         </div>
                                         <div class="mdl-tooltip" for="KsvmCompras">Reporte de Compras</div>
                                         <div class="navLateral-body-cr hide-on-tablet">
@@ -42,9 +42,9 @@
                             </article>
                             <article class="full-width tile-list" style="float:left;">
                                 <li class="full-width">
-                                    <a href="<?php echo KsvmServUrl;?>KsvmReporteInventarios/1/" class="full-width tile-icon">
+                                    <a href="<?php echo KsvmServUrl;?>KsvmReporteInventariosGen/1/" class="full-width tile-icon">
                                         <div class="navLateral-body-cl">
-                                            <i class="zmdi zmdi-check-circle" id="KsvmInventarios"></i>
+                                            <i class="zmdi zmdi-check-circle" id="KsvmInventarios" style="font-size:45px;"></i>
                                         </div>
                                         <div class="mdl-tooltip" for="KsvmInventarios">Reporte de Inventarios</div>
                                         <div class="navLateral-body-cr hide-on-tablet">
@@ -55,11 +55,11 @@
                             </article>
                             <article class="full-width tile-list" style="float:left;">
                                 <li class="full-width">
-                                    <a href="<?php echo KsvmServUrl;?>KsvmReportePedidos/1/" class="full-width tile-icon">
+                                    <a href="<?php echo KsvmServUrl;?>KsvmReportePedidosGen/1/" class="full-width tile-icon">
                                         <div class="navLateral-body-cl">
-                                            <i class="zmdi zmdi-upload" id="KsvmEscritorio"></i>
+                                            <i class="zmdi zmdi-upload" id="KsvmPedidos" style="font-size:45px;"></i>
                                         </div>
-                                        <div class="mdl-tooltip" for="KsvmEscritorio">Escritorio</div>
+                                        <div class="mdl-tooltip" for="KsvmPedidos">Reportes de Pedidos</div>
                                         <div class="navLateral-body-cr hide-on-tablet">
                                             REPORTE DE PEDIDOS
                                         </div>
@@ -68,11 +68,11 @@
                             </article>
                             <article class="full-width tile-list tittles" style="float:left;">
                                 <li class="full-width">
-                                    <a href="<?php echo KsvmServUrl;?>KsvmReporteTransacciones/1/" class="full-width tile-icon">
+                                    <a href="<?php echo KsvmServUrl;?>KsvmReporteTransaccionesGen/1/" class="full-width tile-icon">
                                         <div class="navLateral-body-cl">
-                                            <i class="zmdi zmdi-transform" id="KsvmEscritorio"></i>
+                                            <i class="zmdi zmdi-transform" id="KsvmTransacciones" style="font-size:45px;"></i>
                                         </div>
-                                        <div class="mdl-tooltip" for="KsvmEscritorio">Escritorio</div>
+                                        <div class="mdl-tooltip" for="KsvmTransacciones">Reporte de Transacciones</div>
                                         <div class="navLateral-body-cr hide-on-tablet">
                                             REPORTE DE TRANSACCIONES
                                         </div>

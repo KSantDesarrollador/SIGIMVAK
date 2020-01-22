@@ -119,7 +119,7 @@
 				<div class="modal-content ">
 					<div class="modal-header ">
 						<button class="close close-edit" type="button" data-dismiss="modal" aria-hidden="true"
-							id="KsvmBtnExit">&times;</button>
+							id="btnExitProcCrud">&times;</button>
 						<h5 class="modal-title text-center"></h5>
 					</div>
 					<div class="modal-body" id="">
@@ -160,14 +160,6 @@
 				</div>
 			</div>
 		</div>
-		<script type="text/javascript">
-			$(document).ready(function () {
-				$('#KsvmBtnExit').on('click', function () {
-					window.location.href = "localhost:90/SIGIMVAK/KsvmProcedenciaCrud/1/";
-				});
-
-			}):
-		</script>
 		<?php } }?>
 
 		<!-- Formulario para ingresar un nuevo Procedencia -->
@@ -184,7 +176,7 @@
 					<br><br>
 					<div class="full-width panel mdl-shadow--8dp">
 						<div class="full-width modal-header-input text-center">
-							Nuevo Procedencia
+							Nueva Procedencia
 						</div>
 						<div class="full-width panel-content">
 							<form data-form="guardar" action="<?php echo KsvmServUrl; ?>Ajax/KsvmProcedenciaAjax.php"
@@ -194,38 +186,53 @@
 									<div
 										class="mdl-cell mdl-cell--4-col-phone mdl-cell--8-col-tablet mdl-cell--12-col-desktop">
 										<div class="mdl-textfield mdl-js-textfield">
-											<select class="mdl-textfield__input" name="KsvmNivelProc">
-												<option value="" disabled>Seleccione Nivel</option>
+											<select class="ksvmSelectDin" name="KsvmNivelProc" style="width:98%;"
+												id="KsvmDato1">
+												<option value="">Seleccione Nivel</option>
 												<option value="0">Nivel 0</option>
 												<option value="1">Nivel 1</option>
+												<option value="2">Nivel 2</option>
+												<option value="3">Nivel 3</option>
 											</select>
+											<span id="KsvmError1" class="ValForm"><i
+													class="zmdi zmdi-alert-triangle">&nbsp;Por favor llene este
+													campo</i></span>
 										</div>
 										<div class="mdl-textfield mdl-js-textfield">
-											<select class="mdl-textfield__input" name="KsvmJerqProc">
+											<select class="ksvmSelectDin" name="KsvmJerqProc" style="width:98%;" id="">
 												<option value="" disabled="" selected="">Seleccione Jerarquía</option>
-												<?php require_once "./Controladores/KsvmUnidadMedicaControlador.php";
-													$KsvmSelUndMed = new KsvmUnidadMedicaControlador();
-													echo $KsvmSelUndMed->__KsvmSeleccionarUndMedica();
+												<?php require_once "./Controladores/KsvmProcedenciaControlador.php";
+													$KsvmSelProc = new KsvmProcedenciaControlador();
+													echo $KsvmSelProc->__KsvmSeleccionarJerarquia();
 													?>
 											</select>
 										</div>
 										<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-											<input class="mdl-textfield__input" type="telf" name="KsvmCodProc"
-												id="KsvmCodProc">
-											<label class="mdl-textfield__label" for="KsvmCodProc">Código</label>
+											<input class="mdl-textfield__input" type="number" name="KsvmCodProc"
+												pattern="-?[0-9]*(\.[0-9]+)?" min="0" max="1000" id="KsvmDato2">
+											<label class="mdl-textfield__label" for="KsvmDato2">Código</label>
 											<span class="mdl-textfield__error">Código Inválido</span>
+											<span id="KsvmError2" class="ValForm"><i
+													class="zmdi zmdi-alert-triangle">&nbsp;Por favor llene este
+													campo</i></span>
 										</div>
 										<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
 											<input class="mdl-textfield__input" type="text" name="KsvmNomProc"
-												pattern="-?[A-Za-z0-9áéíóúÁÉÍÓÚ ]*(\.[0-9]+)?" id="KsvmNomProc">
-											<label class="mdl-textfield__label" for="KsvmNomProc">Nombre</label>
+												pattern="-?[A-Za-záéíóúÁÉÍÓÚ ]*(\.[0-9]+)?" id="KsvmDato3">
+											<label class="mdl-textfield__label" for="KsvmDato3">Nombre</label>
 											<span class="mdl-textfield__error">Nombre Inválido</span>
+											<span id="KsvmError3" class="ValForm"><i
+													class="zmdi zmdi-alert-triangle">&nbsp;Por favor llene este
+													campo</i></span>
 										</div>
 										<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
 											<input class="mdl-textfield__input" type="text" name="KsvmDescProc"
-												id="KsvmDescProc">
-											<label class="mdl-textfield__label" for="KsvmDescProc">Descripción</label>
+												pattern="-?[A-Za-z0-9áéíóúÁÉÍÓÚ ]*(\.[0-9]+)?" id="KsvmDato4">
+											<label class="mdl-textfield__label" for="KsvmDato4">Descripción</label>
 											<span class="mdl-textfield__error">Descripción Inválida</span>
+											<span id="KsvmError4" class="ValForm"><i
+													class="zmdi zmdi-alert-triangle">&nbsp;Por favor llene este
+													campo</i></span>
 										</div>
 									</div>
 								</div>
@@ -233,11 +240,11 @@
 								<p class="text-center">
 									<button type="submit"
 										class="mdl-button mdl-js-button mdl-js-ripple-effect btn-warning mdl-shadow--4dp"
-										id="btn-NuevoProcedencia">
+										id="btnSave">
 										<i class="zmdi zmdi-save">&nbsp;Guardar</i>
 									</button>
 								</p>
-								<div class="mdl-tooltip" for="btn-NuevoProcedencia">Agregar Procedencia</div>
+								<div class="mdl-tooltip" for="btnSave">Agregar Procedencia</div>
 								<div class="RespuestaAjax"></div>
 							</form>
 						</div>

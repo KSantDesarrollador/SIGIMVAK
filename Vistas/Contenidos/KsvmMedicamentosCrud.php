@@ -190,8 +190,8 @@
 				<div class="modal-dialog" role="document">
 					<div class="modal-content ">
 						<div class="modal-header">
-							<button class="close close-edit" type="button" data-dismiss="modal"
-								aria-hidden="true" id="btnExitMedCrud">&times;</button>
+							<button class="close close-edit" type="button" data-dismiss="modal" aria-hidden="true"
+								id="btnExitMedCrud">&times;</button>
 							<h5 class="modal-title text-center"></h5>
 						</div>
 						<div class="modal-body">
@@ -285,7 +285,8 @@
 									<div class="mdl-grid">
 										<!-- <input type="HIDDEN" name="dest-exists-action" value="overwrite" /> -->
 										<div class="mdl-textfield mdl-js-textfield">
-											<select class="mdl-textfield__input" name="KsvmCtgId" id="KsvmDato1">
+											<select class="ksvmSelectDin" name="KsvmCtgId" id="KsvmDato1"
+												style="width:98%;">
 												<option value="" selected="">Seleccione Categoría</option>
 												<?php require_once "./Controladores/KsvmCategoriaControlador.php";
 											   $KsvmSelCat = new KsvmCategoriaControlador();
@@ -300,7 +301,7 @@
 											class="mdl-cell mdl-cell--4-col-phone mdl-cell--8-col-tablet mdl-cell--6-col-desktop">
 											<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
 												<input class="mdl-textfield__input" type="text" name="KsvmCodMed"
-													id="KsvmDato2">
+												    pattern="-?[A-Za-z0-9áéíóúÁÉÍÓÚ-]*(\.[0-9]+)?" id="KsvmDato2">
 												<label class="mdl-textfield__label" for="KsvmDato2">Código</label>
 												<span class="mdl-textfield__error">Código Inválido</span>
 												<span id="KsvmError2" class="ValForm"><i
@@ -317,8 +318,8 @@
 														campo</i></span>
 											</div>
 											<div class="mdl-textfield mdl-js-textfield">
-												<select class="mdl-textfield__input" name="KsvmNivPrescMed"
-													id="KsvmDato4">
+												<select class="ksvmSelectDin" name="KsvmNivPrescMed" style="width:100%;"
+													id="">
 													<option value="" selected="">Seleccione Nivel de
 														Prescripción</option>
 													<option value="E">E</option>
@@ -334,7 +335,7 @@
 														campo</i></span>
 											</div>
 											<div class="mdl-textfield mdl-js-textfield">
-												<select class="mdl-textfield__input" name="KsvmViaAdmMed"
+												<select class="ksvmSelectDin" name="KsvmViaAdmMed" style="width:100%;"
 													id="KsvmDato5">
 													<option value="" selected="">Seleccione Vía de
 														Administración</option>
@@ -372,7 +373,7 @@
 											</div>
 											<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
 												<input class="mdl-textfield__input" type="text" name="KsvmConcenMed"
-													id="KsvmDato7">
+												    pattern="-?[A-Za-z0-9áéíóúÁÉÍÓÚ ]*(\.[0-9]+)?" id="">
 												<label class="mdl-textfield__label"
 													for="KsvmDato7">Concentración</label>
 												<span class="mdl-textfield__error">Concentración Inválida</span>
@@ -381,7 +382,7 @@
 														campo</i></span>
 											</div>
 											<div class="mdl-textfield mdl-js-textfield">
-												<select class="mdl-textfield__input" name="KsvmNivAtencMed"
+												<select class="ksvmSelectDin" name="KsvmNivAtencMed" style="width:100%;"
 													id="KsvmDato8">
 													<option value="" selected="">Selecione Nivel de Atención
 													</option>
@@ -398,11 +399,12 @@
 														campo</i></span>
 											</div>
 											<div class="">
-												<label class="mdl-textfield" for="KsvmFotoMed"><img height="35px"
-														width="35px">&nbsp;Agregar Imagen</label>
-												<input class="mdl-textfield__input" type="file" name="KsvmFotoMed"
-													id="KsvmFotoMed">
-											</div>
+											<label class="mdl-textfield" for="KsvmFotoMed"><img
+													src="<?php echo KsvmServUrl;?>Vistas/assets/img/frasco.png"
+													height="35px" width="35px">&nbsp;Agregar Imagen</label>
+											<input class="" type="file" name="KsvmFotoMed"
+												id="KsvmFotoMed">
+										</div>
 										</div>
 									</div>
 									<p class="text-center">

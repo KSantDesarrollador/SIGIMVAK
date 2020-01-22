@@ -8,9 +8,9 @@ class PDF extends FPDF
 // Cabecera de página
 function Header()
 {
-  $KsvmUrlImg = '../Vistas/assets/img/Logo.png';
+  $KsvmUrlImg = '../Vistas/assets/img/medicamentos.png';
     // Logo
-    $this->Image($KsvmUrlImg,10,8,13);
+    $this->Image($KsvmUrlImg,10,10,20);
     // Arial bold 15
     $this->SetFont('Arial','B',17);
     // Movernos a la derecha
@@ -73,6 +73,8 @@ $pdf = new PDF();
 $pdf->AliasNbPages();
 $pdf->AddPage();
 $pdf->SetFont('Times','',8);
+$pdf->SetAutoPageBreak(true, 20);
+
 foreach ($KsvmListaExistencia as $row){
     // $pdf->Cell(20,10,$row['MdcFotoMed'],1,0);
     $pdf->Cell(30,8,$row['MdcDescMed'].' '.$row['MdcConcenMed'],1,0);

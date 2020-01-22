@@ -16,10 +16,10 @@
       */
      protected function __KsvmAgregarParametrosModelo($KsvmDataParametros)
      {
-         $KsvmIngParametros = "INSERT INTO ksvmparametros22(ExtId, AltId, PmtMinPar, PmtMaxPar)
-                                    VALUES(:KsvmExtId, :KsvmAltId, :KsvmMinPar, :KsvmMaxPar)";
+         $KsvmIngParametros = "INSERT INTO ksvmparametros22(MdcId, AltId, PmtMinPar, PmtMaxPar)
+                                    VALUES(:KsvmMdcId, :KsvmAltId, :KsvmMinPar, :KsvmMaxPar)";
          $KsvmQuery = KsvmEstMaestra :: __KsvmConexion()->prepare($KsvmIngParametros);
-         $KsvmQuery->bindParam(":KsvmExtId", $KsvmDataParametros['KsvmExtId']);
+         $KsvmQuery->bindParam(":KsvmMdcId", $KsvmDataParametros['KsvmMdcId']);
          $KsvmQuery->bindParam(":KsvmAltId", $KsvmDataParametros['KsvmAltId']);
          $KsvmQuery->bindParam(":KsvmMinPar", $KsvmDataParametros['KsvmMinPar']);
          $KsvmQuery->bindParam(":KsvmMaxPar", $KsvmDataParametros['KsvmMaxPar']);
@@ -72,10 +72,10 @@
       */
       protected function __KsvmActualizarParametrosModelo($KsvmDataParametros)
       {
-        $KsvmActParametros = "UPDATE ksvmparametros22 SET ExtId = :KsvmExtId, AltId = :KsvmAltId, PmtMinPar = :KsvmMinPar,
+        $KsvmActParametros = "UPDATE ksvmparametros22 SET MdcId = :KsvmMdcId, AltId = :KsvmAltId, PmtMinPar = :KsvmMinPar,
                               PmtMaxPar = :KsvmMaxPar WHERE PmtId = :KsvmCodParametros";
         $KsvmQuery = KsvmEstMaestra :: __KsvmConexion()->prepare($KsvmActParametros);
-        $KsvmQuery->bindParam(":KsvmExtId", $KsvmDataParametros['KsvmExtId']);
+        $KsvmQuery->bindParam(":KsvmMdcId", $KsvmDataParametros['KsvmMdcId']);
         $KsvmQuery->bindParam(":KsvmAltId", $KsvmDataParametros['KsvmAltId']);
         $KsvmQuery->bindParam(":KsvmMinPar", $KsvmDataParametros['KsvmMinPar']);
         $KsvmQuery->bindParam(":KsvmMaxPar", $KsvmDataParametros['KsvmMaxPar']);

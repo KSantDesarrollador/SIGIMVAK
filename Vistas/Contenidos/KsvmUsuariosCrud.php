@@ -114,7 +114,7 @@
 				<div class="modal-content ">
 					<div class="modal-header ">
 						<button class="close close-edit" type="button" data-dismiss="modal" aria-hidden="true"
-							id="KsvmBtnExit">&times;</button>
+							id="btnExitUsrCrud">&times;</button>
 						<h5 class="modal-title text-center"></h5>
 					</div>
 					<div class="modal-body" id="">
@@ -201,28 +201,39 @@
 									<div
 										class="mdl-cell mdl-cell--4-col-phone mdl-cell--8-col-tablet mdl-cell--6-col-desktop">
 										<div class="mdl-textfield mdl-js-textfield">
-											<select class="mdl-textfield__input" name="KsvmRrlId">
-												<option value="" disabled="" selected="">Seleccione Rol</option>
+											<select class="ksvmSelectDin" name="KsvmRrlId" id="KsvmDato1"
+												style="width:100%;">
+												<option value="" selected="">Seleccione Rol</option>
 												<?php require_once "./Controladores/KsvmRolControlador.php";
 													$KsvmSelRol = new KsvmRolControlador();
 													echo $KsvmSelRol->__KsvmSeleccionarRol();
 													?>
 											</select>
+											<span id="KsvmError1" class="ValForm"><i
+													class="zmdi zmdi-alert-triangle">&nbsp;Por favor llene este
+													campo</i></span>
 										</div>
 										<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
 											<input class="mdl-textfield__input" type="tel" name="KsvmTelf"
-												pattern="-?[0-9+()-]*(\.[0-9]+)?" id="KsvmTelf">
-											<label class="mdl-textfield__label" for="KsvmTelf">Teléfono</label>
+												pattern="[0-9()]{7,10}" id="KsvmDato2">
+											<label class="mdl-textfield__label" for="KsvmDato2">Teléfono</label>
 											<span class="mdl-textfield__error"> Teléfono Inválido</span>
+											<span id="KsvmError2" class="ValForm"><i
+													class="zmdi zmdi-alert-triangle">&nbsp;Por favor llene este
+													campo</i></span>
 										</div>
 										<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
 											<input class="mdl-textfield__input" type="email" name="KsvmEmail"
-												id="KsvmEmail">
-											<label class="mdl-textfield__label" for="KsvmEmail">E-mail</label>
+												pattern="^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$"
+												id="KsvmDato3">
+											<label class="mdl-textfield__label" for="KsvmDato3">E-mail</label>
 											<span class="mdl-textfield__error">E-mail Inválido</span>
+											<span id="KsvmError3" class="ValForm"><i
+													class="zmdi zmdi-alert-triangle">&nbsp;Por favor llene este
+													campo</i></span>
 										</div>
 										<div class="">
-											<input class="mdl-textfield__input" type="file" name="KsvmImgUsu"
+											<input class="" type="file" name="KsvmImgUsu"
 												id="KsvmImgUsu">
 											<label class="mdl-textfield" for="KsvmImgUsu"><img
 													src="<?php echo KsvmServUrl;?>Vistas/assets/img/avatar-male.png"
@@ -233,22 +244,31 @@
 										class="mdl-cell mdl-cell--4-col-phone mdl-cell--8-col-tablet mdl-cell--6-col-desktop">
 										<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
 											<input class="mdl-textfield__input" type="text" name="KsvmNomUsu"
-												pattern="-?[A-Za-z0-9áéíóúÁÉÍÓÚ]*(\.[0-9]+)?" id="KsvmNomUsu">
-											<label class="mdl-textfield__label" for="KsvmNomUsu">Usuario</label>
+												pattern="^([A-Z]+[0-9]{0,3}){5,12}$" id="KsvmDato4">
+											<label class="mdl-textfield__label" for="KsvmDato4">Usuario</label>
 											<span class="mdl-textfield__error">Usuario Inválido</span>
+											<span id="KsvmError4" class="ValForm"><i
+													class="zmdi zmdi-alert-triangle">&nbsp;Por favor llene este
+													campo</i></span>
 										</div>
 										<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
 											<input class="mdl-textfield__input" type="password" name="KsvmContra"
-												id="KsvmContra">
-											<label class="mdl-textfield__label" for="KsvmContra">Contraseña</label>
+												pattern="[A-Za-z0-9!?-]{8,16}" id="KsvmDato5">
+											<label class="mdl-textfield__label" for="KsvmDato5">Contraseña</label>
 											<span class="mdl-textfield__error">Contraseña Inválida</span>
+											<span id="KsvmError5" class="ValForm"><i
+													class="zmdi zmdi-alert-triangle">&nbsp;Por favor llene este
+													campo</i></span>
 										</div>
 										<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
 											<input class="mdl-textfield__input" type="password" name="KsvmConContra"
-												id="KsvmConContra">
-											<label class="mdl-textfield__label" for="KsvmConContra">Confirmar
+												pattern="[A-Za-z0-9!?-]{8,16}" id="KsvmDato6">
+											<label class="mdl-textfield__label" for="KsvmDato6">Confirmar
 												Contraseña</label>
 											<span class="mdl-textfield__error">Contraseña Inválida</span>
+											<span id="KsvmError6" class="ValForm"><i
+													class="zmdi zmdi-alert-triangle">&nbsp;Por favor llene este
+													campo</i></span>
 										</div>
 									</div>
 								</div>
@@ -256,11 +276,11 @@
 								<p class="text-center">
 									<button type="submit"
 										class="mdl-button mdl-js-button mdl-js-ripple-effect btn-warning mdl-shadow--4dp"
-										id="btn-NuevoUsuario">
+										id="btnSave">
 										<i class="zmdi zmdi-save">&nbsp;Guardar</i>
 									</button>
 								</p>
-								<div class="mdl-tooltip" for="btn-NuevoUsuario">Agregar Usuario</div>
+								<div class="mdl-tooltip" for="btnSave">Agregar Usuario</div>
 								<div class="RespuestaAjax"></div>
 							</form>
 						</div>

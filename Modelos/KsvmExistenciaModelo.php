@@ -16,42 +16,27 @@
       */
      protected function __KsvmAgregarExistenciaModelo($KsvmDataExistencia)
      {
-         $KsvmIngExistencia = "INSERT INTO ksvmexistencias21(DocId, ExtLoteEx, ExtFchCadEx, ExtPresentEx, 
-                                            ExtStockIniEx, ExtCodBarEx, ExtBinLocEx)
-                                    VALUES(:KsvmDocId, :KsvmLoteEx, :KsvmFchCadEx, :KsvmPresentEx, 
-                                           :KsvmStockIniEx, :KsvmCodBarEx, :KsvmBinLocEx)";
+         $KsvmIngExistencia = "INSERT INTO ksvmexistencias21(DocId, ExtLoteEx, ExtFchCadEx, 
+                                            ExtStockIniEx, ExtStockSegEx, ExtCodBarEx, ExtBinLocEx)
+                                    VALUES(:KsvmDocId, :KsvmLoteEx, :KsvmFchCadEx, 
+                                           :KsvmStockIniEx, :KsvmStockSegEx, :KsvmCodBarEx, :KsvmBinLocEx)";
          $KsvmQuery = KsvmEstMaestra :: __KsvmConexion()->prepare($KsvmIngExistencia);
          $KsvmQuery->bindParam(":KsvmDocId", $KsvmDataExistencia['KsvmDocId']);
          $KsvmQuery->bindParam(":KsvmLoteEx", $KsvmDataExistencia['KsvmLoteEx']);
          $KsvmQuery->bindParam(":KsvmFchCadEx", $KsvmDataExistencia['KsvmFchCadEx']);
-         $KsvmQuery->bindParam(":KsvmPresentEx", $KsvmDataExistencia['KsvmPresentEx']);
          $KsvmQuery->bindParam(":KsvmStockIniEx", $KsvmDataExistencia['KsvmStockIniEx']);
+         $KsvmQuery->bindParam(":KsvmStockSegEx", $KsvmDataExistencia['KsvmStockSegEx']);
          $KsvmQuery->bindParam(":KsvmCodBarEx", $KsvmDataExistencia['KsvmCodBarEx']);
          $KsvmQuery->bindParam(":KsvmBinLocEx", $KsvmDataExistencia['KsvmBinLocEx']);
          $KsvmQuery->execute();
          return $KsvmQuery;
      }
-          /**
-      *Función que permite ingresar una existencia x bodega
-      */
-      protected function __KsvmAgregarBodegaModelo($KsvmDataExistencia)
-      {
-          $KsvmIngExistencia = "INSERT INTO ksvmexistenciaxbodega23(BdgId, ExtId, ExbStockEbo, ExbStockSegEbo)
-                                     VALUES(:KsvmBdgId, :KsvmExtId, :KsvmStockEx, :KsvmStockSegEx)";
-          $KsvmQuery = KsvmEstMaestra :: __KsvmConexion()->prepare($KsvmIngExistencia);
-          $KsvmQuery->bindParam(":KsvmBdgId", $KsvmDataExistencia['KsvmBdgId']);
-          $KsvmQuery->bindParam(":KsvmExtId", $KsvmDataExistencia['KsvmExtId']);
-          $KsvmQuery->bindParam(":KsvmStockEx", $KsvmDataExistencia['KsvmStockEx']);
-          $KsvmQuery->bindParam(":KsvmStockSegEx", $KsvmDataExistencia['KsvmStockSegEx']);
-          $KsvmQuery->execute();
-          return $KsvmQuery;
-      }
      /**
       *Función que permite inhabilitar una existencia
       */
       protected function __KsvmEliminarExistenciaModelo($KsvmCodExistencia)
       {
-         $KsvmDelExistencia = "UPDATE ksvmexistencias21 SET ExtEstEx = 'X' WHERE RqcId = :KsvmCodExistencia";
+         $KsvmDelExistencia = "DELETE FROM ksvmexistencias21 WHERE ExtId = :KsvmCodExistencia";
          $KsvmQuery = KsvmEstMaestra :: __KsvmConexion()->prepare($KsvmDelExistencia);
          $KsvmQuery->bindParam(":KsvmCodExistencia", $KsvmCodExistencia);
          $KsvmQuery->execute();
@@ -62,7 +47,7 @@
       */
       protected function __KsvmEditarExistenciaModelo($KsvmCodExistencia)
       {
-          $KsvmEditExistencia = "SELECT * FROM ksvmvistaexistencias WHERE ExtId = :KsvmCodExistencia";
+          $KsvmEditExistencia = "SELECT * FROM ksvmvistaexistencias  WHERE ExtId = :KsvmCodExistencia AND BdgId = 5";
           $KsvmQuery = KsvmEstMaestra :: __KsvmConexion()->prepare($KsvmEditExistencia);
           $KsvmQuery->bindParam(":KsvmCodExistencia", $KsvmCodExistencia);
           $KsvmQuery->execute();
@@ -74,6 +59,16 @@
       protected function __KsvmContarExistenciaModelo($KsvmCodExistencia)
       {
           $KsvmContarExistencia = "SELECT ExtId FROM ksvmvistaexistencias WHERE ExtEstEx = 'A'";
+          $KsvmQuery = KsvmEstMaestra :: __KsvmConexion()->prepare($KsvmContarExistencia);
+          $KsvmQuery->execute();
+          return $KsvmQuery;
+      }
+     /**
+      *Función que permite mostar una existencia
+      */
+      protected function __KsvmMostrarExistenciaModelo()
+      {
+          $KsvmContarExistencia = "SELECT * FROM ksvmvistaexistencias WHERE (AltNomAle = 'Alto' OR AltNomAle = 'Critico') AND ExtEstEx = 'A'";
           $KsvmQuery = KsvmEstMaestra :: __KsvmConexion()->prepare($KsvmContarExistencia);
           $KsvmQuery->execute();
           return $KsvmQuery;
@@ -92,18 +87,14 @@
       */
       protected function __KsvmActualizarExistenciaModelo($KsvmDataExistencia)
       {
-        $KsvmActExistencia = "UPDATE ksvmexistencias21 SET DocId = :KsvmDocId, BdgId = :KsvmBdgId,  
-                            ExtLoteEx = :KsvmLoteEx ,ExtFchCadEx = :KsvmFchCadEx, ExtPresentEx = :KsvmPresentEx, 
-                            ExtStockIniEx = :KsvmStockIniEx, ExtStockEx = :KsvmStockEx, ExtStockSegEx = KsvmStockSegEx, 
-                            ExtCodBarEx = KsvmCodBarEx, ExtBinLocEx = KsvmBinLocEx WHERE ExtId = :KsvmCodExistencia";
+        $KsvmActExistencia = "UPDATE ksvmexistencias21 SET DocId = :KsvmDocId, ExtLoteEx = :KsvmLoteEx, ExtFchCadEx = :KsvmFchCadEx, 
+                            ExtStockIniEx = :KsvmStockIniEx, ExtStockSegEx = :KsvmStockSegEx, 
+                            ExtCodBarEx = :KsvmCodBarEx, ExtBinLocEx = :KsvmBinLocEx WHERE ExtId = :KsvmCodExistencia";
         $KsvmQuery = KsvmEstMaestra :: __KsvmConexion()->prepare($KsvmActExistencia);
         $KsvmQuery->bindParam(":KsvmDocId", $KsvmDataExistencia['KsvmDocId']);
-        $KsvmQuery->bindParam(":KsvmBdgId", $KsvmDataExistencia['KsvmBdgId']);
         $KsvmQuery->bindParam(":KsvmLoteEx", $KsvmDataExistencia['KsvmLoteEx']);
         $KsvmQuery->bindParam(":KsvmFchCadEx", $KsvmDataExistencia['KsvmFchCadEx']);
-        $KsvmQuery->bindParam(":KsvmPresentEx", $KsvmDataExistencia['KsvmPresentEx']);
         $KsvmQuery->bindParam(":KsvmStockIniEx", $KsvmDataExistencia['KsvmStockIniEx']);
-        $KsvmQuery->bindParam(":KsvmStockEx", $KsvmDataExistencia['KsvmStockEx']);
         $KsvmQuery->bindParam(":KsvmStockSegEx", $KsvmDataExistencia['KsvmStockSegEx']);
         $KsvmQuery->bindParam(":KsvmCodBarEx", $KsvmDataExistencia['KsvmCodBarEx']);
         $KsvmQuery->bindParam(":KsvmBinLocEx", $KsvmDataExistencia['KsvmBinLocEx']);

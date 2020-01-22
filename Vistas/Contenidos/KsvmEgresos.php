@@ -42,9 +42,22 @@
 									<div
 										class="mdl-cell mdl-cell--4-col-phone mdl-cell--8-col-tablet mdl-cell--4-col-desktop">
 										<div class="mdl-textfield mdl-js-textfield">
-											<select class="mdl-textfield__input" id="KsvmBdgId" name="KsvmOrigenTran"
-												required>
-												<option value="" disabled="" selected="">Bodega Origen</option>
+											<select class="ksvmSelectDin" id="KsvmBdgId" name="KsvmOrigenTran"
+												style="width:100%;" required>
+												<option value="" selected="">Bodega</option>
+												<?php require_once "./Controladores/KsvmBodegaControlador.php";
+													$KsvmSelBod = new KsvmBodegaControlador();
+													echo $KsvmSelBod->__KsvmSeleccionarBodegaExt();
+													?>
+											</select>
+										</div>
+									</div>
+									<div
+										class="mdl-cell mdl-cell--4-col-phone mdl-cell--8-col-tablet mdl-cell--4-col-desktop">
+										<div class="mdl-textfield mdl-js-textfield">
+											<select class="ksvmSelectDin" id="KsvmBdgReq" name="KsvmDestinoTran"
+												style="width:100%;" required>
+												<option value="" selected="">Bodega Solicitante</option>
 												<?php require_once "./Controladores/KsvmBodegaControlador.php";
 													$KsvmSelBod = new KsvmBodegaControlador();
 													echo $KsvmSelBod->__KsvmSeleccionarBodega();
@@ -55,22 +68,9 @@
 									<div
 										class="mdl-cell mdl-cell--4-col-phone mdl-cell--8-col-tablet mdl-cell--4-col-desktop">
 										<div class="mdl-textfield mdl-js-textfield">
-											<select class="mdl-textfield__input" id="KsvmBdgReq" name="KsvmDestinoTran"
-												required>
-												<option value="" selected="">Bodega Destino</option>
-												<?php require_once "./Controladores/KsvmBodegaControlador.php";
-													$KsvmSelBod = new KsvmBodegaControlador();
-													echo $KsvmSelBod->__KsvmSeleccionarBodega();
-													?>
-											</select>
-										</div>
-									</div>
-									<div
-										class="mdl-cell mdl-cell--4-col-phone mdl-cell--8-col-tablet mdl-cell--4-col-desktop">
-										<div class="mdl-textfield mdl-js-textfield">
-											<select class="mdl-textfield__input" name="KsvmRqcId" id="KsvmRqcId"
-												required>
-												<option value="" disabled="" selected="">Requisición</option>
+											<select class="ksvmSelectDin" name="KsvmRqcId" id="KsvmRqcId"
+												style="width:100%;" required>
+												<option value="" disabled="" selected="">Pedido</option>
 											</select>
 										</div>
 									</div>
@@ -114,6 +114,10 @@
 								<div class="mdl-grid" id="GridRows">
 									<div
 										class="mdl-cell mdl-cell--4-col-phone mdl-cell--8-col-tablet mdl-cell--6-col-desktop">
+										<div class="mdl-textfield mdl-js-textfield" id="KsvmBodEg" hidden>
+											<input class="mdl-textfield__input" type="text" name="KsvmBdgId">
+											<label class="mdl-textfield__label" for="KsvmTipoTran">Bodega</label>
+										</div>
 										<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label"
 											hidden>
 											<input class="mdl-textfield__input" type="text" name="KsvmTipoTran"
@@ -122,8 +126,8 @@
 												transacción</label>
 										</div>
 										<div class="mdl-textfield mdl-js-textfield">
-											<select class="mdl-textfield__input" name="KsvmExtId" id="KsvmExtId"
-												required>
+											<select class="ksvmSelectDin" name="KsvmExtId" id="KsvmExtId"
+												style="width:100%;" required>
 												<option value="" disabled="" selected=""> Medicamento</option>
 											</select>
 										</div>

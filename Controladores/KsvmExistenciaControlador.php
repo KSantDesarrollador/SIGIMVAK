@@ -9,6 +9,8 @@
        require_once "./Modelos/KsvmExistenciaModelo.php";
    }
 
+//    require_once './Vistas/Contenidos/barcode.php';
+
    class KsvmExistenciaControlador extends KsvmExistenciaModelo
    {
      /**
@@ -17,22 +19,36 @@
      public function __KsvmAgregarExistenciaControlador()
      {
          $KsvmDocId = KsvmEstMaestra :: __KsvmFiltrarCadena($_POST['KsvmDocId']);
-         $KsvmBdgId = KsvmEstMaestra :: __KsvmFiltrarCadena($_POST['KsvmBdgId']);
          $KsvmLoteEx = KsvmEstMaestra :: __KsvmFiltrarCadena($_POST['KsvmLoteEx']);
-         $KsvmFchCadEx = KsvmEstMaestra :: __KsvmFiltrarCadena($_POST['KsvmFchCadEx']);
-         $KsvmPresentEx = KsvmEstMaestra :: __KsvmFiltrarCadena($_POST['KsvmPresentEx']);
+         $KsvmFchCad = KsvmEstMaestra :: __KsvmFiltrarCadena($_POST['KsvmFchCadEx']);
          $KsvmStockIniEx = KsvmEstMaestra :: __KsvmFiltrarCadena($_POST['KsvmStockIniEx']);
-         $KsvmStockEx = KsvmEstMaestra :: __KsvmFiltrarCadena($_POST['KsvmStockEx']);
          $KsvmStockSegEx = KsvmEstMaestra :: __KsvmFiltrarCadena($_POST['KsvmStockSegEx']);
          $KsvmBinLocEx = KsvmEstMaestra :: __KsvmFiltrarCadena($_POST['KsvmBinLocEx']);
+
+         $KsvmFecha = KsvmEstMaestra :: __KsvmValidaFecha($KsvmFchCad, 1);
+         if ($KsvmFecha) {
+            $KsvmFchCadEx = $KsvmFchCad;
+         } else {
+            $KsvmAlerta = [
+                "Alerta" => "simple",
+                "Titulo" => "Error inesperado",
+                "Cuerpo" => "La fecha de caducidad no cumple las condiciones, La fecha debe ser mínimo 3 meses superior",
+                "Tipo" => "info"
+               ];
+               return KsvmEstMaestra :: __KsvmMostrarAlertas($KsvmAlerta);
+         }
+         
 
          $KsvmExistencias = "SELECT ExtId FROM ksvmvistaexistencias";
          $KsvmQuery = KsvmEstMaestra :: __KsvmEjecutaConsulta($KsvmExistencias);
          $KsvmNum = ($KsvmQuery->rowCount())+1;
+         $KsvmDiaCal=date("d",strtotime($KsvmFchCadEx));
+         $KsvmMesCal=date("m",strtotime($KsvmFchCadEx));
+         $KsvmAnioCal=date("Y",strtotime($KsvmFchCadEx));
+         $KsvmFchCaduc = $KsvmAnioCal.$KsvmMesCal.$KsvmDiaCal;
+         $KsvmCodBarEx = $KsvmFchCaduc.$KsvmNum;
 
-         $KsvmCodBarEx = $KsvmFchCadEx.'-'.$KsvmNum;
-
-         $KsvmLote = "SELECT ExtLoteEx FROM ksvmvistaexistencias WHERE ExtLoteEx ='$KsvmLoteEx'";
+         $KsvmLote = "SELECT ExtLoteEx FROM ksvmexistencias21 WHERE ExtLoteEx ='$KsvmLoteEx'";
          $KsvmQuery = KsvmEstMaestra :: __KsvmEjecutaConsulta($KsvmLote);
          if ($KsvmQuery->rowCount() >= 1) {
             $KsvmAlerta = [
@@ -48,54 +64,28 @@
                 "KsvmDocId" => $KsvmDocId,
                 "KsvmLoteEx" => $KsvmLoteEx,
                 "KsvmFchCadEx" => $KsvmFchCadEx,
-                "KsvmPresentEx" => $KsvmPresentEx,
                 "KsvmStockIniEx" => $KsvmStockIniEx,
+                "KsvmStockSegEx" => $KsvmStockSegEx,
                 "KsvmCodBarEx" => $KsvmCodBarEx,
                 "KsvmBinLocEx" => $KsvmBinLocEx
                 ];
 
                 $KsvmGuardarExt = KsvmExistenciaModelo :: __KsvmAgregarExistenciaModelo($KsvmNuevaExt);
                 if ($KsvmGuardarExt->rowCount() == 1) {
-
-                    $KsvmConsulta = KsvmEstMaestra :: __KsvmConexion();
-
-                    $KsvmCodExist = "SELECT ExtId FROM ksvmexistencias21 WHERE DocId = '$KsvmDocId'";
-                    $KsvmQuery = $KsvmConsulta->query($KsvmCodExist);
-
-                    $KsvmExtId = $KsvmQuery->fetch();
-
-                    $KsvmNuevaExtBod = [
-                    "KsvmBdgId" => $KsvmBdgId,
-                    "KsvmExtId" => $KsvmExtId['ExtId'],
-                    "KsvmStockEx" => $KsvmStockEx,
-                    "KsvmStockSegEx" => $KsvmStockSegEx
-                    ];
-
-                    $KsvmGuardarExtBod = KsvmExistenciaModelo :: __KsvmAgregarBodegaModelo($KsvmNuevaExtBod);
-                    if ($KsvmGuardarExtBod->rowCount() == 1) {
                     $KsvmAlerta = [
-                    "Alerta" => "Actualiza",
-                    "Titulo" => "Grandioso",
-                    "Cuerpo" => "La Existencia se registró satisfactoriamente",
-                    "Tipo" => "success"
-                    ];
-                    }else{
-                        $KsvmAlerta = [
-                            "Alerta" => "simple",
-                            "Titulo" => "Error inesperado",
-                            "Cuerpo" => "No se a podido registrar la Existencia",
-                            "Tipo" => "info"
-                            ];
-
+                        "Alerta" => "Limpia",
+                        "Titulo" => "Grandioso",
+                        "Cuerpo" => "La Existencia se registró satisfactoriamente",
+                        "Tipo" => "success"
+                        ];
+                }else{
+                    $KsvmAlerta = [
+                        "Alerta" => "simple",
+                        "Titulo" => "Error inesperado",
+                        "Cuerpo" => "No se a podido registrar la Existencia",
+                        "Tipo" => "info"
+                        ];
                     }
-                } else {
-                    $KsvmAlerta = [
-                    "Alerta" => "simple",
-                    "Titulo" => "Error inesperado",
-                    "Cuerpo" => "No se a podido registrar la Existencia",
-                    "Tipo" => "info"
-                    ];
-                }
                 
              }
              return KsvmEstMaestra :: __KsvmMostrarAlertas($KsvmAlerta);
@@ -106,6 +96,8 @@
      */
       public function __KsvmPaginador($KsvmPagina, $KsvmNRegistros, $KsvmRol, $KsvmCodigo, $KsvmBuscar)
       {
+        require_once './Vistas/Contenidos/barcode.php';
+
         $KsvmPagina = KsvmEstMaestra :: __KsvmFiltrarCadena($KsvmPagina);
         $KsvmNRegistros = KsvmEstMaestra :: __KsvmFiltrarCadena($KsvmNRegistros);
         $KsvmRol = KsvmEstMaestra :: __KsvmFiltrarCadena($KsvmRol);
@@ -117,11 +109,11 @@
         $KsvmDesde = ($KsvmPagina > 0) ? (($KsvmPagina*$KsvmNRegistros) - $KsvmNRegistros) : 0;
 
         if (isset($KsvmBuscar) && $KsvmBuscar != "") {
-            $KsvmDataExt = "SELECT SQL_CALC_FOUND_ROWS * FROM ksvmvistaexistencias WHERE ((ExtEstEx != 'X') AND (MdcCodMed LIKE '%$KsvmBuscar%' 
+            $KsvmDataExt = "SELECT SQL_CALC_FOUND_ROWS * FROM ksvmvistaexistencias WHERE ((ExtEstEx != 'I') AND (MdcCodMed LIKE '%$KsvmBuscar%' 
                           OR BdgDescBod LIKE '%$KsvmBuscar%' OR ExtLoteEx LIKE '%$KsvmBuscar%' OR ExtBinLocEx LIKE '%$KsvmBuscar%' OR ExtFchCadEx 
-                          LIKE '%$KsvmBuscar%')) LIMIT $KsvmDesde, $KsvmNRegistros";
+                          LIKE '%$KsvmBuscar%')) AND BdgId = 5 LIMIT $KsvmDesde, $KsvmNRegistros";
         } else {
-            $KsvmDataExt = "SELECT SQL_CALC_FOUND_ROWS * FROM ksvmvistaexistencias WHERE ExtEstEx != 'X' LIMIT $KsvmDesde, $KsvmNRegistros" ;
+            $KsvmDataExt = "SELECT SQL_CALC_FOUND_ROWS * FROM ksvmvistaexistencias WHERE ExtEstEx != 'I' AND BdgId = 5 LIMIT $KsvmDesde, $KsvmNRegistros" ;
         }
         
 
@@ -147,6 +139,7 @@
                                 <th class="mdl-data-table__cell--non-numeric hide-on-tablet">Fch.Cad</th>
                                 <th class="mdl-data-table__cell--non-numeric">Stock</th>
                                 <th class="mdl-data-table__cell--non-numeric hide-on-tablet">Cod.Barras</th>
+                                <th class="mdl-data-table__cell--non-numeric hide-on-tablet">Nivel</th>
                                 <th style="text-align:center; witdh:30px;">Acción</th>
                             </tr>
                         </thead>
@@ -155,7 +148,7 @@
         if ($KsvmTotalReg >= 1 && $KsvmPagina <= $KsvmNPaginas) {
             $KsvmContReg = $KsvmDesde +1;
             foreach ($KsvmQuery as $rows) {
-                $KsvmArrayCode[] = (string)$rows['ExtCodBarEx'];
+                barcode('Reportes/Codigos/'.$rows['ExtCodBarEx'].'.png', $rows['ExtCodBarEx'], 20, 'horizontal', 'codabar', false,1);
                 $KsvmTabla .= '<tr>
                                 <td class="mdl-data-table__cell--non-numeric">'.$KsvmContReg.'</td>
                                 <td class="mdl-data-table__cell--non-numeric">'.$rows['BdgDescBod'].'</td>
@@ -164,12 +157,13 @@
                                 <td class="mdl-data-table__cell--non-numeric">'.$rows['ExtLoteEx'].'</td>
                                 <td class="mdl-data-table__cell--non-numeric hide-on-tablet">'.$rows['ExtFchCadEx'].'</td>
                                 <td class="mdl-data-table__cell--non-numeric">'.$rows['ExbStockEbo'].'</td>
-                                <td class="mdl-data-table__cell--non-numeric hide-on-tablet"><img src="'.KsvmServUrl.'Vistas/Contenidos/barcode.php?text='.$rows['ExtCodBarEx'].'&size=25&orientation=horizontal&codetype=codabar&print=false&sizefactor=1"/></td>
+                                <td class="mdl-data-table__cell--non-numeric hide-on-tablet"><img src="'.KsvmServUrl.'Reportes/Codigos/'.$rows['ExtCodBarEx'].'.png"/></td>
+                                <td class="mdl-data-table__cell--non-numeric hide-on-tablet"><button class="btn btn-md" style="border-color:#000; background-color:'.$rows['AltColorAle'].';"></button></td>
                                 <td style="text-align:right; witdh:30px;">';
                                 if ($KsvmRol == 1) {
                                     if ($KsvmCodigo == 0) {
 
-                                    $KsvmTabla .=  '<form action="'.KsvmServUrl.'Ajax/KsvmRequisicionAjax.php" method="POST" class="FormularioAjax" data-form="eliminar" enctype="multipart/form-data"> 
+                                    $KsvmTabla .=  '<form action="'.KsvmServUrl.'Ajax/KsvmExistenciasAjax.php" method="POST" class="FormularioAjax" data-form="eliminar" enctype="multipart/form-data"> 
                                                     <a id="btn-detail" class="btn btn-sm btn-info" href="'.KsvmServUrl.'KsvmExistenciasCrud/Detail/'.KsvmEstMaestra::__KsvmEncriptacion($rows['ExtId']).'/"><i class="zmdi zmdi-card"></i></a>
                                                     <div class="mdl-tooltip" for="btn-detail">Detalles</div>
                                                     <a id="btn-edit" class="btn btn-sm btn-primary" href="'.KsvmServUrl.'KsvmExistenciasEditar/'.KsvmEstMaestra::__KsvmEncriptacion($rows['ExtId']).'/0/"><i class="zmdi zmdi-edit"></i></a>
@@ -180,7 +174,7 @@
                                                     <div class="RespuestaAjax"></div>
                                                     </form>';
                                     } else {
-                                    $KsvmTabla .= '<form action="'.KsvmServUrl.'Ajax/KsvmRequisicionAjax.php" method="POST" class="FormularioAjax" data-form="eliminar" enctype="multipart/form-data"> 
+                                    $KsvmTabla .= '<form action="'.KsvmServUrl.'Ajax/KsvmExistenciasAjax.php" method="POST" class="FormularioAjax" data-form="eliminar" enctype="multipart/form-data"> 
                                                     <a id="btn-detail" class="btn btn-sm btn-info" href="'.KsvmServUrl.'KsvmExistencias/Detail/'.KsvmEstMaestra::__KsvmEncriptacion($rows['ExtId']).'"><i class="zmdi zmdi-card"></i></a>
                                                     <div class="mdl-tooltip" for="btn-detail">Detalles</div>
                                                     <a id="btn-edit" class="btn btn-sm btn-primary" href="'.KsvmServUrl.'KsvmExistenciasEditar/'.KsvmEstMaestra::__KsvmEncriptacion($rows['ExtId']).'/1/"><i class="zmdi zmdi-edit"></i></a>
@@ -298,7 +292,7 @@
                                    
         return $KsvmTabla;
       }
-     
+
       /**
        * Función que permite inhabilitar una Existencia 
        */
@@ -347,6 +341,14 @@
       }
 
       /**
+       * Función que permite mostrar una alerta 
+       */
+      public function __KsvmMostrarExistenciaControlador()
+      {
+          return KsvmExistenciaModelo :: __KsvmMostrarExistenciaModelo();
+      }
+
+      /**
        * Función que permite imprimir una Existencia 
        */
       public function __KsvmImprimirExistenciaControlador()
@@ -361,12 +363,9 @@
       {
         $KsvmCodExistencia = KsvmEstMaestra :: __KsvmDesencriptacion($_POST['KsvmCodEdit']);
         $KsvmDocId = KsvmEstMaestra :: __KsvmFiltrarCadena($_POST['KsvmDocId']);
-        $KsvmBdgId = KsvmEstMaestra :: __KsvmFiltrarCadena($_POST['KsvmBdgId']);
         $KsvmLoteEx = KsvmEstMaestra :: __KsvmFiltrarCadena($_POST['KsvmLoteEx']);
         $KsvmFchCadEx = KsvmEstMaestra :: __KsvmFiltrarCadena($_POST['KsvmFchCadEx']);
-        $KsvmPresentEx = KsvmEstMaestra :: __KsvmFiltrarCadena($_POST['KsvmPresentEx']);
         $KsvmStockIniEx = KsvmEstMaestra :: __KsvmFiltrarCadena($_POST['KsvmStockIniEx']);
-        $KsvmStockEx = KsvmEstMaestra :: __KsvmFiltrarCadena($_POST['KsvmStockEx']);
         $KsvmStockSegEx = KsvmEstMaestra :: __KsvmFiltrarCadena($_POST['KsvmStockSegEx']);
         $KsvmCodBarEx = KsvmEstMaestra :: __KsvmFiltrarCadena($_POST['KsvmCodBarEx']);
         $KsvmBinLocEx = KsvmEstMaestra :: __KsvmFiltrarCadena($_POST['KsvmBinLocEx']);
@@ -375,7 +374,7 @@
         $KsvmQuery = KsvmEstMaestra :: __KsvmEjecutaConsulta($KsvmConsulta);
         $KsvmDataExistencia = $KsvmQuery->fetch();
 
-        if ($KsvmLoteEx != $KsvmDataExistencia['ExtLoteEx'] || $KsvmCodBarEx != $KsvmDataExistencia['ExtCodBarEx']) {
+        if ($KsvmLoteEx != $KsvmDataExistencia['ExtLoteEx']) {
             $KsvmConsulta = "SELECT ExtLoteEx FROM ksvmvistaexistencias WHERE ExtLoteEx = '$KsvmLoteEx'";
             $KsvmQuery = KsvmEstMaestra :: __KsvmEjecutaConsulta($KsvmConsulta);
             if ($KsvmQuery->rowCount() >= 1) {
@@ -388,7 +387,8 @@
                     return KsvmEstMaestra :: __KsvmMostrarAlertas($KsvmAlerta);
                     exit();
             }
-
+        }
+        if ($KsvmCodBarEx != $KsvmDataExistencia['ExtCodBarEx']) {
             $KsvmConsulta = "SELECT ExtCodBarEx FROM ksvmvistaexistencias WHERE ExtCodBarEx = '$KsvmCodBarEx'";
             $KsvmQuery = KsvmEstMaestra :: __KsvmEjecutaConsulta($KsvmConsulta);
             if ($KsvmQuery->rowCount() >= 1) {
@@ -403,21 +403,19 @@
             }
         }
 
-        $KsvmActualExt = [
-            "KsvmDocId" => $KsvmDocId,
-            "KsvmBdgId" => $KsvmBdgId,
-            "KsvmLoteEx" => $KsvmLoteEx,
-            "KsvmFchCadEx" => $KsvmFchCadEx,
-            "KsvmPresentEx" => $KsvmPresentEx,
-            "KsvmStockIniEx" => $KsvmStockIniEx,
-            "KsvmStockEx" => $KsvmStockEx,
-            "KsvmStockSegEx" => $KsvmStockSegEx,
-            "KsvmCodBarEx" => $KsvmCodBarEx,
-            "KsvmBinLocEx" => $KsvmBinLocEx,
-            "KsvmCodExistencia" => $KsvmCodExistencia
+            $KsvmActualExt = [
+                "KsvmDocId" => $KsvmDocId,
+                "KsvmLoteEx" => $KsvmLoteEx,
+                "KsvmFchCadEx" => $KsvmFchCadEx,
+                "KsvmStockIniEx" => $KsvmStockIniEx,
+                "KsvmStockSegEx" => $KsvmStockSegEx,
+                "KsvmCodBarEx" => $KsvmCodBarEx,
+                "KsvmBinLocEx" => $KsvmBinLocEx,
+                "KsvmCodExistencia" => $KsvmCodExistencia
             ];
 
             $KsvmGuardarExt = KsvmExistenciaModelo :: __KsvmActualizarExistenciaModelo($KsvmActualExt);
+
                 if ($KsvmGuardarExt->rowCount() >= 1) {
                     $KsvmAlerta = [
                     "Alerta" => "Actualiza",
@@ -464,7 +462,7 @@
             $KsvmConsulta = KsvmEstMaestra :: __KsvmConexion();
             $KsvmQuery = $KsvmConsulta->query($KsvmSelectExt);
             $KsvmQuery = $KsvmQuery->fetchAll();
-            $KsvmListar = '<option value="" selected="" disabled>Seleccione Existencia</option>';
+            $KsvmListar = '<option value="">Seleccione Existencia</option>';
 
             foreach ($KsvmQuery as $row) {
                 $KsvmListar .= '<option value="'.$row['ExtId'].'">'.$row['MdcDescMed'].' '.$row['MdcConcenMed'].' '.$row['ExtLoteEx'].'</option>';
@@ -501,16 +499,18 @@
         public function __KsvmCargarStock(){
 
             $KsvmStock = $_POST['KsvmExtCod'];
+            echo $KsvmStock;
             $KsvmQuery = KsvmExistenciaModelo :: __KsvmEditarExistenciaModelo($KsvmStock);
             $KsvmDataStock = $KsvmQuery;
-            if ($KsvmDataStock->rowCount() == 1) {
+            if ($KsvmDataStock->rowCount() >= 1) {
                 $KsvmLlenarStock = $KsvmDataStock->fetch();
                 $KsvmListar = '<input class="mdl-textfield__input" type="text" name="KsvmStockInv"
                                value="'.$KsvmLlenarStock['ExbStockEbo'].'" id="KsvmDato2">';
 
+                 return $KsvmListar;
+
             }
 
-            return $KsvmListar;
         }
 
 }

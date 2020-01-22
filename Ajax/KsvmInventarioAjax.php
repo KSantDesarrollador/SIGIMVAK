@@ -7,7 +7,8 @@ $KsvmPeticionAjax = true;
 require_once "../Raiz/KsvmConfiguracion.php";
 
 if (isset($_POST['KsvmBdgId']) || isset($_POST['KsvmCodDelete']) || isset($_POST['KsvmCodEdit']) || isset($_POST['KsvmBdgCod'])
-    || isset($_POST['KsvmIvtMedCod']) || isset($_POST['KsvmIvtStkCod']) || isset($_POST['KsvmTokken']) || isset($_POST['KsvmCodX'])) {
+    || isset($_POST['KsvmIvtMedCod']) || isset($_POST['KsvmIvtStkCod']) || isset($_POST['KsvmTokken']) || isset($_POST['KsvmCodX'])
+    || isset($_POST['KsvmBodCod'])) {
     require_once "../Controladores/KsvmInventarioControlador.php";
     $KsvmIniInventario = new KsvmInventarioControlador();
 
@@ -42,6 +43,10 @@ if (isset($_POST['KsvmBdgId']) || isset($_POST['KsvmCodDelete']) || isset($_POST
 
     if (isset($_POST['KsvmIvtStkCod'])) {
         echo $KsvmIniInventario->__KsvmCargarStock();
+    }
+
+    if (isset($_POST['KsvmBodCod'])) {
+        echo $KsvmIniInventario->__KsvmCargarBodega();
     }
     
 } else {

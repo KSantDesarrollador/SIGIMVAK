@@ -10,7 +10,7 @@
 		</div>
 		<div class="full-width header-well-text">
 			<p class="text-condensedLight">
-				PARAMETROS
+				PARÁMETROS
 			</p>
 		</div>
 	</section>
@@ -29,7 +29,7 @@
 					<br>
 					<div class="full-width panel mdl-shadow--8dp">
 						<div class="full-width modal-header-input text-center">
-							Nuevo Parametro
+							Nuevo Parámetro
 						</div>
 						<div class="full-width panel-content">
 							<form data-form="guardar" action="<?php echo KsvmServUrl; ?>Ajax/KsvmParametrosAjax.php"
@@ -39,32 +39,49 @@
 									<div
 										class="mdl-cell mdl-cell--4-col-phone mdl-cell--8-col-tablet mdl-cell--12-col-desktop">
 										<div class="mdl-textfield mdl-js-textfield">
-											<select class="mdl-textfield__input" name="KsvmExtId">
-												<?php require_once "./Controladores/KsvmExistenciaControlador.php";
-													$KsvmSelExt = new KsvmExistenciaControlador();
-													echo $KsvmSelExt->__KsvmSeleccionaExistencia();
+											<select class="ksvmSelectDin" name="KsvmMdcId" id="KsvmDato1"
+												style="width:98%;">
+												<option value="" select="">Seleccione Medicamento</option>
+												<?php require_once "./Controladores/KsvmMedicamentoControlador.php";
+													$KsvmSelExt = new KsvmMedicamentoControlador();
+													echo $KsvmSelExt->__KsvmSeleccionarMedicamento();
 													?>
 											</select>
+											<span id="KsvmError1" class="ValForm"><i
+													class="zmdi zmdi-alert-triangle">&nbsp;Por favor llene este
+													campo</i></span>
 										</div>
 										<div class="mdl-textfield mdl-js-textfield">
-											<select class="mdl-textfield__input" name="KsvmAltId">
+											<select class="ksvmSelectDin" name="KsvmAltId" id="KsvmDato2"
+												style="width:98%;">
 												<?php require_once "./Controladores/KsvmAlertaControlador.php";
 													$KsvmSelAle = new KsvmAlertaControlador();
 													echo $KsvmSelAle->__KsvmSeleccionarAlerta();
 													?>
 											</select>
+											<span id="KsvmError2" class="ValForm"><i
+													class="zmdi zmdi-alert-triangle">&nbsp;Por favor llene este
+													campo</i></span>
 										</div>
 										<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-											<input class="mdl-textfield__input" type="text" name="KsvmMinPar"
-												id="KsvmMinPar">
-											<label class="mdl-textfield__label" for="KsvmMinPar">Valor Mínimo</label>
+											<input class="mdl-textfield__input" type="number" 
+											    min="1" max="10000" name="KsvmMinPar"
+											    pattern="-?[0-9]*(\.[0-9]+)?" id="KsvmDato3">
+											<label class="mdl-textfield__label" for="KsvmDato3">Valor Mínimo</label>
 											<span class="mdl-textfield__error">Valor Inválido</span>
+											<span id="KsvmError3" class="ValForm"><i
+													class="zmdi zmdi-alert-triangle">&nbsp;Por favor llene este
+													campo</i></span>
 										</div>
 										<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-											<input class="mdl-textfield__input" type="text" name="KsvmMaxPar"
-												id="KsvmMaxPar">
-											<label class="mdl-textfield__label" for="KsvmMaxPar">Valor Máximo</label>
+											<input class="mdl-textfield__input" type="number" 
+											    min="1" max="10000" name="KsvmMaxPar"
+											    pattern="-?[0-9]*(\.[0-9]+)?" id="KsvmDato4">
+											<label class="mdl-textfield__label" for="KsvmDato4">Valor Máximo</label>
 											<span class="mdl-textfield__error">Valor Inválida</span>
+											<span id="KsvmError4" class="ValForm"><i
+													class="zmdi zmdi-alert-triangle">&nbsp;Por favor llene este
+													campo</i></span>
 										</div>
 									</div>
 								</div>
@@ -72,11 +89,11 @@
 								<p class="text-center">
 									<button type="submit"
 										class="mdl-button mdl-js-button mdl-js-ripple-effect btn-warning mdl-shadow--4dp"
-										id="btn-NuevaParametros">
+										id="btnSave">
 										<i class="zmdi zmdi-save">&nbsp;Guardar</i>
 									</button>
 								</p>
-								<div class="mdl-tooltip" for="btn-NuevaParametros">Agregar Parametros</div>
+								<div class="mdl-tooltip" for="btnSave">Agregar Parametros</div>
 								<div class="RespuestaAjax"></div>
 							</form>
 						</div>
@@ -161,7 +178,7 @@
 				<div class="modal-content ">
 					<div class="modal-header ">
 						<button class="close close-edit" type="button" data-dismiss="modal" aria-hidden="true"
-							id="KsvmBtnExit">&times;</button>
+							id="btnExitPar">&times;</button>
 						<h5 class="modal-title text-center"></h5>
 					</div>
 					<div class="modal-body" id="">
@@ -171,7 +188,7 @@
 								<div
 									class="mdl-cell mdl-cell--4-col-phone mdl-cell--8-col-tablet mdl-cell--12-col-desktop">
 									<div class="mdl-textfield mdl-js-textfield">
-										<div class="mdl-textfield__input"><strong>Existencia :</strong>&nbsp;
+										<div class="mdl-textfield__input"><strong>Medicamento :</strong>&nbsp;
 											&nbsp;<?php echo $KsvmLlenarForm['MdcDescMed'].' '.$KsvmLlenarForm['MdcConcenMed'] ;?>
 										</div>
 									</div>

@@ -48,7 +48,7 @@ $KsvmMenu = new KsvmMenuModelo();
   <div class="full-width navLateral-bg btn-menu"></div>
   <div class="full-width navLateral-body">
     <div class="full-width navLateral-body-logo text-center tittles">
-      <img src="<?php echo KsvmServUrl?>Vistas/assets/img/logo.png"
+      <img src="<?php echo KsvmServUrl?>Vistas/assets/img/medicamentos.png"
         alt="Sistema de Gastión de Inventario de Medicamentos" height="33px">&nbsp;<span
         class="hide-on-tablet"><?php echo KsvmCompany;?></span>
     </div>

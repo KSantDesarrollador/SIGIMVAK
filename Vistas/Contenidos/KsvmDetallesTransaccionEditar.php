@@ -93,7 +93,8 @@
  								<div
  									class="mdl-cell mdl-cell--4-col-phone mdl-cell--8-col-tablet mdl-cell--12-col-desktop">
  									<div class="mdl-textfield mdl-js-textfield">
- 										<select class="mdl-textfield__input" id="KsvmExtId" name="KsvmExtId">
+ 										<select class="ksvmSelectDin" id="KsvmExtId" name="KsvmExtId"
+ 											style="width:98%;">
  											<option value="<?php echo $KsvmLlenarForm['ExtId'];?>" selected="">
  												<?php echo $KsvmLlenarForm['MdcDescMed'].' '.$KsvmLlenarForm['MdcConcenMed'];?>
  											</option>
@@ -109,7 +110,7 @@
  									<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
  										<input class="mdl-textfield__input" type="number" name="KsvmCantTran"
  											value="<?php echo $KsvmLlenarForm['DtsCantTran'];?>"
- 											pattern="-?[0-9]*[A-Za-záéíóúÁÉÍÓÚ ]?" id="KsvmDato1">
+ 											pattern="-?[0-9]*[A-Za-záéíóúÁÉÍÓÚ ]?" id="KsvmDato1" min="1" max="100000">
  										<label class="mdl-textfield__label" for="KsvmDato1">Cantidad</label>
  										<span class="mdl-textfield__error">Cantidad Inválida</span>
  										<span id="KsvmError1" class="ValForm"><i
@@ -130,7 +131,7 @@
  									<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
  										<input class="mdl-textfield__input" type="text" name="KsvmObservTran"
  											value="<?php echo $KsvmLlenarForm['DtsObservTran'];?>"
- 											pattern="-?[A-Za-záéíóúÁÉÍÓÚ0-9 ]*(\.[]+)?" id="KsvmObservTran">
+ 											pattern="-?[A-Za-z0-9áéíóúÁÉÍÓÚ0-9 ]*(\.[]+)?" id="KsvmObservTran">
  										<label class="mdl-textfield__label" for="KsvmObservTran">Observación</label>
  										<span class="mdl-textfield__error">Observación Inválida</span>
  									</div>

@@ -28,7 +28,7 @@
          $KsvmFchElabInv = date("Y-m-d");
          $KsvmHoraInv = date("h:i:s a");
 
-         session_start(['name' => 'SIGIM']);
+            session_start(['name' => 'SIGIM']);
             $KsvmUser = $_SESSION['KsvmUsuId-SIGIM'];
             $KsvmElabora = "SELECT concat(EpoPriApeEmp,' ',EpoSegApeEmp,' ',EpoPriNomEmp,' ',EpoSegNomEmp) as PerElab FROM ksvmvistaempleado WHERE UsrId = '$KsvmUser'";
             $KsvmQuery = KsvmEstMaestra :: __KsvmConexion()->query($KsvmElabora);
@@ -51,7 +51,8 @@
                 "KsvmPerElabInv" => $KsvmPerElabInv,
                 "KsvmFchElabInv" => $KsvmFchElabInv,
                 "KsvmHoraInv" => $KsvmHoraInv, 
-                "KsvmDuracionInv" => $KsvmDuracionInv
+                "KsvmDuracionInv" => $KsvmDuracionInv,
+                "KsvmUsrId" => $KsvmUser
                 ];
 
                 $KsvmGuardarInv = KsvmInventarioModelo :: __KsvmAgregarInventarioModelo($KsvmNuevoInv);
@@ -83,11 +84,25 @@
         $KsvmStockInv = KsvmEstMaestra :: __KsvmFiltrarCadena($_POST['KsvmStockInv']);
         $KsvmContFisInv = KsvmEstMaestra :: __KsvmFiltrarCadena($_POST['KsvmContFisInv']);
         $KsvmObservInv = KsvmEstMaestra :: __KsvmFiltrarCadena($_POST['KsvmObservInv']);
+        $KsvmNuevoStockInv = KsvmEstMaestra :: __KsvmFiltrarCadena($_POST['KsvmNvoStock']);
 
-        $KsvmDifInv = $KsvmStockInv-$KsvmContFisInv;
+        $KsvmMedicamento = "SELECT ExtId FROM ksvmdetalleinventario11 WHERE ExtId ='$KsvmExtId' AND DivEstInv = 'N'";
+        $KsvmQuery = KsvmEstMaestra :: __KsvmEjecutaConsulta($KsvmMedicamento);
+        if ($KsvmQuery->rowCount() >= 1) {
+           $KsvmAlerta = [
+             "Alerta" => "simple",
+             "Titulo" => "Error inesperado",
+             "Cuerpo" => "El medicamento ingresado ya se encuentra registrado!, Por favor intentelo de nuevo",
+             "Tipo" => "info"
+            ];
+
+        } else{
+
+        $KsvmDifInv = $KsvmContFisInv-$KsvmStockInv;
 
         $KsvmNuevoDetalleInv = [
             "KsvmExtId" => $KsvmExtId,
+            "KsvmNuevoStockInv" => $KsvmNuevoStockInv,
             "KsvmStockInv" => $KsvmStockInv,
             "KsvmContFisInv" => $KsvmContFisInv,
             "KsvmDifInv" => $KsvmDifInv,
@@ -108,7 +123,7 @@
                     $KsvmResult = "false";
                 }
                 return $KsvmResult;
-
+            }
                 return KsvmEstMaestra :: __KsvmMostrarAlertas($KsvmAlerta);
     }
             
@@ -205,7 +220,7 @@
                                                     <div class="RespuestaAjax"></div>
                                                     </form>';
                                     } else {
-                                    $KsvmTabla .= ' <a id="btn-detail" class="btn btn-sm btn-info" href="'.KsvmServUrl.'KsvmReporteInventarios/Detail/'.KsvmEstMaestra::__KsvmEncriptacion($rows['IvtId']).'"><i class="zmdi zmdi-card"></i></a>
+                                    $KsvmTabla .= ' <a id="btn-detail" class="btn btn-sm btn-info" href="'.KsvmServUrl.'KsvmReporteInventariosGen/Detail/'.KsvmEstMaestra::__KsvmEncriptacion($rows['IvtId']).'"><i class="zmdi zmdi-card"></i></a>
                                                     <div class="mdl-tooltip" for="btn-detail">Detalles</div>
                                                     <a id="btn-print" class="btn btn-sm btn-success" href="'.KsvmServUrl.'Reportes/KsvmInventariosPdf.php?Cod='.KsvmEstMaestra::__KsvmEncriptacion($rows['IvtId']).'" target="_blank"><i class="zmdi zmdi-print"></i></a>
                                                     <div class="mdl-tooltip" for="btn-print">Imprimir</div>';
@@ -319,9 +334,9 @@
                                    <span></span>
                                    <button class = "btn btn-xs btn-default mdl-shadow--8dp disabled"><i class="zmdi zmdi-fast-rewind"></i></button>';
                 } else {
-                    $KsvmTabla .= '<a class = "btn btn-xs btn-success mdl-shadow--8dp " href="'.KsvmServUrl.'KsvmReporteInventarios/1/">Primero</a>
+                    $KsvmTabla .= '<a class = "btn btn-xs btn-success mdl-shadow--8dp " href="'.KsvmServUrl.'KsvmReporteInventariosGen/1/">Primero</a>
                                    <span></span>
-                                   <a class = "btn btn-xs btn-default mdl-shadow--8dp " href="'.KsvmServUrl.'KsvmReporteInventarios/'.($KsvmPagina-1).'/"><i class="zmdi zmdi-fast-rewind"></i></a>';
+                                   <a class = "btn btn-xs btn-default mdl-shadow--8dp " href="'.KsvmServUrl.'KsvmReporteInventariosGen/'.($KsvmPagina-1).'/"><i class="zmdi zmdi-fast-rewind"></i></a>';
                 }
 
                 if ($KsvmPagina == $KsvmNPaginas) {
@@ -329,9 +344,9 @@
                                    <span></span>
                                    <button class = "btn btn-xs btn-success mdl-shadow--8dp disabled">Último</button>';
                 } else {
-                    $KsvmTabla .= '<a class="btn btn-xs btn-default mdl-shadow--8dp" href="'.KsvmServUrl.'KsvmReporteInventarios/'.($KsvmPagina+1).'/"><i class="zmdi zmdi-fast-forward"></i></a>
+                    $KsvmTabla .= '<a class="btn btn-xs btn-default mdl-shadow--8dp" href="'.KsvmServUrl.'KsvmReporteInventariosGen/'.($KsvmPagina+1).'/"><i class="zmdi zmdi-fast-forward"></i></a>
                                    <span></span>
-                                   <a class="btn btn-xs btn-success mdl-shadow--8dp" href="'.KsvmServUrl.'KsvmReporteInventarios/'.($KsvmNPaginas).'/">Último</a>';
+                                   <a class="btn btn-xs btn-success mdl-shadow--8dp" href="'.KsvmServUrl.'KsvmReporteInventariosGen/'.($KsvmNPaginas).'/">Último</a>';
                                    
                                    
                 }
@@ -517,9 +532,13 @@
         $KsvmDuracionInv = KsvmEstMaestra :: __KsvmFiltrarCadena($_POST['KsvmDuracionInv']);
         $KsvmEstInv = KsvmEstMaestra :: __KsvmFiltrarCadena($_POST['KsvmEstInv']);
 
+        session_start(['name' => 'SIGIM']);
+        $KsvmUser = $_SESSION['KsvmUsuId-SIGIM'];
+
         $KsvmActualInv = [
             "KsvmHoraInv" => $KsvmHoraInv,
             "KsvmDuracionInv" => $KsvmDuracionInv,
+            "KsvmUsrId" => $KsvmUser,
             "KsvmEstInv" => $KsvmEstInv,
             "KsvmCodInventario" => $KsvmCodInventario
             ];
@@ -555,7 +574,7 @@
         $KsvmContFisInv = KsvmEstMaestra :: __KsvmFiltrarCadena($_POST['KsvmContFisInv']);
         $KsvmObservInv = KsvmEstMaestra :: __KsvmFiltrarCadena($_POST['KsvmObservInv']);
 
-        $KsvmDifInv = $KsvmStockInv-$KsvmContFisInv;
+        $KsvmDifInv = $KsvmContFisInv-$KsvmStockInv;
 
         $KsvmActualDetInv = [
             "KsvmExtId" => $KsvmExtId,
@@ -587,13 +606,354 @@
         }
 
         /**
+         * Función que permite cargar reportes
+         */
+        public function __KsvmCargarReporteInventarios($KsvmMedicamento, $KsvmAnio, $KsvmTotReg, $KsvmMes, $KsvmTokken)
+        {
+            $KsvmMedicamento = KsvmEstMaestra :: __KsvmFiltrarCadena($KsvmMedicamento);
+            $KsvmAnio = KsvmEstMaestra :: __KsvmFiltrarCadena($KsvmAnio);
+            $KsvmUsuario = $_SESSION['KsvmUsuId-SIGIM'];
+
+            $KsvmConsulta = KsvmEstMaestra :: __KsvmConexion();
+
+            if ($KsvmMedicamento != "" && $KsvmAnio != "" && $KsvmTotReg != 0) {        
+
+                switch ($KsvmMes) {
+                    case 'January':
+                        if ($KsvmTokken == 1) {
+                            $KsvmTotalMes = "SELECT SUM(DivDifInv)*(-1) AS ValorTotal FROM ksvmvistadetalleinventario WHERE IvtEstInv != 'I' AND  IvtMesInv = 'January' AND 
+                            MdcId = '$KsvmMedicamento' AND IvtAnioInv = '$KsvmAnio' AND (DivContFisInv < DivStockInv)";
+                            $KsvmConVal = $KsvmConsulta->query($KsvmTotalMes);
+                                $KsvmValRep = $KsvmConVal->fetch();
+                                $KsvmTotal =  $KsvmValRep['ValorTotal'];
+                                $KsvmDataRep = round(($KsvmTotal*100/$KsvmTotReg));
+                        } elseif ($KsvmTokken == 2) {
+                            $KsvmTotalMes = "SELECT SUM(DivDifInv) AS ValorTotal FROM ksvmvistadetalleinventario WHERE IvtEstInv != 'I' AND  IvtMesInv = 'January' AND 
+                            MdcId = '$KsvmMedicamento' AND IvtAnioInv = '$KsvmAnio' AND (DivContFisInv > DivStockInv)";
+                            $KsvmConVal = $KsvmConsulta->query($KsvmTotalMes);
+                                $KsvmValRep = $KsvmConVal->fetch();
+                                $KsvmTotal =  $KsvmValRep['ValorTotal'];
+                                $KsvmDataRep = round(($KsvmTotal*100/$KsvmTotReg));
+                        } else {
+                            $KsvmDataRep = 0;
+                        }
+                        return $KsvmDataRep;
+                        break;
+
+                    case 'February':
+                        if ($KsvmTokken == 1) {
+                            $KsvmTotalMes = "SELECT SUM(DivDifInv)*(-1) AS ValorTotal FROM ksvmvistadetalleinventario WHERE IvtEstInv != 'I' AND  IvtMesInv = 'February' AND 
+                            MdcId = '$KsvmMedicamento' AND IvtAnioInv = '$KsvmAnio' AND (DivContFisInv < DivStockInv)";
+                            $KsvmConVal = $KsvmConsulta->query($KsvmTotalMes);
+                            if ($KsvmConVal->rowCount() >= 1) {
+                                $KsvmValRep = $KsvmConVal->fetch();
+                                $KsvmTotal =  $KsvmValRep['ValorTotal'];
+                                $KsvmDataRep = round(($KsvmTotal*100/$KsvmTotReg));
+                            }
+                        } elseif ($KsvmTokken == 2) {
+                            $KsvmTotalMes = "SELECT SUM(DivDifInv) AS ValorTotal FROM ksvmvistadetalleinventario WHERE IvtEstInv != 'I' AND  IvtMesInv = 'February' AND 
+                            MdcId = '$KsvmMedicamento' AND IvtAnioInv = '$KsvmAnio' AND (DivContFisInv > DivStockInv)";
+                            $KsvmConVal = $KsvmConsulta->query($KsvmTotalMes);
+                            if ($KsvmConVal->rowCount() >= 1) {
+                                $KsvmValRep = $KsvmConVal->fetch();
+                                $KsvmTotal =  $KsvmValRep['ValorTotal'];
+                                $KsvmDataRep = round(($KsvmTotal*100/$KsvmTotReg));
+                            }
+                        } else {
+                            $KsvmDataRep = 0;
+                        }
+                        return $KsvmDataRep;
+                        break;
+
+                    case 'March':
+                        if ($KsvmTokken == 1) {
+                            $KsvmTotalMes = "SELECT SUM(DivDifInv)*(-1) AS ValorTotal FROM ksvmvistadetalleinventario WHERE IvtEstInv != 'I' AND  IvtMesInv = 'March' AND 
+                            MdcId = '$KsvmMedicamento' AND IvtAnioInv = '$KsvmAnio' AND (DivContFisInv < DivStockInv)";
+                            $KsvmConVal = $KsvmConsulta->query($KsvmTotalMes);
+                                $KsvmValRep = $KsvmConVal->fetch();
+                                $KsvmTotal =  $KsvmValRep['ValorTotal'];
+                                $KsvmDataRep = round(($KsvmTotal*100/$KsvmTotReg));
+                        } elseif ($KsvmTokken == 2) {
+                            $KsvmTotalMes = "SELECT SUM(DivDifInv) AS ValorTotal FROM ksvmvistadetalleinventario WHERE IvtEstInv != 'I' AND  IvtMesInv = 'March' AND 
+                            MdcId = '$KsvmMedicamento' AND IvtAnioInv = '$KsvmAnio' AND (DivContFisInv > DivStockInv)";
+                            $KsvmConVal = $KsvmConsulta->query($KsvmTotalMes);
+                                $KsvmValRep = $KsvmConVal->fetch();
+                                $KsvmTotal =  $KsvmValRep['ValorTotal'];
+                                $KsvmDataRep = round(($KsvmTotal*100/$KsvmTotReg));
+                        } else {
+                            $KsvmDataRep = 0;
+                        }
+                        return $KsvmDataRep;
+                        break;
+
+                    case 'April':
+                        if ($KsvmTokken == 1) {
+                            $KsvmTotalMes = "SELECT SUM(DivDifInv)*(-1) AS ValorTotal FROM ksvmvistadetalleinventario WHERE IvtEstInv != 'I' AND  IvtMesInv = 'April' AND 
+                            MdcId = '$KsvmMedicamento' AND IvtAnioInv = '$KsvmAnio' AND (DivContFisInv < DivStockInv)";
+                            $KsvmConVal = $KsvmConsulta->query($KsvmTotalMes);
+                            $KsvmValRep = $KsvmConVal->fetch();
+                            $KsvmTotal =  $KsvmValRep['ValorTotal'];
+                            $KsvmDataRep = round(($KsvmTotal*100/$KsvmTotReg));
+                        } elseif ($KsvmTokken == 2) {
+                            $KsvmTotalMes = "SELECT SUM(DivDifInv) AS ValorTotal FROM ksvmvistadetalleinventario WHERE IvtEstInv != 'I' AND  IvtMesInv = 'April' AND 
+                            MdcId = '$KsvmMedicamento' AND IvtAnioInv = '$KsvmAnio' AND (DivContFisInv > DivStockInv)";
+                            $KsvmConVal = $KsvmConsulta->query($KsvmTotalMes);
+                            $KsvmValRep = $KsvmConVal->fetch();
+                            $KsvmTotal =  $KsvmValRep['ValorTotal'];
+                            $KsvmDataRep = round(($KsvmTotal*100/$KsvmTotReg));
+                        } else {
+                            $KsvmDataRep = 0;
+                        }
+                        return $KsvmDataRep;
+                        break;
+
+                    case 'May':
+                        if ($KsvmTokken == 1) {
+                            $KsvmTotalMes = "SELECT SUM(DivDifInv)*(-1) AS ValorTotal FROM ksvmvistadetalleinventario WHERE IvtEstInv != 'I' AND  IvtMesInv = 'May' AND 
+                            MdcId = '$KsvmMedicamento' AND IvtAnioInv = '$KsvmAnio' AND (DivContFisInv < DivStockInv)";
+                            $KsvmConVal = $KsvmConsulta->query($KsvmTotalMes);
+                            $KsvmValRep = $KsvmConVal->fetch();
+                            $KsvmTotal =  $KsvmValRep['ValorTotal'];
+                            $KsvmDataRep = round(($KsvmTotal*100/$KsvmTotReg));
+                        } elseif ($KsvmTokken == 2) {
+                            $KsvmTotalMes = "SELECT SUM(DivDifInv) AS ValorTotal FROM ksvmvistadetalleinventario WHERE IvtEstInv != 'I' AND  IvtMesInv = 'May' AND 
+                            MdcId = '$KsvmMedicamento' AND IvtAnioInv = '$KsvmAnio' AND (DivContFisInv > DivStockInv)";
+                            $KsvmConVal = $KsvmConsulta->query($KsvmTotalMes);
+                            $KsvmValRep = $KsvmConVal->fetch();
+                            $KsvmTotal =  $KsvmValRep['ValorTotal'];
+                            $KsvmDataRep = round(($KsvmTotal*100/$KsvmTotReg));
+                        } else {
+                            $KsvmDataRep = 0;
+                        }
+                        return $KsvmDataRep;
+                        break;
+
+                    case 'June':
+                        if ($KsvmTokken == 1) {
+                            $KsvmTotalMes = "SELECT SUM(DivDifInv)*(-1) AS ValorTotal FROM ksvmvistadetalleinventario WHERE IvtEstInv != 'I' AND  IvtMesInv = 'June' AND 
+                            MdcId = '$KsvmMedicamento' AND IvtAnioInv = '$KsvmAnio' AND (DivContFisInv < DivStockInv)";
+                            $KsvmConVal = $KsvmConsulta->query($KsvmTotalMes);
+                            $KsvmValRep = $KsvmConVal->fetch();
+                            $KsvmTotal =  $KsvmValRep['ValorTotal'];
+                            $KsvmDataRep = round(($KsvmTotal*100/$KsvmTotReg));
+                        } elseif ($KsvmTokken == 2) {
+                            $KsvmTotalMes = "SELECT SUM(DivDifInv) AS ValorTotal FROM ksvmvistadetalleinventario WHERE IvtEstInv != 'I' AND  IvtMesInv = 'June' AND 
+                            MdcId = '$KsvmMedicamento' AND IvtAnioInv = '$KsvmAnio' AND (DivContFisInv > DivStockInv)";
+                            $KsvmConVal = $KsvmConsulta->query($KsvmTotalMes);
+                            $KsvmValRep = $KsvmConVal->fetch();
+                            $KsvmTotal =  $KsvmValRep['ValorTotal'];
+                            $KsvmDataRep = round(($KsvmTotal*100/$KsvmTotReg));
+                        } else {
+                            $KsvmDataRep = 0;
+                        }
+                        return $KsvmDataRep;
+                        break;
+
+                    case 'July':
+                        if ($KsvmTokken == 1) {
+                            $KsvmTotalMes = "SELECT SUM(DivDifInv)*(-1) AS ValorTotal FROM ksvmvistadetalleinventario WHERE IvtEstInv != 'I' AND  IvtMesInv = 'July' AND 
+                            MdcId = '$KsvmMedicamento' AND IvtAnioInv = '$KsvmAnio' AND (DivContFisInv < DivStockInv)";
+                            $KsvmConVal = $KsvmConsulta->query($KsvmTotalMes);
+                            $KsvmValRep = $KsvmConVal->fetch();
+                            $KsvmTotal =  $KsvmValRep['ValorTotal'];
+                            $KsvmDataRep = round(($KsvmTotal*100/$KsvmTotReg));
+                        } elseif ($KsvmTokken == 2) {
+                            $KsvmTotalMes = "SELECT SUM(DivDifInv) AS ValorTotal FROM ksvmvistadetalleinventario WHERE IvtEstInv != 'I' AND  IvtMesInv = 'July' AND 
+                            MdcId = '$KsvmMedicamento' AND IvtAnioInv = '$KsvmAnio' AND (DivContFisInv > DivStockInv)";
+                            $KsvmConVal = $KsvmConsulta->query($KsvmTotalMes);
+                            $KsvmValRep = $KsvmConVal->fetch();
+                            $KsvmTotal =  $KsvmValRep['ValorTotal'];
+                            $KsvmDataRep = round(($KsvmTotal*100/$KsvmTotReg));
+                        } else {
+                            $KsvmDataRep = 0;
+                        }
+                        return $KsvmDataRep;
+                        break;
+
+                    case 'August':
+                        if ($KsvmTokken == 1) {
+                            $KsvmTotalMes = "SELECT SUM(DivDifInv)*(-1) AS ValorTotal FROM ksvmvistadetalleinventario WHERE IvtEstInv != 'I' AND  IvtMesInv = 'August' AND 
+                            MdcId = '$KsvmMedicamento' AND IvtAnioInv = '$KsvmAnio' AND (DivContFisInv < DivStockInv)";
+                            $KsvmConVal = $KsvmConsulta->query($KsvmTotalMes);
+                            $KsvmValRep = $KsvmConVal->fetch();
+                            $KsvmTotal =  $KsvmValRep['ValorTotal'];
+                            $KsvmDataRep = round(($KsvmTotal*100/$KsvmTotReg));
+                        } elseif ($KsvmTokken == 2) {
+                            $KsvmTotalMes = "SELECT SUM(DivDifInv) AS ValorTotal FROM ksvmvistadetalleinventario WHERE IvtEstInv != 'I' AND  IvtMesInv = 'August' AND 
+                            MdcId = '$KsvmMedicamento' AND IvtAnioInv = '$KsvmAnio' AND (DivContFisInv > DivStockInv)";
+                            $KsvmConVal = $KsvmConsulta->query($KsvmTotalMes);
+                            $KsvmValRep = $KsvmConVal->fetch();
+                            $KsvmTotal =  $KsvmValRep['ValorTotal'];
+                            $KsvmDataRep = round(($KsvmTotal*100/$KsvmTotReg));
+                        } else {
+                            $KsvmDataRep = 0;
+                        }
+                        return $KsvmDataRep;
+                        break;
+
+                    case 'September':
+                        if ($KsvmTokken == 1) {
+                            $KsvmTotalMes = "SELECT SUM(DivDifInv)*(-1) AS ValorTotal FROM ksvmvistadetalleinventario WHERE IvtEstInv != 'I' AND  IvtMesInv = 'September' AND 
+                            MdcId = '$KsvmMedicamento' AND IvtAnioInv = '$KsvmAnio' AND (DivContFisInv < DivStockInv)";
+                            $KsvmConVal = $KsvmConsulta->query($KsvmTotalMes);
+                            $KsvmValRep = $KsvmConVal->fetch();
+                            $KsvmTotal =  $KsvmValRep['ValorTotal'];
+                            $KsvmDataRep = round(($KsvmTotal*100/$KsvmTotReg));
+                        } elseif ($KsvmTokken == 2) {
+                            $KsvmTotalMes = "SELECT SUM(DivDifInv) AS ValorTotal FROM ksvmvistadetalleinventario WHERE IvtEstInv != 'I' AND  IvtMesInv = 'September' AND 
+                            MdcId = '$KsvmMedicamento' AND IvtAnioInv = '$KsvmAnio' AND (DivContFisInv > DivStockInv)";
+                            $KsvmConVal = $KsvmConsulta->query($KsvmTotalMes);
+                            $KsvmValRep = $KsvmConVal->fetch();
+                            $KsvmTotal =  $KsvmValRep['ValorTotal'];
+                            $KsvmDataRep = round(($KsvmTotal*100/$KsvmTotReg));
+                        } else {
+                            $KsvmDataRep = 0;
+                        }
+                        return $KsvmDataRep;
+                        break;
+
+                    case 'October':
+                        if ($KsvmTokken == 1) {
+                            $KsvmTotalMes = "SELECT SUM(DivDifInv)*(-1) AS ValorTotal FROM ksvmvistadetalleinventario WHERE IvtEstInv != 'I' AND  IvtMesInv = 'October' AND 
+                            MdcId = '$KsvmMedicamento' AND IvtAnioInv = '$KsvmAnio' AND (DivContFisInv < DivStockInv)";
+                            $KsvmConVal = $KsvmConsulta->query($KsvmTotalMes);
+                            $KsvmValRep = $KsvmConVal->fetch();
+                            $KsvmTotal =  $KsvmValRep['ValorTotal'];
+                            $KsvmDataRep = round(($KsvmTotal*100/$KsvmTotReg));
+                        } elseif ($KsvmTokken == 2) {
+                            $KsvmTotalMes = "SELECT SUM(DivDifInv) AS ValorTotal FROM ksvmvistadetalleinventario WHERE IvtEstInv != 'I' AND  IvtMesInv = 'October' AND 
+                            MdcId = '$KsvmMedicamento' AND IvtAnioInv = '$KsvmAnio' AND (DivContFisInv > DivStockInv)";
+                            $KsvmConVal = $KsvmConsulta->query($KsvmTotalMes);
+                            $KsvmValRep = $KsvmConVal->fetch();
+                            $KsvmTotal =  $KsvmValRep['ValorTotal'];
+                            $KsvmDataRep = round(($KsvmTotal*100/$KsvmTotReg));
+                        } else {
+                            $KsvmDataRep = 0;
+                        }
+                        return $KsvmDataRep;
+                        break;
+
+                    case 'November':
+                        if ($KsvmTokken == 1) {
+                            $KsvmTotalMes = "SELECT SUM(DivDifInv)*(-1) AS ValorTotal FROM ksvmvistadetalleinventario WHERE IvtEstInv != 'I' AND  IvtMesInv = 'November' AND 
+                            MdcId = '$KsvmMedicamento' AND IvtAnioInv = '$KsvmAnio' AND (DivContFisInv < DivStockInv)";
+                            $KsvmConVal = $KsvmConsulta->query($KsvmTotalMes);
+                            $KsvmValRep = $KsvmConVal->fetch();
+                            $KsvmTotal =  $KsvmValRep['ValorTotal'];
+                            $KsvmDataRep = round(($KsvmTotal*100/$KsvmTotReg));
+                        } elseif ($KsvmTokken == 2) {
+                            $KsvmTotalMes = "SELECT SUM(DivDifInv) AS ValorTotal FROM ksvmvistadetalleinventario WHERE IvtEstInv != 'I' AND  IvtMesInv = 'November' AND 
+                            MdcId = '$KsvmMedicamento' AND IvtAnioInv = '$KsvmAnio' AND (DivContFisInv > DivStockInv)";
+                            $KsvmConVal = $KsvmConsulta->query($KsvmTotalMes);
+                            $KsvmValRep = $KsvmConVal->fetch();
+                            $KsvmTotal = $KsvmValRep['ValorTotal'];
+                            $KsvmDataRep = round(($KsvmTotal*100/$KsvmTotReg));
+                        } else {
+                            $KsvmDataRep = 0;
+                        }
+
+                        return $KsvmDataRep;
+                        break;
+    
+                    case 'December':
+                        if ($KsvmTokken == 1) {
+                            $KsvmTotalMes = "SELECT SUM(DivDifInv)*(-1) AS ValorTotal FROM ksvmvistadetalleinventario WHERE IvtEstInv != 'I' AND  IvtMesInv = 'December' AND 
+                            MdcId = '$KsvmMedicamento' AND IvtAnioInv = '$KsvmAnio' AND (DivContFisInv < DivStockInv)";
+                            $KsvmConVal = $KsvmConsulta->query($KsvmTotalMes);
+                            $KsvmValRep = $KsvmConVal->fetch();
+                            $KsvmTotal =  $KsvmValRep['ValorTotal'];
+                            $KsvmDataRep = round(($KsvmTotal*100/$KsvmTotReg));
+                        } elseif ($KsvmTokken == 2) {
+                            $KsvmTotalMes = "SELECT SUM(DivDifInv) AS ValorTotal FROM ksvmvistadetalleinventario WHERE IvtEstInv != 'I' AND  IvtMesInv = 'December' AND 
+                            MdcId = '$KsvmMedicamento' AND IvtAnioInv = '$KsvmAnio' AND (DivContFisInv > DivStockInv)";
+                            $KsvmConVal = $KsvmConsulta->query($KsvmTotalMes);
+                            $KsvmValRep = $KsvmConVal->fetch();
+                            $KsvmTotal =  $KsvmValRep['ValorTotal'];
+                            $KsvmDataRep = round(($KsvmTotal*100/$KsvmTotReg));
+                        } else {
+                            $KsvmDataRep = 0;
+                        }
+
+                        return $KsvmDataRep;
+                        break;
+                }
+
+                             
+            } else {
+                if ($KsvmTokken == 1) {
+                    $KsvmTotalMes = "SELECT SUM(DivDifInv) AS ValorTotal FROM ksvmvistadetalleinventario WHERE IvtEstInv != 'I' AND IvtAnioInv = '$KsvmAnio' AND 
+                    (DivContFisInv < DivStockInv)";
+                    $KsvmConVal = $KsvmConsulta->query($KsvmTotalMes);
+                        $KsvmValRep = $KsvmConVal->fetch();
+                        $KsvmTotal =  $KsvmValRep['ValorTotal'];
+
+                } elseif ($KsvmTokken == 2) {
+                    $KsvmTotalMes = "SELECT SUM(DivDifInv) AS ValorTotal FROM ksvmvistadetalleinventario WHERE IvtEstInv != 'I' AND IvtAnioInv = '$KsvmAnio' AND 
+                    (DivContFisInv > DivStockInv)";
+                    $KsvmConVal = $KsvmConsulta->query($KsvmTotalMes);
+                    $KsvmValRep = $KsvmConVal->fetch();
+                    $KsvmTotal =  $KsvmValRep['ValorTotal'];
+                } else {
+                    $KsvmTotal = 0;
+                }
+                // echo $KsvmTotal;
+                return $KsvmTotal;
+            }
+
+
+        }
+
+      /**
+       * Función que permite seleccionar un medicamento  
+       */
+      public function __KsvmMuestraMedicamento($KsvmMdcId)
+      {
+        $KsvmConsulta = KsvmEstMaestra :: __KsvmConexion();
+        $KsvmMedic = "SELECT MdcDescMed, MdcConcenMed FROM ksvmvistamedicamentos WHERE MdcEstMed = 'A' AND MdcId = '$KsvmMdcId'";
+        $KsvmConVal = $KsvmConsulta->query($KsvmMedic);
+        $KsvmDataMed = $KsvmConVal->fetch();
+        return $KsvmDataMed;
+      }
+
+      /**
+       * Función que permite calcular el total de una Compra  
+       */
+      public function __KsvmTotalRegistros($KsvmMedicamento, $KsvmAnio, $KsvmTokken)
+      {
+        $KsvmMedicamento = KsvmEstMaestra :: __KsvmFiltrarCadena($KsvmMedicamento);
+        $KsvmAnio = KsvmEstMaestra :: __KsvmFiltrarCadena($KsvmAnio);
+        $KsvmUsuario = $_SESSION['KsvmUsuId-SIGIM'];
+
+            $KsvmConsulta = KsvmEstMaestra :: __KsvmConexion();
+
+            if ($KsvmTokken == 1) {
+                $KsvmTotalAnio = "SELECT SUM(DivDifInv)*(-1) AS ValorTotal FROM ksvmvistadetalleinventario WHERE IvtEstInv != 'I' AND 
+                MdcId = '$KsvmMedicamento' AND IvtAnioInv = '$KsvmAnio' AND (DivContFisInv < DivStockInv)";
+                $KsvmQuery = $KsvmConsulta->query($KsvmTotalAnio);
+                $KsvmValTotal = $KsvmQuery->fetch();
+                $KsvmTotReg =  $KsvmValTotal['ValorTotal'];
+                // echo $KsvmTotReg;
+            } else {
+                $KsvmTotalAnio = "SELECT SUM(DivDifInv) AS ValorTotal FROM ksvmvistadetalleinventario WHERE IvtEstInv != 'I' AND 
+                MdcId = '$KsvmMedicamento' AND IvtAnioInv = '$KsvmAnio' AND (DivContFisInv > DivStockInv)";
+                $KsvmQuery = $KsvmConsulta->query($KsvmTotalAnio);
+                $KsvmValTotal = $KsvmQuery->fetch();
+                $KsvmTotReg =  $KsvmValTotal['ValorTotal'];
+                // echo $KsvmTotReg;
+            }
+
+        return $KsvmTotReg;
+        
+      }
+
+        /**
        * Función que permite seleccionar un Inventario 
        */
         public function __KsvmSeleccionarInventario()
         {
 
             $KsvmBod = $_POST['KsvmBdgCod'];
-            $KsvmSelectExt = "SELECT * FROM ksvmvistainventarios WHERE BdgId = '$KsvmBod'";
+            $KsvmSelectExt = "SELECT * FROM ksvmvistainventarios WHERE BdgId = '$KsvmBod' AND IvtEstInv = 'A'";
 
             $KsvmConsulta = KsvmEstMaestra :: __KsvmConexion();
             $KsvmQuery = $KsvmConsulta->query($KsvmSelectExt);
@@ -617,19 +977,32 @@
             $KsvmMedica = $_POST['KsvmIvtMedCod'];
             if ($KsvmMedica != 0) {
                 $KsvmSelectExt = "SELECT * FROM ksvmvistadetalleinventario WHERE IvtId = '$KsvmMedica'";
+
+                $KsvmConsulta = KsvmEstMaestra :: __KsvmConexion();
+                $KsvmQuery = $KsvmConsulta->query($KsvmSelectExt);
+                $KsvmQuery = $KsvmQuery->fetchAll();
+                    $KsvmListar = '<option value="" selected="" disabled>Seleccione Medicamento</option>';
+    
+                    foreach ($KsvmQuery as $row) {
+                        $KsvmListar .= '<option value="'.$row['ExtId'].'">'.$row['MdcDescMed'].' '.$row['MdcConcenMed'].' '.$row['ExtLoteEx'].'</option>';
+                    }
+                    return $KsvmListar;
+
             } else {
                 $KsvmSelectExt = "SELECT * FROM ksvmseleccionaexistencia";
+
+                $KsvmConsulta = KsvmEstMaestra :: __KsvmConexion();
+                $KsvmQuery = $KsvmConsulta->query($KsvmSelectExt);
+                $KsvmQuery = $KsvmQuery->fetchAll();
+                    $KsvmListar = '<option value="" selected="" disabled>Seleccione Medicamento</option>';
+    
+                    foreach ($KsvmQuery as $row) {
+                        $KsvmListar .= '<option value="'.$row['ExtId'].'">'.$row['MdcDescMed'].' '.$row['MdcConcenMed'].' '.$row['ExtLoteEx'].'</option>';
+                    }
+                    return $KsvmListar;
             }
 
-            $KsvmConsulta = KsvmEstMaestra :: __KsvmConexion();
-            $KsvmQuery = $KsvmConsulta->query($KsvmSelectExt);
-            $KsvmQuery = $KsvmQuery->fetchAll();
-                $KsvmListar = '<option value="" selected="" disabled>Seleccione Medicamento</option>';
 
-                foreach ($KsvmQuery as $row) {
-                    $KsvmListar .= '<option value="'.$row['ExtId'].'">'.$row['MdcDescMed'].' '.$row['MdcConcenMed'].' '.$row['ExtLoteEx'].'</option>';
-                }
-                return $KsvmListar;
         }
 
          /**
@@ -637,18 +1010,38 @@
          */
         public function __KsvmCargarStock()
         {
-
             $KsvmStock = $_POST['KsvmIvtStkCod'];
-            $KsvmDataStock = KsvmInventarioModelo :: __KsvmSeleccionarStock($KsvmStock);
-            if ($KsvmDataStock->rowCount() == 1) {
-                $KsvmLlenarStock = $KsvmDataStock->fetch();
-                $KsvmListar = '<input class="mdl-textfield__input" type="text" name="KsvmStockReq"
-                               value="'.$KsvmLlenarStock['DivStockInv'].'">';
+            $KsvmBodega = $_POST['KsvmBod'];
 
-            }
+                $KsvmDataStock = KsvmInventarioModelo :: __KsvmSeleccionarStock($KsvmStock, $KsvmBodega);
+                if ($KsvmDataStock->rowCount() == 1) {
+                    $KsvmLlenarStock = $KsvmDataStock->fetch();
+                    $KsvmListar = '<label class="mdl-textfield__input">'.$KsvmLlenarStock['DivStockInv'].'</label>
+                    <input class="mdl-textfield__input" type="text" name="KsvmStockReq"
+                                value="'.$KsvmLlenarStock['DivStockInv'].'" hidden>';
+
+                }else{
+                    $KsvmListar = '<label class="mdl-textfield__input">0</label>
+                    <input class="mdl-textfield__input" type="text" name="KsvmStockReq"
+                                value="0" hidden>';
+                }
 
             return $KsvmListar;
         }
+
+        /**
+         * Función que permite cargar el tipo de transacción 
+         */
+        public function __KsvmCargarBodega()
+        {
+            $KsvmBodega = $_POST['KsvmBodCod'];
+            echo $KsvmBodega;
+            $KsvmListar = '<input class="mdl-textfield__input" type="text" name="KsvmNvoStock"
+            id="KsvmDato3" value="'.$KsvmBodega.'">';
+            return $KsvmListar;
+
+        } 
+
     
 }
    

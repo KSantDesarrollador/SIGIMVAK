@@ -43,9 +43,9 @@
 									<div
 										class="mdl-cell mdl-cell--4-col-phone mdl-cell--8-col-tablet mdl-cell--4-col-desktop">
 										<div class="mdl-textfield mdl-js-textfield">
-											<select class="mdl-textfield__input" id="KsvmBdgId" name="KsvmOrigenTran"
-												required>
-												<option value="" disabled="" selected="">Bodega Origen</option>
+											<select class="ksvmSelectDin" id="KsvmBdgId" style="width:100%;"
+												name="KsvmOrigenTran" required>
+												<option value="" disabled="" selected="">Bodega</option>
 												<?php require_once "./Controladores/KsvmBodegaControlador.php";
 													$KsvmSelBod = new KsvmBodegaControlador();
 													echo $KsvmSelBod->__KsvmSeleccionarBodega();
@@ -56,9 +56,9 @@
 									<div
 										class="mdl-cell mdl-cell--4-col-phone mdl-cell--8-col-tablet mdl-cell--4-col-desktop">
 										<div class="mdl-textfield mdl-js-textfield">
-											<select class="mdl-textfield__input" id="KsvmBdgReq" name="KsvmDestinoTran"
-												required>
-												<option value="" disabled="" selected="">Bodega Destino</option>
+											<select class="ksvmSelectDin" id="KsvmBdgReq" style="width:100%;"
+												name="KsvmDestinoTran" required>
+												<option value="" disabled="" selected="">Bodega Solitante</option>
 												<?php require_once "./Controladores/KsvmBodegaControlador.php";
 													$KsvmSelBod = new KsvmBodegaControlador();
 													echo $KsvmSelBod->__KsvmSeleccionarBodega();
@@ -69,21 +69,18 @@
 									<div
 										class="mdl-cell mdl-cell--4-col-phone mdl-cell--8-col-tablet mdl-cell--4-col-desktop">
 										<div class="mdl-textfield mdl-js-textfield">
-											<select class="mdl-textfield__input" name="KsvmRqcId" id="KsvmRqcId"
-												required>
-												<option value="" disabled="" selected="">Requisición</option>
+											<select class="ksvmSelectDin" name="KsvmRqcId" style="width:100%;"
+												id="KsvmRqcId" required>
+												<option value="" disabled="" selected="">Pedido</option>
 											</select>
 										</div>
 									</div>
 									<div
 										class="mdl-cell mdl-cell--4-col-phone mdl-cell--8-col-tablet mdl-cell--6-col-desktop">
-										<div class="mdl-textfield mdl-js-textfield" hidden>
-											<select class="mdl-textfield__input" name="KsvmTipoTran" id="KsvmTipoTran"
-												required>
-												<option value="" disabled="" selected="">Tipo de Transacción</option>
-												<option value="Ingreso">Ingreso</option>
-												<option value="Egreso">Egreso</option>
-											</select>
+										<div class="mdl-textfield mdl-js-textfield" id="KsvmTTran" hidden>
+											<input class="mdl-textfield__input" type="text" name="KsvmTipoTran">
+											<label class="mdl-textfield__label" for="KsvmTipoTran">Tipo de
+												transacción</label>
 										</div>
 									</div>
 									<div class="mdl-cell mdl-cell--4-col-phone mdl-cell--8-col-tablet mdl-cell--6-col-desktop"
@@ -117,24 +114,18 @@
 									<div
 										class="mdl-cell mdl-cell--4-col-phone mdl-cell--8-col-tablet mdl-cell--6-col-desktop">
 										<div class="mdl-textfield mdl-js-textfield">
-											<select class="mdl-textfield__input" name="KsvmTipoTran" id="KsvmTipoTran"
-												required>
+											<select class="ksvmSelectDin" name="KsvmTipoTran" id="KsvmTipoTran"
+												style="width:100%;" required>
 												<option value="" disabled="" selected="">Tipo de Transacción</option>
 												<option value="Ingreso">Ingreso</option>
 												<option value="Egreso">Egreso</option>
 											</select>
 										</div>
 										<div class="mdl-textfield mdl-js-textfield">
-											<select class="mdl-textfield__input" name="KsvmExtId" id="KsvmExtId"
-												required>
+											<select class="ksvmSelectDin" name="KsvmExtId" id="KsvmExtId"
+												style="width:100%;" required>
 												<option value="" disabled="" selected=""> Medicamento</option>
 											</select>
-										</div>
-										<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-											<input class="mdl-textfield__input" type="text" name="KsvmObservTran"
-												id="KsvmObservTran">
-											<label class="mdl-textfield__label" for="KsvmObservTran">Observación</label>
-											<span class="mdl-textfield__error">Observación Inválida</span>
 										</div>
 									</div>
 									<div
@@ -142,15 +133,24 @@
 										<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label"
 											id="KsvmCantTran">
 											<input class="mdl-textfield__input" type="number" max="1000" min="1"
-												name="KsvmCantTran" pattern="-?[0-9+()- ]*(\.[0-9]+)?">
+												name="KsvmCantTran" pattern="-?[0-9+()- ]*(\.[0-9]+)?" id="KsvmDato3">
 											<label class="mdl-textfield__label" for="KsvmCantTran">Cantidad</label>
 											<span class="mdl-textfield__error">Cantidad Inválida</span>
+											<span id="KsvmError3" class="ValForm"><i
+													class="zmdi zmdi-alert-triangle">&nbsp;Por favor llene este
+													campo</i></span>
+										</div>
+										<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+											<input class="mdl-textfield__input" type="text" name="KsvmObservTran"
+												pattern="-?[A-Za-z0-9áéíóúÁÉÍÓÚñ ]*(\.[0-9]+)?" id="KsvmObservTran">
+											<label class="mdl-textfield__label" for="KsvmObservTran">Observación</label>
+											<span class="mdl-textfield__error">Observación Inválida</span>
 										</div>
 										<br>
 										<p class="text-center">
 											<button type="submit" style="width:49%; float:left;"
 												class="mdl-button mdl-js-button mdl-js-ripple-effect btn-success mdl-shadow--4dp"
-												id="btnAgregar">
+												id="btnSave">
 												<i class="zmdi zmdi-plus" style="font-size:20px;"></i>&nbsp;Agregar
 											</button>
 
@@ -161,7 +161,7 @@
 												&nbsp;Guardar
 											</button>
 										</p>
-										<div class="mdl-tooltip" for="btnAgregar">Agregar</div>
+										<div class="mdl-tooltip" for="btnSave">Agregar</div>
 										<div class="mdl-tooltip" for="btnGuardar">Guardar</div>
 									</div>
 								</div>

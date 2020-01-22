@@ -79,23 +79,43 @@
       */
       protected function __KsvmActualizarMedicamentoModelo($KsvmDataMedicamento)
       {
-        $KsvmActMedicamento = "UPDATE ksvmmedicamentos07 SET CtgId = :KsvmCtgId, MdcCodMed = :KsvmCodMed, MdcDescMed = :KsvmDescMed,
-                            MdcPresenMed = :KsvmPresenMed, MdcConcenMed = :KsvmConcenMed, MdcNivPrescMed = :KsvmNivPrescMed,
-                            MdcNivAtencMed = :KsvmNivAtencMed, MdcViaAdmMed = :KsvmViaAdmMed, MdcFotoMed = :KsvmFotoMed
-                            WHERE MdcId = :KsvmCodMedicamento";
-        $KsvmQuery = KsvmEstMaestra :: __KsvmConexion()->prepare($KsvmActMedicamento);
-        $KsvmQuery->bindParam(":KsvmCtgId", $KsvmDataMedicamento['KsvmCtgId']);
-         $KsvmQuery->bindParam(":KsvmCodMed", $KsvmDataMedicamento['KsvmCodMed']);
-         $KsvmQuery->bindParam(":KsvmDescMed", $KsvmDataMedicamento['KsvmDescMed']);
-         $KsvmQuery->bindParam(":KsvmPresenMed", $KsvmDataMedicamento['KsvmPresenMed']);
-         $KsvmQuery->bindParam(":KsvmConcenMed", $KsvmDataMedicamento['KsvmConcenMed']);
-         $KsvmQuery->bindParam(":KsvmNivPrescMed", $KsvmDataMedicamento['KsvmNivPrescMed']);
-         $KsvmQuery->bindParam(":KsvmNivAtencMed", $KsvmDataMedicamento['KsvmNivAtencMed']);
-         $KsvmQuery->bindParam(":KsvmViaAdmMed", $KsvmDataMedicamento['KsvmViaAdmMed']);
-         $KsvmQuery->bindParam(":KsvmFotoMed", $KsvmDataMedicamento['KsvmFotoMed']);
-         $KsvmQuery->bindParam(":KsvmCodMedicamento", $KsvmDataMedicamento['KsvmCodMedicamento']);
-         $KsvmQuery->execute();
-         return $KsvmQuery;
-      }
+          if ($KsvmDataMedicamento['KsvmFotoMed'] != "") {
+                $KsvmActMedicamento = "UPDATE ksvmmedicamentos07 SET CtgId = :KsvmCtgId, MdcCodMed = :KsvmCodMed, MdcDescMed = :KsvmDescMed,
+                MdcPresenMed = :KsvmPresenMed, MdcConcenMed = :KsvmConcenMed, MdcNivPrescMed = :KsvmNivPrescMed,
+                MdcNivAtencMed = :KsvmNivAtencMed, MdcViaAdmMed = :KsvmViaAdmMed, MdcFotoMed = :KsvmFotoMed
+                WHERE MdcId = :KsvmCodMedicamento";
+                $KsvmQuery = KsvmEstMaestra :: __KsvmConexion()->prepare($KsvmActMedicamento);
+                $KsvmQuery->bindParam(":KsvmCtgId", $KsvmDataMedicamento['KsvmCtgId']);
+                $KsvmQuery->bindParam(":KsvmCodMed", $KsvmDataMedicamento['KsvmCodMed']);
+                $KsvmQuery->bindParam(":KsvmDescMed", $KsvmDataMedicamento['KsvmDescMed']);
+                $KsvmQuery->bindParam(":KsvmPresenMed", $KsvmDataMedicamento['KsvmPresenMed']);
+                $KsvmQuery->bindParam(":KsvmConcenMed", $KsvmDataMedicamento['KsvmConcenMed']);
+                $KsvmQuery->bindParam(":KsvmNivPrescMed", $KsvmDataMedicamento['KsvmNivPrescMed']);
+                $KsvmQuery->bindParam(":KsvmNivAtencMed", $KsvmDataMedicamento['KsvmNivAtencMed']);
+                $KsvmQuery->bindParam(":KsvmViaAdmMed", $KsvmDataMedicamento['KsvmViaAdmMed']);
+                $KsvmQuery->bindParam(":KsvmFotoMed", $KsvmDataMedicamento['KsvmFotoMed']);
+                $KsvmQuery->bindParam(":KsvmCodMedicamento", $KsvmDataMedicamento['KsvmCodMedicamento']);
+                $KsvmQuery->execute();
+                return $KsvmQuery;
+          } else {
+          
+                $KsvmActMedicamento = "UPDATE ksvmmedicamentos07 SET CtgId = :KsvmCtgId, MdcCodMed = :KsvmCodMed, MdcDescMed = :KsvmDescMed,
+                                    MdcPresenMed = :KsvmPresenMed, MdcConcenMed = :KsvmConcenMed, MdcNivPrescMed = :KsvmNivPrescMed,
+                                    MdcNivAtencMed = :KsvmNivAtencMed, MdcViaAdmMed = :KsvmViaAdmMed
+                                    WHERE MdcId = :KsvmCodMedicamento";
+                $KsvmQuery = KsvmEstMaestra :: __KsvmConexion()->prepare($KsvmActMedicamento);
+                $KsvmQuery->bindParam(":KsvmCtgId", $KsvmDataMedicamento['KsvmCtgId']);
+                $KsvmQuery->bindParam(":KsvmCodMed", $KsvmDataMedicamento['KsvmCodMed']);
+                $KsvmQuery->bindParam(":KsvmDescMed", $KsvmDataMedicamento['KsvmDescMed']);
+                $KsvmQuery->bindParam(":KsvmPresenMed", $KsvmDataMedicamento['KsvmPresenMed']);
+                $KsvmQuery->bindParam(":KsvmConcenMed", $KsvmDataMedicamento['KsvmConcenMed']);
+                $KsvmQuery->bindParam(":KsvmNivPrescMed", $KsvmDataMedicamento['KsvmNivPrescMed']);
+                $KsvmQuery->bindParam(":KsvmNivAtencMed", $KsvmDataMedicamento['KsvmNivAtencMed']);
+                $KsvmQuery->bindParam(":KsvmViaAdmMed", $KsvmDataMedicamento['KsvmViaAdmMed']);
+                $KsvmQuery->bindParam(":KsvmCodMedicamento", $KsvmDataMedicamento['KsvmCodMedicamento']);
+                $KsvmQuery->execute();
+                return $KsvmQuery;
+            }
+        }
 
    }

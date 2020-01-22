@@ -198,8 +198,9 @@
 									<div
 										class="mdl-cell mdl-cell--4-col-phone mdl-cell--8-col-tablet mdl-cell--12-col-desktop">
 										<div class="mdl-textfield mdl-js-textfield">
-											<select class="mdl-textfield__input" name="KsvmNivelMen" id="KsvmDato1">
-												<option value="" selected="" disabled>Seleccione Nivel</option>
+											<select class="ksvmSelectDin" name="KsvmNivelMen" id="KsvmDato1"
+												style="width:98%;">
+												<option value="" selected="">Seleccione Nivel</option>
 												<option value="0">Nivel 0</option>
 												<option value="1">Nivel 1</option>
 											</select>
@@ -208,7 +209,7 @@
 													campo</i></span>
 										</div>
 										<div class="mdl-textfield mdl-js-textfield">
-											<select class="mdl-textfield__input" name="KsvmJerqMen">
+											<select class="ksvmSelectDin" name="KsvmJerqMen" style="width:98%;">
 												<option value="" selected="">Seleccione Jerarquía</option>
 												<?php require_once "./Controladores/KsvmMenuControlador.php";
 													$KsvmSelUndMed = new KsvmMenuControlador();
@@ -227,7 +228,7 @@
 										</div>
 										<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
 											<input class="mdl-textfield__input" type="text" name="KsvmIconMen"
-												id="KsvmDato3">
+											    pattern="-?[A-Za-z0-9-áéíóúÁÉÍÓÚ ]*(\.[0-9]+)?" id="KsvmDato3">
 											<label class="mdl-textfield__label" for="KsvmDato3">Ícono</label>
 											<span class="mdl-textfield__error">Ícono Inválido</span>
 											<span id="KsvmError3" class="ValForm"><i
@@ -236,13 +237,13 @@
 										</div>
 										<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
 											<input class="mdl-textfield__input" type="text" name="KsvmUrlMen"
-												id="KsvmUrlMen">
+											    pattern="-?[A-Za-z0-9-áéíóúÁÉÍÓÚ/ ]*(\.[0-9]+)?" id="KsvmUrlMen">
 											<label class="mdl-textfield__label" for="KsvmUrlMen">Url</label>
 											<span class="mdl-textfield__error">Url Inválida</span>
 										</div>
 										<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
 											<input class="mdl-textfield__input" type="text" name="KsvmLeyendMen"
-												id="KsvmDato4">
+											    pattern="-?[A-Za-z0-9áéíóúÁÉÍÓÚ ]*(\.[0-9]+)?" id="KsvmDato4">
 											<label class="mdl-textfield__label" for="KsvmDato4">Leyenda</label>
 											<span class="mdl-textfield__error">Leyenda Inválida</span>
 											<span id="KsvmError4" class="ValForm"><i

@@ -6,7 +6,7 @@
   <section class="full-width pageContent">
     <section class="full-width text-center" style="padding: 25px 0;">
     <div style="height: 70px;" class="tittle">
-      <h3><img src="<?php echo KsvmServUrl?>Vistas/assets/img/logo.png" height="60px"><span class="text-center tittles hide-on-tablet">&nbsp;Sistema de Gestión de Inventario de Medicamentos </span></h3>
+      <h3><img src="<?php echo KsvmServUrl?>Vistas/assets/img/medicamentos.png" height="60px"><span class="text-center tittles hide-on-tablet">&nbsp;Sistema de Gestión de Inventario de Medicamentos </span></h3>
       </div>
 
     </section>

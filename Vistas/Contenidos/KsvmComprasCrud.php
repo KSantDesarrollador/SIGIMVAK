@@ -43,8 +43,8 @@
 									<div
 										class="mdl-cell mdl-cell--4-col-phone mdl-cell--8-col-tablet mdl-cell--6-col-desktop">
 										<div class="mdl-textfield mdl-js-textfield">
-											<select class="mdl-textfield__input" name="KsvmPvdId" id="KsvmPvdId"
-												required>
+											<select class="ksvmSelectDin" name="KsvmPvdId" id="KsvmPvdId"
+												style="width:100%;" required>
 												<option value="" disabled="" selected="">Seleccione Proveedor</option>
 												<?php require_once "./Controladores/KsvmProveedorControlador.php";
 													$KsvmSelProv = new KsvmProveedorControlador();
@@ -89,36 +89,43 @@
 									<div
 										class="mdl-cell mdl-cell--4-col-phone mdl-cell--8-col-tablet mdl-cell--6-col-desktop">
 										<div class="mdl-textfield mdl-js-textfield">
-											<select class="mdl-textfield__input" name="KsvmMdcId" id="KsvmDato1">
+											<select class="ksvmSelectDin" name="KsvmMdcId" id="KsvmExtId"
+												atyle="width:100%;">
 												<option value="" selected="">Seleccione Medicamento</option>
 												<?php require_once "./Controladores/KsvmMedicamentoControlador.php";
 													$KsvmSelMed = new KsvmMedicamentoControlador();
 													echo $KsvmSelMed->__KsvmSeleccionarMedicamento();
 													?>
 											</select>
-											<span id="KsvmError1" class="ValForm"><i class="zmdi zmdi-alert-triangle">&nbsp;Por favor llene este campo</i></span>
+											<span id="KsvmError1" class="ValForm"><i
+													class="zmdi zmdi-alert-triangle">&nbsp;Por favor llene este
+													campo</i></span>
 										</div>
 										<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
 											<input class="mdl-textfield__input" type="text" name="KsvmValorUntOcp"
-											   pattern="-?[0-9.]*[A-Za-záéíóúÁÉÍÓÚ ]?" id="KsvmDato2">
+												pattern="-?[0-9.]*[A-Za-záéíóúÁÉÍÓÚ ]?" id="KsvmDato2">
 											<label class="mdl-textfield__label" for="KsvmDato2">Valor
 												Unitario</label>
 											<span class="mdl-textfield__error">Valor Inválido</span>
-											<span id="KsvmError2" class="ValForm"><i class="zmdi zmdi-alert-triangle">&nbsp;Por favor llene este campo</i></span>
+											<span id="KsvmError2" class="ValForm"><i
+													class="zmdi zmdi-alert-triangle">&nbsp;Por favor llene este
+													campo</i></span>
 										</div>
 									</div>
 									<div
 										class="mdl-cell mdl-cell--4-col-phone mdl-cell--8-col-tablet mdl-cell--6-col-desktop">
 										<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-											<input class="mdl-textfield__input" type="number" max="1000" min="1"
+											<input class="mdl-textfield__input" type="number" max="10000" min="1"
 												name="KsvmCantOcp" pattern="-?[.0-9+()-]*(\[0-9]+)?" id="KsvmDato3">
 											<label class="mdl-textfield__label" for="KsvmDato3">Cantidad</label>
 											<span class="mdl-textfield__error">Cantidad Inválido</span>
-											<span id="KsvmError3" class="ValForm"><i class="zmdi zmdi-alert-triangle">&nbsp;Por favor llene este campo</i></span>
+											<span id="KsvmError3" class="ValForm"><i
+													class="zmdi zmdi-alert-triangle">&nbsp;Por favor llene este
+													campo</i></span>
 										</div>
 										<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
 											<input class="mdl-textfield__input" type="text" name="KsvmObservOcp"
-												pattern="-?[A-Za-záéíóúÁÉÍÓÚ ]*(\.[0-9]+)?" id="KsvmObservOcp">
+												pattern="-?[A-Za-z0-9áéíóúÁÉÍÓÚ ]*(\.[0-9]+)?" id="KsvmObservOcp">
 											<label class="mdl-textfield__label" for="KsvmObservOcp">Observación</label>
 											<span class="mdl-textfield__error">Observación Inválida</span>
 										</div>

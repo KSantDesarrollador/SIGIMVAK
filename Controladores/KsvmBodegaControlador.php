@@ -370,9 +370,42 @@
          
         }
 
+      /**
+       * Función que permite seleccionar una bodega
+       */
+      public function __KsvmCargaBodega(){
+        $KsvmSelectBodega = "SELECT * FROM ksvmvistabodegas";
+
+        $KsvmConsulta = KsvmEstMaestra :: __KsvmConexion();
+        $KsvmQuery = $KsvmConsulta->query($KsvmSelectBodega);
+        $KsvmQuery = $KsvmQuery->fetchAll();
+        return $KsvmQuery;
+    }
+
+      /**
+       * Función que permite seleccionar una bodega
+       */
         public function __KsvmSeleccionarBodega(){
             $KsvmUsuario = $_SESSION['KsvmUsuId-SIGIM'];
             $KsvmSelectBodega = "SELECT * FROM ksvmseleccionabodega WHERE UsrId = '$KsvmUsuario'";
+
+            $KsvmConsulta = KsvmEstMaestra :: __KsvmConexion();
+            $KsvmQuery = $KsvmConsulta->query($KsvmSelectBodega);
+            $KsvmQuery = $KsvmQuery->fetchAll();
+
+            foreach ($KsvmQuery as $row) {
+                $KsvmListar .= '<option value="'.$row['BdgId'].'">'.$row['BdgDescBod'].'</option>';
+            }
+            return $KsvmListar;
+        }
+
+      /**
+       * Función que permite seleccionar una bodega
+       */
+        public function __KsvmSeleccionarBodegaExt(){
+            $KsvmUsuario = $_SESSION['KsvmUsuId-SIGIM'];
+            $KsvmSelectBodega = "SELECT DISTINCT b.* FROM ksvmbodega05 b JOIN ksvmexistenciaxbodega23 e ON b.BdgId = e.BdgId JOIN 
+            ksvmbodegaxusuario12 u ON b.BdgId = u.BdgId WHERE u.UsrId = '$KsvmUsuario'";
 
             $KsvmConsulta = KsvmEstMaestra :: __KsvmConexion();
             $KsvmQuery = $KsvmConsulta->query($KsvmSelectBodega);

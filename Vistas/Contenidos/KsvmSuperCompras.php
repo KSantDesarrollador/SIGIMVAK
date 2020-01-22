@@ -32,7 +32,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                <?php
+                        <?php
                     if ($KsvmListarCompra->rowCount() >= 1) {
                         $KsvmQuery = $KsvmListarCompra->fetchAll();
                     foreach ($KsvmQuery as $rows) {
@@ -55,7 +55,7 @@
                                     class="FormularioAjax" data-form="modificar" enctype="multipart/form-data">
                                     <input type="hidden" name="KsvmCodRevision"
                                         value="<?php echo KsvmEstMaestra::__KsvmEncriptacion($rows['CmpId']);?>">
-                                        <input type="hidden" name="KsvmTokken"
+                                    <input type="hidden" name="KsvmTokken"
                                         value="<?php echo KsvmEstMaestra::__KsvmEncriptacion('APB');?>">
                                     <button id="btn-Aprobado" type="submit" class="btn btn-sm btn-success"><i
                                             class="zmdi zmdi-check"></i></button>
@@ -67,7 +67,7 @@
                                     class="FormularioAjax" data-form="modificar" enctype="multipart/form-data">
                                     <input type="hidden" name="KsvmCodRevision"
                                         value="<?php echo KsvmEstMaestra::__KsvmEncriptacion($rows['CmpId']);?>">
-                                        <input type="hidden" name="KsvmTokken"
+                                    <input type="hidden" name="KsvmTokken"
                                         value="<?php echo KsvmEstMaestra::__KsvmEncriptacion('NEG');?>">
                                     <button id="btn-Negado" type="submit" class="btn btn-sm btn-danger"><i
                                             class="zmdi zmdi-close"></i></button>
@@ -82,11 +82,12 @@
             </div>
         </div>
         <?php } else {?>
-                <tr> 
-                <td class="mdl-data-table__cell--non-numeric" colspan="7"><strong>No se encontraron registros...</strong></td>
-                </tr>
-                </tbody>
-                </table>
+        <tr>
+            <td class="mdl-data-table__cell--non-numeric" colspan="7"><strong>No se encontraron registros...</strong>
+            </td>
+        </tr>
+        </tbody>
+        </table>
 
         <?php }?>
 

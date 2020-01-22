@@ -368,7 +368,7 @@
         $KsvmQuery = KsvmEstMaestra :: __KsvmEjecutaConsulta($KsvmConsulta);
         $KsvmDataProveedor = $KsvmQuery->fetch();
 
-        if ($KsvmIdent != $KsvmDataProveedor['PvdIdentEmp']) {
+        if ($KsvmIdentProv != $KsvmDataProveedor['PvdIdentProv']) {
             $KsvmConsulta = "SELECT PvdIdentProv FROM ksvmvistaproveedores WHERE PvdIdentProv = '$KsvmIdentProv'";
             $KsvmQuery = KsvmEstMaestra :: __KsvmEjecutaConsulta($KsvmConsulta);
             if ($KsvmQuery->rowCount() >= 1) {

@@ -9,10 +9,13 @@ $KsvmPeticionAjax = false;
 $KsvmMostrar = new KsvmVistaControlador();
 $KsvmUrl = $KsvmMostrar->__KsvmCargarContenidoControlador();
 
-if ($KsvmUrl == "Login" || $KsvmUrl == "404") {
+if ($KsvmUrl == "Login" || $KsvmUrl == "404" || $KsvmUrl == "KsvmRecuperaContrasenia") {
   if ($KsvmUrl == "Login") {
     include "Compartido/KsvmCabecera.php";
     include "Contenidos/KsvmLogin.php";
+  }elseif ($KsvmUrl == "KsvmRecuperaContrasenia"){
+    include "Compartido/KsvmCabecera.php";
+    include "Contenidos/KsvmRecuperaContrasenia.php";
   } else {
     include "Compartido/KsvmCabecera.php";
     include "Contenidos/KsvmError404.php";
@@ -33,12 +36,12 @@ if ($KsvmUrl == "Login" || $KsvmUrl == "404") {
   include "Compartido/KsvmCierreSesionSc.php";
   /**Area de Notificaciones*/
   include "Compartido/KsvmNotificaciones.php";
-  /**Alertas*/
-  include "Compartido/KsvmAlertas.php";
   /**Menu Superior*/
   include "Compartido/KsvmMenu.php";
   /**Menu Lateral*/
   include "Compartido/KsvmMenuLateral.php";
+  /**Script Valida Cedula*/
+  include "Compartido/KsvmValidaId.php";
   /**Script Carga Select*/
   include "Compartido/KsvmCargaSelect.php";
   /**Contenido*/

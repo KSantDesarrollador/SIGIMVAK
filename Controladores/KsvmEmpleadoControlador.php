@@ -39,8 +39,24 @@
          $KsvmEstCiv = KsvmEstMaestra :: __KsvmFiltrarCadena($_POST['KsvmEstCiv']);
          $KsvmSexo = KsvmEstMaestra :: __KsvmFiltrarCadena($_POST['KsvmSexo']);
          $KsvmGenero = KsvmEstMaestra :: __KsvmFiltrarCadena($_POST['KsvmGenero']);
-         $KsvmFotoEmp = file_get_contents($_FILES['KsvmFotoEmp']['tmp_name']);
-
+         if (isset($_POST['KsvmFotoEmp'])) {
+            $KsvmFotoEmp = file_get_contents($_FILES['KsvmFotoEmp']['tmp_name']);
+        } else {
+            $KsvmFotoEmp = "";
+        }
+         $KsvmCalulaEdad = self :: __KsvmCalculaEdad($KsvmFchNac);
+         if ($KsvmCalulaEdad >= 18 && $KsvmCalulaEdad <= 50) {
+             $KsvmFchNacEmp = $KsvmFchNac;
+         } else {
+            $KsvmAlerta = [
+                "Alerta" => "simple",
+                "Titulo" => "Error inesperado",
+                "Cuerpo" => "La fecha de nacimiento no es correcta, El rango aceptado está entre 18 y 50 años",
+                "Tipo" => "info"
+               ];
+               return KsvmEstMaestra :: __KsvmMostrarAlertas($KsvmAlerta);
+         }
+         
          $KsvmEmaEm = "";
 
          $KsvmIdentificacion = "SELECT EpoIdentEmp FROM ksvmempleado03 WHERE EpoIdentEmp ='$KsvmIdent'";
@@ -52,6 +68,7 @@
               "Cuerpo" => "El número de identificación ingresado ya se encuentra registrado, Por favor ingrese un número válido",
               "Tipo" => "info"
              ];
+             return KsvmEstMaestra :: __KsvmMostrarAlertas($KsvmAlerta);
          } elseif ($KsvmEmail != "") {
               $KsvmEmailQ = "SELECT EpoEmailEmp FROM ksvmempleado03 WHERE EpoEmailEmp ='$KsvmEmail'";
               $KsvmQuery = KsvmEstMaestra :: __KsvmEjecutaConsulta($KsvmEmailQ);
@@ -80,7 +97,7 @@
                 "KsvmEpoSegNomEmp" => $KsvmSegNom,
                 "KsvmEpoTelfEmp" => $KsvmTelf,
                 "KsvmEpoDirEmp" => $KsvmDirc,
-                "KsvmEpoFchNacEmp" => $KsvmFchNac,
+                "KsvmEpoFchNacEmp" => $KsvmFchNacEmp,
                 "KsvmEpoEmailEmp" => $KsvmEmail,
                 "KsvmEpoSexoEmp" => $KsvmSexo,
                 "KsvmEpoGeneroEmp" => $KsvmGenero,
@@ -91,7 +108,7 @@
                 $KsvmGuardarEmp = KsvmEmpleadoModelo :: __KsvmAgregarEmpleadoModelo($KsvmNuevoEmp);
                 if ($KsvmGuardarEmp->rowCount() >= 1) {
                     $KsvmAlerta = [
-                    "Alerta" => "Limpia",
+                    "Alerta" => "Actualiza",
                     "Titulo" => "Grandioso",
                     "Cuerpo" => "El empleado se registró satisfactoriamente",
                     "Tipo" => "success"
@@ -161,19 +178,24 @@
         if ($KsvmTotalReg >= 1 && $KsvmPagina <= $KsvmNPaginas) {
             $KsvmContReg = $KsvmDesde +1;
             foreach ($KsvmQuery as $rows) {
+                if ($rows['EpoSexoEmp'] == 'M') {
+                    $KsvmSexo = 'Mujer';
+                }else{
+                    $KsvmSexo = 'Hombre';
+                }
                 $KsvmTabla .= '<tr>
                                 <td class="mdl-data-table__cell--non-numeric">'.$KsvmContReg.'</td>
                                 <td class="mdl-data-table__cell--non-numeric"><img style="border-radius:30px;" height="35px" width="35px" src="data:image/jpg;base64,'. base64_encode($rows['EpoFotoEmp']).'"/></td>
                                 <td class="mdl-data-table__cell--non-numeric">'.$rows['EpoIdentEmp'].'</td>
                                 <td class="mdl-data-table__cell--non-numeric">'.$rows['EpoPriApeEmp']." ".$rows['EpoSegApeEmp']." ".$rows['EpoPriNomEmp']." ".$rows['EpoSegNomEmp'].'</td>
                                 <td class="mdl-data-table__cell--non-numeric">'.$rows['EpoTelfEmp'].'</td>
-                                <td class="mdl-data-table__cell--non-numeric">'.$rows['EpoFchNacEmp'].'</td>
-                                <td class="mdl-data-table__cell--non-numeric">'.$rows['EpoSexoEmp'].'</td>
+                                <td class="mdl-data-table__cell--non-numeric">'.$KSvmEdad = self :: __KsvmCalculaEdad($rows['EpoFchNacEmp']).'</td>
+                                <td class="mdl-data-table__cell--non-numeric">'.$KsvmSexo.'</td>
                                 <td style="text-align:right; witdh:30px;">';
                                 if ($KsvmRol == 1) {
                                     if ($KsvmCodigo == 0) {
 
-                                    $KsvmTabla .=  '<form action="'.KsvmServUrl.'Ajax/KsvmRequisicionAjax.php" method="POST" class="FormularioAjax" data-form="eliminar" enctype="multipart/form-data"> 
+                                    $KsvmTabla .=  '<form action="'.KsvmServUrl.'Ajax/KsvmEmpleadoAjax.php" method="POST" class="FormularioAjax" data-form="eliminar" enctype="multipart/form-data"> 
                                                     <a id="btn-detail" class="btn btn-sm btn-info" href="'.KsvmServUrl.'KsvmEmpleadosCrud/Detail/'.KsvmEstMaestra::__KsvmEncriptacion($rows['EpoId']).'/"><i class="zmdi zmdi-card"></i></a>
                                                     <div class="mdl-tooltip" for="btn-detail">Detalles</div>
                                                     <a id="btn-edit" class="btn btn-sm btn-primary" href="'.KsvmServUrl.'KsvmEmpleadosEditar/'.KsvmEstMaestra::__KsvmEncriptacion($rows['EpoId']).'/0/"><i class="zmdi zmdi-edit"></i></a>
@@ -183,7 +205,7 @@
                                                     <div class="RespuestaAjax"></div>
                                                     </form>';
                                     } else {
-                                    $KsvmTabla .= '<form action="'.KsvmServUrl.'Ajax/KsvmRequisicionAjax.php" method="POST" class="FormularioAjax" data-form="eliminar" enctype="multipart/form-data"> 
+                                    $KsvmTabla .= '<form action="'.KsvmServUrl.'Ajax/KsvmEmpleadoAjax.php" method="POST" class="FormularioAjax" data-form="eliminar" enctype="multipart/form-data"> 
                                                     <a id="btn-detail" class="btn btn-sm btn-info" href="'.KsvmServUrl.'KsvmEmpleados/Detail/'.KsvmEstMaestra::__KsvmEncriptacion($rows['EpoId']).'"><i class="zmdi zmdi-card"></i></a>
                                                     <div class="mdl-tooltip" for="btn-detail">Detalles</div>
                                                     <a id="btn-edit" class="btn btn-sm btn-primary" href="'.KsvmServUrl.'KsvmEmpleadosEditar/'.KsvmEstMaestra::__KsvmEncriptacion($rows['EpoId']).'/1/"><i class="zmdi zmdi-edit"></i></a>
@@ -301,6 +323,39 @@
                                    
         return $KsvmTabla;
       }
+
+      /**
+       * Función que permite calcular la edad
+       */
+      public function __KsvmCalculaEdad($fechaNacimiento){
+        $KsvmDia=date("d");
+        $KsvmMes=date("m");
+        $KsvmAnio=date("Y");
+        
+        
+        $KsvmDiaNac=date("d",strtotime($fechaNacimiento));
+        $KsvmMesNac=date("m",strtotime($fechaNacimiento));
+        $KsvmAnioNac=date("Y",strtotime($fechaNacimiento));
+        
+        //si el mes es el mismo pero el día inferior aun no ha cumplido años, le quitaremos un año al actual
+        
+        if (($KsvmMesNac == $KsvmMes) && ($KsvmDiaNac > $KsvmDia)) {
+        $KsvmAnio=($KsvmAnio-1); }
+        
+        //si el mes es superior al actual tampoco habrá cumplido años, por eso le quitamos un año al actual
+        
+        if ($KsvmMesNac > $KsvmMes) {
+        $KsvmAnio=($KsvmAnio-1);}
+        
+         //ya no habría mas condiciones, ahora simplemente restamos los años y mostramos el resultado como su edad
+        
+        $KsvmEdad=($KsvmAnio-$KsvmAnioNac);
+        
+        
+        return $KsvmEdad;
+        
+        
+        }
      
       /**
        * Función que permite inhabilitar un empleado 
@@ -391,8 +446,12 @@
         $KsvmEstCiv = KsvmEstMaestra :: __KsvmFiltrarCadena($_POST['KsvmEstCiv']);
         $KsvmSexo = KsvmEstMaestra :: __KsvmFiltrarCadena($_POST['KsvmSexo']);
         $KsvmGenero = KsvmEstMaestra :: __KsvmFiltrarCadena($_POST['KsvmGenero']);
-        $KsvmFotoEmp = file_get_contents($_FILES['KsvmFotoEmp']['tmp_name']);
-
+        if (isset($_POST['KsvmFotoEmp'])) {
+            $KsvmFotoEmp = file_get_contents($_FILES['KsvmFotoEmp']['tmp_name']);
+        } else {
+            $KsvmFotoEmp = "";
+        }
+        
         $KsvmConsulta = "SELECT * FROM ksvmvistaempleado WHERE EpoId = '$KsvmCode'";
         $KsvmQuery = KsvmEstMaestra :: __KsvmEjecutaConsulta($KsvmConsulta);
         $KsvmDataEmpleado = $KsvmQuery->fetch();

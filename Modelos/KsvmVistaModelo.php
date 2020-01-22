@@ -17,9 +17,11 @@
            "KsvmExistencias", "KsvmExistenciasCrud", "KsvmExistenciasEditar", "KsvmInventariosCrud", "KsvmInventariosEditar", "KsvmMedicamentosCrud", 
            "KsvmMedicamentosEditar", "KsvmMenuCrud", "KsvmMenuEditar", "KsvmMenuXRolCrud", "KsvmMenuXRolEditar", "KsvmParametros", "KsvmParametrosCrud", 
            "KsvmProcedenciaCrud", "KsvmProcedenciasEditar", "KsvmProveedoresCrud", "KsvmProveedoresEditar", "KsvmRequisicionesCrud", "KsvmRequisicionesEditar", 
-           "KsvmRolesCrud", "KsvmRolesEditar", "KsvmTransaccionesCrud", "KsvmTransaccionesEditar", "KsvmDetallesTransaccionEditar", "KsvmUnidadesMedicasCrud", 
-           "KsvmUnidadesMedicasEditar", "KsvmUsuariosCrud", "KsvmUsuariosEditar", "KsvmSuperCompras", "KsvmSuperInventarios", "KsvmSuperPedidos", "KsvmSuperPagos",
-           "KsvmCalendario", "KsvmPerfil", "KsvmReporteCompras", "KsvmReporteInventarios", "KsvmReportePedidos", "KsvmReporteTransacciones"];
+           "KsvmParametrosEditar", "KsvmRolesCrud", "KsvmRolesEditar", "KsvmTransaccionesCrud", "KsvmTransaccionesEditar", "KsvmDetallesTransaccionEditar", 
+           "KsvmUnidadesMedicasCrud", "KsvmUnidadesMedicasEditar", "KsvmUsuariosCrud", "KsvmUsuariosEditar", "KsvmSuperCompras", "KsvmSuperInventarios", 
+           "KsvmSuperPedidos", "KsvmSuperPagos", "KsvmCalendario", "KsvmPerfil", "KsvmReporteComprasGen", "KsvmReporteComprasEst", "KsvmReporteInventariosGen", 
+           "KsvmReporteInventariosEst", "KsvmReportePedidosGen", "KsvmReportePedidosEst", "KsvmReporteTransaccionesGen", "KsvmReporteTransaccionesEst", 
+           "KsvmAlertasPush", "KsvmHistorialCompras"];
 
            if (in_array($KsvmVistas, $KsvmPermitidas)) {
               if (is_file("./Vistas/Contenidos/" . $KsvmVistas . ".php")) {
@@ -28,13 +30,15 @@
                  $KsvmContenido = "Login";
               }
 
-           }elseif ($KsvmVistas == "Login") {
-              $KsvmContenido = "Login";
-           } elseif ($KsvmVistas == "index") {
+            }elseif ($KsvmVistas == "Login") {
                $KsvmContenido = "Login";
-           } else{
-                $KsvmContenido = "404";
-           }
-            return $KsvmContenido;
+            }elseif ($KsvmVistas == "RecuperaContrasenia") {
+                  $KsvmContenido = "KsvmRecuperaContrasenia";
+            } elseif ($KsvmVistas == "index") {
+                  $KsvmContenido = "Login";
+            } else{
+                  $KsvmContenido = "404";
+            }
+               return $KsvmContenido;
        }
      }

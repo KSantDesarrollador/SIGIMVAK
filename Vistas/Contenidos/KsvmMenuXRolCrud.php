@@ -103,7 +103,7 @@
 				<div class="modal-dialog" role="document">
 					<div class="modal-content ">
 						<div class="modal-header">
-							<button class="close close-edit" type="button" data-dismiss="modal"
+							<button class="close close-edit" type="button" data-dismiss="modal" id="btnExitPrivCrud"
 								aria-hidden="true">&times;</button>
 							<h5 class="modal-title text-center"></h5>
 						</div>
@@ -156,33 +156,41 @@
 										<div
 											class="mdl-cell mdl-cell--4-col-phone mdl-cell--8-col-tablet mdl-cell--12-col-desktop">
 											<div class="mdl-textfield mdl-js-textfield">
-												<select class="mdl-textfield__input" name="KsvmRrlId">
-													<option value="" disabled="" selected="">Seleccione Rol</option>
+												<select class="ksvmSelectDin" name="KsvmRrlId" id="KsvmDato1"
+													style="width:98%;">
+													<option value="" selected="">Seleccione Rol</option>
 													<?php require_once "./Controladores/KsvmRolControlador.php";
 													$KsvmSelRol = new KsvmRolControlador();
 													echo $KsvmSelRol->__KsvmSeleccionarRol();
 													?>
 												</select>
+												<span id="KsvmError1" class="ValForm"><i
+														class="zmdi zmdi-alert-triangle">&nbsp;Por favor llene este
+														campo</i></span>
 											</div>
 											<div class="mdl-textfield mdl-js-textfield">
-												<select class="mdl-textfield__input" name="KsvmMnuId">
-													<option value="" disabled="" selected="">Seleccione Menú</option>
+												<select class="ksvmSelectDin" name="KsvmMnuId" id="KsvmDato2"
+													style="width:98%;">
+													<option value="" selected="">Seleccione Menú</option>
 													<?php require_once "./Controladores/KsvmMenuControlador.php";
 													$KsvmSelMed = new KsvmMenuControlador();
 													echo $KsvmSelMed->__KsvmSeleccionarMenu();
 													?>
 												</select>
+												<span id="KsvmError2" class="ValForm"><i
+														class="zmdi zmdi-alert-triangle">&nbsp;Por favor llene este
+														campo</i></span>
 											</div>
 										</div>
 									</div>
 									<p class="text-center">
 										<button type="submit"
 											class="mdl-button mdl-js-button mdl-js-ripple-effect btn-warning mdl-shadow--4dp"
-											id="btn-NuevoMenuxRol">
+											id="btnSave">
 											<i class="zmdi zmdi-save">&nbsp;Guardar</i>
 										</button>
 									</p>
-									<div class="mdl-tooltip" for="btn-NuevoMenuxRol">Agregar MenuxRol</div>
+									<div class="mdl-tooltip" for="btnSave">Agregar MenuxRol</div>
 									<div class="RespuestaAjax"></div>
 								</form>
 							</div>

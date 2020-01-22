@@ -3,8 +3,10 @@
   /**
    *Condicion para peticion Ajax
    */
-   if ($KsvmPeticionAjax) {
-       require_once "../Raiz/KsvmConfiguracionDb.php";
+   if ($KsvmPeticionAjax === "R") {
+    require_once "../../Raiz/KsvmConfiguracionDb.php";
+   }elseif ($KsvmPeticionAjax){
+    require_once "../Raiz/KsvmConfiguracionDb.php";
    } else {
        require_once "./Raiz/KsvmConfiguracionDb.php";
    }
@@ -16,7 +18,7 @@
     */
     protected function __KsvmConexion()
     {
-       $KsvmPuente = new PDO(KsvmSGBD, KsvmUSER, KsvmPASS);
+       $KsvmPuente = new PDO(KsvmSGBD, KsvmUSER, KsvmPASS, array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8"));
 
        return $KsvmPuente;
     }
@@ -87,6 +89,37 @@
         $KsvmTexto = str_ireplace("UPDATE", "", $KsvmTexto);
         return $KsvmTexto;
     }
+      /**
+       * Función que permite validar la fecha
+       */
+      protected function __KsvmValidaFecha($KsvmFecha, $KsvmTokken){
+        $KsvmDia=date("d");
+        $KsvmMes=date("m");
+        $KsvmAnio=date("Y");
+        
+        $KsvmDiaCal=date("d",strtotime($KsvmFecha));
+        $KsvmMesCal=date("m",strtotime($KsvmFecha));
+        $KsvmAnioCal=date("Y",strtotime($KsvmFecha));
+
+        if ($KsvmTokken == 1) {
+            if (($KsvmAnioCal < $KsvmAnio) || (($KsvmAnioCal == $KsvmAnio) && ($KsvmMesCal <= $KsvmMes+3)) 
+            || (($KsvmAnioCal == $KsvmAnio) && ($KsvmMesCal == $KsvmMes+4) && ($KsvmDiaCal < $KsvmDia))) {
+                return false;
+            }else{
+                return true;
+            }
+        } elseif ($KsvmTokken == 2) {
+            if (($KsvmAnioCal > $KsvmAnio) || (($KsvmAnioCal == $KsvmAnio) && ($KsvmMesCal > $KsvmMes)) 
+            || (($KsvmAnioCal == $KsvmAnio) && ($KsvmMesCal == $KsvmMes) && ($KsvmDiaCal > $KsvmDia))) {
+                return false;
+            }else{
+                return true;
+            }
+        } else{
+          return false;
+        }
+        
+        }
     /**
      *Funcion que permite registrar una sesión en bitácora
     */
@@ -220,7 +253,7 @@
      */
     protected function __KsvmActualizarUsuario($KsvmDataUsuario)
     {
-      if ($KsvmDataUsuario['KsvmContraUsu'] != " ") {
+      if ($KsvmDataUsuario['KsvmContraUsu'] != " " || $KsvmDataUsuario['KsvmImgUsu'] != "") {
         $KsvmActUsu = "UPDATE ksvmusuario01 SET UsrContraUsu = :KsvmContraUsu, UsrTelfUsu = :KsvmTelfUsu 
                        WHERE UsrId = :KsvmCode";
 
@@ -247,6 +280,20 @@
 
       }
     }
+    /**
+     * Función que permite cambiar la contrasenia
+     */
+    protected function __KsvmCambioClave($KsvmDataUsuario)
+    {
+      $KsvmActContra = "UPDATE ksvmusuario01 SET UsrContraUsu = :KsvmCon, UsrTokkenRecUsu = 0 WHERE UsrEmailUsu = :KsvmCodEmail AND UsrTokkenRecUsu = :KsvmTokken";
+
+      $KsvmQuery = self :: __KsvmConexion()->prepare($KsvmActContra);
+      $KsvmQuery->bindParam(":KsvmCon", $KsvmDataUsuario['KsvmCon']);
+      $KsvmQuery->bindParam(":KsvmTokken", $KsvmDataUsuario['KsvmTokken']);
+      $KsvmQuery->bindParam(":KsvmCodEmail", $KsvmDataUsuario['KsvmCodEmail']);
+      $KsvmQuery->execute();
+      return $KsvmQuery;
+    }
       
    /**
     *Funcion que permite eliminar un nuevo usuario
@@ -254,8 +301,8 @@
    protected function __KsvmEliminarUsuario($KsvmUsuario)
    {
        $KsvmEliUsu = "UPDATE KsvmUsuario01 SET UsrEstUsu = 'X' WHERE UsrId = :KsvmUsrId";
-       $KsvmQuery = __KsvmConexion()->prepare($KsvmEliUsu);
-       $KsvmQuery->bindParam(":KsvmUsrId", $KsvmUsuario['KsvmUsrId']);
+       $KsvmQuery = self :: __KsvmConexion()->prepare($KsvmEliUsu);
+       $KsvmQuery->bindParam(":KsvmUsrId", $KsvmUsuario);
        $KsvmQuery->execute();
         return $KsvmQuery;
    }

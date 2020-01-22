@@ -42,8 +42,8 @@
 									<div
 										class="mdl-cell mdl-cell--4-col-phone mdl-cell--8-col-tablet mdl-cell--6-col-desktop">
 										<div class="mdl-textfield mdl-js-textfield">
-											<select class="mdl-textfield__input" id="KsvmBdgInv" name="KsvmOrigenReq"
-												required>
+											<select class="ksvmSelectDin" id="KsvmBdgInv" name="KsvmOrigenReq"
+												style="width:100%;" required>
 												<option value="" disabled="" selected="">Bodega Solicitante</option>
 												<?php require_once "./Controladores/KsvmBodegaControlador.php";
 													$KsvmSelBod = new KsvmBodegaControlador();
@@ -55,8 +55,8 @@
 									<div
 										class="mdl-cell mdl-cell--4-col-phone mdl-cell--8-col-tablet mdl-cell--6-col-desktop">
 										<div class="mdl-textfield mdl-js-textfield">
-											<select class="mdl-textfield__input" name="KsvmIvtId" id="KsvmIvtId"
-												required>
+											<select class="ksvmSelectDin" name="KsvmIvtId" id="KsvmIvtId"
+												style="width:100%;" required>
 												<option value="" disabled="" selected="">Inventario</option>
 											</select>
 										</div>
@@ -95,31 +95,30 @@
 									<div
 										class="mdl-cell mdl-cell--4-col-phone mdl-cell--8-col-tablet mdl-cell--6-col-desktop">
 										<div class="mdl-textfield mdl-js-textfield">
-											<select class="mdl-textfield__input" name="KsvmExtId" id="KsvmExtId"
-												required>
+											<select class="ksvmSelectDin" name="KsvmExtId" id="KsvmExtId"
+												style="width:100%;" required>
 												<option value="" disabled="" selected=""> Medicamento</option>
 											</select>
 										</div>
 										<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
 											<input class="mdl-textfield__input" type="number" max="1000" min="1"
-												name="KsvmCantReq" pattern="-?[0-9+()- ]*(\.[0-9]+)?" id="KsvmCantReq"
-												required>
-											<label class="mdl-textfield__label" for="KsvmCantReq">Cantidad</label>
-											<!-- <span class="mdl-textfield__error">Cantidad Inválida</span> -->
+												name="KsvmCantReq" pattern="-?[0-9+()- ]*(\.[0-9]+)?" id="KsvmDato3">
+											<label class="mdl-textfield__label" for="KsvmDato3">Cantidad</label>
+											<span class="mdl-textfield__error">Cantidad Inválida</span>
+											<span id="KsvmError3" class="ValForm"><i
+													class="zmdi zmdi-alert-triangle">&nbsp;Por favor llene este
+													campo</i></span>
 										</div>
 									</div>
 									<div
 										class="mdl-cell mdl-cell--4-col-phone mdl-cell--8-col-tablet mdl-cell--6-col-desktop">
 										<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label"
 											id="KsvmStockReq">
-											<input class="mdl-textfield__input" type="text" name="KsvmStockReq"
-												required>
 											<label class="mdl-textfield__label" for="KsvmStockReq">Stock</label>
-											<!-- <span class="mdl-textfield__error">Stock Inválido</span> -->
 										</div>
 										<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
 											<input class="mdl-textfield__input" type="text" name="KsvmObservReq"
-												pattern="-?[A-Za-záéíóúÁÉÍÓÚ ]*(\.[0-9]+)?" id="KsvmObservReq">
+												pattern="-?[A-Za-z0-9áéíóúÁÉÍÓÚ ]*(\.[0-9]+)?" id="KsvmObservReq">
 											<label class="mdl-textfield__label" for="KsvmObservReq">Observación</label>
 											<span class="mdl-textfield__error">Observación Inválida</span>
 										</div>
@@ -127,7 +126,7 @@
 										<p class="text-center">
 											<button type="submit" style="width:49%; float:left;"
 												class="mdl-button mdl-js-button mdl-js-ripple-effect btn-success mdl-shadow--4dp"
-												id="btnAgregar">
+												id="btnSave">
 												<i class="zmdi zmdi-plus" style="font-size:20px;"></i>&nbsp;Agregar
 											</button>
 
@@ -138,7 +137,7 @@
 												&nbsp;Guardar
 											</button>
 										</p>
-										<div class="mdl-tooltip" for="btnAgregar">Agregar</div>
+										<div class="mdl-tooltip" for="btnSave">Agregar</div>
 										<div class="mdl-tooltip" for="btnGuardar">Guardar</div>
 									</div>
 								</div>

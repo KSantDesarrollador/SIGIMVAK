@@ -86,7 +86,8 @@
                                  <div
                                      class="mdl-cell mdl-cell--4-col-phone mdl-cell--8-col-tablet mdl-cell--12-col-desktop">
                                      <div class="mdl-textfield mdl-js-textfield">
-                                         <select class="mdl-textfield__input" name="KsvmNivelMen" id="KsvmDato1">
+                                         <select class="ksvmSelectDin" name="KsvmNivelMen" style="width:98%;"
+                                             id="KsvmDato1">
                                              <option value="<?php echo $KsvmLlenarForm['MnuNivelMen'];?>">
                                                  <?php echo $KsvmNivel;?></option>
                                              <option value="0">Nivel 0</option>
@@ -97,7 +98,7 @@
                                                  campo</i></span>
                                      </div>
                                      <div class="mdl-textfield mdl-js-textfield">
-                                         <select class="mdl-textfield__input" name="KsvmJerqMen">
+                                         <select class="ksvmSelectDin" name="KsvmJerqMen" style="width:98%;">
                                              <option value="<?php echo $KsvmLlenarForm['MnuJerqMen'];?>" selected="">
                                                  <?php echo $KsvmNomJerq;?></option>
                                              <?php require_once "./Controladores/KsvmMenuControlador.php";
@@ -118,7 +119,8 @@
                                      </div>
                                      <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
                                          <input class="mdl-textfield__input" type="text" name="KsvmIconMen"
-                                             value="<?php echo $KsvmLlenarForm['MnuIconMen']?>" id="KsvmDato3">
+                                             value="<?php echo $KsvmLlenarForm['MnuIconMen']?>" 
+                                             pattern="-?[A-Za-z0-9-áéíóúÁÉÍÓÚ ]*(\.[0-9]+)?" id="KsvmDato3">
                                          <label class="mdl-textfield__label" for="KsvmDato3">Ícono</label>
                                          <span class="mdl-textfield__error">Ícono Inválido</span>
                                          <span id="KsvmError3" class="ValForm"><i
@@ -127,13 +129,15 @@
                                      </div>
                                      <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
                                          <input class="mdl-textfield__input" type="text" name="KsvmUrlMen"
-                                             value="<?php echo $KsvmLlenarForm['MnuUrlMen']?>" id="KsvmUrlMen">
+                                             value="<?php echo $KsvmLlenarForm['MnuUrlMen']?>" 
+                                             pattern="-?[A-Za-z0-9-áéíóúÁÉÍÓÚ/ ]*(\.[0-9]+)?" id="KsvmUrlMen">
                                          <label class="mdl-textfield__label" for="KsvmUrlMen">Url</label>
                                          <span class="mdl-textfield__error">Url Inválida</span>
                                      </div>
                                      <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
                                          <input class="mdl-textfield__input" type="text" name="KsvmLeyendMen"
-                                             value="<?php echo $KsvmLlenarForm['MnuLeyendMen']?>" id="KsvmDato4">
+                                             value="<?php echo $KsvmLlenarForm['MnuLeyendMen']?>" 
+                                             pattern="-?[A-Za-z0-9áéíóúÁÉÍÓÚ ]*(\.[0-9]+)?" id="KsvmDato4">
                                          <label class="mdl-textfield__label" for="KsvmDato4">Leyenda</label>
                                          <span class="mdl-textfield__error">Leyenda Inválida</span>
                                          <span id="KsvmError4" class="ValForm"><i

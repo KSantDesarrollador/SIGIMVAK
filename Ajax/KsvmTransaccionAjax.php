@@ -6,7 +6,8 @@
 $KsvmPeticionAjax = true;
 require_once "../Raiz/KsvmConfiguracion.php";
 
-if (isset($_POST['KsvmDestinoTran']) || isset($_POST['KsvmCodDelete']) || isset($_POST['KsvmCodEdit']) || isset($_POST['KsvmCodX'])) {
+if (isset($_POST['KsvmDestinoTran']) || isset($_POST['KsvmCodDelete']) || isset($_POST['KsvmCodEdit']) || isset($_POST['KsvmCodX'])
+   || isset($_POST['KsvmTipoTranCod']) || isset($_POST['KsvmBodCod'])) {
     require_once "../Controladores/KsvmTransaccionControlador.php";
     $KsvmIniTransaccion = new KsvmTransaccionControlador();
 
@@ -26,6 +27,14 @@ if (isset($_POST['KsvmDestinoTran']) || isset($_POST['KsvmCodDelete']) || isset(
 
     if (isset($_POST['KsvmCodEdit']) && isset($_POST['KsvmDestinoTran'])) {
         echo $KsvmIniTransaccion->__KsvmActualizarTransaccionControlador();
+    }
+
+    if (isset($_POST['KsvmTipoTranCod'])) {
+        echo $KsvmIniTransaccion->__KsvmCargarTipo();
+    }
+
+    if (isset($_POST['KsvmBodCod'])) {
+        echo $KsvmIniTransaccion->__KsvmCargarBodega();
     }
     
 } else {

@@ -6,11 +6,11 @@
 $KsvmPeticionAjax = true;
 require_once "../Raiz/KsvmConfiguracion.php";
 
-if (isset($_POST['KsvmExtId']) || isset($_POST['KsvmCodDelete']) || isset($_POST['KsvmCodEdit'])) {
+if (isset($_POST['KsvmMdcId']) || isset($_POST['KsvmCodDelete']) || isset($_POST['KsvmCodEdit'])) {
     require_once "../Controladores/KsvmParametrosControlador.php";
     $KsvmIniParametros = new KsvmParametrosControlador();
 
-    if (!isset($_POST['KsvmCodDelete']) && !isset($_POST['KsvmCodEdit']) && isset($_POST['KsvmExtId']) && isset($_POST['KsvmAltId'])){
+    if (!isset($_POST['KsvmCodDelete']) && !isset($_POST['KsvmCodEdit']) && isset($_POST['KsvmMdcId']) && isset($_POST['KsvmAltId'])){
 
           echo $KsvmIniParametros->__KsvmAgregarParametrosControlador();
     }
@@ -19,7 +19,7 @@ if (isset($_POST['KsvmExtId']) || isset($_POST['KsvmCodDelete']) || isset($_POST
         echo $KsvmIniParametros->__KsvmEliminarParametrosControlador();
     }
 
-    if (isset($_POST['KsvmCodEdit']) && isset($_POST['KsvmExtId'])) {
+    if (isset($_POST['KsvmCodEdit']) && isset($_POST['KsvmMdcId'])) {
         echo $KsvmIniParametros->__KsvmActualizarParametrosControlador();
     }
     

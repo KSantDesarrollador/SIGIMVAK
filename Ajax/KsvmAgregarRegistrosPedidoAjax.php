@@ -6,7 +6,7 @@
 $KsvmPeticionAjax = true;
 require_once "../Raiz/KsvmConfiguracion.php";
 
-if (isset($_POST['KsvmExtId']) && isset($_POST['KsvmStockReq']) && isset($_POST['KsvmCantReq'])) {
+if (isset($_POST['KsvmExtId']) && isset($_POST['KsvmCantReq'])) {
     require_once "../Controladores/KsvmRequisicionControlador.php";
     $KsvmIniRequisicion = new KsvmRequisicionControlador();
 

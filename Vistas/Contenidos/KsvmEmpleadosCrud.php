@@ -290,18 +290,19 @@
 										<div
 											class="mdl-cell mdl-cell--4-col-phone mdl-cell--8-col-tablet mdl-cell--6-col-desktop">
 											<div class="mdl-textfield mdl-js-textfield">
-												<select class="mdl-textfield__input" name="KsvmIdPais"
-													id="KsvmCargaListaPais" required>
+												<select class="ksvmSelectDin" name="KsvmIdPais"
+													id="KsvmCargaListaPais" style="width:100%;" required>
 												</select>
 											</div>
 											<div class="mdl-textfield mdl-js-textfield">
-												<select class="mdl-textfield__input" id="KsvmCargaListaCanton">
+												<select class="ksvmSelectDin" id="KsvmCargaListaCanton"
+												style="width:100%;">
 													<option value="" disabled="" selected="">Seleccione Cantón</option>
 												</select>
 											</div>
 											<div class="mdl-textfield mdl-js-textfield">
-												<select class="mdl-textfield__input" name="KsvmTipoIdent"
-													id="KsvmDato1">
+												<select class="ksvmSelectDin" name="KsvmTipoIdent"
+													id="KsvmDato1" style="width:100%;">
 													<option value="" selected="">Seleccione Tipo de Identificación
 													</option>
 													<option value="C">Cédula</option>
@@ -312,8 +313,8 @@
 														campo</i></span>
 											</div>
 											<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-												<input class="mdl-textfield__input" type="number" name="KsvmIdent"
-													pattern="-?[0-9]*(\.[0-9]+)?" id="KsvmDato2">
+												<input class="mdl-textfield__input" type="text" name="KsvmIdent"
+													pattern="[0-9]{10,13}" id="KsvmDato2">
 												<label class="mdl-textfield__label"
 													for="KsvmDato2">Identificación</label>
 												<span class="mdl-textfield__error">Número Inválido</span>
@@ -364,8 +365,10 @@
 											</div>
 											<div class="mdl-textfield mdl-js-textfield">
 												<input type="text" class="mdl-textfield__input tcal" id="KsvmDato7"
-													name="KsvmFchNac" placeholder="Fecha de nacimiento">
+													name="KsvmFchNac" placeholder="Fecha de nacimiento"
+													pattern="[0-9-]{10,10}" style="width:93%;">
 												<label class="mdl-textfield__label" for="KsvmDato7"></label>
+												<span class="mdl-textfield__error">Fecha Inválida</span>
 												<span id="KsvmError7" class="ValForm"><i
 														class="zmdi zmdi-alert-triangle">&nbsp;Por favor llene este
 														campo</i></span>
@@ -381,20 +384,20 @@
 										<div
 											class="mdl-cell mdl-cell--4-col-phone mdl-cell--8-col-tablet mdl-cell--6-col-desktop">
 											<div class="mdl-textfield mdl-js-textfield">
-												<select class="mdl-textfield__input" id="KsvmCargaListaProvincia">
+												<select class="ksvmSelectDin" style="width:100%;" id="KsvmCargaListaProvincia">
 													<option value="" disabled="" selected="">Seleccione Provincia
 													</option>
 												</select>
 											</div>
 											<div class="mdl-textfield mdl-js-textfield">
-												<select class="mdl-textfield__input" name="KsvmIdParroquia"
+												<select class="ksvmSelectDin" style="width:100%;" name="KsvmIdParroquia"
 													id="KsvmCargaListaParroquia">
 													<option value="" disabled="" selected="">Seleccione Parroquia
 													</option>
 												</select>
 											</div>
 											<div class="mdl-textfield mdl-js-textfield">
-												<select class="mdl-textfield__input" name="KsvmRol" id="KsvmDato8">
+												<select class="ksvmSelectDin" style="width:100%;" name="KsvmRol" id="KsvmDato8">
 													<option value="" selected="">Seleccione Rol</option>
 													<?php require_once "./Controladores/KsvmRolControlador.php";
 													$KsvmSelRol = new KsvmRolControlador();
@@ -406,7 +409,7 @@
 														campo</i></span>
 											</div>
 											<div class="mdl-textfield mdl-js-textfield">
-												<select class="mdl-textfield__input" name="KsvmCargo" id="KsvmDato9">
+												<select class="ksvmSelectDin" style="width:100%;" name="KsvmCargo" id="KsvmDato9">
 													<option value="" selected="">Seleccione Cargo</option>
 													<?php require_once "./Controladores/KsvmCargoControlador.php";
 													$KsvmSelCar = new KsvmCargoControlador();
@@ -419,7 +422,7 @@
 											</div>
 											<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
 												<input class="mdl-textfield__input" type="text" name="KsvmDirc"
-													id="KsvmDato10">
+												     pattern="-?[A-Za-z0-9áéíóúÁÉÍÓÚ- ]*(\.[0-9]+)?" id="KsvmDato10">
 												<label class="mdl-textfield__label" for="KsvmDato10">Dirección</label>
 												<span class="mdl-textfield__error">Dirección Inválida</span>
 												<span id="KsvmError10" class="ValForm"><i
@@ -428,7 +431,7 @@
 											</div>
 											<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
 												<input class="mdl-textfield__input" type="tel" name="KsvmTelf"
-													pattern="-?[0-9+()- ]*(\.[0-9]+)?" id="KsvmDato11">
+													pattern="[0-9()]{7,10}" id="KsvmDato11">
 												<label class="mdl-textfield__label" for="KsvmDato11">Teléfono</label>
 												<span class="mdl-textfield__error">Número de teléfono Inválido</span>
 												<span id="KsvmError11" class="ValForm"><i
@@ -446,7 +449,7 @@
 														campo</i></span>
 											</div>
 											<div class="mdl-textfield mdl-js-textfield">
-												<select class="mdl-textfield__input" name="KsvmEstCiv" id="KsvmDato13">
+												<select class="ksvmSelectDin" style="width:100%;" name="KsvmEstCiv" id="KsvmDato13">
 													<option value="" selected="">Seleccione Estado Civil
 													</option>
 													<option value="S">Soltero/a</option>
@@ -460,7 +463,7 @@
 														campo</i></span>
 											</div>
 											<div class="mdl-textfield mdl-js-textfield">
-												<select class="mdl-textfield__input" name="KsvmSexo" id="KsvmDato14">
+												<select class="ksvmSelectDin" style="width:100%;" name="KsvmSexo" id="KsvmDato14">
 													<option value="" selected="">Seleccione Sexo</option>
 													<option value="H">Hombre</option>
 													<option value="M">Mujer</option>
@@ -470,7 +473,7 @@
 														campo</i></span>
 											</div>
 											<div class="mdl-textfield mdl-js-textfield">
-												<select class="mdl-textfield__input" name="KsvmGenero" id="KsvmDato15">
+												<select class="ksvmSelectDin" style="width:100%;" name="KsvmGenero" id="KsvmDato15">
 													<option value="" selected="">Seleccione Género</option>
 													<option value="M">Masculino</option>
 													<option value="F">Femenino</option>

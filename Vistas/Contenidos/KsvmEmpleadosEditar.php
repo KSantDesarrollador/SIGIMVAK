@@ -120,23 +120,20 @@
 								<div
 									class="mdl-cell mdl-cell--4-col-phone mdl-cell--8-col-tablet mdl-cell--6-col-desktop">
 									<div class="mdl-textfield mdl-js-textfield">
-											<select class="mdl-textfield__input" name="KsvmIdPais" id="" required>
+											<select class="ksvmSelectDin" style="width:100%;" name="KsvmIdPais" id="KsvmCargaListaPais" required>
 												<option value="<?php echo $KsvmLlenarForm['PrcId']?>" selected=""><?php echo $KsvmPais;?></option>
 												<?php 
-													$KsvmCbxProc = $KsvmSelProc->__KsvmSeleccionaProcedencia("");
-													foreach ($KsvmCbxProc as $rows) {
-													?>
-												<option value="<?php echo $rows['PrcId'];?>"><?php echo $rows['PrcNomProc'];?></option>
-												<?php }?>
+													echo $KsvmSelProc->__KsvmSeleccionarJerarquia();
+												 ?>
 											</select>
 										</div>
 										<div class="mdl-textfield mdl-js-textfield">
-											<select class="mdl-textfield__input" id="KsvmCargaListaCanton">
+											<select class="ksvmSelectDin" style="width:100%;" id="KsvmCargaListaCanton">
 												<option value="" selected=""><?php echo $KsvmCanton;?></option>
 											</select>
 										</div>
 									<div class="mdl-textfield mdl-js-textfield">
-										<select class="mdl-textfield__input" name="KsvmTipoIdent" id="KsvmDato1">
+										<select class="ksvmSelectDin" style="width:100%;" name="KsvmTipoIdent" id="KsvmDato1">
 											<option value="<?php echo $KsvmLlenarForm['EpoTipIdentEmp'];?>"
 												selected=""><?php echo $KsvmTipo;?>
 											</option>
@@ -148,9 +145,9 @@
 													campo</i></span>
 									</div>
 									<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-										<input class="mdl-textfield__input" type="number" name="KsvmIdent"
+										<input class="mdl-textfield__input" type="text" name="KsvmIdent"
 											value="<?php echo $KsvmLlenarForm['EpoIdentEmp'];?>"
-											pattern="-?[0-9]*(\.[0-9]+)?" id="KsvmDato2">
+											pattern="[0-9]{10,13}" id="KsvmDato2">
 										<label class="mdl-textfield__label" for="KsvmDato2">Identificación</label>
 										<span class="mdl-textfield__error">Número Inválido</span>
 										<span id="KsvmError2" class="ValForm"><i
@@ -198,33 +195,35 @@
 													campo</i></span>
 									</div>
 									<div class="mdl-textfield mdl-js-textfield">
-										<input type="text" class="mdl-textfield__input tcal" id="KsvmDato7"
+										<input type="text" class="mdl-textfield__input tcal" id="KsvmDato7" style="width:93%;"
 											value="<?php echo $KsvmLlenarForm['EpoFchNacEmp'];?>" name="KsvmFchNac"
-											placeholder="Fecha de nacimiento">
+											placeholder="Fecha de nacimiento" pattern="[0-9-]{10,10}">
 										<label class="mdl-textfield__label" for="KsvmDato7"></label>
+										<span class="mdl-textfield__error">Fecha Inválida</span>
 										<span id="KsvmError7" class="ValForm"><i
 													class="zmdi zmdi-alert-triangle">&nbsp;Por favor llene este
 													campo</i></span>
 									</div>
 									<div class="">
-                                     <label class="mdl-textfield"><img height="45px" width="45px" src="data:image/jpg;base64,<?php echo base64_encode($KsvmLlenarForm['EpoFotoEmp']);?>"/>&nbsp;Cambiar Imagen</label>
-                                     <input class="mdl-textfield__input" type="file" name="KsvmFotoEmp" id="KsvmFotoEmp">
+                                     <label class="mdl-textfield"><img height="45px" width="45px" src="data:image/jpg;base64,<?php echo base64_encode($KsvmLlenarForm['EpoFotoEmp']);?>"/>&nbsp;
+									 <input class="mdl-textfield__input" type="file" name="KsvmFotoEmp" id="KsvmFotoEmp">
+									 Cambiar Imagen</label>
                                    </div>
 								</div>
 								<div
 									class="mdl-cell mdl-cell--4-col-phone mdl-cell--8-col-tablet mdl-cell--6-col-desktop">
 									<div class="mdl-textfield mdl-js-textfield">
-											<select class="mdl-textfield__input" id="KsvmCargaListaProvincia">
+											<select class="ksvmSelectDin" style="width:100%;" id="KsvmCargaListaProvincia">
 												<option value="" selected=""><?php echo $KsvmProvincia;?></option>
 											</select>
 										</div>
 										<div class="mdl-textfield mdl-js-textfield">
-											<select class="mdl-textfield__input" name="KsvmIdParroquia" id="KsvmCargaListaParroquia">
+											<select class="ksvmSelectDin" style="width:100%;" name="KsvmIdParroquia" id="KsvmCargaListaParroquia">
 												<option value="<?php echo $KsvmLlenarForm['PrcId']?>" selected=""><?php echo $KsvmParroquia;?></option>
 											</select>
 										</div>
 									<div class="mdl-textfield mdl-js-textfield">
-									<select class="mdl-textfield__input" name="KsvmRol" id="KsvmDato8">
+									<select class="ksvmSelectDin" style="width:100%;" name="KsvmRol" id="KsvmDato8">
                                          <option value="<?php echo $KsvmLlenarForm['RrlId'];?>" selected="">
                                              <?php echo $KsvmLlenarForm['RrlNomRol'];?></option>
                                              <?php require_once "./Controladores/KsvmRolControlador.php";
@@ -237,7 +236,7 @@
 													campo</i></span>
 									</div>
 									<div class="mdl-textfield mdl-js-textfield">
-									<select class="mdl-textfield__input" name="KsvmCargo" id="KsvmDato9">
+									<select class="ksvmSelectDin" style="width:100%;" name="KsvmCargo" id="KsvmDato9">
                                          <option value="<?php echo $KsvmLlenarForm['CrgId'];?>" selected="">
                                              <?php echo $KsvmLlenarForm['CrgNomCar'];?></option>
                                              <?php require_once "./Controladores/KsvmCargoControlador.php";
@@ -251,7 +250,8 @@
 									</div>
 									<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
 										<input class="mdl-textfield__input" type="text" name="KsvmDirc"
-											value="<?php echo $KsvmLlenarForm['EpoDirEmp'];?>" id="KsvmDato10">
+											value="<?php echo $KsvmLlenarForm['EpoDirEmp'];?>" 
+											pattern="-?[A-Za-z0-9áéíóúÁÉÍÓÚñ- ]*(\.[0-9]+)?" id="KsvmDato10">
 										<label class="mdl-textfield__label" for="KsvmDato10">Dirección</label>
 										<span class="mdl-textfield__error">Dirección Inválida</span>
 										<span id="KsvmError10" class="ValForm"><i
@@ -261,7 +261,7 @@
 									<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
 										<input class="mdl-textfield__input" type="tel" name="KsvmTelf"
 											value="<?php echo $KsvmLlenarForm['EpoTelfEmp'];?>"
-											pattern="-?[0-9+()- ]*(\.[0-9]+)?" id="KsvmDato11">
+											pattern="[0-9+()- ]{7,10}" id="KsvmDato11">
 										<label class="mdl-textfield__label" for="KsvmDato11">Teléfono</label>
 										<span class="mdl-textfield__error">Número de teléfono Inválido</span>
 										<span id="KsvmError11" class="ValForm"><i
@@ -279,7 +279,7 @@
 													campo</i></span>
 									</div>
 									<div class="mdl-textfield mdl-js-textfield">
-										<select class="mdl-textfield__input" name="KsvmEstCiv" id="KsvmDato13">
+										<select class="ksvmSelectDin" style="width:100%;" name="KsvmEstCiv" id="KsvmDato13">
 											<option value="<?php echo $KsvmLlenarForm['EpoEstCivEmp'];?>"
 												selected=""><?php echo $KsvmCivil;?></option>
 											<option value="S">Soltero/a</option>
@@ -293,7 +293,7 @@
 													campo</i></span>
 									</div>
 									<div class="mdl-textfield mdl-js-textfield">
-										<select class="mdl-textfield__input" name="KsvmSexo" id="KsvmDato14">
+										<select class="ksvmSelectDin" style="width:100%;" name="KsvmSexo" id="KsvmDato14">
 											<option value="<?php echo $KsvmLlenarForm['EpoSexoEmp'];?>"
 												selected="">
 												<?php echo $KsvmSexo;?></option>
@@ -305,7 +305,7 @@
 													campo</i></span>
 									</div>
 									<div class="mdl-textfield mdl-js-textfield">
-										<select class="mdl-textfield__input" name="KsvmGenero" id="KsvmDato15">
+										<select class="ksvmSelectDin" style="width:100%;" name="KsvmGenero" id="KsvmDato15">
 											<option value="<?php echo $KsvmLlenarForm['EpoGeneroEmp'];?>"
 												selected="">
 												<?php echo $KsvmGenero;?></option>

@@ -27,18 +27,20 @@
         $KsvmDesde = ($KsvmPagina > 0) ? (($KsvmPagina*$KsvmNRegistros) - $KsvmNRegistros) : 0;
 
         if (isset($KsvmBuscarIni) && isset($KsvmBuscarFin) && $KsvmBuscarFin != "" && isset($KsvmFiltro)) {
-            switch ($KsvmFiltro) {
-                case 'R':
-                    $KsvmDataBit = "SELECT SQL_CALC_FOUND_ROWS * FROM ksvmvistabitacora WHERE BtcFchBit BETWEEN '$KsvmBuscarIni' AND '$KsvmBuscarFin'
-                    AND BtcTipoBit LIKE '%$KsvmCriterio%' LIMIT $KsvmDesde, $KsvmNRegistros";
-                    break;
-                case 'U':
-                    $KsvmDataBit = "SELECT SQL_CALC_FOUND_ROWS * FROM ksvmvistabitacora WHERE BtcFchBit BETWEEN '$KsvmBuscarIni' AND '$KsvmBuscarFin'
-                    AND UsrNomUsu LIKE '%$KsvmCriterio%' LIMIT $KsvmDesde, $KsvmNRegistros";
-                    break;
-                default:
-                    break;
-            }
+            
+                switch ($KsvmFiltro) {
+                    case 'R':
+                        $KsvmDataBit = "SELECT SQL_CALC_FOUND_ROWS * FROM ksvmvistabitacora WHERE BtcFchBit BETWEEN '$KsvmBuscarIni' AND '$KsvmBuscarFin'
+                        AND BtcTipoBit LIKE '%$KsvmCriterio%' LIMIT $KsvmDesde, $KsvmNRegistros";
+                        break;
+                    case 'U':
+                        $KsvmDataBit = "SELECT SQL_CALC_FOUND_ROWS * FROM ksvmvistabitacora WHERE BtcFchBit BETWEEN '$KsvmBuscarIni' AND '$KsvmBuscarFin'
+                        AND UsrNomUsu LIKE '%$KsvmCriterio%' LIMIT $KsvmDesde, $KsvmNRegistros";
+                        break;
+                    default:
+                        break;
+                }
+
         } else {
             $KsvmDataBit = "SELECT SQL_CALC_FOUND_ROWS * FROM ksvmvistabitacora LIMIT $KsvmDesde, $KsvmNRegistros" ;
             

@@ -22,8 +22,11 @@
          $KsvmConContra = KsvmEstMaestra :: __KsvmFiltrarCadena($_POST['KsvmConContra']);
          $KsvmEmail = KsvmEstMaestra :: __KsvmFiltrarCadena($_POST['KsvmEmail']);
          $KsvmTelf = KsvmEstMaestra :: __KsvmFiltrarCadena($_POST['KsvmTelf']);
-         $KsvmImgUsu = file_get_contents($_FILES['KsvmImgUsu']['tmp_name']);
-
+         if (isset($_POST['KsvmImgUsu'])) {
+            $KsvmImgUsu = file_get_contents($_FILES['KsvmImgUsu']['tmp_name']);
+        } else {
+            $KsvmImgUsu = "";
+        }
          if ($KsvmContra != $KsvmConContra) {
              $KsvmAlerta = [
                "Alerta" => "simple",
@@ -72,7 +75,7 @@
                  $KsvmGuardarUsu = KsvmEstMaestra :: __KsvmAgregarUsuario($KsvmNuevoUsu);
                  if ($KsvmGuardarUsu->rowCount() >= 1) {
                      $KsvmAlerta = [
-                     "Alerta" => "Limpia",
+                     "Alerta" => "Actualiza",
                      "Titulo" => "Grandioso",
                      "Cuerpo" => "El usuario se registró satisfactoriamente",
                      "Tipo" => "success"
@@ -159,7 +162,7 @@
                                 if ($KsvmRol == 1) {
                                     if ($KsvmCodigo == 0) {
 
-                                    $KsvmTabla .=  '<form action="'.KsvmServUrl.'Ajax/KsvmRequisicionAjax.php" method="POST" class="FormularioAjax" data-form="eliminar" enctype="multipart/form-data"> 
+                                    $KsvmTabla .=  '<form action="'.KsvmServUrl.'Ajax/KsvmUsuarioAjax.php" method="POST" class="FormularioAjax" data-form="eliminar" enctype="multipart/form-data"> 
                                                     <a id="btn-detail" class="btn btn-sm btn-info" href="'.KsvmServUrl.'KsvmUsuariosCrud/Detail/'.KsvmEstMaestra::__KsvmEncriptacion($rows['UsrId']).'/"><i class="zmdi zmdi-card"></i></a>
                                                     <div class="mdl-tooltip" for="btn-detail">Detalles</div>
                                                     <a id="btn-edit" class="btn btn-sm btn-primary" href="'.KsvmServUrl.'KsvmUsuariosEditar/'.KsvmEstMaestra::__KsvmEncriptacion($rows['UsrId']).'/0/"><i class="zmdi zmdi-edit"></i></a>
@@ -169,7 +172,7 @@
                                                     <div class="RespuestaAjax"></div>
                                                     </form>';
                                     } else {
-                                    $KsvmTabla .= '<form action="'.KsvmServUrl.'Ajax/KsvmRequisicionAjax.php" method="POST" class="FormularioAjax" data-form="eliminar" enctype="multipart/form-data"> 
+                                    $KsvmTabla .= '<form action="'.KsvmServUrl.'Ajax/KsvmUsuarioAjax.php" method="POST" class="FormularioAjax" data-form="eliminar" enctype="multipart/form-data"> 
                                                     <a id="btn-detail" class="btn btn-sm btn-info" href="'.KsvmServUrl.'KsvmUsuarios/Detail/'.KsvmEstMaestra::__KsvmEncriptacion($rows['UsrId']).'"><i class="zmdi zmdi-card"></i></a>
                                                     <div class="mdl-tooltip" for="btn-detail">Detalles</div>
                                                     <a id="btn-edit" class="btn btn-sm btn-primary" href="'.KsvmServUrl.'KsvmUsuariosEditar/'.KsvmEstMaestra::__KsvmEncriptacion($rows['UsrId']).'/1/"><i class="zmdi zmdi-edit"></i></a>
@@ -332,7 +335,7 @@
           return KsvmEstMaestra :: __KsvmEditarUsuario($KsvmCodigo);
       }
 
-            /**
+      /**
        * Función que permite editar un usuario 
        */
       public function __KsvmEditarPerfilControlador($KsvmCodUsuario)
@@ -377,12 +380,23 @@
 
         $KsvmRol = KsvmEstMaestra :: __KsvmFiltrarCadena($_POST['KsvmRol']);
         $KsvmNomUsu = KsvmEstMaestra :: __KsvmFiltrarCadena($_POST['KsvmNomUsu']);
-        $KsvmContra = KsvmEstMaestra :: __KsvmFiltrarCadena($_POST['KsvmContra']);
-        $KsvmConContra = KsvmEstMaestra :: __KsvmFiltrarCadena($_POST['KsvmConContra']);
+        if (isset($_POST['KsvmContra']) && isset($_POST['KsvmConContra'])) {
+            $KsvmContra = KsvmEstMaestra :: __KsvmFiltrarCadena($_POST['KsvmContra']);
+            $KsvmConContra = KsvmEstMaestra :: __KsvmFiltrarCadena($_POST['KsvmConContra']);
+        }else{
+            $KsvmContra = " ";
+            $KsvmConContra = " ";
+        }
         $KsvmTelf = KsvmEstMaestra :: __KsvmFiltrarCadena($_POST['KsvmTelf']);
         $KsvmEmail = KsvmEstMaestra :: __KsvmFiltrarCadena($_POST['KsvmEmail']);
-        $KsvmImgUsu = file_get_contents($_FILES['KsvmImgUsu']['tmp_name']);
-        if ($KsvmContra != "" && $KsvmConContra != "") {
+        if (isset($_POST['KsvmImgUsu'])) {
+            $KsvmImgUsu = file_get_contents($_FILES['KsvmImgUsu']['tmp_name']);
+        } else {
+            $KsvmImgUsu = "";
+        }
+        
+
+        if ($KsvmContra != " " && $KsvmConContra != " ") {
             if ($KsvmContra != $KsvmConContra) {
                 $KsvmAlerta = [
                   "Alerta" => "simple",

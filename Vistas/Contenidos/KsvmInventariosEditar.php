@@ -74,7 +74,8 @@
  								<div
  									class="mdl-cell mdl-cell--4-col-phone mdl-cell--8-col-tablet mdl-cell--12-col-desktop">
  									<div class="mdl-textfield mdl-js-textfield">
- 										<select class="mdl-textfield__input" name="KsvmBdgId" id="KsvmDato1">
+ 										<select class="ksvmSelectDin" name="KsvmBdgId" id="KsvmDato1"
+ 											style="width:100%;">
  											<option value="" selected="">
  												<?php echo $KsvmLlenarForm['BdgDescBod'];?></option>
  											<?php require_once "./Controladores/KsvmBodegaControlador.php";
@@ -89,7 +90,8 @@
  									<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label"
  										id="KsvmHoraInv">
  										<input class="mdl-textfield__input" type="text" name="KsvmHoraInv"
- 											value="<?php echo $KsvmLlenarForm['IvtHoraInv'];?>" id="KsvmDato2">
+ 											value="<?php echo $KsvmLlenarForm['IvtHoraInv'];?>" id="KsvmDato2"
+											 pattern="-?[0-9a-z: ]{11,11}">
  										<label class="mdl-textfield__label" for="KsvmDato2">Hora</label>
  										<span class="mdl-textfield__error">Hora Inválido</span>
  										<span id="KsvmError2" class="ValForm"><i
@@ -107,7 +109,8 @@
  												campo</i></span>
  									</div>
  									<div class="mdl-textfield mdl-js-textfield">
- 										<select class="mdl-textfield__input" name="KsvmEstInv" id="KsvmDato4">
+ 										<select class="ksvmSelectDin" name="KsvmEstInv" id="KsvmDato4"
+ 											style="width:100%;">
  											<option value="<?php echo $KsvmLlenarForm['IvtEstInv'];?>" s selected="">
  												<?php echo $KsvmEstado;?></option>
  											<option value="N">Nuevo</option>

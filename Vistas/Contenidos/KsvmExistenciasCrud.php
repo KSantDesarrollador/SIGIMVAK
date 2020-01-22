@@ -77,6 +77,9 @@
 			<!-- Método para cargar datos en el formulario -->
 			<?php 
 			  
+			  require_once 'barcode.php';
+
+
 		  $KsvmPagina = explode("/", $_GET['Vistas']);
 		  if ($KsvmPagina[2] != "") {
 		  $KsvmDataEdit = $KsvmIniExt->__KsvmEditarExistenciaControlador($KsvmPagina[2]);
@@ -92,6 +95,8 @@
 				} else {
 				    $KsvmEstado = "Agotado";
 				}
+
+				barcode('Reportes/Codigos/'.$KsvmLlenarForm['ExtCodBarEx'].'.png', $KsvmLlenarForm['ExtCodBarEx'], 25, 'horizontal', 'codabar', true,1);
 			  
 	    ?>
 			<script>
@@ -112,7 +117,7 @@
 				<div class="modal-dialog" role="document">
 					<div class="modal-content ">
 						<div class="modal-header">
-							<button class="close close-edit" type="button" data-dismiss="modal"
+							<button class="close close-edit" type="button" data-dismiss="modal" id="btnExitExtCrud"
 								aria-hidden="true">&times;</button>
 							<h5 class="modal-title text-center"></h5>
 						</div>
@@ -121,61 +126,70 @@
 								<input type="hidden" name="KsvmCodEdit" value="<?php echo $KsvmPagina[2]; ?>">
 								<div class="mdl-grid">
 									<div
-										class="mdl-cell mdl-cell--4-col-phone mdl-cell--8-col-tablet mdl-cell--6-col-desktop">
+										class="mdl-cell mdl-cell--4-col-phone mdl-cell--8-col-tablet mdl-cell--5-col-desktop">
+										<div class="mdl-textfield mdl-js-textfield">
+											<div class="img-responsive">
+												<img height="183px" width="60%"
+													src="data:image/jpg;base64,<?php echo base64_encode($KsvmLlenarForm['MdcFotoMed']);?>" />
+											</div>
+										</div>
 										<div class="mdl-textfield mdl-js-textfield">
 											<div class="mdl-textfield__input"><strong>Bodega :</strong>
 												&nbsp; &nbsp;<?php echo $KsvmLlenarForm['BdgDescBod'];?></div>
 										</div>
-										<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-											<div class="mdl-textfield__input"><strong>Fecha de Caducidad :</strong>
-												&nbsp; &nbsp;<?php echo $KsvmLlenarForm['ExtFchCadEx'];?></div>
-										</div>
-										<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-											<div class="mdl-textfield__input"><strong>Stock Inicial :</strong>
-												&nbsp; &nbsp;<?php echo $KsvmLlenarForm['ExtStockIniEx'];?></div>
-										</div>
-										<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-											<div class="mdl-textfield__input"><strong>Stock de Seguridad :</strong>
-												&nbsp; &nbsp;<?php echo $KsvmLlenarForm['ExbStockSegEbo'];?></div>
-										</div>
-										<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-											<div class="mdl-textfield__input"><strong>Código de Localización :</strong>
-												&nbsp; &nbsp;<?php echo $KsvmLlenarForm['ExtBinLocEx'];?></div>
-										</div>
-									</div>
-									<div
-										class="mdl-cell mdl-cell--4-col-phone mdl-cell--8-col-tablet mdl-cell--6-col-desktop">
 										<div class="mdl-textfield mdl-js-textfield">
 											<div class="mdl-textfield__input"><strong>Medicamento:</strong>
-												&nbsp; &nbsp;<?php echo $KsvmLlenarForm['MdcDescMed'];?></div>
-										</div>
-										<div class="mdl-textfield mdl-js-textfield">
-											<div class="mdl-textfield__input"><strong>Lote :</strong>
-												&nbsp; &nbsp;<?php echo $KsvmLlenarForm['ExtLoteEx'];?></div>
-										</div>
-										<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-											<div class="mdl-textfield__input"><strong>Presentación :</strong>
-												&nbsp; &nbsp;<?php echo $KsvmLlenarForm['ExtPresentEx'];?></div>
-										</div>
-										<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-											<div class="mdl-textfield__input"><strong>Stock :</strong>
-												&nbsp; &nbsp;<?php echo $KsvmLlenarForm['ExbStockEbo'];?></div>
-										</div>
-										<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-											<div class="mdl-textfield__input"><strong>Código de Barras :</strong>
-												&nbsp; &nbsp;<sgv
-													id="Barcode<?php echo $KsvmLlenarForm['ExtCodBarEx'];?>">
-													<a href="#" class="btn btn-xs btn-success">IMPRIMIR</a></div>
-
+												&nbsp;
+												&nbsp;<?php echo $KsvmLlenarForm['MdcDescMed'].' '.$KsvmLlenarForm['MdcConcenMed'];?>
+											</div>
 										</div>
 										<div class="mdl-textfield mdl-js-textfield">
 											<div class="mdl-textfield__input"><strong>Estado :</strong>
 												&nbsp; &nbsp;<?php echo $KsvmEstado;?></div>
 										</div>
 									</div>
-								</div>
-								<div class="mdl-tooltip" for="btn-NuevoExistencia">Editar Existencia</div>
-								<div class="RespuestaAjax"></div>
+									<div
+										class="mdl-cell mdl-cell--4-col-phone mdl-cell--8-col-tablet mdl-cell--7-col-desktop">
+										<div class="mdl-textfield mdl-js-textfield">
+											<div class="mdl-textfield__input"><strong>Lote :</strong>
+												&nbsp; &nbsp;<?php echo $KsvmLlenarForm['ExtLoteEx'];?></div>
+										</div>
+										<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+											<div class="mdl-textfield__input"><strong>Stock :</strong>
+												&nbsp; &nbsp;<?php echo $KsvmLlenarForm['ExbStockEbo'];?>
+												&nbsp; &nbsp;<strong class="alerta"
+													style="background-color:<?php echo $KsvmLlenarForm['AltColorAle'];?>;"><i
+														class="zmdi zmdi-alert-triangle" style="font-size:25px;"></i>
+													&nbsp; &nbsp;<?php echo $KsvmLlenarForm['AltDescAle'];?></strong>
+											</div>
+											<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+												<div class="mdl-textfield__input"><strong>Fecha de Caducidad :</strong>
+													&nbsp; &nbsp;<?php echo $KsvmLlenarForm['ExtFchCadEx'];?></div>
+											</div>
+											<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+												<div class="mdl-textfield__input"><strong>Stock Inicial :</strong>
+													&nbsp; &nbsp;<?php echo $KsvmLlenarForm['ExtStockIniEx'];?></div>
+											</div>
+											<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+												<div class="mdl-textfield__input"><strong>Stock de Seguridad :</strong>
+													&nbsp; &nbsp;<?php echo $KsvmLlenarForm['ExtStockSegEx'];?></div>
+											</div>
+											<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+												<div class="mdl-textfield__input"><strong>Código de Localización
+														:</strong>
+													&nbsp; &nbsp;<?php echo $KsvmLlenarForm['ExtBinLocEx'];?></div>
+											</div>
+											<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+												<div class="mdl-textfield__input"><strong>Código de Barras :</strong>
+													&nbsp; &nbsp;<img
+														src="<?php echo KsvmServUrl?>Reportes/Codigos/<?php echo $KsvmLlenarForm['ExtCodBarEx']?>.png" />
+													<a href="<?php echo KsvmServUrl;?>Reportes/KsvmCodBarPdf.php?Cod=<?php echo KsvmEstMaestra::__KsvmEncriptacion($KsvmLlenarForm['ExtId'])?>"
+														class="
+												btn btn-xs btn-success" style="float:right;"><i class="zmdi zmdi-print">&nbsp; &nbsp;IMPRIMIR</i></a></div>
+											</div>
+										</div>
+									</div>
+									<div class="RespuestaAjax"></div>
 							</form>
 						</div>
 					</div>
@@ -207,103 +221,82 @@
 									id="KsvmFormExistencia">
 
 									<div class="mdl-grid">
+										<div class="mdl-textfield mdl-js-textfield">
+											<select class="ksvmSelectDin" id="KsvmCmpId" style="width:98%;" required>
+												<option value="" disabled="" selected="">Seleccione Compra
+												</option>
+												<?php require_once "./Controladores/KsvmCompraControlador.php";
+													$KsvmSelCompra = new KsvmCompraControlador();
+													echo $KsvmSelCompra->__KsvmSeleccionarCompra();
+													?>
+											</select>
+										</div>
 										<div
 											class="mdl-cell mdl-cell--4-col-phone mdl-cell--8-col-tablet mdl-cell--6-col-desktop">
 											<div class="mdl-textfield mdl-js-textfield">
-												<select class="mdl-textfield__input" name="KsvmBdgId">
-													<option value="" disabled="" selected="">Seleccione Bodega</option>
-													<?php require_once "./Controladores/KsvmBodegaControlador.php";
-													$KsvmSelBod = new KsvmBodegaControlador();
-													echo $KsvmSelBod->__KsvmSeleccionarBodega();
-													?>
-												</select>
-											</div>
-											<div class="mdl-textfield mdl-js-textfield">
-												<select class="mdl-textfield__input" id="KsvmDocId" name="KsvmDocId">
+												<select class="ksvmSelectDin" id="KsvmDocId" name="KsvmDocId"
+													style="width:100%;">
 													<option value="" disabled="" selected="">Seleccione Medicamento
 													</option>
 												</select>
 											</div>
 											<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
 												<input class="mdl-textfield__input" type="text" name="KsvmLoteEx"
-													id="KsvmDato1">
-												<label class="mdl-textfield__label" for="KsvmDato1">Lote</label>
+													pattern="-?[A-Za-z0-9áéíóúÁÉÍÓÚ-]*(\.[0-9]+)?" id="KsvmDato2">
+												<label class="mdl-textfield__label" for="KsvmDato2">Lote</label>
 												<span class="mdl-textfield__error">Lote Inválido</span>
-												<span id="KsvmError1" class="ValForm"><i
-														class="zmdi zmdi-alert-triangle">&nbsp;Por favor llene este
-														campo</i></span>
-											</div>
-											<div class="mdl-textfield mdl-js-textfield">
-												<select class="mdl-textfield__input" name="KsvmPresentEx"
-													id="KsvmDato2">
-													<option value="" selected="">Seleccione Presentación
-													</option>
-													<option value="Solido oral">Sólido oral</option>
-													<option value="Liquido oral">Líquido oral</option>
-													<option value="lt">Litros</option>
-													<option value="ml">Mililitros</option>
-													<option value="ud">Unidades</option>
-												</select>
 												<span id="KsvmError2" class="ValForm"><i
-														class="zmdi zmdi-alert-triangle">&nbsp;Por favor llene este
-														campo</i></span>
-											</div>
-											<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label"
-												id="KsvmStockEx">
-												<input class="mdl-textfield__input" type="text" name="KsvmStockEx"
-													pattern="-?[0-9]*(\.[0-9]+)?" id="KsvmDato3">
-												<label class="mdl-textfield__label" for="KsvmStockEx">Stock</label>
-												<span class="mdl-textfield__error">Stock Inválido</span>
-												<span id="KsvmError3" class="ValForm"><i
-														class="zmdi zmdi-alert-triangle">&nbsp;Por favor llene este
-														campo</i></span>
-											</div>
-										</div>
-										<div
-											class="mdl-cell mdl-cell--4-col-phone mdl-cell--8-col-tablet mdl-cell--6-col-desktop">
-											<div class="mdl-textfield mdl-js-textfield">
-												<select class="mdl-textfield__input" id="KsvmCmpId" required>
-													<option value="" disabled="" selected="">Seleccione Compra
-													</option>
-													<?php require_once "./Controladores/KsvmCompraControlador.php";
-													$KsvmSelCompra = new KsvmCompraControlador();
-													echo $KsvmSelCompra->__KsvmSeleccionarCompra();
-													?>
-												</select>
-											</div>
-											<div class="mdl-textfield mdl-js-textfield">
-												<input type="text" class="mdl-textfield__input tcal" id="KsvmDato4"
-													name="KsvmFchCadEx" placeholder="Fecha de Caducidad">
-												<span id="KsvmError4" class="ValForm"><i
-														class="zmdi zmdi-alert-triangle">&nbsp;Por favor llene este
-														campo</i></span>
-											</div>
-											<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-												<input class="mdl-textfield__input" type="text" name="KsvmStockIniEx"
-													pattern="-?[0-9]*(\.[0-9]+)?" id="KsvmDato5">
-												<label class="mdl-textfield__label" for="KsvmDato5">Stock
-													Inicial</label>
-												<span class="mdl-textfield__error">Stock Inicial Inválido</span>
-												<span id="KsvmError5" class="ValForm"><i
-														class="zmdi zmdi-alert-triangle">&nbsp;Por favor llene este
-														campo</i></span>
-											</div>
-											<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-												<input class="mdl-textfield__input" type="text" name="KsvmStockSegEx"
-													pattern="-?[0-9]*(\.[0-9]+)?" id="KsvmDato6">
-												<label class="mdl-textfield__label" for="KsvmDato6">Stock de
-													Seguridad</label>
-												<span class="mdl-textfield__error">Stock de Seguridad Inválido</span>
-												<span id="KsvmError6" class="ValForm"><i
 														class="zmdi zmdi-alert-triangle">&nbsp;Por favor llene este
 														campo</i></span>
 											</div>
 											<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
 												<input class="mdl-textfield__input" type="text" name="KsvmBinLocEx"
-													id="KsvmDato7">
-												<label class="mdl-textfield__label" for="KsvmDato7">Código de
+													pattern="-?[A-Za-z0-9áéíóúÁÉÍÓÚ-]*(\.[0-9]+)?" id="KsvmDato8">
+												<label class="mdl-textfield__label" for="KsvmDato8">Código de
 													Localización</label>
 												<span class="mdl-textfield__error">BinLoc Inválido</span>
+												<span id="KsvmError8" class="ValForm"><i
+														class="zmdi zmdi-alert-triangle">&nbsp;Por favor llene este
+														campo</i></span>
+											</div>
+											<!-- <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label"
+												id="KsvmStockEx">
+												<input class="mdl-textfield__input" type="text" name="KsvmStockEx"
+													pattern="-?[0-9]*(\.[0-9]+)?" id="KsvmDato4">
+												<label class="mdl-textfield__label" for="KsvmDato4">Stock</label>
+												<span class="mdl-textfield__error">Stock Inválido</span>
+												<span id="KsvmError4" class="ValForm"><i
+														class="zmdi zmdi-alert-triangle">&nbsp;Por favor llene este
+														campo</i></span>
+											</div> -->
+										</div>
+										<div
+											class="mdl-cell mdl-cell--4-col-phone mdl-cell--8-col-tablet mdl-cell--6-col-desktop">
+											<div class="mdl-textfield mdl-js-textfield">
+												<input type="text" class="mdl-textfield__input tcal" id="KsvmDato5"
+													name="KsvmFchCadEx" placeholder="Fecha de Caducidad"
+													style="width:93%;" pattern="[0-9-]{10,10}">
+												<span class="mdl-textfield__error">Fecha Inválida</span>
+												<span id="KsvmError5" class="ValForm"><i
+														class="zmdi zmdi-alert-triangle">&nbsp;Por favor llene este
+														campo</i></span>
+											</div>
+											<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+												<input class="mdl-textfield__input" type="number" min="0" max="10000"
+													name="KsvmStockIniEx" pattern="-?[0-9]*(\.[0-9]+)?" id="KsvmDato6">
+												<label class="mdl-textfield__label" for="KsvmDato6">Stock
+													Inicial</label>
+												<span class="mdl-textfield__error">Stock Inicial Inválido</span>
+												<span id="KsvmError6" class="ValForm"><i
+														class="zmdi zmdi-alert-triangle">&nbsp;Por favor llene este
+														campo</i></span>
+											</div>
+											<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+												<input class="mdl-textfield__input" type="number" min="1" max="10000"
+													name="KsvmStockSegEx" pattern="-?[0-9]*(\.[0-9]+)?" id="KsvmDato7">
+												<label class="mdl-textfield__label" for="KsvmDato7">Stock de
+													Seguridad</label>
+												<span class="mdl-textfield__error">Stock de Seguridad Inválido</span>
 												<span id="KsvmError7" class="ValForm"><i
 														class="zmdi zmdi-alert-triangle">&nbsp;Por favor llene este
 														campo</i></span>

@@ -4,3 +4,4 @@ Options All -Indexes
 #Domain = www.SoftVak.com
 RewriteEngine On
 RewriteRule ^([a-zA-Z0-9/]+)$ index.php?Vistas=$1
+php_flag output_buffering on

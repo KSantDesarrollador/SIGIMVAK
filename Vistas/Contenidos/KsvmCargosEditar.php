@@ -70,7 +70,7 @@
                          <div class="mdl-grid">
                              <div class="mdl-cell mdl-cell--4-col-phone mdl-cell--8-col-tablet mdl-cell--12-col-desktop">
                                  <div class="mdl-textfield mdl-js-textfield">
-                                 <select class="mdl-textfield__input" name="KsvmUmdId" id="KsvmDato1">
+                                 <select class="ksvmSelectDin" name="KsvmUmdId" id="KsvmDato1" style="width:98%;">
                                          <option value="<?php echo $KsvmLlenarForm['UmdId'];?>" selected="">
                                              <?php echo $KsvmLlenarForm['UmdNomUdm'];?></option>
                                              <?php require_once "./Controladores/KsvmUnidadMedicaControlador.php";
@@ -83,7 +83,7 @@
                                  <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
                                      <input class="mdl-textfield__input" type="text" name="KsvmNomCar"
                                          value="<?php echo $KsvmLlenarForm['CrgNomCar'];?>"
-                                         pattern="-?[A-Za-z0-9áéíóúÁÉÍÓÚ ]*(\.[0-9]+)?" id="KsvmDato2">
+                                         pattern="-?[A-Za-záéíóúÁÉÍÓÚ ]*(\.[0-9]+)?" id="KsvmDato2">
                                      <label class="mdl-textfield__label" for="KsvmDato2">Nombre</label>
                                      <span class="mdl-textfield__error">Nombre Inválido</span>
                                      <span id="KsvmError2" class="ValForm"><i class="zmdi zmdi-alert-triangle">&nbsp;Por favor llene este campo</i></span>

@@ -10,9 +10,9 @@ if (isset($_GET['Cod'])) {
 // Cabecera de página
 function Header()
 {
-  $KsvmUrlImg = '../Vistas/assets/img/Logo.png';
+  $KsvmUrlImg = '../Vistas/assets/img/medicamentos.png';
     // Logo
-    $this->Image($KsvmUrlImg,10,8,13);
+    $this->Image($KsvmUrlImg,10,10,20);
     // Arial bold 15
     $this->SetFont('Arial','B',17);
     // Movernos a la derecha
@@ -65,29 +65,29 @@ if ($KsvmQuery->rowCount() >= 1) {
 $pdf = new PDF();
 $pdf->AliasNbPages();
 $pdf->AddPage();
-$pdf->SetFont('Times','B',11);
+$pdf->SetFont('Times','',9);
 foreach ($KsvmListaBitacora as $row){
-  $pdf->Cell(60);
-  $pdf->Cell(40,13,utf8_decode('Código'),0,0);
-  $pdf->Cell(40,13,$row['BtcCodBit'],0,1);
-  $pdf->Cell(60);
-  $pdf->Cell(40,13,utf8_decode('Rol'),0,0);
-  $pdf->Cell(40,13,$row['BtcTipoBit'],0,1);
-  $pdf->Cell(60);
-  $pdf->Cell(40,13,utf8_decode('Usuario'),0,0);
-  $pdf->Cell(40,13,$row['UsrNomUsu'],0,1);
-  $pdf->Cell(60);
-  $pdf->Cell(40,13,utf8_decode('Fecha'),0,0);
-  $pdf->Cell(40,13,$row['BtcFchBit'],0,1);
-  $pdf->Cell(60);
-  $pdf->Cell(40,13,utf8_decode('Hora Inicio'),0,0);
-  $pdf->Cell(40,13,$row['BtcHoraInBit'],0,1);
-  $pdf->Cell(60);
-  $pdf->Cell(40,13,utf8_decode('Hora Fin'),0,0);
-  $pdf->Cell(40,13,$row['BtcHoraFinBit'],0,1);
-  $pdf->Cell(60);
-  $pdf->Cell(40,13,utf8_decode('Año'),0,0);
-  $pdf->Cell(40,13,$row['BtcAnioBit'],0,1);
+  $pdf->Cell(40);
+  $pdf->Cell(60,13,utf8_decode('Código'),0,0,'C');
+  $pdf->Cell(60,13,$row['BtcCodBit'],0,1,'C');
+  $pdf->Cell(40);
+  $pdf->Cell(60,13,utf8_decode('Rol'),0,0);
+  $pdf->Cell(60,13,$row['BtcTipoBit'],0,1,'C');
+  $pdf->Cell(40);
+  $pdf->Cell(60,13,utf8_decode('Usuario'),0,0,'C');
+  $pdf->Cell(60,13,$row['UsrNomUsu'],0,1,'C');
+  $pdf->Cell(40);
+  $pdf->Cell(60,13,utf8_decode('Fecha'),0,0,'C');
+  $pdf->Cell(60,13,$row['BtcFchBit'],0,1,'C');
+  $pdf->Cell(40);
+  $pdf->Cell(60,13,utf8_decode('Hora Inicio'),0,0,'C');
+  $pdf->Cell(60,13,$row['BtcHoraInBit'],0,1,'C');
+  $pdf->Cell(40);
+  $pdf->Cell(60,13,utf8_decode('Hora Fin'),0,0,'C');
+  $pdf->Cell(60,13,$row['BtcHoraFinBit'],0,1,'C');
+  $pdf->Cell(40);
+  $pdf->Cell(60,13,utf8_decode('Año'),0,0,'C');
+  $pdf->Cell(60,13,$row['BtcAnioBit'],0,1,'C');
   }
   $pdf->Output();
 }
@@ -103,9 +103,9 @@ else{
 // Cabecera de página
 function Header()
 {
-  $KsvmUrlImg = '../Vistas/assets/img/Logo.png';
+  $KsvmUrlImg = '../Vistas/assets/img/medicamentos.png';
     // Logo
-    $this->Image($KsvmUrlImg,10,8,13);
+    $this->Image($KsvmUrlImg,10,10,20);
     // Arial bold 15
     $this->SetFont('Arial','B',17);
     // Movernos a la derecha
