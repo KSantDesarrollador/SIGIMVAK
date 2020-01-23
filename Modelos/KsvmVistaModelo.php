@@ -21,7 +21,7 @@
            "KsvmUnidadesMedicasCrud", "KsvmUnidadesMedicasEditar", "KsvmUsuariosCrud", "KsvmUsuariosEditar", "KsvmSuperCompras", "KsvmSuperInventarios", 
            "KsvmSuperPedidos", "KsvmSuperPagos", "KsvmCalendario", "KsvmPerfil", "KsvmReporteComprasGen", "KsvmReporteComprasEst", "KsvmReporteInventariosGen", 
            "KsvmReporteInventariosEst", "KsvmReportePedidosGen", "KsvmReportePedidosEst", "KsvmReporteTransaccionesGen", "KsvmReporteTransaccionesEst", 
-           "KsvmAlertasPush", "KsvmHistorialCompras"];
+           "KsvmAlertasPush", "KsvmHistorialCompras", "KsvmUsuInventarios"];
 
            if (in_array($KsvmVistas, $KsvmPermitidas)) {
               if (is_file("./Vistas/Contenidos/" . $KsvmVistas . ".php")) {

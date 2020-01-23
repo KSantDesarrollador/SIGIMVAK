@@ -22,7 +22,7 @@
          $KsvmConContra = KsvmEstMaestra :: __KsvmFiltrarCadena($_POST['KsvmConContra']);
          $KsvmEmail = KsvmEstMaestra :: __KsvmFiltrarCadena($_POST['KsvmEmail']);
          $KsvmTelf = KsvmEstMaestra :: __KsvmFiltrarCadena($_POST['KsvmTelf']);
-         if (isset($_POST['KsvmImgUsu'])) {
+         if ($_FILES['KsvmImgUsu']['error'] > 0) {
             $KsvmImgUsu = file_get_contents($_FILES['KsvmImgUsu']['tmp_name']);
         } else {
             $KsvmImgUsu = "";
@@ -69,7 +69,7 @@
                    "KsvmContraUsu" => $KsvmContrasenia,
                    "KsvmUsrEmailUsu" => $KsvmEmail,
                    "KsvmUsrTelfUsu" => $KsvmTelf,
-                   "KsvmUsrImgUsu" => $KsvmImg
+                   "KsvmImgUsu" => $KsvmImgUsu
                    ];
 
                  $KsvmGuardarUsu = KsvmEstMaestra :: __KsvmAgregarUsuario($KsvmNuevoUsu);
@@ -389,13 +389,12 @@
         }
         $KsvmTelf = KsvmEstMaestra :: __KsvmFiltrarCadena($_POST['KsvmTelf']);
         $KsvmEmail = KsvmEstMaestra :: __KsvmFiltrarCadena($_POST['KsvmEmail']);
-        if (isset($_POST['KsvmImgUsu'])) {
-            $KsvmImgUsu = file_get_contents($_FILES['KsvmImgUsu']['tmp_name']);
-        } else {
+        if ($_FILES['KsvmImgUsu']['error'] > 0) {
             $KsvmImgUsu = "";
+        } else {
+            $KsvmImgUsu = file_get_contents($_FILES['KsvmImgUsu']['tmp_name']);
         }
         
-
         if ($KsvmContra != " " && $KsvmConContra != " ") {
             if ($KsvmContra != $KsvmConContra) {
                 $KsvmAlerta = [
@@ -487,7 +486,7 @@
             "KsvmCode" => $KsvmCode
             ];
 
-            $KsvmGuardarPerfil = KsvmEstMaestra :: __KsvmActualizarUsuario($KsvmActualPerfil);
+            $KsvmGuardarPerfil = KsvmEstMaestra :: __KsvmActualizarPerfil($KsvmActualPerfil);
                 if ($KsvmGuardarPerfil->rowCount() >= 1) {
                     $KsvmAlerta = [
                     "Alerta" => "Actualiza",

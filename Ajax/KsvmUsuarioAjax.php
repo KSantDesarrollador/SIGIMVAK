@@ -24,7 +24,7 @@ if (isset($_POST['KsvmRol']) || isset($_POST['KsvmCodDelete']) || isset($_POST['
         echo $KsvmIniUsuario->__KsvmActualizarUsuarioControlador();
     }
 
-    if (isset($_POST['KsvmCodEdit']) && isset($_POST['KsvmContra'])) {
+    if (isset($_POST['KsvmCodEdit']) && isset($_POST['KsvmContra']) && !isset($_POST['KsvmNomUsu'])) {
         echo $KsvmIniUsuario->__KsvmActualizarPerfilControlador();
     }
 } else {

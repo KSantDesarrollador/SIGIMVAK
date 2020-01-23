@@ -314,10 +314,10 @@
 											</div>
 											<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
 												<input class="mdl-textfield__input" type="text" name="KsvmIdent"
-													pattern="[0-9]{10,13}" id="KsvmDato2">
+													pattern="[0-9]{10,13}" id="Ident" onkeyup="IdValido()">
 												<label class="mdl-textfield__label"
-													for="KsvmDato2">Identificación</label>
-												<span class="mdl-textfield__error">Número Inválido</span>
+													for="Ident">Identificación</label>
+													<span id="KsvmErrorIdent" class=""></span>
 												<span id="KsvmError2" class="ValForm"><i
 														class="zmdi zmdi-alert-triangle">&nbsp;Por favor llene este
 														campo</i></span>

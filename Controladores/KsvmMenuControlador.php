@@ -47,7 +47,7 @@
                 $KsvmGuardarMenu = KsvmMenuModelo :: __KsvmAgregarMenuModelo($KsvmNuevoMenu);
                 if ($KsvmGuardarMenu->rowCount() == 1) {
                     $KsvmAlerta = [
-                    "Alerta" => "Limpia",
+                    "Alerta" => "Actualiza",
                     "Titulo" => "Grandioso",
                     "Cuerpo" => "El Menú se registró satisfactoriamente",
                     "Tipo" => "success"

@@ -45,9 +45,31 @@
       /**
       *Función que permite editar una existencia
       */
+      protected function __KsvmEditarDetalleExistenciaModelo($KsvmCodExistencia, $KsvmUsuario, $KsvmRol)
+      {
+        if ($KsvmRol = "Administrador" || $KsvmRol = "Supervisor"  || $KsvmRol = "Tecnico" ) {
+            $KsvmEditExistencia = "SELECT * FROM ksvmvistaexistencias  WHERE ExtId = :KsvmCodExistencia AND UsrId = :KsvmUsuario AND BdgId = 5";
+            $KsvmQuery = KsvmEstMaestra :: __KsvmConexion()->prepare($KsvmEditExistencia);
+            $KsvmQuery->bindParam(":KsvmCodExistencia", $KsvmCodExistencia);
+            $KsvmQuery->bindParam(":KsvmUsuario", $KsvmUsuario);
+            $KsvmQuery->execute();
+          } else {
+            $KsvmEditExistencia = "SELECT * FROM ksvmvistaexistencias  WHERE ExtId = :KsvmCodExistencia AND UsrId = :KsvmUsuario";
+            $KsvmQuery = KsvmEstMaestra :: __KsvmConexion()->prepare($KsvmEditExistencia);
+            $KsvmQuery->bindParam(":KsvmCodExistencia", $KsvmCodExistencia);
+            $KsvmQuery->bindParam(":KsvmUsuario", $KsvmUsuario);
+            $KsvmQuery->execute();
+          }
+          return $KsvmQuery;
+
+      }
+     /**
+      *Función que permite editar una existencia
+      */
       protected function __KsvmEditarExistenciaModelo($KsvmCodExistencia)
       {
-          $KsvmEditExistencia = "SELECT * FROM ksvmvistaexistencias  WHERE ExtId = :KsvmCodExistencia AND BdgId = 5";
+          $KsvmEditExistencia = "SELECT DISTINCT ExtId, MdcDescMed, MdcConcenMed, ExtLoteEx, ExtFchCadEx, ExtBinLocEx, ExtCodBarEx, ExtEstEx,
+          BdgDescBod FROM ksvmvistaexistencias WHERE ExtId = :KsvmCodExistencia";
           $KsvmQuery = KsvmEstMaestra :: __KsvmConexion()->prepare($KsvmEditExistencia);
           $KsvmQuery->bindParam(":KsvmCodExistencia", $KsvmCodExistencia);
           $KsvmQuery->execute();

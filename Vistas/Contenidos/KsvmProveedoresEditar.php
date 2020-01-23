@@ -136,7 +136,7 @@
  									<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
  										<input class="mdl-textfield__input" type="text" name="KsvmRazSocProv"
  											value="<?php echo $KsvmLlenarForm['PvdRazSocProv']?>"
- 											pattern="-?[A-Za-z0-9áéíóúÁÉÍÓÚ ]*(\.+)?" id="KsvmDato3">
+ 											pattern="-?[A-Za-z0-9áéíóúÁÉÍÓÚ. ]*(\.+)?" id="KsvmDato3">
  										<label class="mdl-textfield__label" for="KsvmDato3">Razón Social</label>
  										<span class="mdl-textfield__error">Razón Social Inválida</span>
  										<span id="KsvmError3" class="ValForm"><i
@@ -181,9 +181,9 @@
  									<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
  										<input class="mdl-textfield__input" type="text" name="KsvmIdentProv"
  											value="<?php echo $KsvmLlenarForm['PvdIdentProv']?>"
- 											pattern="[0-9]{10,13}" id="KsvmDato6">
- 										<label class="mdl-textfield__label" for="KsvmDato6">Identidad</label>
- 										<span class="mdl-textfield__error">Identidad Inválida</span>
+ 											pattern="[0-9]{10,13}" id="Ident" onkeyup="IdValido()">
+ 										<label class="mdl-textfield__label" for="Ident">Identidad</label>
+										 <span id="KsvmErrorIdent" class=""></span>
  										<span id="KsvmError6" class="ValForm"><i
  												class="zmdi zmdi-alert-triangle">&nbsp;Por favor llene este
  												campo</i></span>

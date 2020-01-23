@@ -82,7 +82,7 @@
 
 		  $KsvmPagina = explode("/", $_GET['Vistas']);
 		  if ($KsvmPagina[2] != "") {
-		  $KsvmDataEdit = $KsvmIniExt->__KsvmEditarExistenciaControlador($KsvmPagina[2]);
+		  $KsvmDataEdit = $KsvmIniExt->__KsvmEditarDetalleExistenciaControlador($KsvmPagina[2]);
 
 		  if ($KsvmDataEdit->rowCount() == 1) {
 			  $KsvmLlenarForm = $KsvmDataEdit->fetch();         
@@ -96,7 +96,7 @@
 				    $KsvmEstado = "Agotado";
 				}
 
-				barcode('Reportes/Codigos/'.$KsvmLlenarForm['ExtCodBarEx'].'.png', $KsvmLlenarForm['ExtCodBarEx'], 25, 'horizontal', 'codabar', true,1);
+				barcode('Reportes/Codigos/'.$KsvmLlenarForm['ExtCodBarEx'].'.png', $KsvmLlenarForm['ExtCodBarEx'], 25, 'horizontal', 'codabar', true,2);
 			  
 	    ?>
 			<script>

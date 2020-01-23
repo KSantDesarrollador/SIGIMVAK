@@ -138,6 +138,7 @@
         $KsvmRol = KsvmEstMaestra :: __KsvmFiltrarCadena($KsvmRol);
         $KsvmCodigo = KsvmEstMaestra :: __KsvmFiltrarCadena($KsvmCodigo);
         $KsvmBuscarIni = KsvmEstMaestra :: __KsvmFiltrarCadena($KsvmBuscarIni);
+        $KsvmUsuario = $_SESSION['KsvmUsuId-SIGIM'];
         $KsvmTabla = "";
         
         $KsvmPagina = (isset($KsvmPagina) && $KsvmPagina > 0 ) ? (int)$KsvmPagina : 1;
@@ -146,7 +147,7 @@
         if (isset($KsvmBuscarIni) && $KsvmBuscarIni != "" && !isset($KsvmBuscarFin)) {
             $KsvmDataReq = "SELECT SQL_CALC_FOUND_ROWS * FROM ksvmvistapedidos WHERE ((RqcEstReq != 'I') AND (RqcNumReq LIKE '%$KsvmBuscarIni%' 
                           OR RqcOrigenReq LIKE '%$KsvmBuscarIni%' OR RqcPerElabReq LIKE '%$KsvmBuscarIni%' OR RqcFchElabReq LIKE '%$KsvmBuscarIni%')) 
-                          LIMIT $KsvmDesde, $KsvmNRegistros";
+                         LIMIT $KsvmDesde, $KsvmNRegistros";
         } elseif (isset($KsvmBuscarIni) && isset($KsvmBuscarFin) && $KsvmBuscarFin != "") {
             $KsvmDataReq = "SELECT SQL_CALC_FOUND_ROWS * FROM ksvmvistapedidos WHERE RqcFchElabReq BETWEEN '$KsvmBuscarIni' AND '$KsvmBuscarFin'
             LIMIT $KsvmDesde, $KsvmNRegistros";
@@ -461,10 +462,11 @@
        */
       public function __KsvmContarRequisicionControlador($KsvmTokken)
       {
+        $KsvmUsuario = $_SESSION['KsvmUsuId-SIGIM'];
           if ($KsvmTokken == 0) {
             $KsvmContaRequisicion = KsvmRequisicionModelo :: __KsvmContarRequisicionSuperModelo();
           } elseif($KsvmTokken == 1) {
-            $KsvmContaRequisicion = KsvmRequisicionModelo :: __KsvmContarRequisicionTecniModelo();
+            $KsvmContaRequisicion = KsvmRequisicionModelo :: __KsvmContarRequisicionTecniModelo($KsvmUsuario);
           } else{
             $KsvmContaRequisicion = KsvmRequisicionModelo :: __KsvmContarRequisicionModelo();
           }
@@ -496,6 +498,7 @@
         $KsvmTokken = KsvmEstMaestra :: __KsvmDesencriptacion($_POST['KsvmTokken']);
         $KsvmCodRevision = KsvmEstMaestra :: __KsvmDesencriptacion($_POST['KsvmCodRevision']);
 
+        session_start(['name' => 'SIGIM']);
         $KsvmUser = $_SESSION['KsvmUsuId-SIGIM'];
         $KsvmElabora = "SELECT concat(EpoPriApeEmp,' ',EpoSegApeEmp,' ',EpoPriNomEmp,' ',EpoSegNomEmp) as PerRev FROM ksvmvistaempleado WHERE UsrId = '$KsvmUser'";
         $KsvmQuery = KsvmEstMaestra :: __KsvmConexion()->query($KsvmElabora);

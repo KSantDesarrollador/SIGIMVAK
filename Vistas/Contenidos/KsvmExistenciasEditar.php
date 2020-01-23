@@ -123,7 +123,8 @@
  									</div>
  									<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
  										<input class="mdl-textfield__input" type="text" name="KsvmCodBarEx"
- 											value="<?php echo $KsvmLlenarForm['ExtCodBarEx'];?>" id="KsvmDato5" pattern="-?[0-9]*(\.[0-9]+)?">
+ 											value="<?php echo $KsvmLlenarForm['ExtCodBarEx'];?>" id="KsvmDato5" 
+											 pattern="-?[A-Za-z0-9áéíóúÁÉÍÓÚ-]*(\.[0-9]+)?">
  										<label class="mdl-textfield__label" for="KsvmDato5">Código de barras</label>
  										<span class="mdl-textfield__error">Código de barras Inválido</span>
  										<span id="KsvmError5" class="ValForm"><i

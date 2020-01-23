@@ -49,7 +49,7 @@
                 $KsvmGuardarBod = KsvmBodegaModelo :: __KsvmAgregarBodegaModelo($KsvmNuevaBod);
                 if ($KsvmGuardarBod->rowCount() >= 1) {
                     $KsvmAlerta = [
-                    "Alerta" => "Limpia",
+                    "Alerta" => "Actualiza",
                     "Titulo" => "Grandioso",
                     "Cuerpo" => "La bodega se registró satisfactoriamente",
                     "Tipo" => "success"

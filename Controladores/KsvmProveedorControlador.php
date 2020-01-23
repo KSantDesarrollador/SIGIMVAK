@@ -75,7 +75,7 @@
                 $KsvmGuardarProv = KsvmProveedorModelo :: __KsvmAgregarProveedorModelo($KsvmNuevoProv);
                 if ($KsvmGuardarProv->rowCount() >= 1) {
                     $KsvmAlerta = [
-                    "Alerta" => "Limpia",
+                    "Alerta" => "Actualiza",
                     "Titulo" => "Grandioso",
                     "Cuerpo" => "El Proveedor se registró satisfactoriamente",
                     "Tipo" => "success"

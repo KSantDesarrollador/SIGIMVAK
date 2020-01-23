@@ -20,7 +20,7 @@ session_start(['name' => 'SIGIM']);
               id="calendar"></i></a>
           <div class="mdl-tooltip" for="calendar">Calendario</div>
         </li>
-        <?php if ($_SESSION['KsvmRolNom-SIGIM'] == 'Supervisor' || $_SESSION['KsvmRolNom-SIGIM'] == 'Tecnico') {?>
+        <?php if ($_SESSION['KsvmRolNom-SIGIM'] == 'Supervisor' || $_SESSION['KsvmRolNom-SIGIM'] == 'Tecnico' || $_SESSION['KsvmRolNom-SIGIM'] == 'Usuario') {?>
         <li class="btn-Notification" id="notifications">
           <i class="zmdi zmdi-notifications"></i>
           <!-- <i class="zmdi zmdi-notifications-active btn-Notification" id="notifications"></i> -->

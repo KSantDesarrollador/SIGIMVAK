@@ -149,9 +149,9 @@
              /**
       *Función que permite contar una requisición
       */
-      protected function __KsvmContarRequisicionTecniModelo()
+      protected function __KsvmContarRequisicionTecniModelo($KsvmUsuario)
       {
-          $KsvmContarRequisicion = "SELECT RqcId FROM ksvmvistapedidos WHERE RqcEstReq = 'A'";
+          $KsvmContarRequisicion = "SELECT RqcId FROM ksvmvistapedidos WHERE RqcEstReq = 'A' AND UsrId = '$KsvmUsuario'";
           $KsvmQuery = KsvmEstMaestra :: __KsvmConexion()->prepare($KsvmContarRequisicion);
           $KsvmQuery->execute();
           return $KsvmQuery;

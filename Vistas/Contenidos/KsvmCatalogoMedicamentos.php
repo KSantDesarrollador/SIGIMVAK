@@ -182,7 +182,7 @@
 					<div class="">
 						<!-- Formulario de busqueda -->
 						<form data-form="" action="" method="POST" autocomplete="off" enctype="multipart/form-data">
-							<div class="mdl-textfield mdl-js-textfield mdl-textfield--expandable">
+							<div class="mdl-textfield mdl-js-textfield mdl-textfield--expandable" style="margin-left: 20px;">
 								<label class="mdl-button mdl-js-button mdl-button--icon" for="KsvmBuscarMed">
 									<i class="zmdi zmdi-search"></i>
 								</label>
@@ -191,7 +191,7 @@
 										name="KsvmBuscarMed">
 									<label class="mdl-textfield__label"></label>
 								</div>
-								<div class="mdl-textfield--expandable navBar-options-list">
+								<div class="mdl-textfield--expandable navBar-options-list" style="margin-right: 45px;">
 									<a class="btn btn-sm btn-success mdl-shadow--8dp"
 										href="<?php echo KsvmServUrl;?>Reportes/KsvmMedicamentosPdf.php"
 										target="_blank"><i class="zmdi zmdi-file">&nbsp;PDF</i></a>
@@ -210,12 +210,12 @@
 
 					$_SESSION['KsvmBuscarMed'] = $_POST['KsvmBuscarMed'];
 					$KsvmPagina = explode("/", $_GET['Vistas']);
-					echo $KsvmIniMed -> __KsvmPaginador($KsvmPagina[1], 1000, $_SESSION['KsvmRolId-SIGIM'], 
+					echo $KsvmIniMed -> __KsvmPaginador($KsvmPagina[1], 100, $_SESSION['KsvmRolId-SIGIM'], 
 					1, $_SESSION['KsvmBuscarMed']);
 					}else{
 
 					$KsvmPagina = explode("/", $_GET['Vistas']);
-					echo $KsvmIniMed -> __KsvmPaginador($KsvmPagina[1], 1000, $_SESSION['KsvmRolId-SIGIM'], 
+					echo $KsvmIniMed -> __KsvmPaginador($KsvmPagina[1], 100, $_SESSION['KsvmRolId-SIGIM'], 
 					1, "");
 					}
 					?>

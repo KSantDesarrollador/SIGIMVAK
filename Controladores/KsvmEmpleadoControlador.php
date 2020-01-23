@@ -39,11 +39,12 @@
          $KsvmEstCiv = KsvmEstMaestra :: __KsvmFiltrarCadena($_POST['KsvmEstCiv']);
          $KsvmSexo = KsvmEstMaestra :: __KsvmFiltrarCadena($_POST['KsvmSexo']);
          $KsvmGenero = KsvmEstMaestra :: __KsvmFiltrarCadena($_POST['KsvmGenero']);
-         if (isset($_POST['KsvmFotoEmp'])) {
-            $KsvmFotoEmp = file_get_contents($_FILES['KsvmFotoEmp']['tmp_name']);
-        } else {
+         if ($_FILES['KsvmFotoEmp']['error'] > 0) {
             $KsvmFotoEmp = "";
+        } else {
+            $KsvmFotoEmp = file_get_contents($_FILES['KsvmFotoEmp']['tmp_name']);
         }
+        
          $KsvmCalulaEdad = self :: __KsvmCalculaEdad($KsvmFchNac);
          if ($KsvmCalulaEdad >= 18 && $KsvmCalulaEdad <= 50) {
              $KsvmFchNacEmp = $KsvmFchNac;
@@ -446,10 +447,10 @@
         $KsvmEstCiv = KsvmEstMaestra :: __KsvmFiltrarCadena($_POST['KsvmEstCiv']);
         $KsvmSexo = KsvmEstMaestra :: __KsvmFiltrarCadena($_POST['KsvmSexo']);
         $KsvmGenero = KsvmEstMaestra :: __KsvmFiltrarCadena($_POST['KsvmGenero']);
-        if (isset($_POST['KsvmFotoEmp'])) {
-            $KsvmFotoEmp = file_get_contents($_FILES['KsvmFotoEmp']['tmp_name']);
-        } else {
+        if ($_FILES['KsvmFotoEmp']['error'] > 0) {
             $KsvmFotoEmp = "";
+        } else {
+            $KsvmFotoEmp = file_get_contents($_FILES['KsvmFotoEmp']['tmp_name']);
         }
         
         $KsvmConsulta = "SELECT * FROM ksvmvistaempleado WHERE EpoId = '$KsvmCode'";

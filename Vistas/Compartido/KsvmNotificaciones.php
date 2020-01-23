@@ -24,7 +24,6 @@
           <i class="zmdi zmdi-circle"></i>
           <strong>Nuevo pedido generado (<?php echo $KsvmListarRequisicion->rowCount();?>)</strong>
           <br>
-          <small>Just Now</small>
         </p>
       </div>
       <div class="mdl-tooltip mdl-tooltip--left" for="notifation-unread-1">Notificación no leída</div>
@@ -53,7 +52,6 @@
           <i class="zmdi zmdi-circle"></i>
           <strong>Nueva orden de compra (<?php echo $KsvmListarCompra->rowCount();?>)</strong>
           <br>
-          <small>30 Mins Ago</small>
         </p>
       </div>
       <div class="mdl-tooltip mdl-tooltip--left" for="notifation-read-1">Notificación leída</div>
@@ -82,7 +80,6 @@
           <i class="zmdi zmdi-circle"></i>
           <strong>Nuevo Inventario registrado (<?php echo $KsvmListarInventario->rowCount();?>)</strong>
           <br>
-          <small>31 Mins Ago</small>
         </p>
       </div>
       <div class="mdl-tooltip mdl-tooltip--left" for="notifation-unread-2">Notificación no leída</div>
@@ -125,9 +122,8 @@
       <div class="Notification-text">
         <p>
           <i class="zmdi zmdi-circle"></i>
-          <strong>Nuevo Pedido generado (<?php echo $KsvmListarRequisicion->rowCount();?>)</strong>
+          <strong>Nuevo Pedido aprobado (<?php echo $KsvmListarRequisicion->rowCount();?>)</strong>
           <br>
-          <small>Just Now</small>
         </p>
       </div>
       <div class="mdl-tooltip mdl-tooltip--left" for="notifation-unread-1">Notificación no leída</div>
@@ -156,7 +152,6 @@
           <i class="zmdi zmdi-circle"></i>
           <strong>Orden de compra Aprobada!</strong>
           <br>
-          <small>30 Mins Ago</small>
         </p>
       </div>
       <div class="mdl-tooltip mdl-tooltip--left" for="notifation-read-1">Notificación leída</div>
@@ -170,7 +165,65 @@
         <small>Ordenes de compra pendientes a revisión...</small>
       </div>
     </div>
-    <?php }}?>
+    <?php }}else{?>
 
+    <div class="full-width text-center NotificationArea-title tittles">Notificaciones <i
+        class="zmdi zmdi-close btn-Notification"></i></div>
+     <!-- Area de pedidos  -->
+     <?php
+      require_once "./Controladores/KsvmRequisicionControlador.php";
+      $KsvmIniReq = new KsvmRequisicionControlador();
+      $KsvmListarRequisicion = $KsvmIniReq->__KsvmContarRequisicionControlador(1);
+      if ($KsvmListarRequisicion->rowCount() >= 1) {
+      ?>
+    <a href="<?php echo KsvmServUrl;?>KsvmRequisiciones/1/" class="Notification" id="notifation-unread-1">
+      <div class="Notification-icon"><i class="zmdi zmdi-transform bg-info"></i></div>
+      <div class="Notification-text">
+        <p>
+          <i class="zmdi zmdi-circle"></i>
+          <strong>Nuevo Pedido generado (<?php echo $KsvmListarRequisicion->rowCount();?>)</strong>
+          <br>
+        </p>
+      </div>
+      <div class="mdl-tooltip mdl-tooltip--left" for="notifation-unread-1">Notificación no leída</div>
+    </a>
+    <?php }else{?>
+    <div class="Notification">
+      <div class="Notification-icon"><i class="zmdi zmdi-transform bg-info"></i></div>
+      <div class="Notification-text">
+        <br>
+        <i class="zmdi zmdi-circle-o"></i>
+        <small>Ordenes de pedido pendientes a revisión...</small>
+      </div>
+    </div>
+    <?php }?>
+    <!-- Area de Inventarios -->
+    <?php
+      require_once "./Controladores/KsvmInventarioControlador.php";
+      $KsvmIniReq = new KsvmInventarioControlador();
+      $KsvmListarRequisicion = $KsvmIniReq->__KsvmContarInventarioControlador(1);
+      if ($KsvmListarRequisicion->rowCount() >= 1) {
+      ?>
+    <a href="<?php echo KsvmServUrl;?>KsvmUsuInventarios/1/" class="Notification" id="notifation-unread-1">
+      <div class="Notification-icon"><i class="zmdi zmdi-transform bg-info"></i></div>
+      <div class="Notification-text">
+        <p>
+          <i class="zmdi zmdi-circle"></i>
+          <strong>Nuevo Inventario Registrado (<?php echo $KsvmListarRequisicion->rowCount();?>)</strong>
+          <br>
+        </p>
+      </div>
+      <div class="mdl-tooltip mdl-tooltip--left" for="notifation-unread-1">Notificación no leída</div>
+    </a>
+    <?php }else{?>
+    <div class="Notification">
+      <div class="Notification-icon"><i class="zmdi zmdi-shopping-cart bg-primary"></i></div>
+      <div class="Notification-text">
+        <br>
+        <i class="zmdi zmdi-circle-o"></i>
+        <small>Inventarios pendientes a revisión...</small>
+      </div>
+    </div>
+    <?php }}?>
   </section>
 </section>

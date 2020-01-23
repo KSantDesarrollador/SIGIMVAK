@@ -237,7 +237,7 @@
 										</div>
 										<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
 											<input class="mdl-textfield__input" type="text" name="KsvmNomUdm"
-												pattern="-?[A-Za-z0-9áéíóúÁÉÍÓÚ ]*(\.[0-9]+)?" id="KsvmDato1">
+												pattern="-?[A-Za-z0-9áéíóúÁÉÍÓÚ. ]*(\.[0-9]+)?" id="KsvmDato1">
 											<label class="mdl-textfield__label" for="KsvmDato1">Razón Social</label>
 											<span class="mdl-textfield__error">Razón Social Inválida</span>
 											<span id="KsvmError1" class="ValForm"><i
@@ -272,7 +272,10 @@
 											<input class="mdl-textfield__input" type="text" name="KsvmIdentUdm"
 												pattern="[0-9]{10,13}" id="Ident" onkeyup="IdValido()">
 											<label class="mdl-textfield__label" for="Ident">Identidad</label>
-											<span id="KsvmErrorIdent" class="ValForm"></span>
+											<span id="KsvmErrorIdent" class=""></span>
+											<span id="KsvmError3" class="ValForm"><i
+ 												class="zmdi zmdi-alert-triangle">&nbsp;Por favor llene este
+ 												campo</i></span>
 										</div>
 										<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
 											<input class="mdl-textfield__input" type="email" name="KsvmEmailUdm"

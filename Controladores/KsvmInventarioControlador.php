@@ -137,6 +137,7 @@
         $KsvmRol = KsvmEstMaestra :: __KsvmFiltrarCadena($KsvmRol);
         $KsvmCodigo = KsvmEstMaestra :: __KsvmFiltrarCadena($KsvmCodigo);
         $KsvmBuscarIni = KsvmEstMaestra :: __KsvmFiltrarCadena($KsvmBuscarIni);
+        $KsvmUsuario = $_SESSION['KsvmUsuId-SIGIM'];
         $KsvmTabla = "";
         
         $KsvmPagina = (isset($KsvmPagina) && $KsvmPagina > 0 ) ? (int)$KsvmPagina : 1;
@@ -150,10 +151,17 @@
             $KsvmDataInv = "SELECT SQL_CALC_FOUND_ROWS * FROM ksvmvistainventarios WHERE IvtFchElabInv BETWEEN '$KsvmBuscarIni' AND '$KsvmBuscarFin'
             LIMIT $KsvmDesde, $KsvmNRegistros";
         } else {
-            if ($KsvmRol == 1 || $KsvmRol == 2) {
+            if ($KsvmRol == 1 || $KsvmRol == 2 || $KsvmRol == 3) {
                 $KsvmDataInv = "SELECT SQL_CALC_FOUND_ROWS * FROM ksvmvistainventarios WHERE IvtEstInv != 'I' LIMIT $KsvmDesde, $KsvmNRegistros" ;
             } else {
-                $KsvmDataInv = "SELECT SQL_CALC_FOUND_ROWS * FROM ksvmvistainventarios WHERE UsrId = '$KsvmUsuario' AND IvtEstInv != 'I' LIMIT $KsvmDesde, $KsvmNRegistros" ;
+                $KsvmBodega = "SELECT BdgId FROM ksvmseleccionabodega WHERE UsrId = '$KsvmUsuario'";
+                $KsvmQuery = KsvmEstMaestra :: __KsvmConexion()->query($KsvmBodega);
+             
+             if ($KsvmQuery->rowCount() >= 1) {
+                $KsvmBodId = $KsvmQuery->fetch();
+                $KsvmBodegaSel = $KsvmBodId['BdgId'];
+                $KsvmDataInv = "SELECT SQL_CALC_FOUND_ROWS * FROM ksvmvistainventarios WHERE BdgId = '$KsvmBodegaSel' AND IvtEstInv != 'I' LIMIT $KsvmDesde, $KsvmNRegistros" ;
+                }
             }
             
         }
@@ -975,6 +983,7 @@
         {
 
             $KsvmMedica = $_POST['KsvmIvtMedCod'];
+
             if ($KsvmMedica != 0) {
                 $KsvmSelectExt = "SELECT * FROM ksvmvistadetalleinventario WHERE IvtId = '$KsvmMedica'";
 
@@ -989,7 +998,7 @@
                     return $KsvmListar;
 
             } else {
-                $KsvmSelectExt = "SELECT * FROM ksvmseleccionaexistencia";
+                $KsvmSelectExt = "SELECT * FROM ksvmseleccionaexistencia WHERE BdgId = 5";
 
                 $KsvmConsulta = KsvmEstMaestra :: __KsvmConexion();
                 $KsvmQuery = $KsvmConsulta->query($KsvmSelectExt);
@@ -997,7 +1006,7 @@
                     $KsvmListar = '<option value="" selected="" disabled>Seleccione Medicamento</option>';
     
                     foreach ($KsvmQuery as $row) {
-                        $KsvmListar .= '<option value="'.$row['ExtId'].'">'.$row['MdcDescMed'].' '.$row['MdcConcenMed'].' '.$row['ExtLoteEx'].'</option>';
+                        $KsvmListar .= '<option value="'.$row['ExtId'].'">'.$row['MdcDescMed'].' '.$row['MdcConcenMed'].' Lote: '.$row['ExtLoteEx'].'</option>';
                     }
                     return $KsvmListar;
             }
@@ -1013,6 +1022,25 @@
             $KsvmStock = $_POST['KsvmIvtStkCod'];
             $KsvmBodega = $_POST['KsvmBod'];
 
+            $KsvmSelectExt = "SELECT ExbStockEbo FROM ksvmexistenciaxbodega23 WHERE ExtId = '$KsvmStock' AND BdgId = 5";
+
+            $KsvmConsulta = KsvmEstMaestra :: __KsvmConexion();
+            $KsvmQuery = $KsvmConsulta->query($KsvmSelectExt);
+            $KsvmQuery = $KsvmQuery->fetch();
+
+            if ($KsvmQuery['ExbStockEbo'] <= 100) {
+                $KsvmAlerta = [
+                    "Alerta" => "simple",
+                    "Titulo" => "No Disponible",
+                    "Cuerpo" => "El medicamento selecionado no se encuentra disponible",
+                    "Tipo" => "info"
+                    ];
+                    $KsvmListar = '<label class="mdl-textfield__input">0</label>
+                    <input class="mdl-textfield__input" type="text" name="KsvmStockReq"
+                                value="0" hidden>';
+                return KsvmEstMaestra :: __KsvmMostrarAlertas($KsvmAlerta);
+         
+            } else {
                 $KsvmDataStock = KsvmInventarioModelo :: __KsvmSeleccionarStock($KsvmStock, $KsvmBodega);
                 if ($KsvmDataStock->rowCount() == 1) {
                     $KsvmLlenarStock = $KsvmDataStock->fetch();
@@ -1025,6 +1053,7 @@
                     <input class="mdl-textfield__input" type="text" name="KsvmStockReq"
                                 value="0" hidden>';
                 }
+            }
 
             return $KsvmListar;
         }

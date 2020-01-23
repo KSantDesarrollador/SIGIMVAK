@@ -230,7 +230,7 @@
                                      <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
                                          <input class="mdl-textfield__input" type="text" name="KsvmDescMed"
                                              value="<?php echo $KsvmLlenarForm['MdcDescMed'];?>"
-                                             pattern="-?[A-Za-z0-9áéíóúÁÉÍÓÚ():, ]*(\.[0-9]+)?" id="KsvmDato6">
+                                             pattern="-?[A-Za-z0-9áéíóúÁÉÍÓÚ()+:, ]*(\.[0-9]+)?" id="KsvmDato6">
                                          <label class="mdl-textfield__label" for="KsvmDato6">Descripción</label>
                                          <span class="mdl-textfield__error">Descripción Inválida</span>
                                          <span id="KsvmError6" class="ValForm"><i
@@ -263,10 +263,11 @@
                                                  class="zmdi zmdi-alert-triangle">&nbsp;Por favor llene este
                                                  campo</i></span>
                                      </div>
-                                     <div class="">
+                                     <div>
                                          <label class="mdl-textfield"><img height="40px" width="45px"
-                                                 src="data:image/png;base64,<?php echo base64_encode($KsvmLlenarForm['MdcFotoMed']);?>" />&nbsp;Cambiar
-                                             Imagen<input class="" type="file" name="KsvmFotoMed" id="KsvmFotoMed"></label>
+                                                 src="data:image/png;base64,<?php echo base64_encode($KsvmLlenarForm['MdcFotoMed']);?>"/>&nbsp;Cambiar
+                                             Imagen</label>
+                                             <input class="" type="file" name="KsvmFotoMed" id="KsvmFotoMed">
 
                                      </div>
                                  </div>

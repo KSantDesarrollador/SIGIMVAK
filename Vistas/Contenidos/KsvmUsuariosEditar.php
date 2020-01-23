@@ -27,6 +27,8 @@
 
     if ($KsvmDataEdit->rowCount() == 1) {
         $KsvmLlenarForm = $KsvmDataEdit->fetch();
+
+        $KsvmCantra = $KsvmIniUsu->__KsvmDesencriptarPerfil($KsvmLlenarForm['UsrContraUsu']);
     
         $KsvmEstado = "";
         if ($KsvmLlenarForm['UsrEstUsu'] == 'A') {
@@ -130,8 +132,7 @@
                                      </div>
                                      <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
                                          <input class="mdl-textfield__input" type="password" name="KsvmContra"
-                                             value="<?php echo  $KsvmLlenarForm['UsrContraUsu'];?>" id="KsvmContra"
-                                             disabled>
+                                             value="<?php echo  $KsvmCantra;?>" id="KsvmContra">
                                          <label class="mdl-textfield__label" for="KsvmContra">Contraseña</label>
                                          <span class="mdl-textfield__error">Contraseña Inválida</span>
                                          <span id="KsvmError1" class="ValForm"><i
@@ -140,8 +141,7 @@
                                      </div>
                                      <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
                                          <input class="mdl-textfield__input" type="password" name="KsvmConContra"
-                                             value="<?php echo $KsvmLlenarForm['UsrContraUsu'];?>" id="KsvmConContra"
-                                             disabled>
+                                             value="<?php echo $KsvmCantra;?>" id="KsvmConContra">
                                          <label class="mdl-textfield__label" for="KsvmConContra">Confirmar
                                              Contraseña</label>
                                          <span class="mdl-textfield__error">Contraseña Inválida</span>

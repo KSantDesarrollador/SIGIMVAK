@@ -24,11 +24,11 @@
          $KsvmNivPrescMed = KsvmEstMaestra :: __KsvmFiltrarCadena($_POST['KsvmNivPrescMed']);
          $KsvmNivAtencMed = KsvmEstMaestra :: __KsvmFiltrarCadena($_POST['KsvmNivAtencMed']);
          $KsvmViaAdmMed = KsvmEstMaestra :: __KsvmFiltrarCadena($_POST['KsvmViaAdmMed']);
-         if (isset($_POST['KsvmFotoMed'])) {
-            $KsvmFotoMed = file_get_contents($_FILES['KsvmFotoMed']['tmp_name']);
-        } else {
+         if ($_FILES['KsvmFotoMed']['error'] > 0) {
             $KsvmFotoMed = "";
-        }        
+        } else {
+            $KsvmFotoMed = file_get_contents($_FILES['KsvmFotoMed']['tmp_name']);
+        }      
         
               $KsvmNuevoMed = [
                 "KsvmCtgId" => $KsvmCtgId,
@@ -45,7 +45,7 @@
                 $KsvmGuardarMed = KsvmMedicamentoModelo :: __KsvmAgregarMedicamentoModelo($KsvmNuevoMed);
                 if ($KsvmGuardarMed->rowCount() >= 1) {
                     $KsvmAlerta = [
-                    "Alerta" => "Limpia",
+                    "Alerta" => "Actualiza",
                     "Titulo" => "Grandioso",
                     "Cuerpo" => "El Medicamento se registró satisfactoriamente",
                     "Tipo" => "success"
@@ -171,7 +171,7 @@
                             
         } else {
             if ($KsvmTotalReg >= 1) {
-                echo '<script> window.location.href=" '.KsvmServUrl.'KsvmMedicamentosCrud"</script>';
+                echo '<script> window.location.href=" '.KsvmServUrl.'KsvmMedicamentosCrud/1/"</script>';
             } else {
                 $KsvmTabla .= '<tr> 
                             <td class="mdl-data-table__cell--non-numeric" colspan="7"><strong>No se encontraron registros...</strong></td>
@@ -221,7 +221,7 @@
                 foreach ($KsvmQuery as $rows) {
                                     
                     $KsvmTabla .= '
-                                    <div class="mdl-card mdl-shadow--8dp full-width product-card">
+                                    <div class="mdl-card mdl-shadow--16dp full-width product-card">
                                     <button class="btn btn-md" style="width:100%; background-color:'.$rows['CtgColorCat'].';">'.$rows['CtgNomCat'].'</button>
                                     <div class="mdl-card__title">
                                     <img height="100px" width="100%" src="data:image/jpg;base64,'. base64_encode($rows['MdcFotoMed']).'"/>
@@ -249,7 +249,7 @@
     
                                <br>
                                <div class=" mdl-shadow--8dp full-width">
-                                <nav class="navbar-form navbar-left form-group">
+                                <nav class="navbar-form navbar-left form-group" style="margin-left: 20px;">
                                 <span class="">
                                  <strong>Total de '.$KsvmTotalReg.' </strong> registros encontrados
                                 </span>
@@ -272,7 +272,7 @@
             }
     
                  if ($KsvmTotalReg >= 1 && $KsvmPagina <= $KsvmNPaginas && $KsvmCodigo == 1)  {
-                    $KsvmTabla .= '<nav class="navbar-form navbar-right form-group">';
+                    $KsvmTabla .= '<nav class="navbar-form navbar-right form-group" style="margin-right: 20px;">';
                     
                     if ($KsvmPagina == 1) {
                         $KsvmTabla .= '<button class = "btn btn-xs btn-success mdl-shadow--8dp disabled">Primero</button>
@@ -370,11 +370,11 @@
         $KsvmNivPrescMed = KsvmEstMaestra :: __KsvmFiltrarCadena($_POST['KsvmNivPrescMed']);
         $KsvmNivAtencMed = KsvmEstMaestra :: __KsvmFiltrarCadena($_POST['KsvmNivAtencMed']);
         $KsvmViaAdmMed = KsvmEstMaestra :: __KsvmFiltrarCadena($_POST['KsvmViaAdmMed']);
-        if (isset($_POST['KsvmFotoMed'])) {
-            $KsvmFotoMed = file_get_contents($_FILES['KsvmFotoMed']['tmp_name']);
-        } else {
+        if ($_FILES['KsvmFotoMed']['error'] > 0) {
             $KsvmFotoMed = "";
-        }
+        } else {
+            $KsvmFotoMed = file_get_contents($_FILES['KsvmFotoMed']['tmp_name']);
+        } 
         
 
         $KsvmActualMed = [

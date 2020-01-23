@@ -234,6 +234,7 @@ $(document).ready(function() {
 
 	// Validar formularios
 	$('#btnSave').on('click', function() {
+		var KsvmIdent = $('#Ident').val();
 		var KsvmDato1 = $('#KsvmDato1').val();
 		var KsvmDato2 = $('#KsvmDato2').val();
 		var KsvmDato3 = $('#KsvmDato3').val();
@@ -270,7 +271,7 @@ $(document).ready(function() {
 						return false;
 					} else {
 						$('#KsvmError4').fadeOut(600);
-						if (KsvmDato5 == '') {
+						if (KsvmDato5 == '' || KsvmIdent == '') {
 							$('#KsvmError5').fadeIn(600);
 							return false;
 						} else {

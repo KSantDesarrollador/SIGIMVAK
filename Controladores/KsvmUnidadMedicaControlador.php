@@ -69,7 +69,7 @@
                 $KsvmGuardarUndMed = KsvmUnidadMedicaModelo :: __KsvmAgregarUnidadMedicaModelo($KsvmNuevaUndMed);
                 if ($KsvmGuardarUndMed->rowCount() >= 1) {
                     $KsvmAlerta = [
-                    "Alerta" => "Limpia",
+                    "Alerta" => "Actualiza",
                     "Titulo" => "Grandioso",
                     "Cuerpo" => "La Unidad Médica se registró satisfactoriamente",
                     "Tipo" => "success"

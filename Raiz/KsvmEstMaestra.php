@@ -253,7 +253,43 @@
      */
     protected function __KsvmActualizarUsuario($KsvmDataUsuario)
     {
-      if ($KsvmDataUsuario['KsvmContraUsu'] != " " || $KsvmDataUsuario['KsvmImgUsu'] != "") {
+      echo $KsvmDataUsuario['KsvmImgUsu'];
+
+      if ($KsvmDataUsuario['KsvmImgUsu'] != "") {
+        $KsvmActUsu = "UPDATE ksvmusuario01 SET RrlId = :KsvmRrlId, UsrNomUsu = :KsvmNomUsu, UsrContraUsu = :KsvmContraUsu, 
+                        UsrEmailUsu = :KsvmEmailUsu, UsrTelfUsu = :KsvmTelfUsu, UsrImgUsu = :KsvmImgUsu WHERE UsrId = :KsvmCode";
+        $KsvmQuery = self :: __KsvmConexion()->prepare($KsvmActUsu);
+        $KsvmQuery->bindParam(":KsvmRrlId", $KsvmDataUsuario['KsvmRrlId']);
+        $KsvmQuery->bindParam(":KsvmNomUsu", $KsvmDataUsuario['KsvmNomUsu']);
+        $KsvmQuery->bindParam(":KsvmContraUsu", $KsvmDataUsuario['KsvmContraUsu']);
+        $KsvmQuery->bindParam(":KsvmEmailUsu", $KsvmDataUsuario['KsvmEmailUsu']);
+        $KsvmQuery->bindParam(":KsvmTelfUsu", $KsvmDataUsuario['KsvmTelfUsu']);
+        $KsvmQuery->bindParam(":KsvmImgUsu", $KsvmDataUsuario['KsvmImgUsu']);
+        $KsvmQuery->bindParam(":KsvmCode", $KsvmDataUsuario['KsvmCode']);
+        $KsvmQuery->execute();
+        
+      } else {
+
+        $KsvmActUsu = "UPDATE ksvmusuario01 SET RrlId = :KsvmRrlId, UsrNomUsu = :KsvmNomUsu, UsrContraUsu = :KsvmContraUsu, 
+                        UsrEmailUsu = :KsvmEmailUsu, UsrTelfUsu = :KsvmTelfUsu WHERE UsrId = :KsvmCode";
+        $KsvmQuery = self :: __KsvmConexion()->prepare($KsvmActUsu);
+        $KsvmQuery->bindParam(":KsvmRrlId", $KsvmDataUsuario['KsvmRrlId']);
+        $KsvmQuery->bindParam(":KsvmNomUsu", $KsvmDataUsuario['KsvmNomUsu']);
+        $KsvmQuery->bindParam(":KsvmContraUsu", $KsvmDataUsuario['KsvmContraUsu']);
+        $KsvmQuery->bindParam(":KsvmEmailUsu", $KsvmDataUsuario['KsvmEmailUsu']);
+        $KsvmQuery->bindParam(":KsvmTelfUsu", $KsvmDataUsuario['KsvmTelfUsu']);
+        $KsvmQuery->bindParam(":KsvmCode", $KsvmDataUsuario['KsvmCode']);
+        $KsvmQuery->execute();
+
+      }
+      return $KsvmQuery;
+    }
+    /**
+     *Funcion que permite actualizar un nuevo usuario
+     */
+    protected function __KsvmActualizarPerfil($KsvmDataUsuario)
+    {
+
         $KsvmActUsu = "UPDATE ksvmusuario01 SET UsrContraUsu = :KsvmContraUsu, UsrTelfUsu = :KsvmTelfUsu 
                        WHERE UsrId = :KsvmCode";
 
@@ -263,22 +299,6 @@
         $KsvmQuery->bindParam(":KsvmCode", $KsvmDataUsuario['KsvmCode']);
         $KsvmQuery->execute();
         return $KsvmQuery;
-        
-      } else {
-        $KsvmActUsu = "UPDATE ksvmusuario01 SET RrlId = :KsvmRrlId, UsrNomUsu = :KsvmNomUsu, UsrEmailUsu = :KsvmEmailUsu, UsrTelfUsu = :KsvmTelfUsu, 
-                       UsrImgUsu = :KsvmImgUsu WHERE UsrId = :KsvmCode";
-
-        $KsvmQuery = self :: __KsvmConexion()->prepare($KsvmActUsu);
-        $KsvmQuery->bindParam(":KsvmRrlId", $KsvmDataUsuario['KsvmRrlId']);
-        $KsvmQuery->bindParam(":KsvmNomUsu", $KsvmDataUsuario['KsvmNomUsu']);
-        $KsvmQuery->bindParam(":KsvmEmailUsu", $KsvmDataUsuario['KsvmEmailUsu']);
-        $KsvmQuery->bindParam(":KsvmTelfUsu", $KsvmDataUsuario['KsvmTelfUsu']);
-        $KsvmQuery->bindParam(":KsvmImgUsu", $KsvmDataUsuario['KsvmImgUsu']);
-        $KsvmQuery->bindParam(":KsvmCode", $KsvmDataUsuario['KsvmCode']);
-        $KsvmQuery->execute();
-        return $KsvmQuery;
-
-      }
     }
     /**
      * Función que permite cambiar la contrasenia

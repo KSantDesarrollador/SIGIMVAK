@@ -39,14 +39,11 @@
          }
          
 
-         $KsvmExistencias = "SELECT ExtId FROM ksvmvistaexistencias";
-         $KsvmQuery = KsvmEstMaestra :: __KsvmEjecutaConsulta($KsvmExistencias);
-         $KsvmNum = ($KsvmQuery->rowCount())+1;
          $KsvmDiaCal=date("d",strtotime($KsvmFchCadEx));
          $KsvmMesCal=date("m",strtotime($KsvmFchCadEx));
          $KsvmAnioCal=date("Y",strtotime($KsvmFchCadEx));
          $KsvmFchCaduc = $KsvmAnioCal.$KsvmMesCal.$KsvmDiaCal;
-         $KsvmCodBarEx = $KsvmFchCaduc.$KsvmNum;
+         $KsvmCodBarEx = $KsvmLoteEx.$KsvmFchCaduc;
 
          $KsvmLote = "SELECT ExtLoteEx FROM ksvmexistencias21 WHERE ExtLoteEx ='$KsvmLoteEx'";
          $KsvmQuery = KsvmEstMaestra :: __KsvmEjecutaConsulta($KsvmLote);
@@ -73,7 +70,7 @@
                 $KsvmGuardarExt = KsvmExistenciaModelo :: __KsvmAgregarExistenciaModelo($KsvmNuevaExt);
                 if ($KsvmGuardarExt->rowCount() == 1) {
                     $KsvmAlerta = [
-                        "Alerta" => "Limpia",
+                        "Alerta" => "Actualiza",
                         "Titulo" => "Grandioso",
                         "Cuerpo" => "La Existencia se registró satisfactoriamente",
                         "Tipo" => "success"
@@ -103,17 +100,28 @@
         $KsvmRol = KsvmEstMaestra :: __KsvmFiltrarCadena($KsvmRol);
         $KsvmCodigo = KsvmEstMaestra :: __KsvmFiltrarCadena($KsvmCodigo);
         $KsvmBuscar = KsvmEstMaestra :: __KsvmFiltrarCadena($KsvmBuscar);
+        $KsvmUsuario = $_SESSION['KsvmUsuId-SIGIM'];
         $KsvmTabla = "";
         
         $KsvmPagina = (isset($KsvmPagina) && $KsvmPagina > 0 ) ? (int)$KsvmPagina : 1;
         $KsvmDesde = ($KsvmPagina > 0) ? (($KsvmPagina*$KsvmNRegistros) - $KsvmNRegistros) : 0;
 
-        if (isset($KsvmBuscar) && $KsvmBuscar != "") {
-            $KsvmDataExt = "SELECT SQL_CALC_FOUND_ROWS * FROM ksvmvistaexistencias WHERE ((ExtEstEx != 'I') AND (MdcCodMed LIKE '%$KsvmBuscar%' 
-                          OR BdgDescBod LIKE '%$KsvmBuscar%' OR ExtLoteEx LIKE '%$KsvmBuscar%' OR ExtBinLocEx LIKE '%$KsvmBuscar%' OR ExtFchCadEx 
-                          LIKE '%$KsvmBuscar%')) AND BdgId = 5 LIMIT $KsvmDesde, $KsvmNRegistros";
+        if ($KsvmRol = "Administrador" || $KsvmRol = "Supervisor"  || $KsvmRol = "Tecnico" ) {
+            if (isset($KsvmBuscar) && $KsvmBuscar != "") {
+                $KsvmDataExt = "SELECT SQL_CALC_FOUND_ROWS * FROM ksvmvistaexistencias WHERE ((ExtEstEx != 'I') AND (MdcCodMed LIKE '%$KsvmBuscar%' 
+                              OR BdgDescBod LIKE '%$KsvmBuscar%' OR ExtLoteEx LIKE '%$KsvmBuscar%' OR ExtBinLocEx LIKE '%$KsvmBuscar%' OR ExtFchCadEx 
+                              LIKE '%$KsvmBuscar%')) AND UsrId = $KsvmUsuario AND BdgId = 5 LIMIT $KsvmDesde, $KsvmNRegistros";
+            } else {
+                $KsvmDataExt = "SELECT SQL_CALC_FOUND_ROWS * FROM ksvmvistaexistencias WHERE ExtEstEx != 'I' AND UsrId = $KsvmUsuario AND BdgId = 5 LIMIT $KsvmDesde, $KsvmNRegistros" ;
+            }
         } else {
-            $KsvmDataExt = "SELECT SQL_CALC_FOUND_ROWS * FROM ksvmvistaexistencias WHERE ExtEstEx != 'I' AND BdgId = 5 LIMIT $KsvmDesde, $KsvmNRegistros" ;
+            if (isset($KsvmBuscar) && $KsvmBuscar != "") {
+                $KsvmDataExt = "SELECT SQL_CALC_FOUND_ROWS * FROM ksvmvistaexistencias WHERE ((ExtEstEx != 'I') AND (MdcCodMed LIKE '%$KsvmBuscar%' 
+                              OR BdgDescBod LIKE '%$KsvmBuscar%' OR ExtLoteEx LIKE '%$KsvmBuscar%' OR ExtBinLocEx LIKE '%$KsvmBuscar%' OR ExtFchCadEx 
+                              LIKE '%$KsvmBuscar%')) AND UsrId = $KsvmUsuario LIMIT $KsvmDesde, $KsvmNRegistros";
+            } else {
+                $KsvmDataExt = "SELECT SQL_CALC_FOUND_ROWS * FROM ksvmvistaexistencias WHERE ExtEstEx != 'I' AND UsrId = $KsvmUsuario LIMIT $KsvmDesde, $KsvmNRegistros" ;
+            }
         }
         
 
@@ -149,6 +157,7 @@
             $KsvmContReg = $KsvmDesde +1;
             foreach ($KsvmQuery as $rows) {
                 barcode('Reportes/Codigos/'.$rows['ExtCodBarEx'].'.png', $rows['ExtCodBarEx'], 20, 'horizontal', 'codabar', false,1);
+
                 $KsvmTabla .= '<tr>
                                 <td class="mdl-data-table__cell--non-numeric">'.$KsvmContReg.'</td>
                                 <td class="mdl-data-table__cell--non-numeric">'.$rows['BdgDescBod'].'</td>
@@ -322,6 +331,18 @@
          return KsvmEstMaestra :: __KsvmMostrarAlertas($KsvmAlerta);
       }
     
+      /**
+       * Función que permite editar una Existencia 
+       */
+      public function __KsvmEditarDetalleExistenciaControlador($KsvmCodExistencia)
+      {
+          $KsvmUsuario = $_SESSION['KsvmUsuId-SIGIM'];
+          $KsvmRol = $_SESSION['KsvmRolId-SIGIM'];
+          $KsvmCodigo = KsvmEstMaestra :: __KsvmDesencriptacion($KsvmCodExistencia);
+
+          return KsvmExistenciaModelo :: __KsvmEditarDetalleExistenciaModelo($KsvmCodigo, $KsvmUsuario, $KsvmRol);
+      }
+
       /**
        * Función que permite editar una Existencia 
        */

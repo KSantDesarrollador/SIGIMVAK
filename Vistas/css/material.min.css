@@ -3241,10 +3241,11 @@ input.mdl-button[type="submit"] {
 
 .mdl-card__actions {
   font-size: 14px;
+  color: ghostwhite;
   line-height: normal;
   height: 80px;
   width: 100%;
-  background-color: transparent;
+  background-color: #000;
   padding: 8px;
   box-sizing: border-box
 }
