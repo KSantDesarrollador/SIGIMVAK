@@ -1,5 +1,4 @@
 <?php
-
   /**
    *Condicion para peticion Ajax
    */
@@ -152,8 +151,8 @@
             $KsvmDataReq = "SELECT SQL_CALC_FOUND_ROWS * FROM ksvmvistapedidos WHERE RqcFchElabReq BETWEEN '$KsvmBuscarIni' AND '$KsvmBuscarFin'
             LIMIT $KsvmDesde, $KsvmNRegistros";
         } else {
-            if ($KsvmRol == 1 || $KsvmRol == 2) {
-                $KsvmDataReq = "SELECT SQL_CALC_FOUND_ROWS * FROM ksvmvistapedidos WHERE RqcEstReq != 'I' LIMIT $KsvmDesde, $KsvmNRegistros" ;
+            if ($KsvmRol == 1 || $KsvmRol == 2 || $KsvmRol == 3) {
+                $KsvmDataReq = "SELECT SQL_CALC_FOUND_ROWS * FROM ksvmvistapedidos WHERE RqcEstReq != 'X' LIMIT $KsvmDesde, $KsvmNRegistros" ;
             } else {
                 $KsvmDataReq = "SELECT SQL_CALC_FOUND_ROWS * FROM ksvmvistapedidos WHERE UsrId = '$KsvmUsuario' AND RqcEstReq != 'I' LIMIT $KsvmDesde, $KsvmNRegistros" ;
             }
@@ -467,6 +466,8 @@
             $KsvmContaRequisicion = KsvmRequisicionModelo :: __KsvmContarRequisicionSuperModelo();
           } elseif($KsvmTokken == 1) {
             $KsvmContaRequisicion = KsvmRequisicionModelo :: __KsvmContarRequisicionTecniModelo($KsvmUsuario);
+        } elseif($KsvmTokken == 2) {
+            $KsvmContaRequisicion = KsvmRequisicionModelo :: __KsvmContarRequisicionUsuModelo($KsvmUsuario);
           } else{
             $KsvmContaRequisicion = KsvmRequisicionModelo :: __KsvmContarRequisicionModelo();
           }
@@ -906,9 +907,10 @@
       {
 
         $KsvmBod = $_POST['KsvmBdgCod'];
+        $KsvmTipo = $_POST['KsvmTipo'];
 
         if ($KsvmBod == 5) {
-            $KsvmSelectReq = "SELECT DISTINCT CmpId, CmpNumOcp, CmpFchRevOcp FROM ksvmvistadetallecompras WHERE DocEstOcp = 'P' ORDER BY 3";
+            $KsvmSelectReq = "SELECT DISTINCT CmpId, CmpNumOcp, CmpFchRevOcp FROM ksvmvistadetallecompras WHERE DocEstOcp = 'P'";
 
             $KsvmConsulta = KsvmEstMaestra :: __KsvmConexion();
             $KsvmQuery = $KsvmConsulta->query($KsvmSelectReq);
@@ -919,8 +921,13 @@
                 $KsvmListar .= '<option value="'.$row['CmpNumOcp'].'">Num-Compra: '.$row['CmpNumOcp'].' Fecha: '.$row['CmpFchRevOcp'].'</option>';
             }
         } else {
-            $KsvmSelectReq = "SELECT * FROM ksvmvistapedidos WHERE RqcOrigenReq = '$KsvmBod' AND RqcEstReq = 'A'";
+            if ($KsvmTipo == 'Ingreso') {
+                $KsvmSelectReq = "SELECT * FROM ksvmvistapedidos WHERE RqcOrigenReq = '$KsvmBod' AND RqcEstReq = 'T'";
+            } else {
+                $KsvmSelectReq = "SELECT * FROM ksvmvistapedidos WHERE RqcOrigenReq = '$KsvmBod' AND RqcEstReq = 'A'";
 
+            }
+            
             $KsvmConsulta = KsvmEstMaestra :: __KsvmConexion();
             $KsvmQuery = $KsvmConsulta->query($KsvmSelectReq);
             $KsvmQuery = $KsvmQuery->fetchAll();
@@ -943,7 +950,7 @@
         $KsvmMedica = $_POST['KsvmRqcCod'];
             $KsvmSelect = "SELECT * FROM ksvmvistapedidos WHERE RqcNumReq = '$KsvmMedica'";
             $KsvmQuerCon = KsvmEstMaestra :: __KsvmEjecutaConsulta($KsvmSelect);
-        if ($KsvmQuerCon->rowCount() == 1) {
+        if ($KsvmQuerCon->rowCount() >= 1) {
             $KsvmSelectExt = "SELECT * FROM ksvmvistadetallepedido WHERE RqcNumReq = '$KsvmMedica' AND RqcEstReq != 'X'";
            
         } else {
@@ -956,7 +963,7 @@
         $KsvmListar = '<option value="" selected="" disabled>Seleccione Medicamento</option>';
 
         foreach ($KsvmQuery as $row) {
-            $KsvmListar .= '<option value="'.$row['ExtId'].'">'.$row['MdcDescMed'].' '.$row['MdcConcenMed'].' '.$row['ExtFchCadEx'].'</option>';
+            $KsvmListar .= '<option value="'.$row['ExtId'].'">'.$row['MdcDescMed'].' '.$row['MdcConcenMed'].' Fch.Cad: '.$row['ExtFchCadEx'].'</option>';
         }
         return $KsvmListar;
 
@@ -967,11 +974,13 @@
          */
         public function __KsvmCargarCantidad()
         {
+            session_start(['name' => 'SIGIM']);
 
+            $KsvmUsuario = $_SESSION['KsvmUsuId-SIGIM'];
             $KsvmCant = $_POST['KsvmRqcCantCod'];
 
-            $KsvmDataCant = KsvmRequisicionModelo :: __KsvmSeleccionarCantidad($KsvmCant);
-            if ($KsvmDataCant->rowCount() == 1) {
+            $KsvmDataCant = KsvmRequisicionModelo :: __KsvmSeleccionarCantidad($KsvmCant, $KsvmUsuario);
+            if ($KsvmDataCant->rowCount() >= 1) {
                 $KsvmLlenarCant = $KsvmDataCant->fetch();
                 $KsvmListar = '<input class="mdl-textfield__input" type="number" name="KsvmCantTran"
                               id="KsvmDato3" value="'.$KsvmLlenarCant['DrqCantReq'].'">';
@@ -998,7 +1007,7 @@
             $KsvmQuery = $KsvmQuery->fetch();
             return $KsvmQuery;
         }
-    
 }
+
    
  

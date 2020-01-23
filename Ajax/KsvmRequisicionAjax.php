@@ -32,7 +32,7 @@ if (isset($_POST['KsvmIvtId']) || isset($_POST['KsvmCodDelete']) || isset($_POST
         echo $KsvmIniRequisicion->__KsvmActualizarDetalleRequisicionControlador();
     }
 
-    if (isset($_POST['KsvmBdgCod'])) {
+    if (isset($_POST['KsvmBdgCod']) && isset($_POST['KsvmTipo'])) {
         echo $KsvmIniRequisicion->__KsvmSeleccionarRequisicion();
     }
 

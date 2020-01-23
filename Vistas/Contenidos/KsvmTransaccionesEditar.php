@@ -104,7 +104,7 @@
  												<?php echo $KsvNomBodega;?></option>
  											<?php require_once "./Controladores/KsvmBodegaControlador.php";
 													$KsvmSelBod = new KsvmBodegaControlador();
-													echo $KsvmSelBod->__KsvmSeleccionarBodega();
+													echo $KsvmSelBod->__KsvmSeleccionarBodegaEgresos();
 													?>
  										</select>
  									</div>

@@ -385,9 +385,9 @@
       /**
        * Función que permite seleccionar una bodega
        */
-        public function __KsvmSeleccionarBodega(){
+        public function __KsvmSeleccionarBodegaIngresos(){
             $KsvmUsuario = $_SESSION['KsvmUsuId-SIGIM'];
-            $KsvmSelectBodega = "SELECT * FROM ksvmseleccionabodega WHERE UsrId = '$KsvmUsuario'";
+            $KsvmSelectBodega = "SELECT DISTINCT BdgId, BdgDescBod FROM ksvmseleccionabodega WHERE UsrId = '$KsvmUsuario'";
 
             $KsvmConsulta = KsvmEstMaestra :: __KsvmConexion();
             $KsvmQuery = $KsvmConsulta->query($KsvmSelectBodega);
@@ -398,6 +398,23 @@
             }
             return $KsvmListar;
         }
+
+      /**
+       * Función que permite seleccionar una bodega
+       */
+      public function __KsvmSeleccionarBodegaEgresos(){
+        $KsvmUsuario = $_SESSION['KsvmUsuId-SIGIM'];
+        $KsvmSelectBodega = "SELECT DISTINCT BdgId, BdgDescBod FROM ksvmseleccionabodega";
+
+        $KsvmConsulta = KsvmEstMaestra :: __KsvmConexion();
+        $KsvmQuery = $KsvmConsulta->query($KsvmSelectBodega);
+        $KsvmQuery = $KsvmQuery->fetchAll();
+
+        foreach ($KsvmQuery as $row) {
+            $KsvmListar .= '<option value="'.$row['BdgId'].'">'.$row['BdgDescBod'].'</option>';
+        }
+        return $KsvmListar;
+    }
 
       /**
        * Función que permite seleccionar una bodega

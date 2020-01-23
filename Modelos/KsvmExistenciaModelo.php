@@ -88,9 +88,10 @@
      /**
       *Función que permite mostar una existencia
       */
-      protected function __KsvmMostrarExistenciaModelo()
+      protected function __KsvmMostrarExistenciaModelo($KsvmUsuario)
       {
-          $KsvmContarExistencia = "SELECT * FROM ksvmvistaexistencias WHERE (AltNomAle = 'Alto' OR AltNomAle = 'Critico') AND ExtEstEx = 'A'";
+          $KsvmContarExistencia = "SELECT * FROM ksvmvistaexistencias WHERE (AltNomAle = 'Alto' OR AltNomAle = 'Critico') 
+          AND UsrId = '$KsvmUsuario' AND ExtEstEx = 'A'";
           $KsvmQuery = KsvmEstMaestra :: __KsvmConexion()->prepare($KsvmContarExistencia);
           $KsvmQuery->execute();
           return $KsvmQuery;

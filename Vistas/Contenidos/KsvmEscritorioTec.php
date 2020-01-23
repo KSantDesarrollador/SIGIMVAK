@@ -112,7 +112,7 @@
       </article>
       <?php 
         $KsvmDataReq = new KsvmRequisicionControlador();
-        $KsvmContReq = $KsvmDataReq->__KsvmContarRequisicionControlador(1);
+        $KsvmContReq = $KsvmDataReq->__KsvmContarRequisicionControlador(2);
       ?>
       <article class="full-width tile">
       <a href="<?php echo KsvmServUrl;?>KsvmRequisiciones/1/">
@@ -129,7 +129,7 @@
       <?php 
         require "./Controladores/KsvmInventarioControlador.php";
         $KsvmDataInv = new KsvmInventarioControlador();
-        $KsvmContInv = $KsvmDataInv->__KsvmContarInventarioControlador(1);
+        $KsvmContInv = $KsvmDataInv->__KsvmContarInventarioControlador(2);
       ?>
       <article class="full-width tile">
       <a href="<?php echo KsvmServUrl;?>KsvmInventarios/1/">

@@ -187,11 +187,12 @@ $(document).ready(function(){
     /**Método para cargar Requisición*/
     $('#KsvmBdgReq').on('change', function () {
         var KsvmId = $('#KsvmBdgReq').val()
+        var KsvmTipo = $('#KsvmTipoTran').val()
         if (KsvmId != "") {
         $.ajax({
             type: 'POST',
             url: '<?php echo KsvmServUrl;?>Ajax/KsvmRequisicionAjax.php',
-            data: {'KsvmBdgCod': KsvmId}
+            data: {'KsvmBdgCod': KsvmId, 'KsvmTipo': KsvmTipo}
         })
         .done(function (CargaLista) {
             $('#KsvmRqcId').html(CargaLista);

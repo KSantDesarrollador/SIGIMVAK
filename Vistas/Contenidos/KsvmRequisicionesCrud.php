@@ -48,7 +48,7 @@
 												<option value="" disabled="" selected="">Bodega Solicitante</option>
 												<?php require_once "./Controladores/KsvmBodegaControlador.php";
 													$KsvmSelBod = new KsvmBodegaControlador();
-													echo $KsvmSelBod->__KsvmSeleccionarBodega();
+													echo $KsvmSelBod->__KsvmSeleccionarBodegaIngresos();
 													?>
 											</select>
 										</div>

@@ -366,7 +366,8 @@
        */
       public function __KsvmMostrarExistenciaControlador()
       {
-          return KsvmExistenciaModelo :: __KsvmMostrarExistenciaModelo();
+            $KsvmUsuario = $_SESSION['KsvmUsuId-SIGIM'];
+            return KsvmExistenciaModelo :: __KsvmMostrarExistenciaModelo($KsvmUsuario);
       }
 
       /**

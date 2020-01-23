@@ -122,7 +122,7 @@
       <div class="Notification-text">
         <p>
           <i class="zmdi zmdi-circle"></i>
-          <strong>Nuevo Pedido aprobado (<?php echo $KsvmListarRequisicion->rowCount();?>)</strong>
+          <strong>Nuevo Pedido generado (<?php echo $KsvmListarRequisicion->rowCount();?>)</strong>
           <br>
         </p>
       </div>
@@ -165,7 +165,7 @@
         <small>Ordenes de compra pendientes a revisión...</small>
       </div>
     </div>
-    <?php }}else{?>
+    <?php }}elseif($_SESSION['KsvmRolNom-SIGIM'] == "Usuario"){?>
 
     <div class="full-width text-center NotificationArea-title tittles">Notificaciones <i
         class="zmdi zmdi-close btn-Notification"></i></div>
@@ -173,7 +173,7 @@
      <?php
       require_once "./Controladores/KsvmRequisicionControlador.php";
       $KsvmIniReq = new KsvmRequisicionControlador();
-      $KsvmListarRequisicion = $KsvmIniReq->__KsvmContarRequisicionControlador(1);
+      $KsvmListarRequisicion = $KsvmIniReq->__KsvmContarRequisicionControlador(2);
       if ($KsvmListarRequisicion->rowCount() >= 1) {
       ?>
     <a href="<?php echo KsvmServUrl;?>KsvmRequisiciones/1/" class="Notification" id="notifation-unread-1">
@@ -181,7 +181,7 @@
       <div class="Notification-text">
         <p>
           <i class="zmdi zmdi-circle"></i>
-          <strong>Nuevo Pedido generado (<?php echo $KsvmListarRequisicion->rowCount();?>)</strong>
+          <strong>Nuevo Pedido aprobado (<?php echo $KsvmListarRequisicion->rowCount();?>)</strong>
           <br>
         </p>
       </div>

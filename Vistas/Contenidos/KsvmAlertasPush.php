@@ -18,7 +18,7 @@
 
     Push.create("<?php echo KsvmCompany; ?>", {
         body: "<?php echo $row['MdcDescMed'].' '.$row['MdcConcenMed'].'\n'.'Tiene un'.' '.$row['AltDescAle'];?>",
-        icon: "<?php echo KsvmServUrl; ?>Vistas/assets/img/Logo.png",
+        icon: "<?php echo KsvmServUrl; ?>Vistas/assets/img/Medicamentos.png",
         timeout: 10000,
         onClick: function(){
               window.location = "<?php echo KsvmServUrl; ?>KsvmExistencias/1/";
