@@ -1,7 +1,7 @@
 <?php
 
 /** Copyright 2019 Klever Santiago Vaca Muela*/
-session_start(['name' => 'SIGIM']);
+
   setlocale(LC_ALL, 'es_EC.UTF-8');
   $KsvmFecha = date('y:m:d',time());
   $KsvmCalendar = strftime("%A, %d de %B del %Y", strtotime($KsvmFecha));

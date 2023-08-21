@@ -172,12 +172,12 @@
 						$_SESSION['KsvmBuscarExt'] = $_POST['KsvmBuscarExt'];
                         $KsvmPagina = explode("/", $_GET['Vistas']);
 						echo $KsvmIniExt -> __KsvmPaginador($KsvmPagina[1], KsvmNumPag, $_SESSION['KsvmRolId-SIGIM'], 
-						1, $_SESSION['KsvmBuscarExt']);
+						$_SESSION['KsvmRolNom-SIGIM'], 1, $_SESSION['KsvmBuscarExt']);
 					}else{
 
 						$KsvmPagina = explode("/", $_GET['Vistas']);
 						echo $KsvmIniExt -> __KsvmPaginador($KsvmPagina[1], KsvmNumPag, $_SESSION['KsvmRolId-SIGIM'], 
-						1, "");
+						$_SESSION['KsvmRolNom-SIGIM'],1, "");
 				       }
 				?>
 

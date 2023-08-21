@@ -112,10 +112,16 @@ $KsvmMenu = new KsvmMenuModelo();
                 $KsvmId = $KsvmMen['MnuId'];
                 $KsvmNombre = $KsvmMen['MnuNomMen'];
                 $KsvmIcono = $KsvmMen['MnuIconMen'];
+                $KsvmDir = $KsvmMen['MnuUrlMen'];
                 $KsvmLeyenda = $KsvmMen['MnuLeyendMen'];
+              
          ?>
         <li class="full-width">
+        <?php if ($KsvmDir == '#') {?>
           <a href="#" class="full-width btn-subMenu">
+        <?php } else {?>
+          <a href="<?php echo KsvmServUrl . $KsvmDir.'/1/'; ?>" class="full-width btn-subMenu">
+        <?php }?>
             <div class="navLateral-body-cl">
               <i class="<?php echo $KsvmIcono; ?>" id="<?php echo $KsvmId; ?>"></i>
             </div>
@@ -136,7 +142,7 @@ $KsvmMenu = new KsvmMenuModelo();
                     $KsvmLeyenda = $KsvmSub['MnuLeyendMen'];
              ?>
             <li class="full-width">
-              <a href="<?php echo KsvmServUrl . $KsvmDir .'/1/'; ?>" class="full-width">
+              <a href="<?php echo KsvmServUrl . $KsvmDir.'/1/'; ?>" class="full-width">
                 <div class="navLateral-body-cl">
                   <i class="<?php echo $KsvmIcono; ?>" id="<?php echo $KsvmId; ?>"></i>
                 </div>

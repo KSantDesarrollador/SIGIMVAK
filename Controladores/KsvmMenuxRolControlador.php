@@ -27,7 +27,7 @@
                 $KsvmGuardarPrivilegio = KsvmMenuxRolModelo :: __KsvmAgregarMenuxRolModelo($KsvmNuevoPrivilegio);
                 if ($KsvmGuardarPrivilegio->rowCount() >= 1) {
                     $KsvmAlerta = [
-                    "Alerta" => "Limpia",
+                    "Alerta" => "Actualiza",
                     "Titulo" => "Grandioso",
                     "Cuerpo" => "El Privilegio se registró satisfactoriamente",
                     "Tipo" => "success"
@@ -144,7 +144,7 @@
                             
         } else {
             if ($KsvmTotalReg >= 1) {
-                echo '<script> window.location.href=" '.KsvmServUrl.'KsvmMenuXRolCrud"</script>';
+                echo '<script> window.location.href=" '.KsvmServUrl.'KsvmMenuXRolCrud/1/"</script>';
             } else {
                 $KsvmTabla .= '<tr> 
                             <td class="mdl-data-table__cell--non-numeric" colspan="7"><strong>No se encontraron registros...</strong></td>

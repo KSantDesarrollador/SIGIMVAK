@@ -87,19 +87,6 @@
  									</div>
  								<div
  									class="mdl-cell mdl-cell--4-col-phone mdl-cell--8-col-tablet mdl-cell--6-col-desktop">
- 									<!-- <div class="mdl-textfield mdl-js-textfield">
-										<select class="ksvmSelectDin" name="KsvmBdgId" id="KsvmDato1" style="width:100%;">
-											<option value="<?php echo $KsvmLlenarForm['BdgId'];?>" selected="">
-												<?php echo $KsvmLlenarForm['BdgDescBod'];?></option>
-											<?php require_once "./Controladores/KsvmBodegaControlador.php";
-											$KsvmSelBod = new KsvmBodegaControlador();
-											echo $KsvmSelBod->__KsvmSeleccionarBodega();
-											?>
-										</select>
-										<span id="KsvmError1" class="ValForm"><i
-												class="zmdi zmdi-alert-triangle">&nbsp;Por favor llene este
-												campo</i></span>
-									</div> -->
  									<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
  										<input class="mdl-textfield__input" type="text" name="KsvmLoteEx"
  											value="<?php echo $KsvmLlenarForm['ExtLoteEx'];?>" id="KsvmDato2"

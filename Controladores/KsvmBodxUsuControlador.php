@@ -27,7 +27,7 @@
                 $KsvmGuardarAsigBod = KsvmBodxUsuModelo :: __KsvmAgregarBodxUsuModelo($KsvmNuevaAsigBod);
                 if ($KsvmGuardarAsigBod->rowCount() >= 1) {
                     $KsvmAlerta = [
-                    "Alerta" => "Limpia",
+                    "Alerta" => "Actualiza",
                     "Titulo" => "Grandioso",
                     "Cuerpo" => "Se ha asignado satisfactoriamente",
                     "Tipo" => "success"

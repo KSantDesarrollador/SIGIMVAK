@@ -237,7 +237,7 @@
 										</div>
 										<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
 											<input class="mdl-textfield__input" type="text" name="KsvmUrlMen"
-											    pattern="-?[A-Za-z0-9-áéíóúÁÉÍÓÚ/ ]*(\.[0-9]+)?" id="KsvmUrlMen">
+											    pattern="-?[A-Za-z0-9-áéíóúÁÉÍÓÚ/# ]*(\.[0-9]+)?" id="KsvmUrlMen">
 											<label class="mdl-textfield__label" for="KsvmUrlMen">Url</label>
 											<span class="mdl-textfield__error">Url Inválida</span>
 										</div>

@@ -70,7 +70,7 @@
 												</option>
 												<?php require_once "./Controladores/KsvmBodegaControlador.php";
 													$KsvmSelBodega = new KsvmBodegaControlador();
-													echo $KsvmSelBodega->__KsvmSeleccionarBodegaExt();
+													echo $KsvmSelBodega->__KsvmSeleccionarBodegaIngresos();
 													?>
 											</select>
 										</div>
@@ -110,15 +110,15 @@
 											<input class="mdl-textfield__input" type="text" name="KsvmNvoStock">
 											<label class="mdl-textfield__label" for="KsvmNvoStock">Bodega</label>
 								</div>
-								<div class="mdl-textfield mdl-js-textfield">
+									<div
+										class="mdl-cell mdl-cell--4-col-phone mdl-cell--8-col-tablet mdl-cell--6-col-desktop">
+										<div class="mdl-textfield mdl-js-textfield">
 											<select class="ksvmSelectDin" name="KsvmExtId" id="KsvmExtId"
 												style="width:98%;" required>
 												<option value="" disabled="" selected="">Seleccione Existencia
 												</option>
 											</select>
 										</div>
-									<div
-										class="mdl-cell mdl-cell--4-col-phone mdl-cell--8-col-tablet mdl-cell--6-col-desktop">
 										<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
 											<input class="mdl-textfield__input" type="number" max="10000" min="1"
 												name="KsvmContFisInv" pattern="[0-9]" id="KsvmDato3">
@@ -133,9 +133,9 @@
 									<div
 										class="mdl-cell mdl-cell--4-col-phone mdl-cell--8-col-tablet mdl-cell--6-col-desktop">
 										<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label"
-											id="KsvmStockInv" hidden>
+											id="KsvmStockInv">
 											<input class="mdl-textfield__input" type="text" name="KsvmStockInv"
-												pattern="-?[0-9]*(\[0-9]+)?" id="KsvmDato2">
+												pattern="-?[0-9]*(\[0-9]+)?" id="KsvmDato2" hidden>
 											<label class="mdl-textfield__label" for="KsvmStockInv">Stock de
 												Sistema</label>
 											<span class="mdl-textfield__error">Stock Inválido</span>

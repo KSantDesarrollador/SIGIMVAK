@@ -306,7 +306,7 @@
         $KsvmQuery = KsvmEstMaestra :: __KsvmEjecutaConsulta($KsvmConsulta);
         $KsvmDataMenu = $KsvmQuery->fetch();
 
-        if ($KsvmUrlMen != $KsvmDataMenu['MnuUrlMen']) {
+        if ($KsvmUrlMen != $KsvmDataMenu['MnuUrlMen'] && $KsvmUrlMen != '#') {
 
             $KsvmConsulta = "SELECT MnuUrlMen FROM ksvmmenu17 WHERE MnuUrlMen = '$KsvmUrlMen'";
             $KsvmQuery = KsvmEstMaestra :: __KsvmEjecutaConsulta($KsvmConsulta);
@@ -353,14 +353,32 @@
         }
 
         public function __KsvmSeleccionarMenu(){
-            $KsvmSelectMenu = "SELECT * FROM ksvmmenu17 WHERE MnuNivelMen = 0";
+            $KsvmSelectMenu = "SELECT * FROM ksvmmenu17 WHERE MnuEstMen = 'A'";
 
             $KsvmConsulta = KsvmEstMaestra :: __KsvmConexion();
             $KsvmQuery = $KsvmConsulta->query($KsvmSelectMenu);
             $KsvmQuery = $KsvmQuery->fetchAll();
             
             foreach ($KsvmQuery as $row) {
-                $KsvmListar .= '<option value="'.$row['MnuId'].'">'.$row['MnuNomMen'].'</option>';
+                $KsvmNivel = $row['MnuNivelMen'];
+
+                if ($KsvmNivel == 0) {
+                    $KsvmSelectMenu = "SELECT MnuNomMen FROM ksvmmenu17 WHERE MnuEstMen = 'A' AND MnuNivelMen = 0";
+                    $KsvmListar .= '<option value="'.$row['MnuId'].'">'.$row['MnuNomMen'].'</option>';
+
+                } else {
+                    $KsvmJerarquia= $row['MnuJerqMen'];
+                    $KsvmSelectMenu = "SELECT MnuNomMen FROM ksvmmenu17 WHERE MnuEstMen = 'A' AND MnuId = '$KsvmJerarquia' ";
+    
+                    $KsvmConsulta = KsvmEstMaestra :: __KsvmConexion();
+                    $KsvmQuery = $KsvmConsulta->query($KsvmSelectMenu);
+                    $KsvmQuery = $KsvmQuery->fetchAll();
+                    foreach ($KsvmQuery as $key) {
+    
+                    $KsvmListar .= '<option value="'.$row['MnuId'].'">'.$key['MnuNomMen'].' '.$row['MnuNomMen'].'</option>';
+                }
+                
+                }
             }
             return $KsvmListar;
         }

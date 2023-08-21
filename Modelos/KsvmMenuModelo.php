@@ -30,7 +30,7 @@
      */
     public function __KsvmMostrarSubmenuModelo($Id)
     {
-      $KsvmSubmenu = "SELECT * FROM ksvmmenu17 WHERE MnuEstMen = 'A' AND MnuJerqMen = '$Id' ORDER BY MnuNomMen";
+      $KsvmSubmenu = "SELECT * FROM ksvmmenu17  WHERE MnuEstMen = 'A' AND MnuJerqMen = '$Id' ORDER BY MnuNomMen";
       $KsvmQuery = KsvmEstMaestra :: __KsvmConexion()->query($KsvmSubmenu);
 
       return $KsvmQuery;
@@ -109,19 +109,36 @@
        */
        protected function __KsvmActualizarMenuModelo($KsvmDataMenu)
        {
-         $KsvmActMenu = "UPDATE ksvmmenu17 SET MnuJerqMen = :KsvmJerqMen, MnuNomMen = :KsvmNomMen, MnuNivelMen = :KsvmNivelMen,
-                             MnuIconMen = :KsvmIconMen, MnuUrlMen = :KsvmUrlMen, MnuLeyendMen = :KsvmLeyendMen
-                             WHERE MnuId = :KsvmCodMenu";
-         $KsvmQuery = KsvmEstMaestra :: __KsvmConexion()->prepare($KsvmActMenu);
-         $KsvmQuery->bindParam(":KsvmJerqMen", $KsvmDataMenu['KsvmJerqMen']);
-          $KsvmQuery->bindParam(":KsvmNomMen", $KsvmDataMenu['KsvmNomMen']);
-          $KsvmQuery->bindParam(":KsvmNivelMen", $KsvmDataMenu['KsvmNivelMen']);
-          $KsvmQuery->bindParam(":KsvmIconMen", $KsvmDataMenu['KsvmIconMen']);
-          $KsvmQuery->bindParam(":KsvmUrlMen", $KsvmDataMenu['KsvmUrlMen']);
-          $KsvmQuery->bindParam(":KsvmLeyendMen", $KsvmDataMenu['KsvmLeyendMen']);
-          $KsvmQuery->bindParam(":KsvmCodMenu", $KsvmDataMenu['KsvmCodMenu']);
-          $KsvmQuery->execute();
-          return $KsvmQuery;
+        if ($KsvmDataMenu['KsvmJerqMen'] != "") {
+          $KsvmActMenu = "UPDATE ksvmmenu17 SET MnuJerqMen = :KsvmJerqMen, MnuNomMen = :KsvmNomMen, MnuNivelMen = :KsvmNivelMen,
+                          MnuIconMen = :KsvmIconMen, MnuUrlMen = :KsvmUrlMen, MnuLeyendMen = :KsvmLeyendMen
+                          WHERE MnuId = :KsvmCodMenu";
+            $KsvmQuery = KsvmEstMaestra :: __KsvmConexion()->prepare($KsvmActMenu);
+            $KsvmQuery->bindParam(":KsvmJerqMen", $KsvmDataMenu['KsvmJerqMen']);
+            $KsvmQuery->bindParam(":KsvmNomMen", $KsvmDataMenu['KsvmNomMen']);
+            $KsvmQuery->bindParam(":KsvmNivelMen", $KsvmDataMenu['KsvmNivelMen']);
+            $KsvmQuery->bindParam(":KsvmIconMen", $KsvmDataMenu['KsvmIconMen']);
+            $KsvmQuery->bindParam(":KsvmUrlMen", $KsvmDataMenu['KsvmUrlMen']);
+            $KsvmQuery->bindParam(":KsvmLeyendMen", $KsvmDataMenu['KsvmLeyendMen']);
+            $KsvmQuery->bindParam(":KsvmCodMenu", $KsvmDataMenu['KsvmCodMenu']);
+            $KsvmQuery->execute();
+            return $KsvmQuery;
+        } else {
+          $KsvmActMenu = "UPDATE ksvmmenu17 SET MnuNomMen = :KsvmNomMen, MnuNivelMen = :KsvmNivelMen,
+                          MnuIconMen = :KsvmIconMen, MnuUrlMen = :KsvmUrlMen, MnuLeyendMen = :KsvmLeyendMen
+                          WHERE MnuId = :KsvmCodMenu";
+            $KsvmQuery = KsvmEstMaestra :: __KsvmConexion()->prepare($KsvmActMenu);
+            $KsvmQuery->bindParam(":KsvmNomMen", $KsvmDataMenu['KsvmNomMen']);
+            $KsvmQuery->bindParam(":KsvmNivelMen", $KsvmDataMenu['KsvmNivelMen']);
+            $KsvmQuery->bindParam(":KsvmIconMen", $KsvmDataMenu['KsvmIconMen']);
+            $KsvmQuery->bindParam(":KsvmUrlMen", $KsvmDataMenu['KsvmUrlMen']);
+            $KsvmQuery->bindParam(":KsvmLeyendMen", $KsvmDataMenu['KsvmLeyendMen']);
+            $KsvmQuery->bindParam(":KsvmCodMenu", $KsvmDataMenu['KsvmCodMenu']);
+            $KsvmQuery->execute();
+            return $KsvmQuery;
+        }
+         
+
        }
 
   }

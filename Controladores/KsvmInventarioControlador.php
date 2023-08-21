@@ -85,7 +85,7 @@
         $KsvmContFisInv = KsvmEstMaestra :: __KsvmFiltrarCadena($_POST['KsvmContFisInv']);
         $KsvmObservInv = KsvmEstMaestra :: __KsvmFiltrarCadena($_POST['KsvmObservInv']);
         $KsvmNuevoStockInv = KsvmEstMaestra :: __KsvmFiltrarCadena($_POST['KsvmNvoStock']);
-
+        
         $KsvmMedicamento = "SELECT ExtId FROM ksvmdetalleinventario11 WHERE ExtId ='$KsvmExtId' AND DivEstInv = 'N'";
         $KsvmQuery = KsvmEstMaestra :: __KsvmEjecutaConsulta($KsvmMedicamento);
         if ($KsvmQuery->rowCount() >= 1) {
@@ -233,11 +233,7 @@
                                                     <a id="btn-print" class="btn btn-sm btn-success" href="'.KsvmServUrl.'Reportes/KsvmInventariosPdf.php?Cod='.KsvmEstMaestra::__KsvmEncriptacion($rows['IvtId']).'" target="_blank"><i class="zmdi zmdi-print"></i></a>
                                                     <div class="mdl-tooltip" for="btn-print">Imprimir</div>';
                                     }
-                                }elseif ($KsvmRol == 3){
-                                    $KsvmTabla .= '<a id="btn-detail" class="btn btn-sm btn-info" href="'.KsvmServUrl.'KsvmInventarios/Detail/'.KsvmEstMaestra::__KsvmEncriptacion($rows['IvtId']).'/"><i class="zmdi zmdi-card"></i></a>
-                                                    <div class="mdl-tooltip" for="btn-detail">Detalles</div>
-                                                    <a id="btn-edit" class="btn btn-sm btn-primary" href="'.KsvmServUrl.'KsvmInventariosEditar/'.KsvmEstMaestra::__KsvmEncriptacion($rows['IvtId']).'/1/"><i class="zmdi zmdi-edit"></i></a>
-                                                    <div class="mdl-tooltip" for="btn-edit">Editar</div>';
+
                                 }else{
                                     $KsvmTabla .= '<a id="btn-detail" class="btn btn-sm btn-info" href="'.KsvmServUrl.'KsvmInventarios/Detail/'.KsvmEstMaestra::__KsvmEncriptacion($rows['IvtId']).'/"><i class="zmdi zmdi-card"></i></a>
                                                     <div class="mdl-tooltip" for="btn-detail">Detalles</div>';
@@ -468,10 +464,14 @@
        */
       public function __KsvmContarInventarioControlador($KsvmTokken)
       {
+        $KsvmUser = $_SESSION['KsvmUsuId-SIGIM'];
+
           if ($KsvmTokken == 0) {
-            $KsvmContaInventario = KsvmInventarioModelo :: __KsvmContarInventarioSuperModelo();
+            $KsvmContaInventario = KsvmInventarioModelo :: __KsvmContarInventarioSupervisor();
           } elseif($KsvmTokken == 1) {
-            $KsvmContaInventario = KsvmInventarioModelo :: __KsvmContarInventarioTecniModelo();
+            $KsvmContaInventario = KsvmInventarioModelo :: __KsvmContarInventarioTecnico();
+        } elseif($KsvmTokken == 1) {
+            $KsvmContaInventario = KsvmInventarioModelo :: __KsvmContarInventarioUsuario();
           } else{
             $KsvmContaInventario = KsvmInventarioModelo :: __KsvmContarInventarioModelo();
           }

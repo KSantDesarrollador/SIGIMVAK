@@ -5,7 +5,7 @@
 */
 $KsvmPeticionAjax = true;
 require_once "../Raiz/KsvmConfiguracion.php";
-
+echo $_POST['KsvmContFisInv'];
 if (isset($_POST['KsvmExtId']) && isset($_POST['KsvmStockInv']) && isset($_POST['KsvmContFisInv'])) {
     require_once "../Controladores/KsvmInventarioControlador.php";
     $KsvmIniInventario = new KsvmInventarioControlador();

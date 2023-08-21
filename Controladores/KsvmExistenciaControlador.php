@@ -91,7 +91,7 @@
     /**
      * Función que permite paginar 
      */
-      public function __KsvmPaginador($KsvmPagina, $KsvmNRegistros, $KsvmRol, $KsvmCodigo, $KsvmBuscar)
+      public function __KsvmPaginador($KsvmPagina, $KsvmNRegistros, $KsvmRol, $KsvmRolNom, $KsvmCodigo, $KsvmBuscar)
       {
         require_once './Vistas/Contenidos/barcode.php';
 
@@ -106,30 +106,28 @@
         $KsvmPagina = (isset($KsvmPagina) && $KsvmPagina > 0 ) ? (int)$KsvmPagina : 1;
         $KsvmDesde = ($KsvmPagina > 0) ? (($KsvmPagina*$KsvmNRegistros) - $KsvmNRegistros) : 0;
 
-        if ($KsvmRol = "Administrador" || $KsvmRol = "Supervisor"  || $KsvmRol = "Tecnico" ) {
+        if ($KsvmRolNom == "Administrador" || $KsvmRolNom == "Supervisor"  || $KsvmRolNom == "Tecnico" ) {
             if (isset($KsvmBuscar) && $KsvmBuscar != "") {
                 $KsvmDataExt = "SELECT SQL_CALC_FOUND_ROWS * FROM ksvmvistaexistencias WHERE ((ExtEstEx != 'I') AND (MdcCodMed LIKE '%$KsvmBuscar%' 
                               OR BdgDescBod LIKE '%$KsvmBuscar%' OR ExtLoteEx LIKE '%$KsvmBuscar%' OR ExtBinLocEx LIKE '%$KsvmBuscar%' OR ExtFchCadEx 
                               LIKE '%$KsvmBuscar%')) AND UsrId = $KsvmUsuario AND BdgId = 5 LIMIT $KsvmDesde, $KsvmNRegistros";
             } else {
-                $KsvmDataExt = "SELECT SQL_CALC_FOUND_ROWS * FROM ksvmvistaexistencias WHERE ExtEstEx != 'I' AND UsrId = $KsvmUsuario AND BdgId = 5 LIMIT $KsvmDesde, $KsvmNRegistros" ;
+                $KsvmDataExt = "SELECT SQL_CALC_FOUND_ROWS * FROM ksvmvistaexistencias WHERE ExtEstEx != 'I' AND UsrId = '$KsvmUsuario' AND BdgId = 5 LIMIT $KsvmDesde, $KsvmNRegistros" ;
             }
         } else {
             if (isset($KsvmBuscar) && $KsvmBuscar != "") {
                 $KsvmDataExt = "SELECT SQL_CALC_FOUND_ROWS * FROM ksvmvistaexistencias WHERE ((ExtEstEx != 'I') AND (MdcCodMed LIKE '%$KsvmBuscar%' 
                               OR BdgDescBod LIKE '%$KsvmBuscar%' OR ExtLoteEx LIKE '%$KsvmBuscar%' OR ExtBinLocEx LIKE '%$KsvmBuscar%' OR ExtFchCadEx 
-                              LIKE '%$KsvmBuscar%')) AND UsrId = $KsvmUsuario LIMIT $KsvmDesde, $KsvmNRegistros";
+                              LIKE '%$KsvmBuscar%' OR MdcDescMed LIKE '%$KsvmBuscar%')) AND UsrId = $KsvmUsuario LIMIT $KsvmDesde, $KsvmNRegistros";
             } else {
-                $KsvmDataExt = "SELECT SQL_CALC_FOUND_ROWS * FROM ksvmvistaexistencias WHERE ExtEstEx != 'I' AND UsrId = $KsvmUsuario LIMIT $KsvmDesde, $KsvmNRegistros" ;
+                $KsvmDataExt = "SELECT SQL_CALC_FOUND_ROWS * FROM ksvmvistaexistencias WHERE ExtEstEx != 'I' AND UsrId = '$KsvmUsuario' LIMIT $KsvmDesde, $KsvmNRegistros" ;
             }
         }
         
-
         $KsvmConsulta = KsvmEstMaestra :: __KsvmConexion();
     
         $KsvmQuery = $KsvmConsulta->query($KsvmDataExt);
         $KsvmQuery = $KsvmQuery->fetchAll();
-        $KsvmArrayCode = array();
         
         $KsvmDataTot = "SELECT FOUND_ROWS()";
         $KsvmTotalReg = $KsvmConsulta->query($KsvmDataTot);
@@ -230,7 +228,7 @@
                             
         } else {
             if ($KsvmTotalReg >= 1) {
-                echo '<script> window.location.href=" '.KsvmServUrl.'KsvmExistenciasCrud"</script>';
+                echo '<script> window.location.href=" '.KsvmServUrl.'KsvmExistenciasCrud/1/"</script>';
             } else {
                 $KsvmTabla .= '<tr> 
                             <td class="mdl-data-table__cell--non-numeric" colspan="7"><strong>No se encontraron registros...</strong></td>
@@ -521,17 +519,18 @@
         public function __KsvmCargarStock(){
 
             $KsvmStock = $_POST['KsvmExtCod'];
-            echo $KsvmStock;
-            $KsvmQuery = KsvmExistenciaModelo :: __KsvmEditarExistenciaModelo($KsvmStock);
-            $KsvmDataStock = $KsvmQuery;
-            if ($KsvmDataStock->rowCount() >= 1) {
-                $KsvmLlenarStock = $KsvmDataStock->fetch();
-                $KsvmListar = '<input class="mdl-textfield__input" type="text" name="KsvmStockInv"
-                               value="'.$KsvmLlenarStock['ExbStockEbo'].'" id="KsvmDato2">';
+            $KsvmSelectStock = "SELECT * FROM ksvmvistaexistencias WHERE ExtId = '$KsvmStock'";
+
+                $KsvmConsulta = KsvmEstMaestra :: __KsvmConexion();
+                $KsvmQuery = $KsvmConsulta->query($KsvmSelectStock);
+                $KsvmQuery = $KsvmQuery->fetch();
+                $KsvmListar = '<label class="mdl-textfield__input">'.$KsvmQuery['ExbStockEbo'].'</label>
+                                <input class="mdl-textfield__input" type="text" name="KsvmStockInv"
+                               value="'.$KsvmQuery['ExbStockEbo'].'" id="KsvmDato2" hidden>';
 
                  return $KsvmListar;
 
-            }
+            
 
         }
 

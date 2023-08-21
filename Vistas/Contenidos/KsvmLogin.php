@@ -5,7 +5,7 @@
 	$KsvmPeticionAjax = false;
 ?>
 <!-- Formulario de login -->
-<div style="background-image: url('Vistas/assets/img/inicio.jpg'); width:100%;" class="img-responsive">
+<div style="background-image: url('Vistas/assets/img/inicio.jpg'); width:100%;" >
 	<p class="text-center full-width" style="font-size: 40px;">
 		<span><img src="Vistas/assets/img/medicamentos.png" alt="" height="65px"
 				width="75px">&nbsp;<?php echo KsvmCompany;?></span>

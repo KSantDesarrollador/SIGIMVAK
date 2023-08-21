@@ -416,6 +416,9 @@
          
         }
 
+      /**
+       * Función que permite seleccionar un Proveedor 
+       */
         public function __KsvmSeleccionarProveedor(){
             $KsvmSelectProv = "SELECT * FROM ksvmseleccionaproveedor";
 
@@ -428,6 +431,42 @@
             }
             return $KsvmListar;
         }
+
+      /**
+       * Función que permite cargar un medicamento 
+       */
+        public function __KsvmCargaMedicamento(){
+
+            $KsvmPvdId = $_POST['KsvmPvdCod'];
+            $KsvmSelectMed = "SELECT * FROM ksvmvistapreciosprov WHERE PvdId = '$KsvmPvdId'";
+
+            $KsvmConsulta = KsvmEstMaestra :: __KsvmConexion();
+            $KsvmQuery = $KsvmConsulta->query($KsvmSelectMed);
+            $KsvmQuery = $KsvmQuery->fetchAll();
+            $KsvmListar = '<option value="" selected="" disabled>Seleccione Medicamento</option>';
+
+            foreach ($KsvmQuery as $row) {
+                $KsvmListar .= '<option value="'.$row['MdcId'].'">'.$row['MdcDescMed'].' '.$row['MdcConcenMed'].'</option>';
+            }
+            return $KsvmListar;
+        }
+
+      /**
+       * Función que permite cargar un precio 
+       */
+      public function __KsvmCargaPrecio(){
+
+        $KsvmMdcId = $_POST['KsvmMedCod'];
+        $KsvmSelectPrecio = "SELECT * FROM ksvmvistapreciosprov WHERE MdcId = '$KsvmMdcId'";
+
+        $KsvmConsulta = KsvmEstMaestra :: __KsvmConexion();
+        $KsvmQuery = $KsvmConsulta->query($KsvmSelectPrecio);
+        $KsvmLlenarVal = $KsvmQuery->fetch();
+            $KsvmListar = '<input class="mdl-textfield__input" type="text" name="KsvmValorUntOcp"
+                            id="KsvmDato2" value="'.$KsvmLlenarVal['PprValorUntPre'].'">';
+
+        return $KsvmListar;
+    }
         
 }
    

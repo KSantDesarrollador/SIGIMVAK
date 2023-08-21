@@ -123,20 +123,30 @@
           $KsvmQuery->execute();
           return $KsvmQuery;
       }
-       /**
+     /**
       *Función que permite contar un inventario
       */
-      protected function __KsvmContarInventarioSuperModelo()
+      protected function __KsvmContarInventarioSupervisor()
       {
           $KsvmContarInventario = "SELECT IvtId FROM ksvmvistainventarios WHERE IvtEstInv = 'P'";
           $KsvmQuery = KsvmEstMaestra :: __KsvmConexion()->prepare($KsvmContarInventario);
           $KsvmQuery->execute();
           return $KsvmQuery;
       }
-             /**
+     /**
       *Función que permite contar un inventario
       */
-      protected function __KsvmContarInventarioTecniModelo()
+      protected function __KsvmContarInventarioTecnico()
+      {
+          $KsvmContarInventario = "SELECT IvtId FROM ksvmvistainventarios WHERE IvtEstInv = 'A'";
+          $KsvmQuery = KsvmEstMaestra :: __KsvmConexion()->prepare($KsvmContarInventario);
+          $KsvmQuery->execute();
+          return $KsvmQuery;
+      }
+       /**
+      *Función que permite contar un inventario
+      */
+      protected function __KsvmContarInventarioUsuario()
       {
           $KsvmContarInventario = "SELECT IvtId FROM ksvmvistainventarios WHERE IvtEstInv = 'A'";
           $KsvmQuery = KsvmEstMaestra :: __KsvmConexion()->prepare($KsvmContarInventario);

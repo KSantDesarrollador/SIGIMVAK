@@ -68,7 +68,7 @@
  						Editar Compra
  					</div>
  					<div class="full-width panel-content">
- 						<form data-form="modificar" action="<?php echo KsvmServUrl; ?>Ajax/KsvmCompraAjax.php"
+ 						<form data-form="modificar" action="<?php echo KsvmServUrl; ?>Ajax/KsvmComprasAjax.php"
  							method="POST" class="FormularioAjax" autocomplete="off" enctype="multipart/form-data"
  							id="KsvmFormOcp">
  							<input type="hidden" name="KsvmCodEdit" value="<?php echo $KsvmPagina[1]; ?>">

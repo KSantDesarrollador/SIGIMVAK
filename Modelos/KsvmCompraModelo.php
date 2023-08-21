@@ -117,9 +117,9 @@
      /**
       *Función que permite contar una compra
       */
-      protected function __KsvmContarCompraSuperModelo()
+      protected function __KsvmContarCompraSupervisor()
       {
-          $KsvmContarCompra = "SELECT CmpId FROM ksvmvistacompras WHERE CmpEstOcp = 'P'";
+          $KsvmContarCompra = "SELECT CmpId FROM ksvmvistacompras WHERE CmpEstOcp = 'A'";
           $KsvmQuery = KsvmEstMaestra :: __KsvmConexion()->prepare($KsvmContarCompra);
           $KsvmQuery->execute();
           return $KsvmQuery;
@@ -127,9 +127,9 @@
      /**
       *Función que permite contar una compra
       */
-      protected function __KsvmContarCompraTecniModelo()
+      protected function __KsvmContarCompraTecnico()
       {
-          $KsvmContarCompra = "SELECT CmpId FROM ksvmvistacompras WHERE CmpEstOcp = 'A'";
+          $KsvmContarCompra = "SELECT CmpId FROM ksvmvistacompras WHERE CmpEstOcp = 'P'";
           $KsvmQuery = KsvmEstMaestra :: __KsvmConexion()->prepare($KsvmContarCompra);
           $KsvmQuery->execute();
           return $KsvmQuery;

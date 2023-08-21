@@ -16,9 +16,9 @@
         </div>
     </section>
     <div class="mdl-tabs mdl-js-tabs mdl-js-ripple-effect">
-        <div class="mdl-tabs__panel is-active" id="KsvmReporteCompras">
+        <div class="mdl-tabs__panel is-active" id="KsvmReporteInventarios">
             <div class="mdl-grid">
-                <div class="mdl-cell mdl-cell--4-col-phone mdl-cell--8-col-tablet mdl-cell--12-col-desktop">
+                <div class="mdl-cell mdl-cell--4-col-phone mdl-cell--8-col-tablet mdl-cell--12-col-desktop expand">
                     <div class="" style="float:left;">
                         <!-- Formulario de busqueda -->
                         <form data-form="" action="" method="POST" autocomplete="off" enctype="multipart/form-data">
@@ -61,7 +61,7 @@
                                                 class="hide-on-tablet">BUSCAR</strong></i>
                                     </button>
                                 </article>
-                                <div class="mdl-textfield--expandable " style="margin-top:30px; right:20px;">
+                                <div class="mdl-textfield--expandable" style="margin-top:30px; right:20px;">
                                     <a href="<?php echo KsvmServUrl;?>KsvmReporteEstadistico/1/" id="btn-input"
                                         style="width:90%;"
                                         class="btn btn-md btn-dark mdl-shadow--8dp hide-on-tablet">MENU
@@ -71,6 +71,7 @@
                             <div class="RespuestaAjax"></div>
                         </form>
                     </div>
+                    &nbsp;&nbsp;&nbsp;&nbsp;
                     <figure class="highcharts-figure">
                         <div id="container" class="full-width">                        
                         <p class="highcharts-description">
@@ -245,19 +246,19 @@
                                         data: [
                                             [
                                                 "Semana1",
-                                                0.1
+                                                19.1
                                             ],
                                             [
                                                 "Semana2",
-                                                1.3
+                                                30.3
                                             ],
                                             [
                                                 "Semana3",
-                                                53.02
+                                                33.02
                                             ],
                                             [
                                                 "Semana4",
-                                                1.4
+                                                17.4
                                             ]
                                         ]
                                     },
@@ -267,7 +268,7 @@
                                         data: [
                                             [
                                                 "Semana1",
-                                                1.02
+                                                13.02
                                             ],
                                             [
                                                 "Semana2",
@@ -275,11 +276,11 @@
                                             ],
                                             [
                                                 "Semana3",
-                                                0.35
+                                                43.35
                                             ],
                                             [
                                                 "Semana4",
-                                                0.11
+                                                20.11
                                             ]
                                         ]
                                     },
@@ -289,19 +290,19 @@
                                         data: [
                                             [
                                                 "Semana1",
-                                                3.39
+                                                18.39
                                             ],
                                             [
                                                 "Semana2",
-                                                0.96
+                                                19.96
                                             ],
                                             [
                                                 "Semana3",
-                                                0.36
+                                                33.36
                                             ],
                                             [
                                                 "Semana4",
-                                                0.54
+                                                20.54
                                             ]
                                         ]
                                     },
@@ -311,19 +312,19 @@
                                         data: [
                                             [
                                                 "Semana1",
-                                                2.6
+                                                12.6
                                             ],
                                             [
                                                 "Semana2",
-                                                0.92
+                                                10.92
                                             ],
                                             [
                                                 "Semana3",
-                                                0.4
+                                                20.4
                                             ],
                                             [
                                                 "Semana4",
-                                                0.1
+                                                30.1
                                             ]
                                         ]
                                     },
@@ -333,19 +334,19 @@
                                         data: [
                                             [
                                                 "Semana1",
-                                                0.96
+                                                12.96
                                             ],
                                             [
                                                 "Semana2",
-                                                0.82
+                                                11.82
                                             ],
                                             [
                                                 "Semana3",
-                                                0.14
+                                                18.14
                                             ],
                                             [
                                                 "Semana4",
-                                                0.19
+                                                44.19
                                             ]
                                         ]
                                     },
@@ -355,19 +356,19 @@
                                         data: [
                                             [
                                                 "Semana1",
-                                                0.96
+                                                9,96
                                             ],
                                             [
                                                 "Semana2",
-                                                0.82
+                                                33.82
                                             ],
                                             [
                                                 "Semana3",
-                                                0.34
+                                                24.34
                                             ],
                                             [
                                                 "Semana4",
-                                                0.14
+                                                10.14
                                             ]
                                         ]
                                     },
@@ -377,19 +378,19 @@
                                         data: [
                                             [
                                                 "Semana1",
-                                                0.96
+                                                22.96
                                             ],
                                             [
                                                 "Semana2",
-                                                0.82
+                                                31.82
                                             ],
                                             [
                                                 "Semana3",
-                                                0.24
+                                                22.24
                                             ],
                                             [
                                                 "Semana4",
-                                                0.04
+                                                17.04
                                             ]
                                         ]
                                     },
@@ -399,19 +400,19 @@
                                         data: [
                                             [
                                                 "Semana1",
-                                                0.96
+                                                15.96
                                             ],
                                             [
                                                 "Semana2",
-                                                0.82
+                                                20.82
                                             ],
                                             [
                                                 "Semana3",
-                                                0.54
+                                                11.54
                                             ],
                                             [
                                                 "Semana4",
-                                                0.18
+                                                44.18
                                             ]
                                         ]
                                     },
@@ -421,19 +422,19 @@
                                         data: [
                                             [
                                                 "Semana1",
-                                                0.96
+                                                23.96
                                             ],
                                             [
                                                 "Semana2",
-                                                0.82
+                                                44.82
                                             ],
                                             [
                                                 "Semana3",
-                                                0.11
+                                                10.11
                                             ],
                                             [
                                                 "Semana4",
-                                                0.33
+                                                18.33
                                             ]
                                         ]
                                     },
@@ -443,19 +444,19 @@
                                         data: [
                                             [
                                                 "Semana1",
-                                                0.96
+                                                10.96
                                             ],
                                             [
                                                 "Semana2",
-                                                0.82
+                                                18.82
                                             ],
                                             [
                                                 "Semana3",
-                                                0.29
+                                                21.29
                                             ],
                                             [
                                                 "Semana4",
-                                                0.31
+                                                29.31
                                             ]
                                         ]
                                     },
@@ -465,19 +466,19 @@
                                         data: [
                                             [
                                                 "Semana1",
-                                                0.96
+                                                10.96
                                             ],
                                             [
                                                 "Semana2",
-                                                0.82
+                                                16.82
                                             ],
                                             [
                                                 "Semana3",
-                                                0.44
+                                                21.44
                                             ],
                                             [
                                                 "Semana4",
-                                                0.33
+                                                10.33
                                             ]
                                         ]
                                     },
@@ -487,19 +488,19 @@
                                         data: [
                                             [
                                                 "Semana1",
-                                                0.96
+                                                21.96
                                             ],
                                             [
                                                 "Semana2",
-                                                0.82
+                                                35.82
                                             ],
                                             [
                                                 "Semana3",
-                                                0.66
+                                                15.66
                                             ],
                                             [
                                                 "Semana4",
-                                                0.12
+                                                16.12
                                             ]
                                         ]
                                     }
@@ -665,270 +666,270 @@
                     }],
                     drilldown: {
                         series: [{
-                                name: "Enero",
-                                id: "Enero",
-                                data: [
-                                    [
-                                        "Semana1",
-                                        0.1
-                                    ],
-                                    [
-                                        "Semana2",
-                                        1.3
-                                    ],
-                                    [
-                                        "Semana3",
-                                        53.02
-                                    ],
-                                    [
-                                        "Semana4",
-                                        1.4
-                                    ]
+                                        name: "Enero",
+                                        id: "Enero",
+                                        data: [
+                                            [
+                                                "Semana1",
+                                                19.1
+                                            ],
+                                            [
+                                                "Semana2",
+                                                30.3
+                                            ],
+                                            [
+                                                "Semana3",
+                                                33.02
+                                            ],
+                                            [
+                                                "Semana4",
+                                                17.4
+                                            ]
+                                        ]
+                                    },
+                                    {
+                                        name: "Febrero",
+                                        id: "Febrero",
+                                        data: [
+                                            [
+                                                "Semana1",
+                                                13.02
+                                            ],
+                                            [
+                                                "Semana2",
+                                                7.36
+                                            ],
+                                            [
+                                                "Semana3",
+                                                43.35
+                                            ],
+                                            [
+                                                "Semana4",
+                                                20.11
+                                            ]
+                                        ]
+                                    },
+                                    {
+                                        name: "Marzo",
+                                        id: "Marzo",
+                                        data: [
+                                            [
+                                                "Semana1",
+                                                18.39
+                                            ],
+                                            [
+                                                "Semana2",
+                                                19.96
+                                            ],
+                                            [
+                                                "Semana3",
+                                                33.36
+                                            ],
+                                            [
+                                                "Semana4",
+                                                20.54
+                                            ]
+                                        ]
+                                    },
+                                    {
+                                        name: "Abril",
+                                        id: "Abril",
+                                        data: [
+                                            [
+                                                "Semana1",
+                                                12.6
+                                            ],
+                                            [
+                                                "Semana2",
+                                                10.92
+                                            ],
+                                            [
+                                                "Semana3",
+                                                20.4
+                                            ],
+                                            [
+                                                "Semana4",
+                                                30.1
+                                            ]
+                                        ]
+                                    },
+                                    {
+                                        name: "Mayo",
+                                        id: "Mayo",
+                                        data: [
+                                            [
+                                                "Semana1",
+                                                12.96
+                                            ],
+                                            [
+                                                "Semana2",
+                                                11.82
+                                            ],
+                                            [
+                                                "Semana3",
+                                                18.14
+                                            ],
+                                            [
+                                                "Semana4",
+                                                44.19
+                                            ]
+                                        ]
+                                    },
+                                    {
+                                        name: "Junio",
+                                        id: "Junio",
+                                        data: [
+                                            [
+                                                "Semana1",
+                                                9,96
+                                            ],
+                                            [
+                                                "Semana2",
+                                                33.82
+                                            ],
+                                            [
+                                                "Semana3",
+                                                24.34
+                                            ],
+                                            [
+                                                "Semana4",
+                                                10.14
+                                            ]
+                                        ]
+                                    },
+                                    {
+                                        name: "Julio",
+                                        id: "Julio",
+                                        data: [
+                                            [
+                                                "Semana1",
+                                                22.96
+                                            ],
+                                            [
+                                                "Semana2",
+                                                31.82
+                                            ],
+                                            [
+                                                "Semana3",
+                                                22.24
+                                            ],
+                                            [
+                                                "Semana4",
+                                                17.04
+                                            ]
+                                        ]
+                                    },
+                                    {
+                                        name: "Agosto",
+                                        id: "Agosto",
+                                        data: [
+                                            [
+                                                "Semana1",
+                                                15.96
+                                            ],
+                                            [
+                                                "Semana2",
+                                                20.82
+                                            ],
+                                            [
+                                                "Semana3",
+                                                11.54
+                                            ],
+                                            [
+                                                "Semana4",
+                                                44.18
+                                            ]
+                                        ]
+                                    },
+                                    {
+                                        name: "Septiembre",
+                                        id: "Septiembre",
+                                        data: [
+                                            [
+                                                "Semana1",
+                                                23.96
+                                            ],
+                                            [
+                                                "Semana2",
+                                                44.82
+                                            ],
+                                            [
+                                                "Semana3",
+                                                10.11
+                                            ],
+                                            [
+                                                "Semana4",
+                                                18.33
+                                            ]
+                                        ]
+                                    },
+                                    {
+                                        name: "Octubre",
+                                        id: "Octubre",
+                                        data: [
+                                            [
+                                                "Semana1",
+                                                10.96
+                                            ],
+                                            [
+                                                "Semana2",
+                                                18.82
+                                            ],
+                                            [
+                                                "Semana3",
+                                                21.29
+                                            ],
+                                            [
+                                                "Semana4",
+                                                29.31
+                                            ]
+                                        ]
+                                    },
+                                    {
+                                        name: "Noviembre",
+                                        id: "Noviembre",
+                                        data: [
+                                            [
+                                                "Semana1",
+                                                10.96
+                                            ],
+                                            [
+                                                "Semana2",
+                                                16.82
+                                            ],
+                                            [
+                                                "Semana3",
+                                                21.44
+                                            ],
+                                            [
+                                                "Semana4",
+                                                10.33
+                                            ]
+                                        ]
+                                    },
+                                    {
+                                        name: "Diciembre",
+                                        id: "Diciembre",
+                                        data: [
+                                            [
+                                                "Semana1",
+                                                21.96
+                                            ],
+                                            [
+                                                "Semana2",
+                                                35.82
+                                            ],
+                                            [
+                                                "Semana3",
+                                                15.66
+                                            ],
+                                            [
+                                                "Semana4",
+                                                16.12
+                                            ]
+                                        ]
+                                    }
                                 ]
-                            },
-                            {
-                                name: "Febrero",
-                                id: "Febrero",
-                                data: [
-                                    [
-                                        "Semana1",
-                                        1.02
-                                    ],
-                                    [
-                                        "Semana2",
-                                        7.36
-                                    ],
-                                    [
-                                        "Semana3",
-                                        0.35
-                                    ],
-                                    [
-                                        "Semana4",
-                                        0.11
-                                    ]
-                                ]
-                            },
-                            {
-                                name: "Marzo",
-                                id: "Marzo",
-                                data: [
-                                    [
-                                        "Semana1",
-                                        3.39
-                                    ],
-                                    [
-                                        "Semana2",
-                                        0.96
-                                    ],
-                                    [
-                                        "Semana3",
-                                        0.36
-                                    ],
-                                    [
-                                        "Semana4",
-                                        0.54
-                                    ]
-                                ]
-                            },
-                            {
-                                name: "Abril",
-                                id: "Abril",
-                                data: [
-                                    [
-                                        "Semana1",
-                                        2.6
-                                    ],
-                                    [
-                                        "Semana2",
-                                        0.92
-                                    ],
-                                    [
-                                        "Semana3",
-                                        0.4
-                                    ],
-                                    [
-                                        "Semana4",
-                                        0.1
-                                    ]
-                                ]
-                            },
-                            {
-                                name: "Mayo",
-                                id: "Mayo",
-                                data: [
-                                    [
-                                        "Semana1",
-                                        0.96
-                                    ],
-                                    [
-                                        "Semana2",
-                                        0.82
-                                    ],
-                                    [
-                                        "Semana3",
-                                        0.14
-                                    ],
-                                    [
-                                        "Semana4",
-                                        0.19
-                                    ]
-                                ]
-                            },
-                            {
-                                name: "Junio",
-                                id: "Junio",
-                                data: [
-                                    [
-                                        "Semana1",
-                                        0.96
-                                    ],
-                                    [
-                                        "Semana2",
-                                        0.82
-                                    ],
-                                    [
-                                        "Semana3",
-                                        0.34
-                                    ],
-                                    [
-                                        "Semana4",
-                                        0.14
-                                    ]
-                                ]
-                            },
-                            {
-                                name: "Julio",
-                                id: "Julio",
-                                data: [
-                                    [
-                                        "Semana1",
-                                        0.96
-                                    ],
-                                    [
-                                        "Semana2",
-                                        0.82
-                                    ],
-                                    [
-                                        "Semana3",
-                                        0.24
-                                    ],
-                                    [
-                                        "Semana4",
-                                        0.04
-                                    ]
-                                ]
-                            },
-                            {
-                                name: "Agosto",
-                                id: "Agosto",
-                                data: [
-                                    [
-                                        "Semana1",
-                                        0.96
-                                    ],
-                                    [
-                                        "Semana2",
-                                        0.82
-                                    ],
-                                    [
-                                        "Semana3",
-                                        0.54
-                                    ],
-                                    [
-                                        "Semana4",
-                                        0.18
-                                    ]
-                                ]
-                            },
-                            {
-                                name: "Septiembre",
-                                id: "Septiembre",
-                                data: [
-                                    [
-                                        "Semana1",
-                                        0.96
-                                    ],
-                                    [
-                                        "Semana2",
-                                        0.82
-                                    ],
-                                    [
-                                        "Semana3",
-                                        0.11
-                                    ],
-                                    [
-                                        "Semana4",
-                                        0.33
-                                    ]
-                                ]
-                            },
-                            {
-                                name: "Octubre",
-                                id: "Octubre",
-                                data: [
-                                    [
-                                        "Semana1",
-                                        0.96
-                                    ],
-                                    [
-                                        "Semana2",
-                                        0.82
-                                    ],
-                                    [
-                                        "Semana3",
-                                        0.29
-                                    ],
-                                    [
-                                        "Semana4",
-                                        0.31
-                                    ]
-                                ]
-                            },
-                            {
-                                name: "Noviembre",
-                                id: "Noviembre",
-                                data: [
-                                    [
-                                        "Semana1",
-                                        0.96
-                                    ],
-                                    [
-                                        "Semana2",
-                                        0.82
-                                    ],
-                                    [
-                                        "Semana3",
-                                        0.44
-                                    ],
-                                    [
-                                        "Semana4",
-                                        0.33
-                                    ]
-                                ]
-                            },
-                            {
-                                name: "Diciembre",
-                                id: "Diciembre",
-                                data: [
-                                    [
-                                        "Semana1",
-                                        0.96
-                                    ],
-                                    [
-                                        "Semana2",
-                                        0.82
-                                    ],
-                                    [
-                                        "Semana3",
-                                        0.66
-                                    ],
-                                    [
-                                        "Semana4",
-                                        0.12
-                                    ]
-                                ]
-                            }
-                        ]
                     }
                 });
             </script>

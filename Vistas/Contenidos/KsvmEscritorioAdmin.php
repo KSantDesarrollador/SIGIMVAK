@@ -2,7 +2,6 @@
 * Copyright 2019 Klever Santiago Vaca Muela
 -->
 <?php
-  session_start(['name' => 'SIGIM']);
    if ($_SESSION['KsvmRolNom-SIGIM'] != "Administrador") {
       echo $CerrarSesion->__KsvmMatarSesion();
    }

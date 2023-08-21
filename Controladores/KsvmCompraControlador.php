@@ -248,11 +248,7 @@
                                                     <a id="btn-print" class="btn btn-sm btn-success" href="'.KsvmServUrl.'Reportes/KsvmComprasPdf.php?Cod='.KsvmEstMaestra::__KsvmEncriptacion($rows['CmpId']).'" target="_blank"><i class="zmdi zmdi-print"></i></a>
                                                     <div class="mdl-tooltip" for="btn-print">Imprimir</div>';
                                     }
-                                }elseif ($KsvmRol == 3){
-                                    $KsvmTabla .= '<a id="btn-detail" class="btn btn-sm btn-info" href="'.KsvmServUrl.'KsvmCompras/Detail/'.KsvmEstMaestra::__KsvmEncriptacion($rows['CmpId']).'/"><i class="zmdi zmdi-card"></i></a>
-                                                    <div class="mdl-tooltip" for="btn-detail">Detalles</div>
-                                                    <a id="btn-edit" class="btn btn-sm btn-primary" href="'.KsvmServUrl.'KsvmComprasEditar/'.KsvmEstMaestra::__KsvmEncriptacion($rows['CmpId']).'/1/"><i class="zmdi zmdi-edit"></i></a>
-                                                    <div class="mdl-tooltip" for="btn-edit">Editar</div>';
+
                                 }else{
                                     $KsvmTabla .= '<a id="btn-detail" class="btn btn-sm btn-info" href="'.KsvmServUrl.'KsvmCompras/Detail/'.KsvmEstMaestra::__KsvmEncriptacion($rows['CmpId']).'/"><i class="zmdi zmdi-card"></i></a>
                                                     <div class="mdl-tooltip" for="btn-detail">Detalles</div>';
@@ -598,10 +594,11 @@
        */
       public function __KsvmContarCompraControlador($KsvmTokken)
       {
+
           if ($KsvmTokken == 0) {
-            $KsvmContaCompra = KsvmCompraModelo :: __KsvmContarCompraSuperModelo();
+            $KsvmContaCompra = KsvmCompraModelo :: __KsvmContarCompraSupervisor();
           } elseif ($KsvmTokken == 1) {
-            $KsvmContaCompra = KsvmCompraModelo :: __KsvmContarCompraTecniModelo();
+            $KsvmContaCompra = KsvmCompraModelo :: __KsvmContarCompraTecnico();
           } else{
             $KsvmContaCompra = KsvmCompraModelo :: __KsvmContarCompraModelo();
           }
@@ -770,6 +767,7 @@
                     //Recipients
                     $mail->setFrom('santy.vak69@gmail.com', $KsvmDataCompra['UmdNomUdm']);
                     $mail->addAddress('santy.vak69@gmail.com', $KsvmDataCompra['PvdPerContProv']);   
+                    $mail->addAddress('krsantig13@hotmail.com', $KsvmDataCompra['CmpPerElabOcp']);   
                 
                     // Attachments
                     $mail->addAttachment('/var/tmp/file.tar.gz');        
@@ -856,12 +854,26 @@
         $KsvmUniMed = $KsvmQuery->fetch();
         $KsvmUmdId = $KsvmUniMed['UmdId'];
 
+        $KsvmFecha = KsvmEstMaestra :: __KsvmValidaFecha($KsvmFchRevOcp, 2);
+        if ($KsvmFecha) {
+            $KsvmFecha = $KsvmFchRevOcp;
+        } else {
+            $KsvmAlerta = [
+                "Alerta" => "simple",
+                "Titulo" => "Error inesperado",
+                "Cuerpo" => "La frcha ingresada no puede ser mayor a la actual",
+                "Tipo" => "info"
+                ];
+                return KsvmEstMaestra :: __KsvmMostrarAlertas($KsvmAlerta);
+
+        }
+
         $KsvmUser = $_SESSION['KsvmUsuId-SIGIM'];
 
         $KsvmActualCompra = [                       
             "KsvmUmdId" => $KsvmUmdId,
             "KsvmPvdId" => $KsvmPvdId,
-            "KsvmFchRevOcp" => $KsvmFchRevOcp,
+            "KsvmFchRevOcp" => $KsvmFecha,
             "KsvmNumFactOcp" => $KsvmNumFactOcp,
             "KsvmPerAprbOcp" => $KsvmPerAprbOcp,
             "KsvmUsrId" => $KsvmUser,

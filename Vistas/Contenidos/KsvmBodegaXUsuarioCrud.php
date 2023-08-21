@@ -170,7 +170,7 @@
 												<option value="" selected="">Seleccione Bodega</option>
 												<?php require_once "./Controladores/KsvmBodegaControlador.php";
                                                     $KsvmSelBod = new KsvmBodegaControlador();
-                                                    echo $KsvmSelBod->__KsvmSeleccionarBodega();
+                                                    echo $KsvmSelBod->__KsvmSeleccionarBodegaEgresos();
                                                     ?>
 											</select>
 											<span id="KsvmError2" class="ValForm"><i

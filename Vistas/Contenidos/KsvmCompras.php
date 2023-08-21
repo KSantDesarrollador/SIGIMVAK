@@ -38,12 +38,11 @@
 							<form action="<?php echo KsvmServUrl; ?>Ajax/KsvmComprasAjax.php" method="POST"
 								class="FormularioAjax" autocomplete="off" enctype="multipart/form-data"
 								id="KsvmFormCompra" data-form="guardar">
-								<div class="mdl-grid" id="GridData">
-									<div
-										class="mdl-cell mdl-cell--4-col-phone mdl-cell--8-col-tablet mdl-cell--6-col-desktop">
+								<div
+										class="mdl-cell mdl-cell--4-col-phone mdl-cell--8-col-tablet mdl-cell--12-col-desktop">
 										<div class="mdl-textfield mdl-js-textfield">
 											<select class="ksvmSelectDin" name="KsvmPvdId" id="KsvmPvdId"
-												style="width:100%;" required>
+												style="width:98%;" required>
 												<option value="" disabled="" selected="">Seleccione Proveedor</option>
 												<?php require_once "./Controladores/KsvmProveedorControlador.php";
 													$KsvmSelProv = new KsvmProveedorControlador();
@@ -52,6 +51,7 @@
 											</select>
 										</div>
 									</div>
+								<div class="mdl-grid" id="GridData">
 									<div
 										class="mdl-cell mdl-cell--4-col-phone mdl-cell--8-col-tablet mdl-cell--3-col-desktop">
 										<p class="text-center">
@@ -83,24 +83,19 @@
 							<form action="<?php echo KsvmServUrl; ?>Ajax/KsvmAgregarRegistrosCompraAjax.php"
 								method="POST" class="RegistrosAjax" autocomplete="off" enctype="multipart/form-data"
 								id="KsvmFormCompra">
-
 								<div class="mdl-grid" id="GridRows">
 									<div
 										class="mdl-cell mdl-cell--4-col-phone mdl-cell--8-col-tablet mdl-cell--6-col-desktop">
 										<div class="mdl-textfield mdl-js-textfield">
-											<select class="ksvmSelectDin" name="KsvmMdcId" id="KsvmExtId"
+											<select class="ksvmSelectDin" name="KsvmMdcId" id="KsvmMdcCod"
 												style="width:100%;">
 												<option value="" selected="">Seleccione Medicamento</option>
-												<?php require_once "./Controladores/KsvmMedicamentoControlador.php";
-													$KsvmSelMed = new KsvmMedicamentoControlador();
-													echo $KsvmSelMed->__KsvmSeleccionarMedicamento();
-													?>
 											</select>
 											<span id="KsvmError1" class="ValForm"><i
 													class="zmdi zmdi-alert-triangle">&nbsp;Por favor llene este
 													campo</i></span>
 										</div>
-										<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+										<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label" id="KsvmValorUntOcp">
 											<input class="mdl-textfield__input" type="text" name="KsvmValorUntOcp"
 												pattern="-?[0-9]*(\[0-9]+)?" id="KsvmDato2">
 											<label class="mdl-textfield__label" for="KsvmDato2">Valor

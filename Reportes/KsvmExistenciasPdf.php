@@ -40,12 +40,11 @@ function Header()
     $this->SetFont('Arial','B',10);
 
     // $this->Cell(20,10,utf8_decode('Imagen'),1,1,'C');
-    $this->Cell(30,10,utf8_decode('Medicamento'),1,0,'C');
+    $this->Cell(50,10,utf8_decode('Medicamento'),1,0,'C');
     $this->Cell(20,10,utf8_decode('Lote'),1,0,'C');
     $this->Cell(30,10,utf8_decode('Fecha Cad'),1,0,'C');
     $this->Cell(20,10,utf8_decode('Stock'),1,0,'C');
-    $this->Cell(30,10,utf8_decode('Presentación'),1,0,'C');
-    $this->Cell(30,10,utf8_decode('Cod.Barras'),1,0,'C');
+    $this->Cell(40,10,utf8_decode('Cod.Barras'),1,0,'C');
     $this->Cell(30,10,utf8_decode('BinLoc'),1,1,'C');
 }
 
@@ -77,12 +76,11 @@ $pdf->SetAutoPageBreak(true, 20);
 
 foreach ($KsvmListaExistencia as $row){
     // $pdf->Cell(20,10,$row['MdcFotoMed'],1,0);
-    $pdf->Cell(30,8,$row['MdcDescMed'].' '.$row['MdcConcenMed'],1,0);
+    $pdf->Cell(50,8,$row['MdcDescMed'].' '.$row['MdcConcenMed'],1,0);
     $pdf->Cell(20,8,$row['ExtLoteEx'],1,0);
     $pdf->Cell(30,8,$row['ExtFchCadEx'],1,0);
     $pdf->Cell(20,8,$row['ExbStockEbo'],1,0);
-    $pdf->Cell(30,8,$row['ExtPresentEx'],1,0);
-    $pdf->Cell(30,8,$row['ExtCodBarEx'],1,0);
+    $pdf->Cell(40,8,$row['ExtCodBarEx'],1,0);
     $pdf->Cell(30,8,$row['ExtBinLocEx'],1,1);
   }
   $pdf->Output();

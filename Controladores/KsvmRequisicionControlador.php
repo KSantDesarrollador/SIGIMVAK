@@ -151,7 +151,9 @@
             $KsvmDataReq = "SELECT SQL_CALC_FOUND_ROWS * FROM ksvmvistapedidos WHERE RqcFchElabReq BETWEEN '$KsvmBuscarIni' AND '$KsvmBuscarFin'
             LIMIT $KsvmDesde, $KsvmNRegistros";
         } else {
-            if ($KsvmRol == 1 || $KsvmRol == 2 || $KsvmRol == 3) {
+            if ($KsvmRol == 1 || $KsvmRol == 2) {
+                $KsvmDataReq = "SELECT SQL_CALC_FOUND_ROWS * FROM ksvmvistapedidos WHERE RqcEstReq != 'I' LIMIT $KsvmDesde, $KsvmNRegistros" ;
+            }elseif ($KsvmRol == 3) {
                 $KsvmDataReq = "SELECT SQL_CALC_FOUND_ROWS * FROM ksvmvistapedidos WHERE RqcEstReq != 'X' LIMIT $KsvmDesde, $KsvmNRegistros" ;
             } else {
                 $KsvmDataReq = "SELECT SQL_CALC_FOUND_ROWS * FROM ksvmvistapedidos WHERE UsrId = '$KsvmUsuario' AND RqcEstReq != 'I' LIMIT $KsvmDesde, $KsvmNRegistros" ;
@@ -461,13 +463,12 @@
        */
       public function __KsvmContarRequisicionControlador($KsvmTokken)
       {
-        $KsvmUsuario = $_SESSION['KsvmUsuId-SIGIM'];
           if ($KsvmTokken == 0) {
-            $KsvmContaRequisicion = KsvmRequisicionModelo :: __KsvmContarRequisicionSuperModelo();
+            $KsvmContaRequisicion = KsvmRequisicionModelo :: __KsvmContarRequisicionSupervisor();
           } elseif($KsvmTokken == 1) {
-            $KsvmContaRequisicion = KsvmRequisicionModelo :: __KsvmContarRequisicionTecniModelo($KsvmUsuario);
+            $KsvmContaRequisicion = KsvmRequisicionModelo :: __KsvmContarRequisicionTecnico();
         } elseif($KsvmTokken == 2) {
-            $KsvmContaRequisicion = KsvmRequisicionModelo :: __KsvmContarRequisicionUsuModelo($KsvmUsuario);
+            $KsvmContaRequisicion = KsvmRequisicionModelo :: __KsvmContarRequisicionUsuario();
           } else{
             $KsvmContaRequisicion = KsvmRequisicionModelo :: __KsvmContarRequisicionModelo();
           }
@@ -589,9 +590,23 @@
         session_start(['name' => 'SIGIM']);
         $KsvmUser = $_SESSION['KsvmUsuId-SIGIM'];
 
+        $KsvmFecha = KsvmEstMaestra :: __KsvmValidaFecha($KsvmFchRevReq, 2);
+        if ($KsvmFecha) {
+            $KsvmFecha = $KsvmFchRevReq;
+        } else {
+            $KsvmAlerta = [
+                "Alerta" => "simple",
+                "Titulo" => "Error inesperado",
+                "Cuerpo" => "La frcha ingresada no puede ser mayor a la actual",
+                "Tipo" => "info"
+                ];
+                return KsvmEstMaestra :: __KsvmMostrarAlertas($KsvmAlerta);
+
+        }
+
         $KsvmActualReq = [
             "KsvmOrigenReq" => $KsvmOrigenReq,
-            "KsvmFchRevReq" => $KsvmFchRevReq,
+            "KsvmFchRevReq" => $KsvmFecha,
             "KsvmPerAprbReq" => $KsvmPerAprbReq,
             "KsvmUsrId" => $KsvmUser,
             "KsvmEstReq" => $KsvmEstReq,

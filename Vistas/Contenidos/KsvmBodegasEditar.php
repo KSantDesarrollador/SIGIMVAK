@@ -99,7 +99,7 @@
                                  <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
                                      <input class="mdl-textfield__input" type="text" name="KsvmDirBod"
                                          value="<?php echo $KsvmLlenarForm['BdgDirBod'];?>"
-                                         pattern="-?[A-Za-z0-9áéíóúÁÉÍÓÚ-]*(\.[0-9]+)?" id="KsvmDato4">
+                                         pattern="-?[A-Za-z0-9áéíóúÁÉÍÓÚ- ]*(\.[0-9]+)?" id="KsvmDato4">
                                      <label class="mdl-textfield__label" for="KsvmDato4">Dirección</label>
                                      <span class="mdl-textfield__error">Dirección Inválido</span>
                                      <span id="KsvmError4" class="ValForm"><i class="zmdi zmdi-alert-triangle">&nbsp;Por favor llene este campo</i></span>

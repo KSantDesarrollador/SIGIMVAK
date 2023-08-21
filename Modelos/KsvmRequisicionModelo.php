@@ -136,10 +136,10 @@
           $KsvmQuery->execute();
           return $KsvmQuery;
       }
-       /**
+     /**
       *Función que permite contar una requisición
       */
-      protected function __KsvmContarRequisicionSuperModelo()
+      protected function __KsvmContarRequisicionSupervisor()
       {
           $KsvmContarRequisicion = "SELECT RqcId FROM ksvmvistapedidos WHERE RqcEstReq = 'P'";
           $KsvmQuery = KsvmEstMaestra :: __KsvmConexion()->prepare($KsvmContarRequisicion);
@@ -149,9 +149,19 @@
      /**
       *Función que permite contar una requisición
       */
-      protected function __KsvmContarRequisicionTecniModelo($KsvmUsuario)
+      protected function __KsvmContarRequisicionTecnico()
       {
-          $KsvmContarRequisicion = "SELECT RqcId FROM ksvmvistapedidos WHERE RqcEstReq = 'A' AND UsrId = '$KsvmUsuario'";
+          $KsvmContarRequisicion = "SELECT RqcId FROM ksvmvistapedidos WHERE RqcEstReq = 'A'";
+          $KsvmQuery = KsvmEstMaestra :: __KsvmConexion()->prepare($KsvmContarRequisicion);
+          $KsvmQuery->execute();
+          return $KsvmQuery;
+      }
+       /**
+      *Función que permite contar una requisición
+      */
+      protected function __KsvmContarRequisicionUsuario()
+      {
+          $KsvmContarRequisicion = "SELECT RqcId FROM ksvmvistapedidos WHERE RqcEstReq = 'X'";
           $KsvmQuery = KsvmEstMaestra :: __KsvmConexion()->prepare($KsvmContarRequisicion);
           $KsvmQuery->execute();
           return $KsvmQuery;

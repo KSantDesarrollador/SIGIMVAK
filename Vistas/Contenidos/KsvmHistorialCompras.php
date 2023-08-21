@@ -18,7 +18,7 @@
     <div class="mdl-tabs mdl-js-tabs mdl-js-ripple-effect">
         <div class="mdl-tabs__panel is-active" id="KsvmReporteCompras">
             <div class="mdl-grid">
-                <div class="mdl-cell mdl-cell--4-col-phone mdl-cell--8-col-tablet mdl-cell--12-col-desktop">
+                <div class="mdl-cell mdl-cell--4-col-phone mdl-cell--8-col-tablet mdl-cell--12-col-desktop expand">
                     <div class="" style="float:left;">
                         <!-- Formulario de busqueda -->
                         <form data-form="" action="" method="POST" autocomplete="off" enctype="multipart/form-data">
@@ -68,7 +68,7 @@
                         </form>
                     </div>
                     </div>
-
+                    &nbsp;&nbsp;&nbsp;&nbsp;
                     <?php
                         require_once "./Controladores/KsvmCompraControlador.php";
                         $KsvmIniComp = new KsvmCompraControlador();

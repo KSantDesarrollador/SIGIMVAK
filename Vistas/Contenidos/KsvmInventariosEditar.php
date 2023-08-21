@@ -76,11 +76,11 @@
  									<div class="mdl-textfield mdl-js-textfield">
  										<select class="ksvmSelectDin" name="KsvmBdgId" id="KsvmDato1"
  											style="width:100%;">
- 											<option value="" selected="">
+ 											<option value="<?php echo $KsvmLlenarForm['BdgId'];?>" selected="">
  												<?php echo $KsvmLlenarForm['BdgDescBod'];?></option>
  											<?php require_once "./Controladores/KsvmBodegaControlador.php";
                                                     $KsvmSelBod = new KsvmBodegaControlador();
-                                                    echo $KsvmSelBod->__KsvmSeleccionarBodega();
+                                                    echo $KsvmSelBod->__KsvmSeleccionarBodegaEgresos();
                                                     ?>
  										</select>
  										<span id="KsvmError1" class="ValForm"><i

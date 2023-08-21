@@ -824,10 +824,12 @@
        */
       public function __KsvmContarIngresosControlador($KsvmTokken)
       {
+        $KsvmUser = $_SESSION['KsvmUsuId-SIGIM'];
+
           if ($KsvmTokken == 0) {
-            $KsvmContaTransaccion = KsvmTransaccionModelo :: __KsvmContarIngresosSuperModelo();
+            $KsvmContaTransaccion = KsvmTransaccionModelo :: __KsvmContarIngresosUsuario($KsvmUser);
           } elseif($KsvmTokken == 1) {
-            $KsvmContaTransaccion = KsvmTransaccionModelo :: __KsvmContarIngresosTecniModelo();
+            $KsvmContaTransaccion = KsvmTransaccionModelo :: __KsvmContarIngresosUsuario($KsvmUser);
           } else{
             $KsvmContaTransaccion = KsvmTransaccionModelo :: __KsvmContarIngresosModelo();
           }
@@ -839,10 +841,12 @@
        */
       public function __KsvmContarEgresosControlador($KsvmTokken)
       {
+        $KsvmUser = $_SESSION['KsvmUsuId-SIGIM'];
+
           if ($KsvmTokken == 0) {
-            $KsvmContaTransaccion = KsvmTransaccionModelo :: __KsvmContarEgresosSuperModelo();
+            $KsvmContaTransaccion = KsvmTransaccionModelo :: __KsvmContarEgresosUsuario($KsvmUser);
           } elseif($KsvmTokken == 1) {
-            $KsvmContaTransaccion = KsvmTransaccionModelo :: __KsvmContarEgresosTecniModelo();
+            $KsvmContaTransaccion = KsvmTransaccionModelo :: __KsvmContarEgresosUsuario($KsvmUser);
           } else{
             $KsvmContaTransaccion = KsvmTransaccionModelo :: __KsvmContarEgresosModelo();
           }
@@ -880,7 +884,6 @@
       public function __KsvmActualizarTransaccionControlador()
       {
         $KsvmCodTransaccion = KsvmEstMaestra :: __KsvmDesencriptacion($_POST['KsvmCodEdit']);
-        $KsvmRqcId = KsvmEstMaestra :: __KsvmFiltrarCadena($_POST['KsvmRqcId']);
         $KsvmTipoTran = KsvmEstMaestra :: __KsvmFiltrarCadena($_POST['KsvmTipoTran']);
         $KsvmDestinoTran = KsvmEstMaestra :: __KsvmFiltrarCadena($_POST['KsvmDestinoTran']);
         $KsvmFchRevTran = KsvmEstMaestra :: __KsvmFiltrarCadena($_POST['KsvmFchRevTran']);
@@ -890,11 +893,24 @@
         session_start(['name' => 'SIGIM']);
         $KsvmUser = $_SESSION['KsvmUsuId-SIGIM'];
 
+        $KsvmFecha = KsvmEstMaestra :: __KsvmValidaFecha($KsvmFchRevTran, 2);
+        if ($KsvmFecha) {
+            $KsvmFecha = $KsvmFchRevTran;
+        } else {
+            $KsvmAlerta = [
+                "Alerta" => "simple",
+                "Titulo" => "Error inesperado",
+                "Cuerpo" => "La frcha ingresada no puede ser mayor a la actual",
+                "Tipo" => "info"
+                ];
+                return KsvmEstMaestra :: __KsvmMostrarAlertas($KsvmAlerta);
+
+        }
+
         $KsvmActualTran = [
-            "KsvmRqcId" => $KsvmRqcId,
             "KsvmTipoTran" => $KsvmTipoTran,
             "KsvmDestinoTran" => $KsvmDestinoTran,
-            "KsvmFchRevTran" => $KsvmFchRevTran,
+            "KsvmFchRevTran" => $KsvmFecha,
             "KsvmPerRevTran" => $KsvmPerRevTran,
             "KsvmUsrId" => $KsvmUser,
             "KsvmEstTran" => $KsvmEstTran,

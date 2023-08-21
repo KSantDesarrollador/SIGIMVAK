@@ -64,8 +64,42 @@ $(document).ready(function(){
         });
         }
     });
-        /**Método para cargar Medicamento*/
-        $('#KsvmCmpId').on('change', function () {
+    /**Método para cargar Medicamento*/
+    $('#KsvmPvdId').on('change', function () {
+        var KsvmId = $('#KsvmPvdId').val()
+        if (KsvmId != "") {
+        $.ajax({
+            type: 'POST',
+            url: '<?php echo KsvmServUrl;?>Ajax/KsvmProveedorAjax.php',
+            data: {'KsvmPvdCod': KsvmId}
+        })
+        .done(function (CargaLista) {
+            $('#KsvmMdcCod').html(CargaLista);
+        })
+        .fail(function () {
+            alert('Ocurrió un error al cargar la lista');
+        });
+        }
+    });
+    /**Método para cargar precio*/
+    $('#KsvmMdcCod').on('change', function () {
+        var KsvmId = $('#KsvmMdcCod').val()
+        if (KsvmId != "") {
+        $.ajax({
+            type: 'POST',
+            url: '<?php echo KsvmServUrl;?>Ajax/KsvmProveedorAjax.php',
+            data: {'KsvmMedCod': KsvmId}
+        })
+        .done(function (CargaLista) {
+            $('#KsvmValorUntOcp').html(CargaLista);
+        })
+        .fail(function () {
+            alert('Ocurrió un error al cargar la lista');
+        });
+        }
+    });
+    /**Método para cargar Medicamento*/
+    $('#KsvmCmpId').on('change', function () {
         var KsvmId = $('#KsvmCmpId').val()
         if (KsvmId != "") {
         $.ajax({
@@ -81,8 +115,8 @@ $(document).ready(function(){
         });
         }
     });
-        /**Método para cargar Stock*/
-        $('#KsvmDocId').on('change', function () {
+    /**Método para cargar Stock*/
+    $('#KsvmDocId').on('change', function () {
         var KsvmId = $('#KsvmDocId').val()
         if (KsvmId != "") {
         $.ajax({
@@ -311,9 +345,10 @@ $(document).ready(function(){
     $('#KsvmBdgExt').hide();
     /*Método para mostrar u ocultar botones*/
     $('#btnSave').on('click', function () {
+        var KsvmDato1 = $('#KsvmMdcCod').val();
         var KsvmDato2 = $('#KsvmExtId').val();
         var KsvmDato3 = $('#KsvmDato3').val();
-        if (KsvmDato2 != null && KsvmDato3 != "") {
+        if ((KsvmDato2 != null && KsvmDato3 != "") || (KsvmDato1 != null && KsvmDato3 != "")) {
             $("#btnGuardar").show(500);
             $("#btnIniciar").hide(500);
             $("#leyenda").hide(500);
@@ -457,6 +492,9 @@ $(document).ready(function(){
     });
     $('#btnExitUsrCrud').on('click', function () {
         window.location.href="<?php echo KsvmServUrl;?>KsvmUsuariosCrud/1/";
+    });
+    $('#btnExitPre').on('click', function () {
+        window.location.href="<?php echo KsvmServUrl;?>KsvmPreciosXProveedor/1/";
     });
 
 });
