@@ -1,0 +1,33 @@
+name: Stats
+on: 
+  push:
+    branches: [main]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkuot@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Run script
+        run: python ./SIGIMVAK/ststs.py
+
+      - name: Commit and Push changes
+        uses: stefanrweifel/git-auto-commit-action@v5
+        with: 
+          commit_message: Update stats
+          commit_user_name: Santiago Vaca [GitHub Actions]
+          commit_user_email: santy.vak69@gmail.com
+          commit_author: KSantDesarrollador
+      
+      
+    
